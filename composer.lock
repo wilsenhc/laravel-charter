@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fbaab342904c595ae06a7e3a8ac50086",
+    "content-hash": "db4ce3a3ef1eaa872d7610187eb90fef",
     "packages": [
         {
             "name": "brick/math",
@@ -7030,6 +7030,63 @@
             "time": "2026-06-09T10:21:08+00:00"
         },
         {
+            "name": "laravel/installer",
+            "version": "v5.28.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/installer.git",
+                "reference": "bbc4cf2b29639497f2ffdecc1c91b8d81958fe4d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/installer/zipball/bbc4cf2b29639497f2ffdecc1c91b8d81958fe4d",
+                "reference": "bbc4cf2b29639497f2ffdecc1c91b8d81958fe4d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/filesystem": "^10.20|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.20|^11.0|^12.0|^13.0",
+                "laravel/agent-detector": "^2.0.0",
+                "laravel/prompts": "^0.1.18|^0.2.0|^0.3.17",
+                "php": "^8.2",
+                "symfony/console": "^6.2|^7.0|^8.0",
+                "symfony/polyfill-mbstring": "^1.31",
+                "symfony/process": "^6.2|^7.0|^8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^10.4"
+            },
+            "bin": [
+                "bin/laravel"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Installer\\Console\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel application installer.",
+            "keywords": [
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/installer/issues",
+                "source": "https://github.com/laravel/installer/tree/v5.28.1"
+            },
+            "time": "2026-05-19T00:58:13+00:00"
+        },
+        {
             "name": "laravel/mcp",
             "version": "v0.8.1",
             "source": {
@@ -10179,5 +10236,5 @@
         "php": "^8.3"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
