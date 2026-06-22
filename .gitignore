@@ -21,8 +21,13 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 /auth.json
+/.agents
 /.fleet
+/.github
 /.idea
+/.kiro
 /.nova
 /.vscode
 /.zed
+.copilot-specs-cache/
+boost.json
