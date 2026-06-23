@@ -8,6 +8,15 @@
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
+        <script>
+            (function () {
+                const stored = localStorage.getItem('vueuse-color-scheme') || 'auto';
+                const isDark = stored === 'dark' ||
+                    (stored === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                document.documentElement.classList.toggle('dark', isDark);
+            })();
+        </script>
+
         @fonts
 
         @vite(['resources/css/app.css', 'resources/js/app.ts', "resources/js/pages/{$page['component']}.vue"])
