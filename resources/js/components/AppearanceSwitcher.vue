@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MonitorIcon, MoonIcon, SunIcon } from '@lucide/vue';
 import { useColorMode } from '@vueuse/core';
-import { computed } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import {
     Select,
     SelectContent,
@@ -16,6 +16,12 @@ const { store } = useColorMode({
     initialValue: 'auto',
 });
 
+const mounted = ref(false);
+
+onMounted(() => {
+    mounted.value = true;
+});
+
 const options = [
     { value: 'auto', label: 'System', icon: MonitorIcon },
     { value: 'light', label: 'Light', icon: SunIcon },
@@ -23,6 +29,10 @@ const options = [
 ] as const;
 
 const activeIcon = computed(() => {
+    if (!mounted.value) {
+        return MonitorIcon;
+    }
+
     const match = options.find((o) => o.value === store.value);
 
     return match?.icon ?? MonitorIcon;

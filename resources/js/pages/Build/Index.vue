@@ -184,9 +184,9 @@ const command = computed(() => {
                         <Label for="starter-kit">Starter Kit</Label>
                         <Select v-model="selectedStarterKit">
                             <SelectTrigger id="starter-kit" class="w-full">
-                                <SelectValue
-                                    placeholder="Select a starter kit"
-                                />
+                                <SelectValue placeholder="Select a starter kit">
+                                    {{ selectedStarterKit }}
+                                </SelectValue>
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem
@@ -223,7 +223,9 @@ const command = computed(() => {
                         <Label for="js-runtime">JavaScript Runtime</Label>
                         <Select v-model="selectedJavascriptRuntime">
                             <SelectTrigger id="js-runtime" class="w-full">
-                                <SelectValue placeholder="Select a runtime" />
+                                <SelectValue placeholder="Select a runtime">
+                                    {{ selectedJavascriptRuntime }}
+                                </SelectValue>
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem
@@ -241,7 +243,9 @@ const command = computed(() => {
                         <Label for="testing">Testing Framework</Label>
                         <Select v-model="selectedTesting">
                             <SelectTrigger id="testing" class="w-full">
-                                <SelectValue placeholder="Select a framework" />
+                                <SelectValue placeholder="Select a framework">
+                                    {{ selectedTesting }}
+                                </SelectValue>
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem
@@ -264,7 +268,9 @@ const command = computed(() => {
                             <SelectTrigger id="auth" class="w-full">
                                 <SelectValue
                                     placeholder="Select an auth provider"
-                                />
+                                >
+                                    {{ selectedAuth }}
+                                </SelectValue>
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem
