@@ -51,6 +51,7 @@ const selectedAuth = ref('laravel');
 const selectedTesting = ref('pest');
 const withTeams = ref(false);
 const withBoost = ref(true);
+const withDevcontainer = ref(false);
 
 const services = ref([...availableServices]);
 const starterKit = ref([...availableStarterKits]);
@@ -127,8 +128,9 @@ const command = computed(() => {
 
     const teams = withTeams.value && showTeams.value ? '&teams' : '';
     const boost = withBoost.value ? '&boost' : '';
+    const devcontainer = withDevcontainer.value ? '&devcontainer' : '';
 
-    return `curl -s '${baseUrl}${serviceParams}${frontend}${javascript}${testing}${auth}${teams}${boost}${using}' | bash`;
+    return `curl -s '${baseUrl}${serviceParams}${frontend}${javascript}${testing}${auth}${teams}${boost}${devcontainer}${using}' | bash`;
 });
 </script>
 
@@ -140,7 +142,7 @@ const command = computed(() => {
         <h1 class="text-base font-bold tracking-tight">Charter for Laravel</h1>
         <AppearanceSwitcher />
     </header>
-    <main class="mx-auto mt-12 w-full max-w-3xl px-5 py-7">
+    <main class="mx-auto mt-12 w-full max-w-4xl px-5 py-7">
         <Card class="mb-6">
             <CardContent class="space-y-5">
                 <div class="space-y-3">
@@ -182,7 +184,7 @@ const command = computed(() => {
 
         <Card class="mb-6">
             <CardHeader>
-                <CardTitle>Optional Fields</CardTitle>
+                <CardTitle>Additional Fields</CardTitle>
             </CardHeader>
             <CardContent>
                 <div
@@ -333,8 +335,46 @@ const command = computed(() => {
                             for="teams"
                             class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
                         >
-                            Install teams support
+                            Include teams support
                             <Switch id="teams" v-model="withTeams" />
+                        </label>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-2">
+                            <Label for="devcontainer">Devcontainer</Label>
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger as-child>
+                                        <button
+                                            type="button"
+                                            class="inline-flex size-4 items-center justify-center text-muted-foreground hover:text-foreground"
+                                        >
+                                            <InfoIcon class="size-3.5" />
+                                            <span class="sr-only"
+                                                >What is a devcontainer?</span
+                                            >
+                                        </button>
+                                    </TooltipTrigger>
+                                    <TooltipContent class="max-w-xs">
+                                        Generates a Devcontainer configuration
+                                        so your application can run in a
+                                        containerized development environment,
+                                        such as VS Code Dev Containers or
+                                        GitHub Codespaces.
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                        </div>
+                        <label
+                            for="devcontainer"
+                            class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
+                        >
+                            Include devcontainer
+                            <Switch
+                                id="devcontainer"
+                                v-model="withDevcontainer"
+                            />
                         </label>
                     </div>
                 </div>
