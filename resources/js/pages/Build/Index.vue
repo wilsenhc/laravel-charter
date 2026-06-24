@@ -11,6 +11,7 @@ import {
 } from '@/build';
 import AppearanceSwitcher from '@/components/AppearanceSwitcher.vue';
 import CodeBlock from '@/components/CodeBlock.vue';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -339,6 +340,22 @@ const command = computed(() => {
                 </div>
             </CardContent>
         </Card>
+
+        <Alert v-if="selectedStarterKit === 'custom'" class="mb-6">
+            <InfoIcon class="size-4" />
+            <AlertTitle>Custom Starter Kit URL</AlertTitle>
+            <AlertDescription>
+                Looking for a custom starter kit? Browse a collection of
+                community starter kits at
+                <a
+                    href="https://github.com/tnylea/laravel-new"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="font-medium text-foreground underline underline-offset-4"
+                    >github.com/tnylea/laravel-new</a
+                >.
+            </AlertDescription>
+        </Alert>
 
         <CodeBlock :code="command" />
 
