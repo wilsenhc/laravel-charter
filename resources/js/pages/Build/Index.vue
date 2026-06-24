@@ -11,6 +11,12 @@ import {
 } from '@/build';
 import AppearanceSwitcher from '@/components/AppearanceSwitcher.vue';
 import CodeBlock from '@/components/CodeBlock.vue';
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from '@/components/ui/accordion';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -443,6 +449,113 @@ const command = computed(
                 >
             </p>
         </div>
+
+        <section class="mt-12">
+            <h2 class="mb-4 text-base font-semibold tracking-tight">
+                Frequently Asked Questions
+            </h2>
+            <Accordion type="single" collapsible>
+                <AccordionItem value="what-is-charter">
+                    <AccordionTrigger>What is Charter for Laravel?</AccordionTrigger>
+                    <AccordionContent>
+                        Picking the right options when spinning up a new
+                        Laravel app can feel like a lot. Charter gives you a
+                        friendly UI where you can pick the services, starter
+                        kit, and tools you want, then hands you a ready-to-run
+                        command. No more memorizing flags or digging through
+                        docs.
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="how-to-use">
+                    <AccordionTrigger>
+                        How do I use the generated command?
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        Just copy the command, paste it into your terminal, and
+                        hit enter. It downloads the Laravel installer and runs
+                        it with the options you chose. Wait a minute or two and
+                        you'll have a fresh project ready to go.
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="starter-kit">
+                    <AccordionTrigger>What is a Starter Kit?</AccordionTrigger>
+                    <AccordionContent>
+                        Starter kits give your new app a head start with auth,
+                        a frontend setup, and common scaffolding out of the
+                        box. Laravel ships kits for Livewire, Vue, React, and
+                        Svelte, or you can point it at your own.
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="custom-starter-kit">
+                    <AccordionTrigger>
+                        Can I use a custom starter kit?
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        Absolutely. Pick "custom" in the Starter Kit dropdown
+                        and paste in a URL. You can browse community kits at
+                        <a
+                            href="https://github.com/tnylea/laravel-new"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="font-medium text-foreground underline underline-offset-4"
+                            >github.com/tnylea/laravel-new</a
+                        >. Heads-up: since these are community-maintained, some
+                        may not be fully supported and installation can
+                        occasionally hit a snag.
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="laravel-boost">
+                    <AccordionTrigger>What is Laravel Boost?</AccordionTrigger>
+                    <AccordionContent>
+                        Boost is Laravel's official MCP toolkit that helps you
+                        build faster with AI-powered helpers. Toggle it on and
+                        your new app comes with it ready to go.
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="teams">
+                    <AccordionTrigger>
+                        What does the "Teams" option do?
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        It adds team membership and team-based data scoping to
+                        your app — handy if you're building something where
+                        users belong to teams or workspaces. It's available for
+                        Laravel starter kits with built-in authentication or
+                        WorkOS.
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="devcontainer">
+                    <AccordionTrigger>What is a Devcontainer?</AccordionTrigger>
+                    <AccordionContent>
+                        It generates a Devcontainer configuration so your app
+                        can run in a containerized dev environment like VS Code
+                        Dev Containers or GitHub Codespaces. Great if you want
+                        a consistent, reproducible setup across machines.
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="affiliation">
+                    <AccordionTrigger>
+                        Is Charter for Laravel affiliated with Laravel?
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        Nope. Charter is an independent, community-built
+                        project and isn't affiliated with, endorsed by, or
+                        sponsored by Laravel or Laravel Holdings Inc.
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="data-privacy">
+                    <AccordionTrigger>
+                        Is my data stored or sent anywhere?
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        Not at all. Everything you configure here is generated
+                        in your browser — there's no server-side storage. When
+                        you're ready, the command is built entirely client-side
+                        and runs locally on your machine.
+                    </AccordionContent>
+                </AccordionItem>
+            </Accordion>
+        </section>
 
         <footer
             class="mt-12 flex flex-col items-center gap-3 border-t border-border pt-8 text-center text-sm text-muted-foreground"
