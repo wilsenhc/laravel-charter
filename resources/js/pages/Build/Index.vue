@@ -412,7 +412,7 @@ const command = computed(
 
         <Alert v-if="selectedStarterKit === 'custom'" class="mb-6">
             <InfoIcon class="size-4" />
-            <AlertTitle>Custom Starter Kit URL</AlertTitle>
+            <AlertTitle>Custom Starter Kit</AlertTitle>
             <AlertDescription>
                 Looking for a custom starter kit? Browse a collection of
                 community starter kits at
@@ -422,7 +422,8 @@ const command = computed(
                     rel="noopener noreferrer"
                     class="font-medium text-foreground underline underline-offset-4"
                     >github.com/tnylea/laravel-new</a
-                >.
+                >. Note that some starter kits may not be supported and
+                installation may fail unexpectedly.
             </AlertDescription>
         </Alert>
 

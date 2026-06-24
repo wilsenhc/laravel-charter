@@ -30,6 +30,21 @@ docker run --rm \
 
 docker volume rm node-binaries >/dev/null 2>&1
 
+if [ ! -d "{{ name }}" ]; then
+    echo ""
+    echo -e "${BOLD}Project could not be created.${NC}"
+    echo "The application may not be supported and installation may fail unexpectedly."
+    echo ""
+    exit 1
+fi
+
+if [ ! -f "{{ name }}/artisan" ]; then
+    echo ""
+    echo -e "${BOLD}Project may not have been created properly.${NC}"
+    echo "The application may not be supported and installation may fail unexpectedly."
+    echo ""
+fi
+
 cd {{ name }}
 
 # Allow build with no additional services..
