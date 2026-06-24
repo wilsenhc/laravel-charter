@@ -1,11 +1,12 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/blank-vue-starter-kit",
+    "name": "wilsenhc/laravel-charter",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "A web app that allows you to quickly scaffold a new Laravel Sail application with your preferred options.",
     "keywords": [
         "laravel",
-        "framework"
+        "framework",
+        "sail"
     ],
     "license": "MIT",
     "require": {

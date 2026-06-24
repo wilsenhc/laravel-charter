@@ -46,7 +46,7 @@ enum BuildOptions
             self::AvailableJavascriptRuntimes => ['npm', 'pnpm', 'bun', 'yarn'],
             self::AvailableAuthProviders => ['no-authentication', 'laravel', 'workos'],
             self::AvailableTestingFrameworks => ['pest', 'phpunit'],
-            self::AvailablePhpVersions => ['8.5', '8.4', '8.3', '8.2', '8.1', '8.0'],
+            self::AvailablePhpVersions => ['8.5', '8.4', '8.3'],
         };
     }
 

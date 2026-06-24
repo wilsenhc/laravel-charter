@@ -36,25 +36,35 @@ class BuildController extends Controller
 
         $devcontainer = $request->has('devcontainer') ? '--devcontainer' : '';
 
-        $teamsFlag = $teams ? '--teams ' : '';
-
-        $boost = $request->has('boost') ? '--boost ' : '--no-boost ';
-
         $frontendFlag = ($frontend && $frontend !== 'none' && $frontend !== 'custom')
-            ? "--{$frontend} "
+            ? "--{$frontend}"
             : null;
 
-        $authFlag = $auth ? "--{$auth} " : null;
+        $authFlag = $auth ? "--{$auth}" : null;
 
         $testFramework = $testing ? "--{$testing}" : null;
 
-        $javascriptRuntime = $javascript ? "--{$javascript} " : null;
+        $javascriptRuntime = $javascript ? "--{$javascript}" : null;
 
-        $usingFlag = $using ? "--using=\"{$using}\" " : null;
+        $usingFlag = $using ? "--using=\"{$using}\"" : null;
+
+        $teamsFlag = $teams ? '--teams' : null;
+
+        $boost = $request->has('boost') ? '--boost' : '--no-boost';
+
+        $options = implode(' ', array_filter([
+            $frontendFlag,
+            $authFlag,
+            $testFramework,
+            $javascriptRuntime,
+            $usingFlag,
+            $teamsFlag,
+            $boost,
+        ]));
 
         $script = str_replace(
-            ['{{ name }}', '{{ frontend }} ', '{{ authProvider }} ', '{{ testFramework }}', '{{ javascriptRuntime }}', '{{ using }}', '{{ teams }}', '{{ boost }}', '{{ with }}', '{{ php }}', '{{ services }}', '{{ devcontainer }}'],
-            [$name, "$frontendFlag", "$authFlag", "$testFramework", "$javascriptRuntime", "$usingFlag", "$teamsFlag", "$boost", $with, $php, $servicesString, $devcontainer],
+            ['{{ name }}', '{{ options }}', '{{ with }}', '{{ php }}', '{{ services }}', '{{ devcontainer }}'],
+            [$name, $options, $with, $php, $servicesString, $devcontainer],
             (string) file_get_contents(resource_path('stubs/build.sh')),
         );
 
