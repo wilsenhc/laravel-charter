@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-import { CheckIcon, InfoIcon } from '@lucide/vue';
+import { InfoIcon } from '@lucide/vue';
 import { computed, ref } from 'vue';
 import {
     availableAuthProviders,
@@ -135,13 +135,13 @@ const command = computed(() => {
 <template>
     <Head title="Build" />
     <header
-        class="flex items-center justify-between border-b border-border px-5 py-5"
+        class="flex h-14 items-center justify-between border-b border-border px-5"
     >
-        <h1 class="text-xl font-semibold">Charter for Laravel</h1>
+        <h1 class="text-base font-bold tracking-tight">Charter for Laravel</h1>
         <AppearanceSwitcher />
     </header>
-    <main class="mx-auto mt-9 w-full max-w-3xl px-5 py-7">
-        <Card class="mb-5">
+    <main class="mx-auto mt-12 w-full max-w-3xl px-5 py-7">
+        <Card class="mb-6">
             <CardContent class="space-y-5">
                 <div class="space-y-3">
                     <Label for="app-name">Application name</Label>
@@ -149,7 +149,7 @@ const command = computed(() => {
                 </div>
                 <div class="space-y-3">
                     <Label>Services</Label>
-                    <div class="flex flex-wrap gap-3">
+                    <div class="flex flex-wrap gap-2">
                         <Badge
                             v-for="service in services"
                             :key="service"
@@ -158,21 +158,29 @@ const command = computed(() => {
                                     ? 'default'
                                     : 'outline'
                             "
-                            class="cursor-pointer gap-2 text-sm select-none"
+                            class="cursor-pointer gap-1.5 text-sm font-medium select-none"
                             @click="toggleService(service)"
                         >
-                            {{ service }}
-                            <CheckIcon
-                                v-if="selectedServices.includes(service)"
-                                class="size-4"
-                            />
+                            <span
+                                class="tabular-nums"
+                                :class="
+                                    selectedServices.includes(service)
+                                        ? 'text-primary-foreground'
+                                        : 'text-muted-foreground'
+                                "
+                                >[{{
+                                    selectedServices.includes(service)
+                                        ? '+'
+                                        : '-'
+                                }}]</span
+                            >{{ service }}
                         </Badge>
                     </div>
                 </div>
             </CardContent>
         </Card>
 
-        <Card class="mb-5">
+        <Card class="mb-6">
             <CardHeader>
                 <CardTitle>Optional Fields</CardTitle>
             </CardHeader>
@@ -288,7 +296,7 @@ const command = computed(() => {
                         <Label for="boost">Laravel Boost</Label>
                         <label
                             for="boost"
-                            class="flex h-8 cursor-pointer items-center justify-between rounded-lg bg-transparent px-3 text-base transition-colors hover:bg-muted/50"
+                            class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
                         >
                             Install Laravel Boost
                             <Switch id="boost" v-model="withBoost" />
@@ -323,7 +331,7 @@ const command = computed(() => {
                         </div>
                         <label
                             for="teams"
-                            class="flex h-8 cursor-pointer items-center justify-between rounded-lg bg-transparent px-3 text-base transition-colors hover:bg-muted/50"
+                            class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
                         >
                             Install teams support
                             <Switch id="teams" v-model="withTeams" />
@@ -336,7 +344,7 @@ const command = computed(() => {
         <CodeBlock :code="command" />
 
         <footer
-            class="mt-9 flex flex-col items-center gap-3 text-center text-sm text-muted-foreground"
+            class="mt-12 flex flex-col items-center gap-3 border-t border-border pt-8 text-center text-sm text-muted-foreground"
         >
             <a
                 href="https://github.com/wilsenhc/laravel-charter"
@@ -358,7 +366,7 @@ const command = computed(() => {
                 GitHub
             </a>
             <p>
-                This project is not affiliated with, endorsed by, or sponsored
+                This project is NOT affiliated with, endorsed by, or sponsored
                 by Laravel or Laravel Holdings Inc.
             </p>
         </footer>

@@ -21,7 +21,7 @@ const copy = async (code: string) => {
 </script>
 
 <template>
-    <div class="rounded-xl border p-4">
+    <div class="rounded-none border border-border p-4">
         <h2 class="text-base font-semibold">Start your new project</h2>
         <p class="mt-1 text-sm text-muted-foreground">
             Run the command below in your terminal to scaffold a fresh Laravel
@@ -29,10 +29,10 @@ const copy = async (code: string) => {
         </p>
 
         <div
-            class="mt-4 flex items-center gap-2 rounded-lg border bg-muted/40 p-3"
+            class="mt-4 flex items-center gap-2 rounded-sm border border-border bg-secondary p-3 px-4"
         >
             <pre
-                class="code-scroll min-w-0 flex-1 overflow-x-auto font-mono text-sm leading-relaxed"
+                class="code-scroll min-w-0 flex-1 overflow-x-auto text-sm leading-relaxed"
             ><code>{{ code }}</code></pre>
 
             <Button
