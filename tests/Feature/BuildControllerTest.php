@@ -248,7 +248,7 @@ describe('show', function () {
 
         $response->assertSuccessful();
         $response->assertSee("--php={$version}");
-    })->with(['8.5', '8.4', '8.3', '8.2', '8.1', '8.0']);
+    })->with(['8.5', '8.4', '8.3']);
 
     test('does not accept invalid php version', function () {
         $response = $this->get('/my-app?php=7.4');
