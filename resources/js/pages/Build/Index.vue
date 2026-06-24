@@ -35,6 +35,8 @@ const props = defineProps<{
     url: string;
 }>();
 
+const isLocal = import.meta.env.DEV;
+
 const appName = ref('new-laravel-project');
 const selectedServices = ref([
     'pgsql',
@@ -107,7 +109,7 @@ const showTeams = computed(
         selectedAuth.value !== 'no-authentication',
 );
 
-const command = computed(() => {
+const generatedUrl = computed(() => {
     const baseUrl = `${props.url}/${appName.value}`;
     const serviceParams = `?services=${selectedServices.value.join(',')}`;
     const frontend = `&frontend=${selectedStarterKit.value}`;
@@ -133,8 +135,12 @@ const command = computed(() => {
     const devcontainer = withDevcontainer.value ? '&devcontainer' : '';
     const php = `&php=${selectedPhpVersion.value}`;
 
-    return `curl -s '${baseUrl}${serviceParams}${frontend}${javascript}${testing}${auth}${teams}${boost}${devcontainer}${php}${using}' | bash`;
+    return `${baseUrl}${serviceParams}${frontend}${javascript}${testing}${auth}${teams}${boost}${devcontainer}${php}${using}`;
 });
+
+const command = computed(
+    () => `curl -s '${generatedUrl.value}' | bash`,
+);
 </script>
 
 <template>
@@ -420,7 +426,22 @@ const command = computed(() => {
             </AlertDescription>
         </Alert>
 
-        <CodeBlock :code="command" />
+        <div>
+            <CodeBlock :code="command" />
+            <p
+                v-if="isLocal"
+                class="mt-2 text-xs text-muted-foreground"
+            >
+                <span>Debug:</span>
+                <a
+                    :href="generatedUrl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="ml-1 break-all text-foreground underline underline-offset-4"
+                    >Open generated URL in a new tab</a
+                >
+            </p>
+        </div>
 
         <footer
             class="mt-12 flex flex-col items-center gap-3 border-t border-border pt-8 text-center text-sm text-muted-foreground"
