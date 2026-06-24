@@ -158,7 +158,9 @@ const command = computed(() => {
                         <Label for="php-version">PHP Version</Label>
                         <Select v-model="selectedPhpVersion">
                             <SelectTrigger id="php-version" class="w-28">
-                                <SelectValue placeholder="PHP" />
+                                <SelectValue placeholder="PHP">
+                                    {{ selectedPhpVersion }}
+                                </SelectValue>
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem
@@ -383,8 +385,8 @@ const command = computed(() => {
                                         Generates a Devcontainer configuration
                                         so your application can run in a
                                         containerized development environment,
-                                        such as VS Code Dev Containers or
-                                        GitHub Codespaces.
+                                        such as VS Code Dev Containers or GitHub
+                                        Codespaces.
                                     </TooltipContent>
                                 </Tooltip>
                             </TooltipProvider>
