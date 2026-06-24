@@ -139,7 +139,6 @@ const command = computed(() => {
 </script>
 
 <template>
-    <Head title="Build" />
     <header
         class="flex h-14 items-center justify-between border-b border-border px-5"
     >
