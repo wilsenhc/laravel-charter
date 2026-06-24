@@ -32,12 +32,14 @@ export const availableStarterKits = {$this->arrayToTs($options['availableStarter
 export const availableJavascriptRuntimes = {$this->arrayToTs($options['availableJavascriptRuntimes'])} as const;
 export const availableAuthProviders = {$this->arrayToTs($options['availableAuthProviders'])} as const;
 export const availableTestingFrameworks = {$this->arrayToTs($options['availableTestingFrameworks'])} as const;
+export const availablePhpVersions = {$this->arrayToTs($options['availablePhpVersions'])} as const;
 
 export type AvailableService = typeof availableServices[number];
 export type AvailableStarterKit = typeof availableStarterKits[number];
 export type AvailableJavascriptRuntime = typeof availableJavascriptRuntimes[number];
 export type AvailableAuthProvider = typeof availableAuthProviders[number];
 export type AvailableTestingFramework = typeof availableTestingFrameworks[number];
+export type AvailablePhpVersion = typeof availablePhpVersions[number];
 TYPESCRIPT;
 
         File::put($filePath, $content);

@@ -12,7 +12,7 @@ docker run --rm \
     -v "$(pwd)":/opt \
     -w /opt \
     serversideup/php:8.5-cli \
-    bash -c "composer global require laravel/installer && php ./composer/vendor/bin/laravel new {{ name }} {{ frontend }} {{ authProvider }} {{ testFramework }} {{ javascriptRuntime }} {{ using }}{{ teams }}{{ boost }}--no-interaction && cd {{ name }} && php ./artisan sail:install --with={{ with }} {{ devcontainer }}"
+    bash -c "composer global require laravel/installer && php ./composer/vendor/bin/laravel new {{ name }} {{ frontend }} {{ authProvider }} {{ testFramework }} {{ javascriptRuntime }} {{ using }}{{ teams }}{{ boost }}--no-interaction && cd {{ name }} && php ./artisan sail:install --with={{ with }} --php={{ php }} {{ devcontainer }}"
 
 cd {{ name }}
 

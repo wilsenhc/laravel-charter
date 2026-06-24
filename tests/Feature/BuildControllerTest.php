@@ -22,7 +22,7 @@ describe('show', function () {
         $response->assertSuccessful();
         $response->assertHeader('Content-Type', 'text/plain; charset=utf-8');
         $response->assertSee('laravel new my-app');
-        $response->assertSee('sail:install --with=pgsql,redis');
+        $response->assertSee('sail:install --with=pgsql,redis --php=8.5');
     });
 
     test('allows none as the only service', function () {
@@ -220,7 +220,7 @@ describe('show', function () {
         $response->assertSee('--teams');
         $response->assertSee('--no-authentication');
         $response->assertDontSee('--no-boost');
-        $response->assertSee('sail:install --with=pgsql,redis');
+        $response->assertSee('sail:install --with=pgsql,redis --php=8.5');
     });
 
     test('does not accept invalid application name', function () {
@@ -234,5 +234,35 @@ describe('show', function () {
 
         $response->assertSuccessful();
         $response->assertSee('--devcontainer');
+    });
+
+    test('php version defaults to 8.5', function () {
+        $response = $this->get('/my-app');
+
+        $response->assertSuccessful();
+        $response->assertSee('--php=8.5');
+    });
+
+    test('different php versions can be picked', function (string $version) {
+        $response = $this->get("/my-app?php={$version}");
+
+        $response->assertSuccessful();
+        $response->assertSee("--php={$version}");
+    })->with(['8.5', '8.4', '8.3', '8.2', '8.1', '8.0']);
+
+    test('does not accept invalid php version', function () {
+        $response = $this->get('/my-app?php=7.4');
+
+        $response->assertStatus(400);
+        $response->assertSee('Invalid PHP version', false);
+    });
+
+    test('php version works with other options', function () {
+        $response = $this->get('/my-app?services=redis&frontend=vue&php=8.3');
+
+        $response->assertSuccessful();
+        $response->assertSee('--php=8.3');
+        $response->assertSee('--vue');
+        $response->assertSee('--with=redis');
     });
 });

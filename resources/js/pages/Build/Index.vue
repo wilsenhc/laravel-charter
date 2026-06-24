@@ -5,6 +5,7 @@ import { computed, ref } from 'vue';
 import {
     availableAuthProviders,
     availableJavascriptRuntimes,
+    availablePhpVersions,
     availableServices,
     availableStarterKits,
     availableTestingFrameworks,
@@ -52,12 +53,14 @@ const selectedTesting = ref('pest');
 const withTeams = ref(false);
 const withBoost = ref(true);
 const withDevcontainer = ref(false);
+const selectedPhpVersion = ref('8.5');
 
 const services = ref([...availableServices]);
 const starterKit = ref([...availableStarterKits]);
 const javascriptRuntime = ref([...availableJavascriptRuntimes]);
 const authProvider = ref([...availableAuthProviders]);
 const testingFramework = ref([...availableTestingFrameworks]);
+const phpVersions = ref([...availablePhpVersions]);
 
 const toggleService = (service: string) => {
     if (selectedServices.value.includes(service)) {
@@ -129,8 +132,9 @@ const command = computed(() => {
     const teams = withTeams.value && showTeams.value ? '&teams' : '';
     const boost = withBoost.value ? '&boost' : '';
     const devcontainer = withDevcontainer.value ? '&devcontainer' : '';
+    const php = `&php=${selectedPhpVersion.value}`;
 
-    return `curl -s '${baseUrl}${serviceParams}${frontend}${javascript}${testing}${auth}${teams}${boost}${devcontainer}${using}' | bash`;
+    return `curl -s '${baseUrl}${serviceParams}${frontend}${javascript}${testing}${auth}${teams}${boost}${devcontainer}${php}${using}' | bash`;
 });
 </script>
 
@@ -145,9 +149,28 @@ const command = computed(() => {
     <main class="mx-auto mt-12 w-full max-w-4xl px-5 py-7">
         <Card class="mb-6">
             <CardContent class="space-y-5">
-                <div class="space-y-3">
-                    <Label for="app-name">Application name</Label>
-                    <Input id="app-name" v-model="appName" />
+                <div class="grid grid-cols-1 gap-5 sm:grid-cols-[1fr_auto]">
+                    <div class="space-y-3">
+                        <Label for="app-name">Application name</Label>
+                        <Input id="app-name" v-model="appName" />
+                    </div>
+                    <div class="space-y-3">
+                        <Label for="php-version">PHP Version</Label>
+                        <Select v-model="selectedPhpVersion">
+                            <SelectTrigger id="php-version" class="w-28">
+                                <SelectValue placeholder="PHP" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem
+                                    v-for="version in phpVersions"
+                                    :key="version"
+                                    :value="version"
+                                >
+                                    {{ version }}
+                                </SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
                 </div>
                 <div class="space-y-3">
                     <Label>Services</Label>

@@ -9,6 +9,7 @@ enum BuildOptions
     case AvailableJavascriptRuntimes;
     case AvailableAuthProviders;
     case AvailableTestingFrameworks;
+    case AvailablePhpVersions;
 
     public function values(): array
     {
@@ -42,6 +43,7 @@ enum BuildOptions
             self::AvailableJavascriptRuntimes => ['npm', 'pnpm', 'bun', 'yarn'],
             self::AvailableAuthProviders => ['no-authentication', 'laravel', 'workos'],
             self::AvailableTestingFrameworks => ['pest', 'phpunit'],
+            self::AvailablePhpVersions => ['8.5', '8.4', '8.3', '8.2', '8.1', '8.0'],
         };
     }
 
@@ -53,6 +55,7 @@ enum BuildOptions
             self::AvailableJavascriptRuntimes => 'availableJavascriptRuntimes',
             self::AvailableAuthProviders => 'availableAuthProviders',
             self::AvailableTestingFrameworks => 'availableTestingFrameworks',
+            self::AvailablePhpVersions => 'availablePhpVersions',
         };
     }
 
@@ -64,6 +67,7 @@ enum BuildOptions
             'availableJavascriptRuntimes' => self::AvailableJavascriptRuntimes->values(),
             'availableAuthProviders' => self::AvailableAuthProviders->values(),
             'availableTestingFrameworks' => self::AvailableTestingFrameworks->values(),
+            'availablePhpVersions' => self::AvailablePhpVersions->values(),
         ];
     }
 }

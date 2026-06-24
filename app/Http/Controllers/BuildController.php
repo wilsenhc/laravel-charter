@@ -25,7 +25,8 @@ class BuildController extends Controller
         $testing = $request->validated('testing');
         $javascript = $request->validated('javascript');
         $using = $request->validated('using');
-        $teams = $request->has('teams');
+        $teams = $request->validated('teams');
+        $php = $request->validated('php');
 
         $with = implode(',', $servicesArray);
 
@@ -52,8 +53,8 @@ class BuildController extends Controller
         $usingFlag = $using ? "--using=\"{$using}\" " : null;
 
         $script = str_replace(
-            ['{{ name }}', '{{ frontend }} ', '{{ authProvider }} ', '{{ testFramework }}', '{{ javascriptRuntime }}', '{{ using }}', '{{ teams }}', '{{ boost }}', '{{ with }}', '{{ services }}', '{{ devcontainer }}'],
-            [$name, "$frontendFlag", "$authFlag", "$testFramework", "$javascriptRuntime", "$usingFlag", "$teamsFlag", "$boost", $with, $servicesString, $devcontainer],
+            ['{{ name }}', '{{ frontend }} ', '{{ authProvider }} ', '{{ testFramework }}', '{{ javascriptRuntime }}', '{{ using }}', '{{ teams }}', '{{ boost }}', '{{ with }}', '{{ php }}', '{{ services }}', '{{ devcontainer }}'],
+            [$name, "$frontendFlag", "$authFlag", "$testFramework", "$javascriptRuntime", "$usingFlag", "$teamsFlag", "$boost", $with, $php, $servicesString, $devcontainer],
             file_get_contents(resource_path('stubs/build.sh')),
         );
 

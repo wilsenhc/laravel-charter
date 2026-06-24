@@ -24,6 +24,8 @@ class BuildShowRequest extends FormRequest
             'services' => $services === 'none' ? ['none'] : explode(',', $services),
             'frontend' => $this->query('frontend', 'none'),
             'testing' => $this->query('testing', 'pest'),
+            'php' => $this->query('php', '8.5'),
+            'teams' => $this->has('teams'),
         ]);
     }
 
@@ -37,6 +39,7 @@ class BuildShowRequest extends FormRequest
             'auth' => ['nullable', 'string', Rule::in(BuildOptions::AvailableAuthProviders->values())],
             'testing' => ['string', Rule::in(BuildOptions::AvailableTestingFrameworks->values())],
             'javascript' => ['nullable', 'string', Rule::in(BuildOptions::AvailableJavascriptRuntimes->values())],
+            'php' => ['string', Rule::in(BuildOptions::AvailablePhpVersions->values())],
             'using' => Rule::when(
                 $this->query('frontend', 'none') === 'custom',
                 ['required', 'string', 'url'],
@@ -93,6 +96,10 @@ class BuildShowRequest extends FormRequest
 
         if ($hasError('javascript')) {
             $messages[] = 'Invalid JavaScript runtime. Please provide one supported runtime ('.implode(', ', BuildOptions::AvailableJavascriptRuntimes->values()).') or leave it empty.';
+        }
+
+        if ($hasError('php')) {
+            $messages[] = 'Invalid PHP version. Please provide one supported version ('.implode(', ', BuildOptions::AvailablePhpVersions->values()).').';
         }
 
         if ($hasError('using')) {
