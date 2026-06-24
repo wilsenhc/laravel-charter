@@ -49,9 +49,12 @@ TYPESCRIPT;
         return Command::SUCCESS;
     }
 
+    /**
+     * @param  array<string>  $array
+     */
     private function arrayToTs(array $array): string
     {
-        $items = array_map(fn ($item) => "'{$item}'", $array);
+        $items = array_map(fn (string $item) => "'{$item}'", $array);
 
         return '['.\implode(', ', $items).']';
     }

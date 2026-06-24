@@ -5,7 +5,9 @@ namespace App\Http\Requests;
 use App\Enums\BuildOptions;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ConditionalRules;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\In;
 use Illuminate\Validation\ValidationException;
 
 class BuildShowRequest extends FormRequest
@@ -29,6 +31,9 @@ class BuildShowRequest extends FormRequest
         ]);
     }
 
+    /**
+     * @return array<string, list<string|In>|ConditionalRules>
+     */
     public function rules(): array
     {
         return [
@@ -49,6 +54,9 @@ class BuildShowRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return array<int, callable(Validator): void>
+     */
     public function after(): array
     {
         return [
@@ -114,7 +122,7 @@ class BuildShowRequest extends FormRequest
             str_replace(
                 ['{{ name }}', '{{ errors }}'],
                 [$this->route('name'), $this->formatErrors($messages)],
-                file_get_contents(resource_path('stubs/error.sh')),
+                (string) file_get_contents(resource_path('stubs/error.sh')),
             ),
             400,
             ['Content-Type' => 'text/plain'],
@@ -123,6 +131,9 @@ class BuildShowRequest extends FormRequest
         throw new ValidationException($validator, $response);
     }
 
+    /**
+     * @param  array<string>  $messages
+     */
     private function formatErrors(array $messages): string
     {
         return collect($messages)

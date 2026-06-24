@@ -55,7 +55,7 @@ class BuildController extends Controller
         $script = str_replace(
             ['{{ name }}', '{{ frontend }} ', '{{ authProvider }} ', '{{ testFramework }}', '{{ javascriptRuntime }}', '{{ using }}', '{{ teams }}', '{{ boost }}', '{{ with }}', '{{ php }}', '{{ services }}', '{{ devcontainer }}'],
             [$name, "$frontendFlag", "$authFlag", "$testFramework", "$javascriptRuntime", "$usingFlag", "$teamsFlag", "$boost", $with, $php, $servicesString, $devcontainer],
-            file_get_contents(resource_path('stubs/build.sh')),
+            (string) file_get_contents(resource_path('stubs/build.sh')),
         );
 
         return response($script, 200, ['Content-Type' => 'text/plain']);

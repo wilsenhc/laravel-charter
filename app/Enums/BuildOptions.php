@@ -11,6 +11,9 @@ enum BuildOptions
     case AvailableTestingFrameworks;
     case AvailablePhpVersions;
 
+    /**
+     * @return array<string>
+     */
     public function values(): array
     {
         return match ($this) {
@@ -59,6 +62,9 @@ enum BuildOptions
         };
     }
 
+    /**
+     * @return array<string, array<string>>
+     */
     public static function all(): array
     {
         return [
