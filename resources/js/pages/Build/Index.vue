@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
 import { InfoIcon } from '@lucide/vue';
 import { computed, ref } from 'vue';
 import {
