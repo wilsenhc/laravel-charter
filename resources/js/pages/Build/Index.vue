@@ -150,7 +150,7 @@ const command = computed(
         <h1 class="text-base font-bold tracking-tight">Charter for Laravel</h1>
         <AppearanceSwitcher />
     </header>
-    <main class="mx-auto mt-12 w-full max-w-4xl px-5 py-7">
+    <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <Card class="mb-6">
             <CardContent class="space-y-5">
                 <div class="grid grid-cols-1 gap-5 sm:grid-cols-[1fr_auto]">
