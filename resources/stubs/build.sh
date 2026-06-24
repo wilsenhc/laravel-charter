@@ -9,6 +9,7 @@ fi
 
 docker run --rm \
     --pull=always \
+    -e SHOW_WELCOME_MESSAGE=false \
     -v "$(pwd)":/opt \
     -w /opt \
     serversideup/php:8.5-cli \
