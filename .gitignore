@@ -24,7 +24,7 @@ yarn-error.log
 /auth.json
 /.agents
 /.fleet
-/.github
+/.github/skills
 /.idea
 /.kiro
 /.nova
