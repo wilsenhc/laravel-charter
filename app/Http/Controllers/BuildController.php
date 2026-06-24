@@ -52,6 +52,10 @@ class BuildController extends Controller
 
         $boost = $request->has('boost') ? '--boost' : '--no-boost';
 
+        $databaseServices = ['mysql', 'pgsql', 'mariadb'];
+        $selectedDatabases = array_values(array_intersect($servicesArray, $databaseServices));
+        $databaseFlag = count($selectedDatabases) === 1 ? "--database={$selectedDatabases[0]}" : null;
+
         $options = implode(' ', array_filter([
             $frontendFlag,
             $authFlag,
@@ -60,6 +64,7 @@ class BuildController extends Controller
             $usingFlag,
             $teamsFlag,
             $boost,
+            $databaseFlag,
         ]));
 
         $script = str_replace(

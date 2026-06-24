@@ -265,4 +265,32 @@ describe('show', function () {
         $response->assertSee('--vue');
         $response->assertSee('--with=redis');
     });
+
+    test('database flag is passed when a single database service is selected', function (string $service) {
+        $response = $this->get("/my-app?services={$service},redis");
+
+        $response->assertSuccessful();
+        $response->assertSee("--database={$service}");
+    })->with(['mysql', 'pgsql', 'mariadb']);
+
+    test('database flag is not passed when multiple database services are selected', function () {
+        $response = $this->get('/my-app?services=mysql,pgsql,redis');
+
+        $response->assertSuccessful();
+        $response->assertDontSee('--database=');
+    });
+
+    test('database flag is not passed when no database service is selected', function () {
+        $response = $this->get('/my-app?services=redis,mailpit');
+
+        $response->assertSuccessful();
+        $response->assertDontSee('--database=');
+    });
+
+    test('database flag is not passed when services is none', function () {
+        $response = $this->get('/my-app?services=none');
+
+        $response->assertSuccessful();
+        $response->assertDontSee('--database=');
+    });
 });
