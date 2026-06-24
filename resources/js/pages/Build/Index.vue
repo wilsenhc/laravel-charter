@@ -34,23 +34,22 @@ const props = defineProps<{
     url: string;
 }>();
 
-const appName = ref('Laravel');
+const appName = ref('new-laravel-project');
 const selectedServices = ref([
     'pgsql',
-    'redis',
-    'meilisearch',
+    'valkey',
+    'typesense',
     'minio',
     'mailpit',
-    'selenium',
 ]);
-const selectedStarterKit = ref('livewire');
+const selectedStarterKit = ref('vue');
 const customStarterKitUrl = ref('');
 const customStarterKitUrlError = ref('');
-const selectedJavascriptRuntime = ref('npm');
+const selectedJavascriptRuntime = ref('bun');
 const selectedAuth = ref('laravel');
 const selectedTesting = ref('pest');
 const withTeams = ref(false);
-const withBoost = ref(false);
+const withBoost = ref(true);
 
 const services = ref([...availableServices]);
 const starterKit = ref([...availableStarterKits]);
