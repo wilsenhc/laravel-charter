@@ -17,7 +17,7 @@ describe('index', function () {
 
 describe('show', function () {
     test('returns the build script for a valid request', function () {
-        $response = $this->get('/my-app?services=pgsql,redis');
+        $response = $this->get('/build?name=my-app&services=pgsql,redis');
 
         $response->assertSuccessful();
         $response->assertHeader('Content-Type', 'text/plain; charset=utf-8');
@@ -26,63 +26,63 @@ describe('show', function () {
     });
 
     test('allows none as the only service', function () {
-        $response = $this->get('/my-app?services=none');
+        $response = $this->get('/build?name=my-app&services=none');
 
         $response->assertSuccessful();
         $response->assertSee('--with=none');
     });
 
     test('does not accept none with other services', function () {
-        $response = $this->get('/my-app?services=none,redis');
+        $response = $this->get('/build?name=my-app&services=none,redis');
 
         $response->assertStatus(400);
         $response->assertSee('Invalid service name', false);
     });
 
     test('does not accept invalid services', function () {
-        $response = $this->get('/my-app?services=invalid-service');
+        $response = $this->get('/build?name=my-app&services=invalid-service');
 
         $response->assertStatus(400);
         $response->assertSee('Invalid service name', false);
     });
 
     test('livewire starter kit can be picked', function () {
-        $response = $this->get('/my-app?frontend=livewire');
+        $response = $this->get('/build?name=my-app&frontend=livewire');
 
         $response->assertSuccessful();
         $response->assertSee('--livewire');
     });
 
     test('livewire class components starter kit can be picked', function () {
-        $response = $this->get('/my-app?frontend=livewire-class-components');
+        $response = $this->get('/build?name=my-app&frontend=livewire-class-components');
 
         $response->assertSuccessful();
         $response->assertSee('--livewire-class-components');
     });
 
     test('react starter kit can be picked', function () {
-        $response = $this->get('/my-app?frontend=react');
+        $response = $this->get('/build?name=my-app&frontend=react');
 
         $response->assertSuccessful();
         $response->assertSee('--react');
     });
 
     test('vue starter kit can be picked', function () {
-        $response = $this->get('/my-app?frontend=vue');
+        $response = $this->get('/build?name=my-app&frontend=vue');
 
         $response->assertSuccessful();
         $response->assertSee('--vue');
     });
 
     test('svelte starter kit can be picked', function () {
-        $response = $this->get('/my-app?frontend=svelte');
+        $response = $this->get('/build?name=my-app&frontend=svelte');
 
         $response->assertSuccessful();
         $response->assertSee('--svelte');
     });
 
     test('custom starter kit does not add a frontend flag', function () {
-        $response = $this->get('/my-app?frontend=custom&using=https://example.com/starter-kit');
+        $response = $this->get('/build?name=my-app&frontend=custom&using=https://example.com/starter-kit');
 
         $response->assertSuccessful();
         $response->assertDontSee('--custom');
@@ -90,7 +90,7 @@ describe('show', function () {
     });
 
     test('custom starter kit installs node binaries for npx', function () {
-        $response = $this->get('/my-app?frontend=custom&using=https://example.com/starter-kit');
+        $response = $this->get('/build?name=my-app&frontend=custom&using=https://example.com/starter-kit');
 
         $response->assertSuccessful();
         $response->assertSee('docker volume create node-binaries', false);
@@ -101,7 +101,7 @@ describe('show', function () {
     });
 
     test('standard starter kits do not install node binaries', function () {
-        $response = $this->get('/my-app?frontend=vue');
+        $response = $this->get('/build?name=my-app&frontend=vue');
 
         $response->assertSuccessful();
         $response->assertDontSee('node-binaries', false);
@@ -110,7 +110,7 @@ describe('show', function () {
     });
 
     test('default build does not install node binaries', function () {
-        $response = $this->get('/my-app?services=pgsql,redis');
+        $response = $this->get('/build?name=my-app&services=pgsql,redis');
 
         $response->assertSuccessful();
         $response->assertDontSee('node-binaries', false);
@@ -119,21 +119,21 @@ describe('show', function () {
     });
 
     test('different javascript runtimes can be picked', function (string $runtime) {
-        $response = $this->get("/my-app?javascript={$runtime}");
+        $response = $this->get("/build?name=my-app&javascript={$runtime}");
 
         $response->assertSuccessful();
         $response->assertSee("--{$runtime}");
     })->with(['npm', 'pnpm', 'bun', 'yarn']);
 
     test('does not accept invalid javascript runtimes', function () {
-        $response = $this->get('/my-app?javascript=invalid-runtime');
+        $response = $this->get('/build?name=my-app&javascript=invalid-runtime');
 
         $response->assertStatus(400);
         $response->assertSee('Invalid JavaScript runtime', false);
     });
 
     test('boost flag can be added', function () {
-        $response = $this->get('/my-app?boost');
+        $response = $this->get('/build?name=my-app&boost');
 
         $response->assertSuccessful();
         $response->assertSee('--boost');
@@ -141,7 +141,7 @@ describe('show', function () {
     });
 
     test('no boost flag sends no-boost by default', function () {
-        $response = $this->get('/my-app');
+        $response = $this->get('/build?name=my-app');
 
         $response->assertSuccessful();
         $response->assertSee('--no-boost');
@@ -149,7 +149,7 @@ describe('show', function () {
     });
 
     test('boost flag works with other options', function () {
-        $response = $this->get('/my-app?services=redis&frontend=vue&boost');
+        $response = $this->get('/build?name=my-app&services=redis&frontend=vue&boost');
 
         $response->assertSuccessful();
         $response->assertSee('--boost');
@@ -159,14 +159,14 @@ describe('show', function () {
     });
 
     test('teams flag can be added', function () {
-        $response = $this->get('/my-app?teams');
+        $response = $this->get('/build?name=my-app&teams');
 
         $response->assertSuccessful();
         $response->assertSee('--teams');
     });
 
     test('teams flag works with other options', function () {
-        $response = $this->get('/my-app?services=redis&frontend=vue&teams');
+        $response = $this->get('/build?name=my-app&services=redis&frontend=vue&teams');
 
         $response->assertSuccessful();
         $response->assertSee('--teams');
@@ -175,14 +175,14 @@ describe('show', function () {
     });
 
     test('teams is not added by default', function () {
-        $response = $this->get('/my-app');
+        $response = $this->get('/build?name=my-app');
 
         $response->assertSuccessful();
         $response->assertDontSee('--teams');
     });
 
     test('javascript runtime works with other options', function () {
-        $response = $this->get('/my-app?javascript=pnpm&frontend=react&services=redis');
+        $response = $this->get('/build?name=my-app&javascript=pnpm&frontend=react&services=redis');
 
         $response->assertSuccessful();
         $response->assertSee('--pnpm');
@@ -191,56 +191,56 @@ describe('show', function () {
     });
 
     test('no authentication can be picked', function () {
-        $response = $this->get('/my-app?auth=no-authentication');
+        $response = $this->get('/build?name=my-app&auth=no-authentication');
 
         $response->assertSuccessful();
         $response->assertSee('--no-authentication');
     });
 
     test('workos authentication can be picked', function () {
-        $response = $this->get('/my-app?auth=workos');
+        $response = $this->get('/build?name=my-app&auth=workos');
 
         $response->assertSuccessful();
         $response->assertSee('--workos');
     });
 
     test('does not accept invalid auth provider', function () {
-        $response = $this->get('/my-app?auth=invalid-auth');
+        $response = $this->get('/build?name=my-app&auth=invalid-auth');
 
         $response->assertStatus(400);
         $response->assertSee('Invalid authentication provider', false);
     });
 
     test('pest testing framework can be picked', function () {
-        $response = $this->get('/my-app?testing=pest');
+        $response = $this->get('/build?name=my-app&testing=pest');
 
         $response->assertSuccessful();
         $response->assertSee('--pest');
     });
 
     test('phpunit testing framework can be picked', function () {
-        $response = $this->get('/my-app?testing=phpunit');
+        $response = $this->get('/build?name=my-app&testing=phpunit');
 
         $response->assertSuccessful();
         $response->assertSee('--phpunit');
     });
 
     test('custom starter kit url is required when using custom frontend', function () {
-        $response = $this->get('/my-app?frontend=custom');
+        $response = $this->get('/build?name=my-app&frontend=custom');
 
         $response->assertStatus(400);
         $response->assertSee('A valid URL is required when using a custom starter kit', false);
     });
 
     test('does not accept invalid custom starter kit url', function () {
-        $response = $this->get('/my-app?frontend=custom&using=not-a-url');
+        $response = $this->get('/build?name=my-app&frontend=custom&using=not-a-url');
 
         $response->assertStatus(400);
         $response->assertSee('Invalid custom starter kit URL', false);
     });
 
     test('all new options work together', function () {
-        $response = $this->get('/my-app?services=pgsql,redis&frontend=svelte&javascript=bun&boost&teams&auth=no-authentication');
+        $response = $this->get('/build?name=my-app&services=pgsql,redis&frontend=svelte&javascript=bun&boost&teams&auth=no-authentication');
 
         $response->assertSuccessful();
         $response->assertSee('--svelte');
@@ -253,41 +253,56 @@ describe('show', function () {
     });
 
     test('does not accept invalid application name', function () {
-        $response = $this->get('/invalid name');
+        $response = $this->get('/build?name=invalid.name');
 
-        $response->assertStatus(404);
+        $response->assertStatus(400);
+        $response->assertSee('Invalid application name', false);
+    });
+
+    test('application name is required', function () {
+        $response = $this->get('/build?services=redis');
+
+        $response->assertStatus(400);
+        $response->assertSee('Invalid application name', false);
+    });
+
+    test('application name is sanitized in the error output', function () {
+        $response = $this->get('/build?name=evil$(whoami)evil');
+
+        $response->assertStatus(400);
+        $response->assertDontSee('$(whoami)', false);
     });
 
     test('devcontainer flag can be added', function () {
-        $response = $this->get('/my-app?services=redis&devcontainer');
+        $response = $this->get('/build?name=my-app&services=redis&devcontainer');
 
         $response->assertSuccessful();
         $response->assertSee('--devcontainer');
     });
 
     test('php version defaults to 8.5', function () {
-        $response = $this->get('/my-app');
+        $response = $this->get('/build?name=my-app');
 
         $response->assertSuccessful();
         $response->assertSee('--php=8.5');
     });
 
     test('different php versions can be picked', function (string $version) {
-        $response = $this->get("/my-app?php={$version}");
+        $response = $this->get("/build?name=my-app&php={$version}");
 
         $response->assertSuccessful();
         $response->assertSee("--php={$version}");
     })->with(['8.5', '8.4', '8.3']);
 
     test('does not accept invalid php version', function () {
-        $response = $this->get('/my-app?php=7.4');
+        $response = $this->get('/build?name=my-app&php=7.4');
 
         $response->assertStatus(400);
         $response->assertSee('Invalid PHP version', false);
     });
 
     test('php version works with other options', function () {
-        $response = $this->get('/my-app?services=redis&frontend=vue&php=8.3');
+        $response = $this->get('/build?name=my-app&services=redis&frontend=vue&php=8.3');
 
         $response->assertSuccessful();
         $response->assertSee('--php=8.3');
@@ -296,28 +311,28 @@ describe('show', function () {
     });
 
     test('database flag is passed when a single database service is selected', function (string $service) {
-        $response = $this->get("/my-app?services={$service},redis");
+        $response = $this->get("/build?name=my-app&services={$service},redis");
 
         $response->assertSuccessful();
         $response->assertSee("--database={$service}");
     })->with(['mysql', 'pgsql', 'mariadb']);
 
     test('database flag is not passed when multiple database services are selected', function () {
-        $response = $this->get('/my-app?services=mysql,pgsql,redis');
+        $response = $this->get('/build?name=my-app&services=mysql,pgsql,redis');
 
         $response->assertSuccessful();
         $response->assertDontSee('--database=');
     });
 
     test('database flag is not passed when no database service is selected', function () {
-        $response = $this->get('/my-app?services=redis,mailpit');
+        $response = $this->get('/build?name=my-app&services=redis,mailpit');
 
         $response->assertSuccessful();
         $response->assertDontSee('--database=');
     });
 
     test('database flag is not passed when services is none', function () {
-        $response = $this->get('/my-app?services=none');
+        $response = $this->get('/build?name=my-app&services=none');
 
         $response->assertSuccessful();
         $response->assertDontSee('--database=');

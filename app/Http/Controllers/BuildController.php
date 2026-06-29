@@ -18,8 +18,9 @@ class BuildController extends Controller
         ]);
     }
 
-    public function show(BuildShowRequest $request, string $name): Response
+    public function show(BuildShowRequest $request): Response
     {
+        $name = $request->validated('name');
         $servicesArray = $request->validated('services');
         $frontend = $request->validated('frontend');
         $auth = $request->validated('auth');

@@ -20,6 +20,7 @@ import {
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -43,7 +44,8 @@ const props = defineProps<{
 
 const isLocal = import.meta.env.DEV;
 
-const appName = ref('new-laravel-project');
+const appName = ref('new-laravel');
+const appNameError = ref('');
 const selectedServices = ref([
     'pgsql',
     'valkey',
@@ -81,6 +83,25 @@ const toggleService = (service: string) => {
     selectedServices.value = [...selectedServices.value, service];
 };
 
+const validateAppName = () => {
+    if (!appName.value) {
+        appNameError.value = 'Application name is required';
+
+        return false;
+    }
+
+    if (!/^[a-zA-Z0-9_-]+$/.test(appName.value)) {
+        appNameError.value =
+            'Application name may only contain letters, numbers, dashes, and underscores';
+
+        return false;
+    }
+
+    appNameError.value = '';
+
+    return true;
+};
+
 const validateCustomUrl = () => {
     if (selectedStarterKit.value !== 'custom') {
         customStarterKitUrlError.value = '';
@@ -116,8 +137,9 @@ const showTeams = computed(
 );
 
 const generatedUrl = computed(() => {
-    const baseUrl = `${props.url}/${appName.value}`;
-    const serviceParams = `?services=${selectedServices.value.join(',')}`;
+    const baseUrl = `${props.url}/build`;
+    const nameParam = `?name=${encodeURIComponent(appName.value)}`;
+    const serviceParams = `&services=${selectedServices.value.join(',')}`;
     const frontend = `&frontend=${selectedStarterKit.value}`;
     const javascript = `&javascript=${selectedJavascriptRuntime.value}`;
     const testing = `&testing=${selectedTesting.value}`;
@@ -141,7 +163,7 @@ const generatedUrl = computed(() => {
     const devcontainer = withDevcontainer.value ? '&devcontainer' : '';
     const php = `&php=${selectedPhpVersion.value}`;
 
-    return `${baseUrl}${serviceParams}${frontend}${javascript}${testing}${auth}${teams}${boost}${devcontainer}${php}${using}`;
+    return `${baseUrl}${nameParam}${serviceParams}${frontend}${javascript}${testing}${auth}${teams}${boost}${devcontainer}${php}${using}`;
 });
 
 const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
@@ -158,12 +180,20 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
         <Card class="mb-6">
             <CardContent class="space-y-5">
                 <div class="grid grid-cols-1 gap-5 sm:grid-cols-[1fr_auto]">
-                    <div class="space-y-3">
-                        <Label for="app-name">Application name</Label>
-                        <Input id="app-name" v-model="appName" />
-                    </div>
-                    <div class="space-y-3">
-                        <Label for="php-version">PHP Version</Label>
+                    <Field :data-invalid="!!appNameError">
+                        <FieldLabel for="app-name">Application name</FieldLabel>
+                        <Input
+                            id="app-name"
+                            v-model="appName"
+                            :aria-invalid="!!appNameError"
+                            @blur="validateAppName"
+                        />
+                        <FieldError v-if="appNameError">{{
+                            appNameError
+                        }}</FieldError>
+                    </Field>
+                    <Field>
+                        <FieldLabel for="php-version">PHP Version</FieldLabel>
                         <Select v-model="selectedPhpVersion">
                             <SelectTrigger id="php-version" class="w-28">
                                 <SelectValue placeholder="PHP">
@@ -180,10 +210,10 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                                 </SelectItem>
                             </SelectContent>
                         </Select>
-                    </div>
+                    </Field>
                 </div>
-                <div class="space-y-3">
-                    <Label>Services</Label>
+                <Field>
+                    <FieldLabel>Services</FieldLabel>
                     <div class="flex flex-wrap gap-2">
                         <Badge
                             v-for="service in services"
@@ -211,7 +241,7 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                             >{{ service }}
                         </Badge>
                     </div>
-                </div>
+                </Field>
             </CardContent>
         </Card>
 
@@ -223,8 +253,8 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                 <div
                     class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3"
                 >
-                    <div class="space-y-3">
-                        <Label for="starter-kit">Starter Kit</Label>
+                    <Field>
+                        <FieldLabel for="starter-kit">Starter Kit</FieldLabel>
                         <Select v-model="selectedStarterKit">
                             <SelectTrigger id="starter-kit" class="w-full">
                                 <SelectValue placeholder="Select a starter kit">
@@ -241,29 +271,30 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                                 </SelectItem>
                             </SelectContent>
                         </Select>
-                    </div>
+                    </Field>
 
-                    <div
+                    <Field
                         v-if="selectedStarterKit === 'custom'"
-                        class="space-y-3"
+                        :data-invalid="!!customStarterKitUrlError"
                     >
-                        <Label for="custom-url">Custom Starter Kit URL</Label>
+                        <FieldLabel for="custom-url"
+                            >Custom Starter Kit URL</FieldLabel
+                        >
                         <Input
                             id="custom-url"
                             v-model="customStarterKitUrl"
                             :aria-invalid="!!customStarterKitUrlError"
                             @blur="validateCustomUrl"
                         />
-                        <p
-                            v-if="customStarterKitUrlError"
-                            class="text-sm text-destructive"
-                        >
-                            {{ customStarterKitUrlError }}
-                        </p>
-                    </div>
+                        <FieldError v-if="customStarterKitUrlError">{{
+                            customStarterKitUrlError
+                        }}</FieldError>
+                    </Field>
 
-                    <div class="space-y-3">
-                        <Label for="js-runtime">JavaScript Runtime</Label>
+                    <Field>
+                        <FieldLabel for="js-runtime"
+                            >JavaScript Runtime</FieldLabel
+                        >
                         <Select v-model="selectedJavascriptRuntime">
                             <SelectTrigger id="js-runtime" class="w-full">
                                 <SelectValue placeholder="Select a runtime">
@@ -280,10 +311,10 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                                 </SelectItem>
                             </SelectContent>
                         </Select>
-                    </div>
+                    </Field>
 
-                    <div class="space-y-3">
-                        <Label for="testing">Testing Framework</Label>
+                    <Field>
+                        <FieldLabel for="testing">Testing Framework</FieldLabel>
                         <Select v-model="selectedTesting">
                             <SelectTrigger id="testing" class="w-full">
                                 <SelectValue placeholder="Select a framework">
@@ -300,13 +331,10 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                                 </SelectItem>
                             </SelectContent>
                         </Select>
-                    </div>
+                    </Field>
 
-                    <div
-                        v-if="selectedStarterKit !== 'custom'"
-                        class="space-y-3"
-                    >
-                        <Label for="auth">Auth Provider</Label>
+                    <Field v-if="selectedStarterKit !== 'custom'">
+                        <FieldLabel for="auth">Auth Provider</FieldLabel>
                         <Select v-model="selectedAuth">
                             <SelectTrigger id="auth" class="w-full">
                                 <SelectValue
@@ -325,7 +353,7 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                                 </SelectItem>
                             </SelectContent>
                         </Select>
-                    </div>
+                    </Field>
 
                     <div class="space-y-3">
                         <Label for="boost">Laravel Boost</Label>

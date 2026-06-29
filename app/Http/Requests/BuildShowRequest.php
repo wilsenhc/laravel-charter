@@ -22,7 +22,6 @@ class BuildShowRequest extends FormRequest
         $services = $this->query('services', 'none');
 
         $this->merge([
-            'name' => $this->route('name'),
             'services' => $services === 'none' ? ['none'] : explode(',', $services),
             'frontend' => $this->query('frontend', 'none'),
             'testing' => $this->query('testing', 'pest'),
@@ -37,7 +36,7 @@ class BuildShowRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['string', 'alpha_dash'],
+            'name' => ['required', 'string', 'alpha_dash'],
             'services' => ['required', 'array'],
             'services.*' => ['string', Rule::in([...BuildOptions::AvailableServices->values(), 'none'])],
             'frontend' => ['string', Rule::in(BuildOptions::AvailableStarterKits->values())],
@@ -118,10 +117,13 @@ class BuildShowRequest extends FormRequest
             }
         }
 
+        $name = (string) $this->query('name', '');
+        $safeName = preg_match('/^[a-zA-Z0-9_-]+$/', $name) ? $name : '';
+
         $response = response(
             str_replace(
                 ['{{ name }}', '{{ errors }}'],
-                [$this->route('name'), $this->formatErrors($messages)],
+                [$safeName, $this->formatErrors($messages)],
                 (string) file_get_contents(resource_path('stubs/error.sh')),
             ),
             400,
