@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { InfoIcon } from '@lucide/vue';
+import { HeartIcon, InfoIcon } from '@lucide/vue';
 import { computed, ref } from 'vue';
 import {
     availableAuthProviders,
@@ -144,9 +144,7 @@ const generatedUrl = computed(() => {
     return `${baseUrl}${serviceParams}${frontend}${javascript}${testing}${auth}${teams}${boost}${devcontainer}${php}${using}`;
 });
 
-const command = computed(
-    () => `curl -s '${generatedUrl.value}' | bash`,
-);
+const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
 </script>
 
 <template>
@@ -435,10 +433,7 @@ const command = computed(
 
         <div>
             <CodeBlock :code="command" />
-            <p
-                v-if="isLocal"
-                class="mt-2 text-xs text-muted-foreground"
-            >
+            <p v-if="isLocal" class="mt-2 text-xs text-muted-foreground">
                 <span>Debug:</span>
                 <a
                     :href="generatedUrl"
@@ -456,14 +451,15 @@ const command = computed(
             </h2>
             <Accordion type="single" collapsible>
                 <AccordionItem value="what-is-charter">
-                    <AccordionTrigger>What is Charter for Laravel?</AccordionTrigger>
+                    <AccordionTrigger
+                        >What is Charter for Laravel?</AccordionTrigger
+                    >
                     <AccordionContent>
-                        Picking the right options when spinning up a new
-                        Laravel app can feel like a lot. Charter gives you a
-                        friendly UI where you can pick the services, starter
-                        kit, and tools you want, then hands you a ready-to-run
-                        command. No more memorizing flags or digging through
-                        docs.
+                        Picking the right options when spinning up a new Laravel
+                        app can feel like a lot. Charter gives you a friendly UI
+                        where you can pick the services, starter kit, and tools
+                        you want, then hands you a ready-to-run command. No more
+                        memorizing flags or digging through docs.
                     </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="how-to-use">
@@ -480,10 +476,10 @@ const command = computed(
                 <AccordionItem value="starter-kit">
                     <AccordionTrigger>What is a Starter Kit?</AccordionTrigger>
                     <AccordionContent>
-                        Starter kits give your new app a head start with auth,
-                        a frontend setup, and common scaffolding out of the
-                        box. Laravel ships kits for Livewire, Vue, React, and
-                        Svelte, or you can point it at your own.
+                        Starter kits give your new app a head start with auth, a
+                        frontend setup, and common scaffolding out of the box.
+                        Laravel ships kits for Livewire, Vue, React, and Svelte,
+                        or you can point it at your own.
                     </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="custom-starter-kit">
@@ -529,8 +525,8 @@ const command = computed(
                     <AccordionContent>
                         It generates a Devcontainer configuration so your app
                         can run in a containerized dev environment like VS Code
-                        Dev Containers or GitHub Codespaces. Great if you want
-                        a consistent, reproducible setup across machines.
+                        Dev Containers or GitHub Codespaces. Great if you want a
+                        consistent, reproducible setup across machines.
                     </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="affiliation">
@@ -538,9 +534,9 @@ const command = computed(
                         Is Charter for Laravel affiliated with Laravel?
                     </AccordionTrigger>
                     <AccordionContent>
-                        Nope. Charter is an independent, community-built
-                        project and isn't affiliated with, endorsed by, or
-                        sponsored by Laravel or Laravel Holdings Inc.
+                        Nope. Charter is an independent, community-built project
+                        and isn't affiliated with, endorsed by, or sponsored by
+                        Laravel or Laravel Holdings Inc.
                     </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="data-privacy">
@@ -560,25 +556,36 @@ const command = computed(
         <footer
             class="mt-12 flex flex-col items-center gap-3 border-t border-border pt-8 text-center text-sm text-muted-foreground"
         >
-            <a
-                href="https://github.com/wilsenhc/laravel-charter"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 transition-colors hover:text-foreground"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    class="size-4"
-                    aria-hidden="true"
+            <div class="flex items-center gap-4">
+                <a
+                    href="https://github.com/wilsenhc/laravel-charter"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 transition-colors hover:text-foreground"
                 >
-                    <path
-                        d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.27-.01-1-.02-1.96-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.05 11.05 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14 0 1.55-.01 2.8-.01 3.18 0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"
-                    />
-                </svg>
-                GitHub
-            </a>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        class="size-4"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.27-.01-1-.02-1.96-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.05 11.05 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14 0 1.55-.01 2.8-.01 3.18 0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"
+                        />
+                    </svg>
+                    GitHub
+                </a>
+                <a
+                    href="https://paypal.me/wilsenjhc"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 transition-colors hover:text-foreground"
+                >
+                    <HeartIcon class="size-4" aria-hidden="true" />
+                    Donate
+                </a>
+            </div>
             <p>
                 This project is NOT affiliated with, endorsed by, or sponsored
                 by Laravel or Laravel Holdings Inc.

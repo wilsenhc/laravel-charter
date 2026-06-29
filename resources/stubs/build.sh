@@ -79,6 +79,17 @@ else
     exit 1
 fi
 
+echo ""
+echo -e "${LIGHT_CYAN}  ____ _   _    _    ____ _____ _____ ____  ${NC}"
+echo -e "${LIGHT_CYAN} / ___| | | |  / \  |  _ \_   _| ____|  _ \ ${NC}"
+echo -e "${LIGHT_CYAN}| |   | |_| | / _ \ | |_) || | |  _| | |_) |${NC}"
+echo -e "${LIGHT_CYAN}| |___|  _  |/ ___ \|  _ < | | | |___|  _ < ${NC}"
+echo -e "${LIGHT_CYAN} \____|_| |_/_/   \_\_| \_\|_| |_____|_| \_\ for Laravel.${NC}"
+echo ""
+echo -e "${CYAN}Enjoying Charter for Laravel? Consider supporting development:${NC}"
+echo -e "${BOLD}https://paypal.me/wilsenjhc${NC}"
+echo ""
+
 if $SUDO -n true 2>/dev/null; then
     $SUDO chown -R $USER: .
     echo -e "${BOLD}Get started with:${NC} cd {{ name }} && ./vendor/bin/sail up && ./vendor/bin/sail npm install && ./vendor/bin/sail npm run dev"
@@ -87,5 +98,6 @@ else
     echo ""
     $SUDO chown -R $USER: .
     echo ""
-    echo -e "${BOLD}Thank you! We hope you build something incredible. Dive in with:${NC} cd {{ name }} && ./vendor/bin/sail up && ./vendor/bin/sail npm install && ./vendor/bin/sail npm run dev"
+    echo -e "${BOLD}Thank you! We hope you build something incredible."
+    echo -e "Dive in with:${NC} cd {{ name }} && ./vendor/bin/sail up && ./vendor/bin/sail npm install && ./vendor/bin/sail npm run dev"
 fi
