@@ -1,3 +1,16 @@
+CYAN='\033[0;36m'
+LIGHT_CYAN='\033[1;36m'
+BOLD='\033[1m'
+NC='\033[0m'
+
+echo ""
+echo -e "${LIGHT_CYAN}  ____ _   _    _    ____ _____ _____ ____  ${NC}"
+echo -e "${LIGHT_CYAN} / ___| | | |  / \  |  _ \_   _| ____|  _ \ ${NC}"
+echo -e "${LIGHT_CYAN}| |   | |_| | / _ \ | |_) || | |  _| | |_) |${NC}"
+echo -e "${LIGHT_CYAN}| |___|  _  |/ ___ \|  _ < | | | |___|  _ < ${NC}"
+echo -e "${LIGHT_CYAN} \____|_| |_/_/   \_\_| \_\|_| |_____|_| \_\ ${NC}"
+echo ""
+
 docker info > /dev/null 2>&1
 
 # Ensure that Docker is running...
@@ -54,11 +67,6 @@ else
     ./vendor/bin/sail pull {{ services }}
     ./vendor/bin/sail build
 fi
-
-CYAN='\033[0;36m'
-LIGHT_CYAN='\033[1;36m'
-BOLD='\033[1m'
-NC='\033[0m'
 
 echo ""
 
