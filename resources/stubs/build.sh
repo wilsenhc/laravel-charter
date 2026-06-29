@@ -20,28 +20,23 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# Extract Node.js from the official Node image (needed for custom starter kits via npx)...
-docker volume create node-binaries >/dev/null 2>&1
-docker run --rm -v node-binaries:/out node:24-slim cp -a /usr/local/bin /usr/local/lib /out/
-
+{{ node_setup }}
 docker run --rm \
     --pull=always \
     --user root \
     -e SHOW_WELCOME_MESSAGE=false \
     -e COMPOSER_HOME=/tmp/composer \
-    -v node-binaries:/usr/local/node:ro \
-    -v "$(pwd)":/opt \
+{{ node_mount }}    -v "$(pwd)":/opt \
     -w /opt \
     serversideup/php:8.5-cli \
-    bash -c "export PATH=/usr/local/node/bin:\$PATH && \
-        apt-get update -qq && apt-get install -y -qq git && \
+    bash -c "{{ node_path }}apt-get update -qq && apt-get install -y -qq git && \
         composer global require laravel/installer --no-interaction --no-progress && \
         php /tmp/composer/vendor/bin/laravel new {{ name }} {{ options }} --no-interaction ; \
         cd {{ name }} && \
         ([ -f vendor/autoload.php ] || composer install --no-interaction --ignore-platform-reqs) && \
         php ./artisan sail:install --with={{ with }} --php={{ php }} {{ devcontainer }}"
 
-docker volume rm node-binaries >/dev/null 2>&1
+{{ node_cleanup }}
 
 if [ ! -d "{{ name }}" ]; then
     echo ""

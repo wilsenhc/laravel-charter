@@ -89,6 +89,35 @@ describe('show', function () {
         $response->assertSee('--using="https://example.com/starter-kit"', false);
     });
 
+    test('custom starter kit installs node binaries for npx', function () {
+        $response = $this->get('/my-app?frontend=custom&using=https://example.com/starter-kit');
+
+        $response->assertSuccessful();
+        $response->assertSee('docker volume create node-binaries', false);
+        $response->assertSee('node:24-slim', false);
+        $response->assertSee('-v node-binaries:/usr/local/node:ro', false);
+        $response->assertSee('export PATH=/usr/local/node/bin', false);
+        $response->assertSee('docker volume rm node-binaries', false);
+    });
+
+    test('standard starter kits do not install node binaries', function () {
+        $response = $this->get('/my-app?frontend=vue');
+
+        $response->assertSuccessful();
+        $response->assertDontSee('node-binaries', false);
+        $response->assertDontSee('node:24-slim', false);
+        $response->assertDontSee('/usr/local/node', false);
+    });
+
+    test('default build does not install node binaries', function () {
+        $response = $this->get('/my-app?services=pgsql,redis');
+
+        $response->assertSuccessful();
+        $response->assertDontSee('node-binaries', false);
+        $response->assertDontSee('node:24-slim', false);
+        $response->assertDontSee('/usr/local/node', false);
+    });
+
     test('different javascript runtimes can be picked', function (string $runtime) {
         $response = $this->get("/my-app?javascript={$runtime}");
 

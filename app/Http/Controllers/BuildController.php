@@ -67,9 +67,22 @@ class BuildController extends Controller
             $databaseFlag,
         ]));
 
+        // Node.js is only required when a custom starter kit is used (via npx)...
+        $isCustomStarterKit = $frontend === 'custom';
+
+        $nodeSetup = $isCustomStarterKit
+            ? "# Extract Node.js from the official Node image (needed for custom starter kits via npx)...\ndocker volume create node-binaries >/dev/null 2>&1\ndocker run --rm -v node-binaries:/out node:24-slim cp -a /usr/local/bin /usr/local/lib /out/"
+            : '';
+
+        $nodeMount = $isCustomStarterKit ? "    -v node-binaries:/usr/local/node:ro \\\n" : '';
+
+        $nodePath = $isCustomStarterKit ? 'export PATH=/usr/local/node/bin:\$PATH && ' : '';
+
+        $nodeCleanup = $isCustomStarterKit ? 'docker volume rm node-binaries >/dev/null 2>&1' : '';
+
         $script = str_replace(
-            ['{{ name }}', '{{ options }}', '{{ with }}', '{{ php }}', '{{ services }}', '{{ devcontainer }}'],
-            [$name, $options, $with, $php, $servicesString, $devcontainer],
+            ['{{ name }}', '{{ options }}', '{{ with }}', '{{ php }}', '{{ services }}', '{{ devcontainer }}', '{{ node_setup }}', '{{ node_mount }}', '{{ node_path }}', '{{ node_cleanup }}'],
+            [$name, $options, $with, $php, $servicesString, $devcontainer, $nodeSetup, $nodeMount, $nodePath, $nodeCleanup],
             (string) file_get_contents(resource_path('stubs/build.sh')),
         );
 
