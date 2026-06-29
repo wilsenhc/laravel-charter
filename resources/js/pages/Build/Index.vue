@@ -177,6 +177,16 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
         <AppearanceSwitcher />
     </header>
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
+        <section class="mb-8 space-y-3">
+            <h2 class="text-2xl font-bold tracking-tight">
+                Spin up a Laravel app with Sail in one command
+            </h2>
+            <p class="text-sm text-muted-foreground">
+                Charter simplifies creating new Laravel apps: pick your services
+                and options visually, then copy a single CLI command that
+                scaffolds your project with Laravel Sail from the start.
+            </p>
+        </section>
         <Card class="mb-6">
             <CardContent class="space-y-5">
                 <div class="grid grid-cols-1 gap-5 sm:grid-cols-[1fr_auto]">
@@ -242,6 +252,23 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                         </Badge>
                     </div>
                 </Field>
+
+                <div>
+                    <CodeBlock :code="command" />
+                    <p
+                        v-if="isLocal"
+                        class="mt-2 text-xs text-muted-foreground"
+                    >
+                        <span>Debug:</span>
+                        <a
+                            :href="generatedUrl"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="ml-1 break-all text-foreground underline underline-offset-4"
+                            >Open generated URL in a new tab</a
+                        >
+                    </p>
+                </div>
             </CardContent>
         </Card>
 
@@ -458,20 +485,6 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                 installation may fail unexpectedly.
             </AlertDescription>
         </Alert>
-
-        <div>
-            <CodeBlock :code="command" />
-            <p v-if="isLocal" class="mt-2 text-xs text-muted-foreground">
-                <span>Debug:</span>
-                <a
-                    :href="generatedUrl"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="ml-1 break-all text-foreground underline underline-offset-4"
-                    >Open generated URL in a new tab</a
-                >
-            </p>
-        </div>
 
         <section class="mt-12">
             <h2 class="mb-4 text-base font-semibold tracking-tight">

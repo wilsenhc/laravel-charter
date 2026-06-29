@@ -21,30 +21,27 @@ const copy = async (code: string) => {
 </script>
 
 <template>
-    <div class="rounded-none border border-border p-4">
-        <h2 class="text-base font-semibold">Start your new project</h2>
-        <p class="mt-1 text-sm text-muted-foreground">
-            Run the command below in your terminal to scaffold a fresh Laravel
-            application with your selected services, starter kit, and tooling.
-        </p>
-
-        <div
-            class="mt-4 flex items-center gap-2 rounded-sm border border-border bg-secondary p-3 px-4"
-        >
-            <pre
-                class="code-scroll min-w-0 flex-1 overflow-x-auto text-sm leading-relaxed"
-            ><code>{{ code }}</code></pre>
-
+    <div class="space-y-2">
+        <div class="flex items-center justify-between gap-2">
+            <span class="text-sm font-medium">Start shipping now</span>
             <Button
-                variant="ghost"
-                size="icon-sm"
-                class="shrink-0"
+                variant="outline"
+                size="sm"
+                class="gap-1.5"
                 :aria-label="copied ? 'Copied' : 'Copy command'"
                 @click="copy(code)"
             >
                 <CheckIcon v-if="copied" class="size-3.5" />
                 <CopyIcon v-else class="size-3.5" />
+                {{ copied ? 'Copied' : 'Copy' }}
             </Button>
         </div>
+        <pre
+            class="code-scroll overflow-x-auto rounded-md border border-border bg-secondary p-3 text-sm leading-relaxed"
+        ><code>{{ code }}</code></pre>
+        <p class="text-xs text-muted-foreground">
+            Run this in your terminal to scaffold your project with Laravel
+            Sail.
+        </p>
     </div>
 </template>
