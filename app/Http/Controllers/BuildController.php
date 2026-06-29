@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BuildShowRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Blade;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
 
@@ -67,23 +68,17 @@ class BuildController extends Controller
             $databaseFlag,
         ]));
 
-        // Node.js is only required when a custom starter kit is used (via npx)...
-        $isCustomStarterKit = $frontend === 'custom';
-
-        $nodeSetup = $isCustomStarterKit
-            ? "# Extract Node.js from the official Node image (needed for custom starter kits via npx)...\ndocker volume create node-binaries >/dev/null 2>&1\ndocker run --rm -v node-binaries:/out node:24-slim cp -a /usr/local/bin /usr/local/lib /out/"
-            : '';
-
-        $nodeMount = $isCustomStarterKit ? "    -v node-binaries:/usr/local/node:ro \\\n" : '';
-
-        $nodePath = $isCustomStarterKit ? 'export PATH=/usr/local/node/bin:\$PATH && ' : '';
-
-        $nodeCleanup = $isCustomStarterKit ? 'docker volume rm node-binaries >/dev/null 2>&1' : '';
-
-        $script = str_replace(
-            ['{{ name }}', '{{ options }}', '{{ with }}', '{{ php }}', '{{ services }}', '{{ devcontainer }}', '{{ node_setup }}', '{{ node_mount }}', '{{ node_path }}', '{{ node_cleanup }}'],
-            [$name, $options, $with, $php, $servicesString, $devcontainer, $nodeSetup, $nodeMount, $nodePath, $nodeCleanup],
+        $script = Blade::render(
             (string) file_get_contents(resource_path('stubs/build.sh')),
+            [
+                'name' => $name,
+                'options' => $options,
+                'with' => $with,
+                'php' => $php,
+                'services' => $servicesString,
+                'devcontainer' => $devcontainer,
+                'isCustomStarterKit' => $frontend === 'custom',
+            ],
         );
 
         return response($script, 200, ['Content-Type' => 'text/plain']);
