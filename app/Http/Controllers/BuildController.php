@@ -54,6 +54,8 @@ class BuildController extends Controller
 
         $boost = $request->has('boost') ? '--boost' : '--no-boost';
 
+        $noNodeFlag = $request->validated('no-node') ? '--no-node' : null;
+
         $databaseServices = ['mysql', 'pgsql', 'mariadb'];
         $selectedDatabases = array_values(array_intersect($servicesArray, $databaseServices));
         $databaseFlag = count($selectedDatabases) === 1 ? "--database={$selectedDatabases[0]}" : null;
@@ -66,6 +68,7 @@ class BuildController extends Controller
             $usingFlag,
             $teamsFlag,
             $boost,
+            $noNodeFlag,
             $databaseFlag,
         ]));
 

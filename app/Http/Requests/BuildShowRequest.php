@@ -27,6 +27,7 @@ class BuildShowRequest extends FormRequest
             'testing' => $this->query('testing', 'pest'),
             'php' => $this->query('php', '8.5'),
             'teams' => $this->has('teams'),
+            'no-node' => $this->has('no-node'),
         ]);
     }
 
@@ -50,6 +51,7 @@ class BuildShowRequest extends FormRequest
                 ['nullable', 'string', 'url'],
             ),
             'teams' => ['boolean'],
+            'no-node' => ['boolean'],
         ];
     }
 

@@ -48,12 +48,12 @@ const appName = ref('new-laravel');
 const appNameError = ref('');
 const selectedServices = ref([
     'pgsql',
-    'valkey',
+    'redis',
     'typesense',
     'minio',
     'mailpit',
 ]);
-const selectedStarterKit = ref('vue');
+const selectedStarterKit = ref('react');
 const customStarterKitUrl = ref('');
 const customStarterKitUrlError = ref('');
 const selectedJavascriptRuntime = ref('bun');
@@ -62,6 +62,7 @@ const selectedTesting = ref('pest');
 const withTeams = ref(false);
 const withBoost = ref(true);
 const withDevcontainer = ref(false);
+const withNoNode = ref(false);
 const selectedPhpVersion = ref('8.5');
 
 const services = ref([...availableServices]);
@@ -161,9 +162,10 @@ const generatedUrl = computed(() => {
     const teams = withTeams.value && showTeams.value ? '&teams' : '';
     const boost = withBoost.value ? '&boost' : '';
     const devcontainer = withDevcontainer.value ? '&devcontainer' : '';
+    const noNode = withNoNode.value ? '&no-node' : '';
     const php = `&php=${selectedPhpVersion.value}`;
 
-    return `${baseUrl}${nameParam}${serviceParams}${frontend}${javascript}${testing}${auth}${teams}${boost}${devcontainer}${php}${using}`;
+    return `${baseUrl}${nameParam}${serviceParams}${frontend}${javascript}${testing}${auth}${teams}${boost}${devcontainer}${noNode}${php}${using}`;
 });
 
 const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
@@ -462,6 +464,43 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                             <Switch
                                 id="devcontainer"
                                 v-model="withDevcontainer"
+                            />
+                        </label>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-2">
+                            <Label for="no-node">Skip Node</Label>
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger as-child>
+                                        <button
+                                            type="button"
+                                            class="inline-flex size-4 items-center justify-center text-muted-foreground hover:text-foreground"
+                                        >
+                                            <InfoIcon class="size-3.5" />
+                                            <span class="sr-only"
+                                                >What does skip node do?</span
+                                            >
+                                        </button>
+                                    </TooltipTrigger>
+                                    <TooltipContent class="max-w-xs">
+                                        Skips installing Node.js and running
+                                        NPM build when the application is
+                                        scaffolded. Useful for projects that
+                                        do not require frontend build tooling.
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                        </div>
+                        <label
+                            for="no-node"
+                            class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
+                        >
+                            Skip Node.js install
+                            <Switch
+                                id="no-node"
+                                v-model="withNoNode"
                             />
                         </label>
                     </div>

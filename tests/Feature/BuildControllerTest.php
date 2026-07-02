@@ -280,6 +280,20 @@ describe('show', function () {
         $response->assertSee('--devcontainer');
     });
 
+    test('no-node flag can be added', function () {
+        $response = $this->get('/build?name=my-app&no-node');
+
+        $response->assertSuccessful();
+        $response->assertSee('--no-node');
+    });
+
+    test('no-node is not added by default', function () {
+        $response = $this->get('/build?name=my-app');
+
+        $response->assertSuccessful();
+        $response->assertDontSee('--no-node');
+    });
+
     test('php version defaults to 8.5', function () {
         $response = $this->get('/build?name=my-app');
 
