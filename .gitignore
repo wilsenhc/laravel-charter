@@ -32,7 +32,8 @@ yarn-error.log
 /.zed
 .copilot-specs-cache/
 boost.json
-
+opencode.json
+AGENTS.md
 **/caddy
 frankenphp
 frankenphp-worker.php
