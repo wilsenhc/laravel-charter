@@ -15,7 +15,8 @@
         "laravel/framework": "^13.7",
         "laravel/octane": "^2.17",
         "laravel/tinker": "^3.0",
-        "laravel/wayfinder": "^0.1.14"
+        "laravel/wayfinder": "^0.1.14",
+        "spatie/laravel-sitemap": "^8.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
