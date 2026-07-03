@@ -42,6 +42,12 @@ class BuildController extends Controller
             ? "--{$frontend}"
             : null;
 
+        $livewireClassComponents = $request->validated('livewire-class-components');
+
+        if ($frontendFlag === '--livewire' && $livewireClassComponents) {
+            $frontendFlag = '--livewire --livewire-class-components';
+        }
+
         $authFlag = $auth ? "--{$auth}" : null;
 
         $testFramework = $testing ? "--{$testing}" : null;

@@ -37,7 +37,6 @@ enum BuildOptions
             self::AvailableStarterKits => [
                 'none',
                 'livewire',
-                'livewire-class-components',
                 'vue',
                 'react',
                 'svelte',

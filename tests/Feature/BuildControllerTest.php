@@ -53,11 +53,19 @@ describe('show', function () {
         $response->assertSee('--livewire');
     });
 
-    test('livewire class components starter kit can be picked', function () {
-        $response = $this->get('/build?name=my-app&frontend=livewire-class-components');
+    test('livewire class components modifier can be added', function () {
+        $response = $this->get('/build?name=my-app&frontend=livewire&livewire-class-components');
 
         $response->assertSuccessful();
-        $response->assertSee('--livewire-class-components');
+        $response->assertSee('--livewire --livewire-class-components');
+    });
+
+    test('livewire without class components does not add the modifier', function () {
+        $response = $this->get('/build?name=my-app&frontend=livewire');
+
+        $response->assertSuccessful();
+        $response->assertSee('--livewire');
+        $response->assertDontSee('--livewire-class-components');
     });
 
     test('react starter kit can be picked', function () {

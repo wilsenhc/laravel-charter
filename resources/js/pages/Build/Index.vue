@@ -63,6 +63,7 @@ const withTeams = ref(false);
 const withBoost = ref(true);
 const withDevcontainer = ref(false);
 const withNoNode = ref(false);
+const withLivewireClassComponents = ref(false);
 const selectedPhpVersion = ref('8.5');
 
 const services = ref([...availableServices]);
@@ -163,9 +164,13 @@ const generatedUrl = computed(() => {
     const boost = withBoost.value ? '&boost' : '';
     const devcontainer = withDevcontainer.value ? '&devcontainer' : '';
     const noNode = withNoNode.value ? '&no-node' : '';
+    const livewireClassComponents =
+        selectedStarterKit.value === 'livewire' && withLivewireClassComponents.value
+            ? '&livewire-class-components'
+            : '';
     const php = `&php=${selectedPhpVersion.value}`;
 
-    return `${baseUrl}${nameParam}${serviceParams}${frontend}${javascript}${testing}${auth}${teams}${boost}${devcontainer}${noNode}${php}${using}`;
+    return `${baseUrl}${nameParam}${serviceParams}${frontend}${javascript}${testing}${auth}${teams}${boost}${devcontainer}${noNode}${livewireClassComponents}${php}${using}`;
 });
 
 const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
@@ -383,6 +388,45 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                             </SelectContent>
                         </Select>
                     </Field>
+
+                    <div v-if="selectedStarterKit === 'livewire'" class="space-y-3">
+                        <div class="flex items-center gap-2">
+                            <Label for="livewire-class-components"
+                                >Livewire Class Components</Label
+                            >
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger as-child>
+                                        <button
+                                            type="button"
+                                            class="inline-flex size-4 items-center justify-center text-muted-foreground hover:text-foreground"
+                                        >
+                                            <InfoIcon class="size-3.5" />
+                                            <span class="sr-only"
+                                                >What are Livewire class
+                                                components?</span
+                                            >
+                                        </button>
+                                    </TooltipTrigger>
+                                    <TooltipContent class="max-w-xs">
+                                        Generates stand-alone Livewire class
+                                        components instead of single-file
+                                        components.
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                        </div>
+                        <label
+                            for="livewire-class-components"
+                            class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
+                        >
+                            Use class components
+                            <Switch
+                                id="livewire-class-components"
+                                v-model="withLivewireClassComponents"
+                            />
+                        </label>
+                    </div>
 
                     <div class="space-y-3">
                         <Label for="boost">Laravel Boost</Label>

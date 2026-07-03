@@ -28,6 +28,7 @@ class BuildShowRequest extends FormRequest
             'php' => $this->query('php', '8.5'),
             'teams' => $this->has('teams'),
             'no-node' => $this->has('no-node'),
+            'livewire-class-components' => $this->has('livewire-class-components'),
         ]);
     }
 
@@ -52,6 +53,7 @@ class BuildShowRequest extends FormRequest
             ),
             'teams' => ['boolean'],
             'no-node' => ['boolean'],
+            'livewire-class-components' => ['boolean'],
         ];
     }
 
