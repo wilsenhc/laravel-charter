@@ -11,6 +11,9 @@ class Service extends Model
         'name',
     ];
 
+    /**
+     * @return BelongsToMany<Stat, $this>
+     */
     public function stats(): BelongsToMany
     {
         return $this->belongsToMany(Stat::class, 'stat_services');

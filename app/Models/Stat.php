@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Stat extends Model
 {
+    /** @use HasFactory<\Database\Factories\StatFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -36,6 +37,9 @@ class Stat extends Model
         ];
     }
 
+    /**
+     * @return BelongsToMany<Service, $this>
+     */
     public function services(): BelongsToMany
     {
         return $this->belongsToMany(Service::class, 'stat_services');

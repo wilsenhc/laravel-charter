@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Service;
 use App\Models\Stat;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
 
 class StatsSeeder extends Seeder
 {
@@ -95,21 +96,21 @@ class StatsSeeder extends Seeder
     }
 
     /**
+     * @param  Collection<string, int>  $services
      * @return array<int>
      */
-    private function pickServices(iterable $services): array
+    private function pickServices(Collection $services): array
     {
         $mustHave = ['redis', 'mailpit'];
-        $optional = array_keys($services->toArray());
 
         $selected = $mustHave;
 
-        foreach ($optional as $service) {
-            if (in_array($service, $mustHave, true)) {
+        foreach ($services as $name => $id) {
+            if (in_array($name, $mustHave, true)) {
                 continue;
             }
 
-            $popularity = match ($service) {
+            $popularity = match ($name) {
                 'mysql', 'pgsql' => 65,
                 'mariadb', 'typesense', 'meilisearch' => 30,
                 'minio', 'valkey', 'mongodb' => 20,
@@ -117,10 +118,10 @@ class StatsSeeder extends Seeder
             };
 
             if ($this->randomBool($popularity)) {
-                $selected[] = $service;
+                $selected[] = $name;
             }
         }
 
-        return array_map(fn (string $name) => $services[$name], $selected);
+        return $services->only($selected)->values()->toArray();
     }
 }

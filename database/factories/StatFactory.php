@@ -5,6 +5,9 @@ namespace Database\Factories;
 use App\Models\Stat;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<Stat>
+ */
 class StatFactory extends Factory
 {
     protected $model = Stat::class;

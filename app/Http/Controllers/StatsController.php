@@ -64,12 +64,12 @@ class StatsController extends Controller
             ->pluck('count', 'testing_framework');
 
         $booleanOptions = (clone $query)->toBase()->select(
-            DB::raw('SUM(teams) as teams'),
-            DB::raw('SUM(boost) as boost'),
-            DB::raw('SUM(devcontainer) as devcontainer'),
-            DB::raw('SUM(no_node) as no_node'),
-            DB::raw('SUM(livewire_class_components) as livewire_class_components'),
-            DB::raw('SUM(custom_starter_kit) as custom_starter_kit'),
+            DB::raw('SUM(CASE WHEN teams THEN 1 ELSE 0 END) as teams'),
+            DB::raw('SUM(CASE WHEN boost THEN 1 ELSE 0 END) as boost'),
+            DB::raw('SUM(CASE WHEN devcontainer THEN 1 ELSE 0 END) as devcontainer'),
+            DB::raw('SUM(CASE WHEN no_node THEN 1 ELSE 0 END) as no_node'),
+            DB::raw('SUM(CASE WHEN livewire_class_components THEN 1 ELSE 0 END) as livewire_class_components'),
+            DB::raw('SUM(CASE WHEN custom_starter_kit THEN 1 ELSE 0 END) as custom_starter_kit'),
         )->first();
 
         return Inertia::render('Stats/Index', [
