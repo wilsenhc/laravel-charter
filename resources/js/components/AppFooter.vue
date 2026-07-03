@@ -39,6 +39,7 @@ import { Link } from '@inertiajs/vue3';
             <span class="text-border">|</span>
             <Link
                 href="/stats"
+                prefetch
                 class="transition-colors hover:text-foreground"
             >
                 Stats
@@ -46,12 +47,14 @@ import { Link } from '@inertiajs/vue3';
             <span class="text-border">|</span>
             <Link
                 href="/privacy"
+                prefetch
                 class="transition-colors hover:text-foreground"
             >
                 Privacy
             </Link>
             <Link
                 href="/terms"
+                prefetch
                 class="transition-colors hover:text-foreground"
             >
                 Terms
