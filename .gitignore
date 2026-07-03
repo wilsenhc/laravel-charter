@@ -37,3 +37,4 @@ AGENTS.md
 **/caddy
 frankenphp
 frankenphp-worker.php
+config/psysh/psysh_history
