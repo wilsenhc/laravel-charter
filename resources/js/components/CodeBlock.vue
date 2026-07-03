@@ -7,17 +7,34 @@ defineProps<{
     code: string;
 }>();
 
+const codeEl = ref<HTMLElement | null>(null);
 const copied = ref(false);
 
-const copy = async (code: string) => {
-    await navigator.clipboard.writeText(code);
-
+function showCopiedFeedback() {
     copied.value = true;
-
     setTimeout(() => {
         copied.value = false;
     }, 2000);
+}
+
+const copy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    showCopiedFeedback();
 };
+
+function selectAndCopy() {
+    if (codeEl.value) {
+        const range = document.createRange();
+        range.selectNodeContents(codeEl.value);
+        const selection = window.getSelection();
+        if (selection) {
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+        document.execCommand('copy');
+        showCopiedFeedback();
+    }
+}
 </script>
 
 <template>
@@ -37,8 +54,9 @@ const copy = async (code: string) => {
             </Button>
         </div>
         <pre
-            class="code-scroll overflow-x-auto rounded-md border border-border bg-secondary p-3 text-sm leading-relaxed"
-        ><code>{{ code }}</code></pre>
+            class="code-scroll cursor-pointer overflow-x-auto rounded-md border border-border bg-secondary p-3 text-sm leading-relaxed"
+            @click="selectAndCopy"
+        ><code ref="codeEl">{{ code }}</code></pre>
         <p class="text-xs text-muted-foreground">
             Run this in your terminal to scaffold your project with Laravel
             Sail.

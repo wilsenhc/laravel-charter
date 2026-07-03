@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { InfoIcon } from '@lucide/vue';
 import AppFooter from '@/components/AppFooter.vue';
+import InfoTooltip from '@/components/InfoTooltip.vue';
 import { computed, ref } from 'vue';
 import {
     availableAuthProviders,
@@ -32,12 +32,6 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
 
 const props = defineProps<{
     url: string;
@@ -435,27 +429,10 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                             <Label for="livewire-class-components"
                                 >Livewire Class Components</Label
                             >
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger as-child>
-                                        <button
-                                            type="button"
-                                            class="inline-flex size-4 items-center justify-center text-muted-foreground hover:text-foreground"
-                                        >
-                                            <InfoIcon class="size-3.5" />
-                                            <span class="sr-only"
-                                                >What are Livewire class
-                                                components?</span
-                                            >
-                                        </button>
-                                    </TooltipTrigger>
-                                    <TooltipContent class="max-w-xs">
-                                        Generates stand-alone Livewire class
-                                        components instead of single-file
-                                        components.
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
+                            <InfoTooltip
+                                label="What are Livewire class components?"
+                                tooltip="Generates stand-alone Livewire class components instead of single-file components."
+                            />
                         </div>
                         <label
                             for="livewire-class-components"
@@ -483,28 +460,10 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                     <div v-if="showTeams" class="space-y-3">
                         <div class="flex items-center gap-2">
                             <Label for="teams">Teams</Label>
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger as-child>
-                                        <button
-                                            type="button"
-                                            class="inline-flex size-4 items-center justify-center text-muted-foreground hover:text-foreground"
-                                        >
-                                            <InfoIcon class="size-3.5" />
-                                            <span class="sr-only"
-                                                >What is teams support?</span
-                                            >
-                                        </button>
-                                    </TooltipTrigger>
-                                    <TooltipContent class="max-w-xs">
-                                        Adds team support to your application,
-                                        including team membership and team-based
-                                        data scoping. Available for Laravel
-                                        starter kits with built-in
-                                        authentication or WorkOS.
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
+                            <InfoTooltip
+                                label="What is teams support?"
+                                tooltip="Adds team support to your application, including team membership and team-based data scoping. Available for Laravel starter kits with built-in authentication or WorkOS."
+                            />
                         </div>
                         <label
                             for="teams"
@@ -518,28 +477,10 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                     <div class="space-y-3">
                         <div class="flex items-center gap-2">
                             <Label for="devcontainer">Devcontainer</Label>
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger as-child>
-                                        <button
-                                            type="button"
-                                            class="inline-flex size-4 items-center justify-center text-muted-foreground hover:text-foreground"
-                                        >
-                                            <InfoIcon class="size-3.5" />
-                                            <span class="sr-only"
-                                                >What is a devcontainer?</span
-                                            >
-                                        </button>
-                                    </TooltipTrigger>
-                                    <TooltipContent class="max-w-xs">
-                                        Generates a Devcontainer configuration
-                                        so your application can run in a
-                                        containerized development environment,
-                                        such as VS Code Dev Containers or GitHub
-                                        Codespaces.
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
+                            <InfoTooltip
+                                label="What is a devcontainer?"
+                                tooltip="Generates a Devcontainer configuration so your application can run in a containerized development environment, such as VS Code Dev Containers or GitHub Codespaces."
+                            />
                         </div>
                         <label
                             for="devcontainer"
@@ -556,27 +497,10 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                     <div class="space-y-3">
                         <div class="flex items-center gap-2">
                             <Label for="no-node">Skip Node</Label>
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger as-child>
-                                        <button
-                                            type="button"
-                                            class="inline-flex size-4 items-center justify-center text-muted-foreground hover:text-foreground"
-                                        >
-                                            <InfoIcon class="size-3.5" />
-                                            <span class="sr-only"
-                                                >What does skip node do?</span
-                                            >
-                                        </button>
-                                    </TooltipTrigger>
-                                    <TooltipContent class="max-w-xs">
-                                        Skips installing Node.js and running
-                                        NPM build when the application is
-                                        scaffolded. Useful for projects that
-                                        do not require frontend build tooling.
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
+                            <InfoTooltip
+                                label="What does skip node do?"
+                                tooltip="Skips installing Node.js and running NPM build when the application is scaffolded. Useful for projects that do not require frontend build tooling."
+                            />
                         </div>
                         <label
                             for="no-node"
