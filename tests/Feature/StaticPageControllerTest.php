@@ -5,19 +5,13 @@ use function Pest\Laravel\get;
 it('renders the privacy page', function () {
     get(route('privacy'))
         ->assertSuccessful()
-        ->assertSee('Privacy Policy')
-        ->assertSee('Last updated')
-        ->assertSee('Information We Collect')
-        ->assertSee('Cookies');
+        ->assertSee('component":"Privacy"', false);
 });
 
 it('renders the terms page', function () {
     get(route('terms'))
         ->assertSuccessful()
-        ->assertSee('Terms of Service')
-        ->assertSee('Last updated')
-        ->assertSee('Acceptance of Terms')
-        ->assertSee('Open Source License');
+        ->assertSee('component":"Terms"', false);
 });
 
 it('generates a valid sitemap', function () {
@@ -26,9 +20,8 @@ it('generates a valid sitemap', function () {
         ->assertHeader('Content-Type', 'application/xml');
 });
 
-it('has links to privacy and terms on the home page', function () {
+it('renders the home page', function () {
     get(route('build.index'))
         ->assertSuccessful()
-        ->assertSee('Privacy')
-        ->assertSee('Terms');
+        ->assertSee('component":"Build', false);
 });

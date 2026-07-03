@@ -16,7 +16,7 @@ import AppFooter from '@/components/AppFooter.vue';
             Privacy Policy
         </h1>
         <p class="mb-8 text-sm text-muted-foreground">
-            Last updated: July 2025
+            Last updated: July 2026
         </p>
 
         <section class="space-y-6 text-sm leading-relaxed text-foreground/80">
