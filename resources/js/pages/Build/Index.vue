@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { HeartIcon, InfoIcon } from '@lucide/vue';
+import { Link } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import {
     availableAuthProviders,
@@ -784,6 +785,19 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                     <HeartIcon class="size-4" aria-hidden="true" />
                     Sponsor
                 </a>
+                <span class="text-border">|</span>
+                <Link
+                    href="/privacy"
+                    class="transition-colors hover:text-foreground"
+                >
+                    Privacy
+                </Link>
+                <Link
+                    href="/terms"
+                    class="transition-colors hover:text-foreground"
+                >
+                    Terms
+                </Link>
             </div>
             <p>
                 This project is NOT affiliated with, endorsed by, or sponsored
