@@ -180,14 +180,14 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
     <header
         class="flex h-14 items-center justify-between border-b border-border px-5"
     >
-        <h1 class="text-base font-bold tracking-tight">Charter for Laravel</h1>
+        <span class="text-base font-bold tracking-tight">Charter for Laravel</span>
         <AppearanceSwitcher />
     </header>
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <section class="mb-8 space-y-3">
-            <h2 class="text-2xl font-bold tracking-tight">
+            <h1 class="text-2xl font-bold tracking-tight">
                 Spin up a Laravel app with Sail in one command
-            </h2>
+            </h1>
             <p class="text-sm text-muted-foreground">
                 Charter simplifies creating new Laravel apps: pick your services
                 and options visually, then copy a single CLI command that

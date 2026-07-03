@@ -3,7 +3,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "php artisan generate:build-options && vite build",
+        "build": "php artisan generate:build-options && vite build && vite build --ssr",
         "build:ssr": "php artisan generate:build-options && vite build && vite build --ssr",
         "dev": "php artisan generate:build-options && vite",
         "format": "prettier --write resources/",
