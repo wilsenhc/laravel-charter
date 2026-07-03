@@ -113,5 +113,19 @@
             "php-http/discovery": true
         }
     },
+    "funding": [
+        {
+            "url": "https://github.com/wilsenhc",
+            "type": "github"
+        },
+        {
+            "url": "https://paypal.me/wilsenjhc",
+            "type": "paypal"
+        },
+        {
+            "url": "https://paypal.me/wilsenjhc",
+            "type": "other"
+        }
+    ],
     "minimum-stability": "stable"
 }
