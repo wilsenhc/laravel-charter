@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Stat;
 use Inertia\Testing\AssertableInertia as Assert;
 
 describe('index', function () {
@@ -358,5 +359,50 @@ describe('show', function () {
 
         $response->assertSuccessful();
         $response->assertDontSee('--database=');
+    });
+
+    test('stores anonymous stats on build request', function () {
+        $this->get('/build?name=my-app&services=redis,pgsql&frontend=react&javascript=bun&auth=laravel&testing=pest&php=8.5&boost');
+
+        $this->assertDatabaseHas('stats', [
+            'php_version' => '8.5',
+            'starter_kit' => 'react',
+            'custom_starter_kit' => false,
+            'javascript_runtime' => 'bun',
+            'auth_provider' => 'laravel',
+            'testing_framework' => 'pest',
+            'teams' => false,
+            'boost' => true,
+            'devcontainer' => false,
+            'no_node' => false,
+            'livewire_class_components' => false,
+        ]);
+    });
+
+    test('stores services in pivot table', function () {
+        $this->get('/build?name=my-app&services=redis,pgsql');
+
+        $stat = Stat::first();
+
+        expect($stat->services->pluck('name')->toArray())
+            ->toEqualCanonicalizing(['redis', 'pgsql']);
+    });
+
+    test('does not store name or custom url or ip', function () {
+        $this->get('/build?name=my-secret-app&services=redis&frontend=custom&using=https://example.com/kit');
+
+        $stat = Stat::first();
+
+        expect($stat)
+            ->custom_starter_kit->toBeTrue()
+            ->starter_kit->toBe('custom');
+    });
+
+    test('stores none services without pivot entries', function () {
+        $this->get('/build?name=my-app&services=none');
+
+        $stat = Stat::first();
+
+        expect($stat->services)->toBeEmpty();
     });
 });

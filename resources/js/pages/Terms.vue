@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
+import AppFooter from '@/components/AppFooter.vue';
 </script>
 
 <template>
@@ -39,6 +40,23 @@ import { Link } from '@inertiajs/vue3';
                     provides a visual interface for generating Laravel Sail
                     installation commands. The Service is provided "as is"
                     without any warranty, express or implied.
+                </p>
+            </div>
+
+            <div>
+                <h2 class="mb-2 font-semibold text-foreground">
+                    Anonymous Usage Statistics
+                </h2>
+                <p>
+                    The Service collects anonymous, non-personal usage
+                    statistics when the build endpoint is used. This includes
+                    selected configuration options only — no IP addresses,
+                    user agents, application names, or other identifying
+                    information is stored. For full details, see our
+                    <Link
+                        href="/privacy"
+                        class="font-medium text-foreground underline underline-offset-4"
+                    >Privacy Policy</Link>.
                 </p>
             </div>
 
@@ -107,5 +125,7 @@ import { Link } from '@inertiajs/vue3';
                 </p>
             </div>
         </section>
+
+        <AppFooter />
     </main>
 </template>

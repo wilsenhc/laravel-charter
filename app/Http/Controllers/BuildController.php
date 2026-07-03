@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BuildShowRequest;
+use App\Models\Service;
+use App\Models\Stat;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
 
@@ -90,6 +93,44 @@ class BuildController extends Controller
                 'isCustomStarterKit' => $frontend === 'custom',
             ],
         );
+
+        $fingerprint = hash('sha256', serialize([
+            'name' => $name,
+            'php_version' => $php,
+            'starter_kit' => $frontend ?? 'none',
+            'custom_starter_kit' => $frontend === 'custom',
+            'javascript_runtime' => $javascript,
+            'auth_provider' => $auth,
+            'testing_framework' => $testing,
+            'teams' => $teams,
+            'boost' => $request->has('boost'),
+            'devcontainer' => $request->has('devcontainer'),
+            'no_node' => $noNodeFlag !== null,
+            'livewire_class_components' => $livewireClassComponents,
+            'services' => $servicesArray,
+        ]));
+
+        if (Cache::add("stat_dedup:{$fingerprint}", true, 600)) {
+            $stat = Stat::create([
+                'php_version' => $php,
+                'starter_kit' => $frontend ?? 'none',
+                'custom_starter_kit' => $frontend === 'custom',
+                'javascript_runtime' => $javascript,
+                'auth_provider' => $auth,
+                'testing_framework' => $testing,
+                'teams' => $teams,
+                'boost' => $request->has('boost'),
+                'devcontainer' => $request->has('devcontainer'),
+                'no_node' => $noNodeFlag !== null,
+                'livewire_class_components' => $livewireClassComponents,
+            ]);
+
+            if ($servicesArray !== ['none']) {
+                $stat->services()->sync(
+                    Service::whereIn('name', $servicesArray)->pluck('id'),
+                );
+            }
+        }
 
         return response($script, 200, ['Content-Type' => 'text/plain']);
     }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
+import AppFooter from '@/components/AppFooter.vue';
 </script>
 
 <template>
@@ -39,6 +40,27 @@ import { Link } from '@inertiajs/vue3';
                     Since we don't collect any information, there is nothing
                     to use. The command generated from your selections is
                     displayed on screen and executed locally on your machine.
+                </p>
+            </div>
+
+            <div>
+                <h2 class="mb-2 font-semibold text-foreground">
+                    Anonymous Usage Statistics
+                </h2>
+                <p>
+                    When you use the build endpoint, non-personal configuration
+                    options (PHP version, selected services, starter kit type,
+                    JavaScript runtime, auth provider, testing framework, and
+                    similar boolean options) are stored anonymously on our
+                    server. This data helps us understand which options are most
+                    popular.
+                </p>
+                <p class="mt-2">
+                    No personally identifiable information is stored — we do not
+                    collect your IP address, user agent, application name,
+                    custom starter kit URL, or any other identifying data. The
+                    stored information cannot be traced back to any individual
+                    user.
                 </p>
             </div>
 
@@ -95,5 +117,7 @@ import { Link } from '@inertiajs/vue3';
                 </p>
             </div>
         </section>
+
+        <AppFooter />
     </main>
 </template>

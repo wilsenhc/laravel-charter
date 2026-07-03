@@ -40,6 +40,13 @@ class StaticPageController extends Controller
         );
 
         $sitemap->add(
+            Url::create(url('/stats'))
+                ->setLastModificationDate(now())
+                ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+                ->setPriority(0.5),
+        );
+
+        $sitemap->add(
             Url::create(url('/privacy'))
                 ->setLastModificationDate(now())
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
