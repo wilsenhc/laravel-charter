@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use Closure;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Symfony\Component\HttpFoundation\Response;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -42,5 +44,16 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
         ];
+    }
+
+    public function handle(Request $request, Closure $next): Response
+    {
+        $response = parent::handle($request, $next);
+
+        if (! $request->header('X-Inertia') && $request->isMethod('GET')) {
+            $response->headers->set('Cache-Control', 'public, s-maxage=300, max-age=300');
+        }
+
+        return $response;
     }
 }

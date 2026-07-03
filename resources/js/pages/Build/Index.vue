@@ -194,6 +194,25 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                 scaffolds your project with Laravel Sail from the start.
             </p>
         </section>
+
+        <section class="mb-8 space-y-4">
+            <h2 class="text-base font-semibold tracking-tight">How it works</h2>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <div class="space-y-2 rounded-sm border border-border p-4">
+                    <span class="text-lg font-bold text-foreground">1. Configure</span>
+                    <p class="text-sm text-muted-foreground">Pick your Laravel version, database, cache, mail driver, and starter kit. All the options from <code class="rounded-sm bg-muted px-1.5 py-0.5 text-xs font-medium">laravel new</code> in a visual UI.</p>
+                </div>
+                <div class="space-y-2 rounded-sm border border-border p-4">
+                    <span class="text-lg font-bold text-foreground">2. Generate</span>
+                    <p class="text-sm text-muted-foreground">Charter builds a ready-to-run bash command that combines the Laravel installer with Sail setup — no more digging through docs for the right flags.</p>
+                </div>
+                <div class="space-y-2 rounded-sm border border-border p-4">
+                    <span class="text-lg font-bold text-foreground">3. Run</span>
+                    <p class="text-sm text-muted-foreground">Copy the command, paste it into your terminal, and hit enter. Minutes later you have a fresh Laravel project with Sail, services, and your chosen stack running.</p>
+                </div>
+            </div>
+        </section>
+
         <Card class="mb-6">
             <CardContent class="space-y-5">
                 <div class="grid grid-cols-1 gap-5 sm:grid-cols-[1fr_auto]">
@@ -674,6 +693,41 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                         and runs locally on your machine.
                     </AccordionContent>
                 </AccordionItem>
+                <AccordionItem value="what-is-sail">
+                    <AccordionTrigger>
+                        What is Laravel Sail?
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        Laravel Sail is a lightweight command-line interface for
+                        managing Laravel's default Docker development environment.
+                        It provides a pre-configured Docker Compose setup with
+                        services like MySQL, PostgreSQL, Redis, Mailpit, and
+                        more — so you don't need to install PHP, a web server,
+                        or other software on your local machine.
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="available-services">
+                    <AccordionTrigger>
+                        What services does Charter support?
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        Charter supports all Sail services: MySQL, PostgreSQL,
+                        MariaDB, Redis, Typesense, Meilisearch, MinIO, Mailpit,
+                        and Selenium. You can toggle each one on or off and the
+                        generated command will include only what you need.
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="modify-command">
+                    <AccordionTrigger>
+                        Can I modify the generated command?
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        Absolutely. The generated command is a standard
+                        <code>laravel new</code> invocation with Sail flags. You
+                        can edit it before running, or use it as a starting point
+                        and tweak the options to match your exact requirements.
+                    </AccordionContent>
+                </AccordionItem>
             </Accordion>
         </section>
 
@@ -707,7 +761,7 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                     class="inline-flex items-center gap-2 transition-colors hover:text-foreground"
                 >
                     <HeartIcon class="size-4" aria-hidden="true" />
-                    Donate
+                    Sponsor
                 </a>
             </div>
             <p>

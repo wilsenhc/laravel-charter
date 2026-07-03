@@ -29,9 +29,13 @@
             <meta property="og:url" content="{{ url()->current() }}">
             <meta property="og:type" content="website">
             <meta property="og:image" content="{{ url('/social-preview.png') }}">
+            <meta property="og:image:width" content="1200">
+            <meta property="og:image:height" content="630">
             <meta name="twitter:card" content="summary_large_image">
             <meta name="twitter:title" content="{{ config('app.name', 'Laravel') }}">
             <meta name="twitter:description" content="Spin up a Laravel app with Sail in one command. Pick your services and options visually, then copy a single CLI command.">
+
+            <script type="application/ld+json">{"@@context":"https://schema.org","@@type":"WebApplication","name":"Charter for Laravel","url":"https://laravelcharter.com","description":"Spin up a new Laravel app with Laravel Sail in one command. Visually pick services, starter kits, and options — no more memorizing CLI flags.","operatingSystem":"Linux, macOS, Windows","browserRequirements":"Requires a modern web browser","applicationCategory":"DeveloperApplication","offers":{"@@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
         </x-inertia::head>
     </head>
     <body class="font-sans antialiased">
