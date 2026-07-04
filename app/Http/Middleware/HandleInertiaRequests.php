@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\Locale;
 use Closure;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -43,6 +44,8 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'locale' => app()->getLocale(),
+            'locales' => Locale::supported(),
         ];
     }
 
@@ -51,7 +54,7 @@ class HandleInertiaRequests extends Middleware
         $response = parent::handle($request, $next);
 
         if (! $request->header('X-Inertia') && $request->isMethod('GET')) {
-            $response->headers->set('Cache-Control', 'public, s-maxage=300, max-age=300');
+            $response->headers->set('Cache-Control', 'private, s-maxage=0, max-age=300');
         }
 
         return $response;

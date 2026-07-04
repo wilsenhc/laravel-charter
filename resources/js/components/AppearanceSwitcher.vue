@@ -2,12 +2,15 @@
 import { MonitorIcon, MoonIcon, SunIcon } from '@lucide/vue';
 import { useColorMode } from '@vueuse/core';
 import { computed, onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
 } from '@/components/ui/select';
+
+const { t } = useI18n();
 
 const { store } = useColorMode({
     storageKey: 'vueuse-color-scheme',
@@ -22,18 +25,18 @@ onMounted(() => {
     mounted.value = true;
 });
 
-const options = [
-    { value: 'auto', label: 'System', icon: MonitorIcon },
-    { value: 'light', label: 'Light', icon: SunIcon },
-    { value: 'dark', label: 'Dark', icon: MoonIcon },
-] as const;
+const options = computed(() => [
+    { value: 'auto', label: t('appearance.system'), icon: MonitorIcon },
+    { value: 'light', label: t('appearance.light'), icon: SunIcon },
+    { value: 'dark', label: t('appearance.dark'), icon: MoonIcon },
+]);
 
 const activeIcon = computed(() => {
     if (!mounted.value) {
         return MonitorIcon;
     }
 
-    const match = options.find((o) => o.value === store.value);
+    const match = options.value.find((o) => o.value === store.value);
 
     return match?.icon ?? MonitorIcon;
 });
@@ -41,7 +44,7 @@ const activeIcon = computed(() => {
 
 <template>
     <Select v-model="store">
-        <SelectTrigger size="sm" aria-label="Color scheme">
+        <SelectTrigger size="sm" :aria-label="t('appearance.label')">
             <component :is="activeIcon" class="size-4" />
         </SelectTrigger>
         <SelectContent align="end" :side-offset="4">

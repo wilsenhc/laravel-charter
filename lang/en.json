@@ -1,0 +1,22 @@
+{
+    "meta.title": "Laravel Sail Command Builder — Spin Up Apps Visually | Charter for Laravel",
+    "meta.description": "Charter for Laravel helps you spin up a new Laravel app with Sail in one command. Visually pick services, starter kits, and options — no more memorizing CLI flags.",
+    "meta.og_title": "Laravel Sail Command Builder — Spin Up Apps Visually | Charter for Laravel",
+    "meta.og_description": "Spin up a Laravel app with Sail in one command. Pick your services and options visually, then copy a single CLI command.",
+    "meta.twitter_title": "Laravel Sail Command Builder — Spin Up Apps Visually | Charter for Laravel",
+    "meta.twitter_description": "Spin up a Laravel app with Sail in one command. Pick your services and options visually, then copy a single CLI command.",
+    "faq.0.question": "What is Charter for Laravel?",
+    "faq.0.answer": "Picking the right options when spinning up a new Laravel app can feel like a lot. Charter gives you a friendly UI where you can pick the services, starter kit, and tools you want, then hands you a ready-to-run command. No more memorizing flags or digging through docs.",
+    "faq.1.question": "How do I use the generated command?",
+    "faq.1.answer": "Just copy the command, paste it into your terminal, and hit enter. It downloads the Laravel installer and runs it with the options you chose. Wait a minute or two and you'll have a fresh project ready to go.",
+    "faq.2.question": "What is a Starter Kit?",
+    "faq.2.answer": "Starter kits give your new app a head start with auth, a frontend setup, and common scaffolding out of the box. Laravel ships kits for Livewire, Vue, React, and Svelte, or you can point it at your own.",
+    "faq.3.question": "Can I use a custom starter kit?",
+    "faq.3.answer": "Absolutely. Pick 'custom' in the Starter Kit dropdown and paste in a URL. You can browse community kits at github.com/tnylea/laravel-new. Heads-up: since these are community-maintained, some may not be fully supported and installation can occasionally hit a snag.",
+    "faq.4.question": "What is Laravel Boost?",
+    "faq.4.answer": "Boost is Laravel's official MCP toolkit that helps you build faster with AI-powered helpers. Toggle it on and your new app comes with it ready to go.",
+    "faq.5.question": "What does the 'Teams' option do?",
+    "faq.5.answer": "It adds team membership and team-based data scoping to your app — handy if you're building something where users belong to teams or workspaces. It's available for Laravel starter kits with built-in authentication or WorkOS.",
+    "wa.name": "Charter for Laravel",
+    "wa.description": "Spin up a new Laravel app with Laravel Sail in one command. Visually pick services, starter kits, and options — no more memorizing CLI flags."
+}

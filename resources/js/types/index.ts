@@ -1,1 +1,4 @@
-export * from './auth';
+export interface LocaleOption {
+    code: string;
+    label: string;
+}

@@ -1,9 +1,11 @@
+import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
 import inertia from '@inertiajs/vite';
 import { wayfinder } from '@laravel/vite-plugin-wayfinder';
 import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
 import laravel from 'laravel-vite-plugin';
 import { bunny } from 'laravel-vite-plugin/fonts';
+import { resolve } from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -26,6 +28,9 @@ export default defineConfig({
                     includeAbsolute: false,
                 },
             },
+        }),
+        VueI18nPlugin({
+            include: resolve('resources/js/locales/**'),
         }),
         wayfinder({
             formVariants: true,

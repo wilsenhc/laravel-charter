@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { CheckIcon, CopyIcon } from '@lucide/vue';
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { Button } from '@/components/ui/button';
+
+const { t } = useI18n();
 
 defineProps<{
     code: string;
@@ -40,17 +43,17 @@ function selectAndCopy() {
 <template>
     <div class="space-y-2">
         <div class="flex items-center justify-between gap-2">
-            <span class="text-sm font-medium">Start shipping now</span>
+            <span class="text-sm font-medium">{{ t('code_block.heading') }}</span>
             <Button
                 variant="outline"
                 size="sm"
                 class="gap-1.5"
-                :aria-label="copied ? 'Copied' : 'Copy command'"
+                :aria-label="copied ? t('code_block.copied') : t('code_block.aria_label')"
                 @click="copy(code)"
             >
                 <CheckIcon v-if="copied" class="size-3.5" />
                 <CopyIcon v-else class="size-3.5" />
-                {{ copied ? 'Copied' : 'Copy' }}
+                {{ copied ? t('code_block.copied') : t('code_block.copy') }}
             </Button>
         </div>
         <pre
@@ -58,8 +61,7 @@ function selectAndCopy() {
             @click="selectAndCopy"
         ><code ref="codeEl">{{ code }}</code></pre>
         <p class="text-xs text-muted-foreground">
-            Run this in your terminal to scaffold your project with Laravel
-            Sail.
+            {{ t('code_block.hint') }}
         </p>
     </div>
 </template>
