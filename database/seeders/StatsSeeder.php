@@ -15,29 +15,29 @@ class StatsSeeder extends Seeder
 
         $records = [];
 
-        for ($i = 0; $i < 200; $i++) {
-            $phpVersion = $this->weighted(['8.5', '8.4', '8.3'], [60, 30, 10]);
+        for ($i = 0; $i < 300; $i++) {
+            $phpVersion = $this->weighted(['8.5', '8.4', '8.3'], [50, 35, 15]);
             $starterKit = $this->weighted(
                 ['react', 'vue', 'livewire', 'svelte', 'none', 'custom'],
-                [30, 25, 20, 10, 10, 5],
+                [25, 20, 20, 15, 15, 5],
             );
             $javascriptRuntime = $this->weighted(
                 ['bun', 'npm', 'pnpm', 'yarn'],
-                [40, 30, 20, 10],
+                [35, 30, 20, 15],
             );
             $authProvider = $this->weighted(
                 ['laravel', 'no-authentication', 'workos'],
-                [55, 30, 15],
+                [50, 30, 20],
             );
-            $testingFramework = $this->weighted(['pest', 'phpunit'], [75, 25]);
-            $teams = $this->randomBool(20);
-            $boost = $this->randomBool(75);
-            $devcontainer = $this->randomBool(15);
-            $noNode = $this->randomBool(10);
-            $livewireClassComponents = $starterKit === 'livewire' ? $this->randomBool(30) : false;
+            $testingFramework = $this->weighted(['pest', 'phpunit'], [70, 30]);
+            $teams = $this->randomBool(35);
+            $boost = $this->randomBool(60);
+            $devcontainer = $this->randomBool(30);
+            $noNode = $this->randomBool(20);
+            $livewireClassComponents = $starterKit === 'livewire' ? $this->randomBool(40) : false;
             $customStarterKit = $starterKit === 'custom';
 
-            $daysAgo = fake()->numberBetween(0, 90);
+            $daysAgo = fake()->numberBetween(0, 180);
             $createdAt = now()->subDays($daysAgo)->subHours(fake()->numberBetween(0, 23));
 
             $records[] = [
@@ -101,18 +101,13 @@ class StatsSeeder extends Seeder
      */
     private function pickServices(Collection $services): array
     {
-        $mustHave = ['redis', 'mailpit'];
-
-        $selected = $mustHave;
+        $selected = [];
 
         foreach ($services as $name => $id) {
-            if (in_array($name, $mustHave, true)) {
-                continue;
-            }
-
             $popularity = match ($name) {
-                'mysql', 'pgsql' => 65,
-                'mariadb', 'typesense', 'meilisearch' => 30,
+                'redis', 'mailpit' => 80,
+                'mysql', 'pgsql' => 55,
+                'mariadb', 'typesense', 'meilisearch' => 25,
                 'minio', 'valkey', 'mongodb' => 20,
                 default => 10,
             };

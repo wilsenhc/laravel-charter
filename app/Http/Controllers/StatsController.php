@@ -15,7 +15,7 @@ class StatsController extends Controller
         $query = Stat::query();
 
         $from = $request->query('from', now()->subDays(30)->format('Y-m-d'));
-        $to = $request->query('to');
+        $to = $request->query('to', now()->format('Y-m-d'));
 
         $query->whereDate('stats.created_at', '>=', $from);
 

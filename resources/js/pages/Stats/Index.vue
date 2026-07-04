@@ -34,6 +34,7 @@ watch(() => props.filters, (filters) => {
     from.value = filters.from ?? '';
     to.value = filters.to ?? '';
 }, { immediate: true });
+
 const BarChart = shallowRef<Component | null>(null);
 const RadarChart = shallowRef<Component | null>(null);
 const mode = useColorMode();
