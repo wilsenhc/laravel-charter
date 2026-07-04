@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BuildController;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\StaticPageController;
 use App\Http\Controllers\StatsController;
 use Illuminate\Support\Facades\Route;
@@ -16,3 +17,5 @@ Route::get('/privacy', [StaticPageController::class, 'privacy'])->name('privacy'
 Route::get('/terms', [StaticPageController::class, 'terms'])->name('terms');
 
 Route::get('/sitemap.xml', [StaticPageController::class, 'sitemap'])->name('sitemap');
+
+Route::post('/locale', [LocaleController::class, 'update'])->name('locale.update');
