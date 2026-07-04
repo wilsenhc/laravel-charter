@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/select';
 import type { LocaleOption } from '@/types';
 
-const { locale } = useI18n();
+const { locale, t } = useI18n();
 const page = usePage<{ locales: LocaleOption[] }>();
 
 function switchLanguage(code: string) {
@@ -18,10 +18,29 @@ function switchLanguage(code: string) {
         return;
     }
 
+    const token = document.querySelector<HTMLMetaElement>(
+        'meta[name="csrf-token"]',
+    )?.content;
+
+    if (!token) {
+        throw new Error('CSRF token meta tag not found.');
+    }
+
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = '/locale';
-    form.innerHTML = `<input name="_token" value="${document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')!.content}"><input name="locale" value="${code}">`;
+
+    const tokenInput = document.createElement('input');
+    tokenInput.type = 'hidden';
+    tokenInput.name = '_token';
+    tokenInput.value = token;
+
+    const localeInput = document.createElement('input');
+    localeInput.type = 'hidden';
+    localeInput.name = 'locale';
+    localeInput.value = code;
+
+    form.append(tokenInput, localeInput);
     document.body.appendChild(form);
     form.submit();
 }
@@ -29,7 +48,7 @@ function switchLanguage(code: string) {
 
 <template>
     <Select :model-value="locale" @update:model-value="switchLanguage">
-        <SelectTrigger size="sm" aria-label="Language">
+        <SelectTrigger size="sm" :aria-label="t('nav.language')">
             <LanguagesIcon class="size-4" />
         </SelectTrigger>
         <SelectContent align="end" :side-offset="4">

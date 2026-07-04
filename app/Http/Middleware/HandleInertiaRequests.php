@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\Locale;
 use Closure;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -44,10 +45,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'locale' => app()->getLocale(),
-            'locales' => [
-                ['code' => 'en', 'label' => 'English'],
-                ['code' => 'es', 'label' => 'Español'],
-            ],
+            'locales' => Locale::supported(),
         ];
     }
 

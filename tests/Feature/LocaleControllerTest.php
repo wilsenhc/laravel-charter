@@ -10,7 +10,7 @@ describe('update', function () {
     });
 
     test('sets the locale cookie to en', function () {
-        post('/locale', ['locale' => 'en'])
+        post(route('locale.update'), ['locale' => 'en'])
             ->assertRedirect()
             ->assertCookie('locale', 'en');
     });

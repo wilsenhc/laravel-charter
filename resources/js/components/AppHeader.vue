@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Link } from '@inertiajs/vue3';
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
 import AppearanceSwitcher from '@/components/AppearanceSwitcher.vue';
 import { useI18n } from 'vue-i18n';
@@ -10,7 +11,7 @@ const { t } = useI18n();
     <header
         class="flex h-14 items-center justify-between border-b border-border px-5"
     >
-        <a href="/" class="text-base font-bold tracking-tight hover:underline">{{ t('header.app_name') }}</a>
+        <Link href="/" class="text-base font-bold tracking-tight hover:underline">{{ t('header.app_name') }}</Link>
         <div class="flex items-center gap-3">
             <a
                 href="https://github.com/wilsenhc/laravel-charter"
