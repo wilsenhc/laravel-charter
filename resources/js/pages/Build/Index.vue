@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import AppFooter from '@/components/AppFooter.vue';
+import AppHeader from '@/components/AppHeader.vue';
 import InfoTooltip from '@/components/InfoTooltip.vue';
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import {
     availableAuthProviders,
     availableJavascriptRuntimes,
@@ -10,7 +12,6 @@ import {
     availableStarterKits,
     availableTestingFrameworks,
 } from '@/build';
-import AppearanceSwitcher from '@/components/AppearanceSwitcher.vue';
 import CodeBlock from '@/components/CodeBlock.vue';
 import {
     Accordion,
@@ -32,6 +33,8 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+
+const { t } = useI18n();
 
 const props = defineProps<{
     url: string;
@@ -82,14 +85,13 @@ const toggleService = (service: string) => {
 
 const validateAppName = () => {
     if (!appName.value) {
-        appNameError.value = 'Application name is required';
+        appNameError.value = t('form_errors.name_required');
 
         return false;
     }
 
     if (!/^[a-zA-Z0-9_-]+$/.test(appName.value)) {
-        appNameError.value =
-            'Application name may only contain letters, numbers, dashes, and underscores';
+        appNameError.value = t('form_errors.name_invalid');
 
         return false;
     }
@@ -107,8 +109,7 @@ const validateCustomUrl = () => {
     }
 
     if (!customStarterKitUrl.value) {
-        customStarterKitUrlError.value =
-            'URL is required for custom starter kit';
+        customStarterKitUrlError.value = t('form_errors.url_required');
 
         return false;
     }
@@ -119,7 +120,7 @@ const validateCustomUrl = () => {
 
         return true;
     } catch {
-        customStarterKitUrlError.value = 'Please enter a valid URL';
+        customStarterKitUrlError.value = t('form_errors.url_invalid');
 
         return false;
     }
@@ -169,62 +170,46 @@ const generatedUrl = computed(() => {
 });
 
 const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
+
+const faqItems = computed(() => {
+    const items = [];
+    for (let i = 0; i <= 11; i++) {
+        items.push({
+            value: `faq-${i}`,
+            question: t(`faq.q${i}`),
+            answer: t(`faq.a${i}`),
+        });
+    }
+    return items;
+});
 </script>
 
 <template>
-    <header
-        class="flex h-14 items-center justify-between border-b border-border px-5"
-    >
-        <span class="text-base font-bold tracking-tight">Charter for Laravel</span>
-        <div class="flex items-center gap-3">
-            <a
-                href="https://github.com/wilsenhc/laravel-charter"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    class="size-4"
-                    aria-hidden="true"
-                >
-                    <path
-                        d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.27-.01-1-.02-1.96-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.05 11.05 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14 0 1.55-.01 2.8-.01 3.18 0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"
-                    />
-                </svg>
-                GitHub
-            </a>
-            <AppearanceSwitcher />
-        </div>
-    </header>
+    <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <section class="mb-8 space-y-3">
             <h1 class="text-2xl font-bold tracking-tight">
-                Spin up a Laravel app with Sail in one command
+                {{ t('hero.title') }}
             </h1>
             <p class="text-sm text-muted-foreground">
-                Charter simplifies creating new Laravel apps: pick your services
-                and options visually, then copy a single CLI command that
-                scaffolds your project with Laravel Sail from the start.
+                {{ t('hero.description') }}
             </p>
         </section>
 
         <section class="mb-8 space-y-4">
-            <h2 class="text-base font-semibold tracking-tight">How it works</h2>
+            <h2 class="text-base font-semibold tracking-tight">{{ t('how_it_works.title') }}</h2>
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <div class="space-y-2 rounded-sm border border-border p-4">
-                    <span class="text-lg font-bold text-foreground">1. Configure</span>
-                    <p class="text-sm text-muted-foreground">Pick your Laravel version, database, cache, mail driver, and starter kit. All the options from <code class="rounded-sm bg-muted px-1.5 py-0.5 text-xs font-medium">laravel new</code> in a visual UI.</p>
+                    <span class="text-lg font-bold text-foreground">{{ t('how_it_works.step1_title') }}</span>
+                    <p class="text-sm text-muted-foreground">{{ t('how_it_works.step1_desc') }}</p>
                 </div>
                 <div class="space-y-2 rounded-sm border border-border p-4">
-                    <span class="text-lg font-bold text-foreground">2. Generate</span>
-                    <p class="text-sm text-muted-foreground">Charter builds a ready-to-run bash command that combines the Laravel installer with Sail setup — no more digging through docs for the right flags.</p>
+                    <span class="text-lg font-bold text-foreground">{{ t('how_it_works.step2_title') }}</span>
+                    <p class="text-sm text-muted-foreground">{{ t('how_it_works.step2_desc') }}</p>
                 </div>
                 <div class="space-y-2 rounded-sm border border-border p-4">
-                    <span class="text-lg font-bold text-foreground">3. Run</span>
-                    <p class="text-sm text-muted-foreground">Copy the command, paste it into your terminal, and hit enter. Minutes later you have a fresh Laravel project with Sail, services, and your chosen stack running.</p>
+                    <span class="text-lg font-bold text-foreground">{{ t('how_it_works.step3_title') }}</span>
+                    <p class="text-sm text-muted-foreground">{{ t('how_it_works.step3_desc') }}</p>
                 </div>
             </div>
         </section>
@@ -233,7 +218,7 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
             <CardContent class="space-y-5">
                 <div class="grid grid-cols-1 gap-5 sm:grid-cols-[1fr_auto]">
                     <Field :data-invalid="!!appNameError">
-                        <FieldLabel for="app-name">Application name</FieldLabel>
+                        <FieldLabel for="app-name">{{ t('form.application_name') }}</FieldLabel>
                         <Input
                             id="app-name"
                             v-model="appName"
@@ -245,7 +230,7 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                         }}</FieldError>
                     </Field>
                     <Field>
-                        <FieldLabel for="php-version">PHP Version</FieldLabel>
+                        <FieldLabel for="php-version">{{ t('form.php_version') }}</FieldLabel>
                         <Select v-model="selectedPhpVersion">
                             <SelectTrigger id="php-version" class="w-28">
                                 <SelectValue placeholder="PHP">
@@ -265,7 +250,7 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                     </Field>
                 </div>
                 <Field>
-                    <FieldLabel>Services</FieldLabel>
+                    <FieldLabel>{{ t('form.services') }}</FieldLabel>
                     <div class="flex flex-wrap gap-2">
                         <Badge
                             v-for="service in services"
@@ -301,13 +286,13 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                         v-if="isLocal"
                         class="mt-2 text-xs text-muted-foreground"
                     >
-                        <span>Debug:</span>
+                        <span>{{ t('debug.label') }}</span>
                         <a
                             :href="generatedUrl"
                             target="_blank"
                             rel="noopener noreferrer"
                             class="ml-1 break-all text-foreground underline underline-offset-4"
-                            >Open generated URL in a new tab</a
+                            >{{ t('debug.open_url') }}</a
                         >
                     </p>
                 </div>
@@ -316,17 +301,17 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
 
         <Card class="mb-6">
             <CardHeader>
-                <CardTitle>Additional Fields</CardTitle>
+                <CardTitle>{{ t('form.additional_fields') }}</CardTitle>
             </CardHeader>
             <CardContent>
                 <div
                     class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3"
                 >
                     <Field>
-                        <FieldLabel for="starter-kit">Starter Kit</FieldLabel>
+                        <FieldLabel for="starter-kit">{{ t('form.starter_kit') }}</FieldLabel>
                         <Select v-model="selectedStarterKit">
                             <SelectTrigger id="starter-kit" class="w-full">
-                                <SelectValue placeholder="Select a starter kit">
+                                <SelectValue :placeholder="t('form.select_starter_kit')">
                                     {{ selectedStarterKit }}
                                 </SelectValue>
                             </SelectTrigger>
@@ -347,7 +332,7 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                         :data-invalid="!!customStarterKitUrlError"
                     >
                         <FieldLabel for="custom-url"
-                            >Custom Starter Kit URL</FieldLabel
+                            >{{ t('form.custom_starter_kit_url') }}</FieldLabel
                         >
                         <Input
                             id="custom-url"
@@ -362,11 +347,11 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
 
                     <Field>
                         <FieldLabel for="js-runtime"
-                            >JavaScript Runtime</FieldLabel
+                            >{{ t('form.javascript_runtime') }}</FieldLabel
                         >
                         <Select v-model="selectedJavascriptRuntime">
                             <SelectTrigger id="js-runtime" class="w-full">
-                                <SelectValue placeholder="Select a runtime">
+                                <SelectValue :placeholder="t('form.select_runtime')">
                                     {{ selectedJavascriptRuntime }}
                                 </SelectValue>
                             </SelectTrigger>
@@ -383,10 +368,10 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                     </Field>
 
                     <Field>
-                        <FieldLabel for="testing">Testing Framework</FieldLabel>
+                        <FieldLabel for="testing">{{ t('form.testing_framework') }}</FieldLabel>
                         <Select v-model="selectedTesting">
                             <SelectTrigger id="testing" class="w-full">
-                                <SelectValue placeholder="Select a framework">
+                                <SelectValue :placeholder="t('form.select_framework')">
                                     {{ selectedTesting }}
                                 </SelectValue>
                             </SelectTrigger>
@@ -403,11 +388,11 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                     </Field>
 
                     <Field v-if="selectedStarterKit !== 'custom'">
-                        <FieldLabel for="auth">Auth Provider</FieldLabel>
+                        <FieldLabel for="auth">{{ t('form.auth_provider') }}</FieldLabel>
                         <Select v-model="selectedAuth">
                             <SelectTrigger id="auth" class="w-full">
                                 <SelectValue
-                                    placeholder="Select an auth provider"
+                                    :placeholder="t('form.select_auth_provider')"
                                 >
                                     {{ selectedAuth }}
                                 </SelectValue>
@@ -427,18 +412,18 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                     <div v-if="selectedStarterKit === 'livewire'" class="space-y-3">
                         <div class="flex items-center gap-2">
                             <Label for="livewire-class-components"
-                                >Livewire Class Components</Label
+                                >{{ t('form.livewire_class_components') }}</Label
                             >
                             <InfoTooltip
-                                label="What are Livewire class components?"
-                                tooltip="Generates stand-alone Livewire class components instead of single-file components."
+                                :label="t('tooltips.livewire_class_components_label')"
+                                :tooltip="t('tooltips.livewire_class_components')"
                             />
                         </div>
                         <label
                             for="livewire-class-components"
                             class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
                         >
-                            Use class components
+                            {{ t('form.use_class_components') }}
                             <Switch
                                 id="livewire-class-components"
                                 v-model="withLivewireClassComponents"
@@ -447,46 +432,46 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                     </div>
 
                     <div class="space-y-3">
-                        <Label for="boost">Laravel Boost</Label>
+                        <Label for="boost">{{ t('form.laravel_boost') }}</Label>
                         <label
                             for="boost"
                             class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
                         >
-                            Install Laravel Boost
+                            {{ t('form.install_boost') }}
                             <Switch id="boost" v-model="withBoost" />
                         </label>
                     </div>
 
                     <div v-if="showTeams" class="space-y-3">
                         <div class="flex items-center gap-2">
-                            <Label for="teams">Teams</Label>
+                            <Label for="teams">{{ t('form.teams') }}</Label>
                             <InfoTooltip
-                                label="What is teams support?"
-                                tooltip="Adds team support to your application, including team membership and team-based data scoping. Available for Laravel starter kits with built-in authentication or WorkOS."
+                                :label="t('tooltips.teams_label')"
+                                :tooltip="t('tooltips.teams')"
                             />
                         </div>
                         <label
                             for="teams"
                             class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
                         >
-                            Include teams support
+                            {{ t('form.include_teams') }}
                             <Switch id="teams" v-model="withTeams" />
                         </label>
                     </div>
 
                     <div class="space-y-3">
                         <div class="flex items-center gap-2">
-                            <Label for="devcontainer">Devcontainer</Label>
+                            <Label for="devcontainer">{{ t('form.devcontainer') }}</Label>
                             <InfoTooltip
-                                label="What is a devcontainer?"
-                                tooltip="Generates a Devcontainer configuration so your application can run in a containerized development environment, such as VS Code Dev Containers or GitHub Codespaces."
+                                :label="t('tooltips.devcontainer_label')"
+                                :tooltip="t('tooltips.devcontainer')"
                             />
                         </div>
                         <label
                             for="devcontainer"
                             class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
                         >
-                            Include devcontainer
+                            {{ t('form.include_devcontainer') }}
                             <Switch
                                 id="devcontainer"
                                 v-model="withDevcontainer"
@@ -496,17 +481,17 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
 
                     <div class="space-y-3">
                         <div class="flex items-center gap-2">
-                            <Label for="no-node">Skip Node</Label>
+                            <Label for="no-node">{{ t('form.skip_node') }}</Label>
                             <InfoTooltip
-                                label="What does skip node do?"
-                                tooltip="Skips installing Node.js and running NPM build when the application is scaffolded. Useful for projects that do not require frontend build tooling."
+                                :label="t('tooltips.skip_node_label')"
+                                :tooltip="t('tooltips.skip_node')"
                             />
                         </div>
                         <label
                             for="no-node"
                             class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
                         >
-                            Skip Node.js install
+                            {{ t('form.skip_node_install') }}
                             <Switch
                                 id="no-node"
                                 v-model="withNoNode"
@@ -518,160 +503,44 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
         </Card>
 
         <Alert v-if="selectedStarterKit === 'custom'" class="mb-6">
-            <InfoIcon class="size-4" />
-            <AlertTitle>Custom Starter Kit</AlertTitle>
+            <AlertTitle>{{ t('custom_kit_alert.title') }}</AlertTitle>
             <AlertDescription>
-                Looking for a custom starter kit? Browse a collection of
-                community starter kits at
+                {{ t('custom_kit_alert.description').split('{link}')[0] }}
                 <a
                     href="https://github.com/tnylea/laravel-new"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="font-medium text-foreground underline underline-offset-4"
                     >github.com/tnylea/laravel-new</a
-                >. Note that some starter kits may not be supported and
-                installation may fail unexpectedly.
+                >{{ t('custom_kit_alert.description').split('{link}')[1] }}
             </AlertDescription>
         </Alert>
 
         <section class="mt-12">
             <h2 class="mb-4 text-base font-semibold tracking-tight">
-                Frequently Asked Questions
+                {{ t('faq.title') }}
             </h2>
             <Accordion type="single" collapsible>
-                <AccordionItem value="what-is-charter">
-                    <AccordionTrigger
-                        >What is Charter for Laravel?</AccordionTrigger
-                    >
+                <AccordionItem
+                    v-for="item in faqItems"
+                    :key="item.value"
+                    :value="item.value"
+                >
+                    <AccordionTrigger>{{ item.question }}</AccordionTrigger>
                     <AccordionContent>
-                        Picking the right options when spinning up a new Laravel
-                        app can feel like a lot. Charter gives you a friendly UI
-                        where you can pick the services, starter kit, and tools
-                        you want, then hands you a ready-to-run command. No more
-                        memorizing flags or digging through docs.
-                    </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="how-to-use">
-                    <AccordionTrigger>
-                        How do I use the generated command?
-                    </AccordionTrigger>
-                    <AccordionContent>
-                        Just copy the command, paste it into your terminal, and
-                        hit enter. It downloads the Laravel installer and runs
-                        it with the options you chose. Wait a minute or two and
-                        you'll have a fresh project ready to go.
-                    </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="starter-kit">
-                    <AccordionTrigger>What is a Starter Kit?</AccordionTrigger>
-                    <AccordionContent>
-                        Starter kits give your new app a head start with auth, a
-                        frontend setup, and common scaffolding out of the box.
-                        Laravel ships kits for Livewire, Vue, React, and Svelte,
-                        or you can point it at your own.
-                    </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="custom-starter-kit">
-                    <AccordionTrigger>
-                        Can I use a custom starter kit?
-                    </AccordionTrigger>
-                    <AccordionContent>
-                        Absolutely. Pick "custom" in the Starter Kit dropdown
-                        and paste in a URL. You can browse community kits at
-                        <a
-                            href="https://github.com/tnylea/laravel-new"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="font-medium text-foreground underline underline-offset-4"
-                            >github.com/tnylea/laravel-new</a
-                        >. Heads-up: since these are community-maintained, some
-                        may not be fully supported and installation can
-                        occasionally hit a snag.
-                    </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="laravel-boost">
-                    <AccordionTrigger>What is Laravel Boost?</AccordionTrigger>
-                    <AccordionContent>
-                        Boost is Laravel's official MCP toolkit that helps you
-                        build faster with AI-powered helpers. Toggle it on and
-                        your new app comes with it ready to go.
-                    </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="teams">
-                    <AccordionTrigger>
-                        What does the "Teams" option do?
-                    </AccordionTrigger>
-                    <AccordionContent>
-                        It adds team membership and team-based data scoping to
-                        your app — handy if you're building something where
-                        users belong to teams or workspaces. It's available for
-                        Laravel starter kits with built-in authentication or
-                        WorkOS.
-                    </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="devcontainer">
-                    <AccordionTrigger>What is a Devcontainer?</AccordionTrigger>
-                    <AccordionContent>
-                        It generates a Devcontainer configuration so your app
-                        can run in a containerized dev environment like VS Code
-                        Dev Containers or GitHub Codespaces. Great if you want a
-                        consistent, reproducible setup across machines.
-                    </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="affiliation">
-                    <AccordionTrigger>
-                        Is Charter for Laravel affiliated with Laravel?
-                    </AccordionTrigger>
-                    <AccordionContent>
-                        Nope. Charter is an independent, community-built project
-                        and isn't affiliated with, endorsed by, or sponsored by
-                        Laravel or Laravel Holdings Inc.
-                    </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="data-privacy">
-                    <AccordionTrigger>
-                        Is my data stored or sent anywhere?
-                    </AccordionTrigger>
-                    <AccordionContent>
-                        Not at all. Everything you configure here is generated
-                        in your browser — there's no server-side storage. When
-                        you're ready, the command is built entirely client-side
-                        and runs locally on your machine.
-                    </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="what-is-sail">
-                    <AccordionTrigger>
-                        What is Laravel Sail?
-                    </AccordionTrigger>
-                    <AccordionContent>
-                        Laravel Sail is a lightweight command-line interface for
-                        managing Laravel's default Docker development environment.
-                        It provides a pre-configured Docker Compose setup with
-                        services like MySQL, PostgreSQL, Redis, Mailpit, and
-                        more — so you don't need to install PHP, a web server,
-                        or other software on your local machine.
-                    </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="available-services">
-                    <AccordionTrigger>
-                        What services does Charter support?
-                    </AccordionTrigger>
-                    <AccordionContent>
-                        Charter supports all Sail services: MySQL, PostgreSQL,
-                        MariaDB, Redis, Typesense, Meilisearch, MinIO, Mailpit,
-                        and Selenium. You can toggle each one on or off and the
-                        generated command will include only what you need.
-                    </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="modify-command">
-                    <AccordionTrigger>
-                        Can I modify the generated command?
-                    </AccordionTrigger>
-                    <AccordionContent>
-                        Absolutely. The generated command is a standard
-                        <code>laravel new</code> invocation with Sail flags. You
-                        can edit it before running, or use it as a starting point
-                        and tweak the options to match your exact requirements.
+                        <template v-if="item.value === 'faq-3'">
+                            {{ t('faq.a3_prefix') }}
+                            <a
+                                href="https://github.com/tnylea/laravel-new"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="font-medium text-foreground underline underline-offset-4"
+                            >{{ t('faq.a3_url') }}</a>
+                            {{ t('faq.a3_suffix') }}
+                        </template>
+                        <template v-else>
+                            {{ item.answer }}
+                        </template>
                     </AccordionContent>
                 </AccordionItem>
             </Accordion>

@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { Link, router } from '@inertiajs/vue3';
 import AppFooter from '@/components/AppFooter.vue';
+import AppHeader from '@/components/AppHeader.vue';
 import { onMounted, ref, computed, shallowRef, watch, type Component } from 'vue';
 import { useColorMode } from '@vueuse/core';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const props = defineProps<{
     phpVersions: Record<string, number>;
@@ -94,7 +98,7 @@ const servicesData = computed<ChartDataType>(() => ({
     labels: Object.keys(props.services),
     datasets: [
         {
-            label: 'Services',
+            label: t('stats.label_services'),
             data: Object.values(props.services),
             backgroundColor: 'rgba(0, 122, 255, 0.06)',
             borderColor: accent.value,
@@ -199,12 +203,12 @@ function setQuickRange(days: number | 'ytd') {
 }
 
 const optionsData = computed<Record<string, number>>(() => ({
-    Teams: props.booleanOptions.teams,
-    'Laravel Boost': props.booleanOptions.boost,
-    Devcontainer: props.booleanOptions.devcontainer,
-    'Skip Node.js': props.booleanOptions.no_node,
-    'LW Class Components': props.booleanOptions.livewire_class_components,
-    'Custom Kit': props.booleanOptions.custom_starter_kit,
+    [t('stats.option_teams')]: props.booleanOptions.teams,
+    [t('stats.option_boost')]: props.booleanOptions.boost,
+    [t('stats.option_devcontainer')]: props.booleanOptions.devcontainer,
+    [t('stats.option_skip_node')]: props.booleanOptions.no_node,
+    [t('stats.option_lw_class_components')]: props.booleanOptions.livewire_class_components,
+    [t('stats.option_custom_kit')]: props.booleanOptions.custom_starter_kit,
 }));
 
 onMounted(async () => {
@@ -220,49 +224,49 @@ onMounted(async () => {
 </script>
 
 <template>
+    <AppHeader />
     <main class="mx-auto max-w-5xl px-4 py-12">
         <Link
             href="/"
             class="mb-8 inline-flex text-sm text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
         >
-            &larr; Back to Charter
+            {{ t('nav.back_to_charter') }}
         </Link>
 
         <h1 class="mb-2 text-2xl font-bold tracking-tight">
-            Usage Statistics
+            {{ t('stats.title') }}
         </h1>
         <p class="mb-8 text-sm text-muted-foreground">
-            Anonymous aggregate data from generated build commands.
-            No personal or identifying information is collected.
+            {{ t('stats.description') }}
         </p>
 
         <section class="mb-8 space-y-3 rounded-sm border border-border p-4">
-            <h2 class="text-sm font-semibold tracking-tight">Filter by date</h2>
+            <h2 class="text-sm font-semibold tracking-tight">{{ t('stats.filter_title') }}</h2>
             <div class="flex flex-wrap gap-2">
                 <button
                     type="button"
                     class="rounded-sm border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
                     @click="setQuickRange(7)"
-                >Last 7 days</button>
+                >{{ t('stats.last_7_days') }}</button>
                 <button
                     type="button"
                     class="rounded-sm border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
                     @click="setQuickRange(30)"
-                >Last 30 days</button>
+                >{{ t('stats.last_30_days') }}</button>
                 <button
                     type="button"
                     class="rounded-sm border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
                     @click="setQuickRange(90)"
-                >Last 3 months</button>
+                >{{ t('stats.last_3_months') }}</button>
                 <button
                     type="button"
                     class="rounded-sm border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
                     @click="setQuickRange('ytd')"
-                >Year to date</button>
+                >{{ t('stats.year_to_date') }}</button>
             </div>
             <div class="flex flex-wrap items-end gap-3">
                 <div class="flex flex-col gap-1">
-                    <label for="from" class="text-xs text-muted-foreground">From</label>
+                    <label for="from" class="text-xs text-muted-foreground">{{ t('stats.from') }}</label>
                     <input
                         id="from"
                         v-model="from"
@@ -271,7 +275,7 @@ onMounted(async () => {
                     />
                 </div>
                 <div class="flex flex-col gap-1">
-                    <label for="to" class="text-xs text-muted-foreground">To</label>
+                    <label for="to" class="text-xs text-muted-foreground">{{ t('stats.to') }}</label>
                     <input
                         id="to"
                         v-model="to"
@@ -284,7 +288,7 @@ onMounted(async () => {
                     class="h-9 rounded-sm bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:opacity-90"
                     @click="applyFilters"
                 >
-                    Apply
+                    {{ t('stats.apply') }}
                 </button>
                 <button
                     v-if="filters.from || filters.to"
@@ -292,19 +296,19 @@ onMounted(async () => {
                     class="h-9 rounded-sm border border-border px-4 text-sm text-muted-foreground transition-colors hover:text-foreground"
                     @click="clearFilters"
                 >
-                    Clear
+                    {{ t('stats.clear') }}
                 </button>
             </div>
         </section>
 
         <div class="mb-8 rounded-sm border border-border p-4 text-center">
-            <p class="text-xs text-muted-foreground">Total Builds</p>
+            <p class="text-xs text-muted-foreground">{{ t('stats.total_builds') }}</p>
             <p class="mt-1 text-3xl font-bold tracking-tight">{{ total }}</p>
         </div>
 
         <div v-if="mounted" class="grid grid-cols-1 gap-6 md:grid-cols-3">
             <section v-if="Object.keys(services).length" class="rounded-sm border border-border p-4 md:col-span-3">
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">[Services]</h2>
+                <h2 class="mb-4 text-sm font-semibold tracking-tight">{{ t('stats.chart_services') }}</h2>
                 <div class="h-72">
                     <component
                         :is="RadarChart"
@@ -315,66 +319,66 @@ onMounted(async () => {
             </section>
 
             <section v-if="Object.keys(phpVersions).length" class="rounded-sm border border-border p-4">
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">[PHP Versions]</h2>
+                <h2 class="mb-4 text-sm font-semibold tracking-tight">{{ t('stats.chart_php_versions') }}</h2>
                 <div class="h-48">
                     <component
                         :is="BarChart"
-                        :data="makeBarData('PHP Versions', phpVersions, chartPalette)"
+                        :data="makeBarData(t('stats.label_php_versions'), phpVersions, chartPalette)"
                         :options="chartOptions"
                     />
                 </div>
             </section>
 
             <section v-if="Object.keys(starterKits).length" class="rounded-sm border border-border p-4">
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">[Starter Kits]</h2>
+                <h2 class="mb-4 text-sm font-semibold tracking-tight">{{ t('stats.chart_starter_kits') }}</h2>
                 <div class="h-48">
                     <component
                         :is="BarChart"
-                        :data="makeBarData('Starter Kits', starterKits, chartPalette)"
+                        :data="makeBarData(t('stats.label_starter_kits'), starterKits, chartPalette)"
                         :options="chartOptions"
                     />
                 </div>
             </section>
 
             <section v-if="Object.keys(javascriptRuntimes).length" class="rounded-sm border border-border p-4">
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">[JavaScript Runtimes]</h2>
+                <h2 class="mb-4 text-sm font-semibold tracking-tight">{{ t('stats.chart_javascript_runtimes') }}</h2>
                 <div class="h-48">
                     <component
                         :is="BarChart"
-                        :data="makeBarData('JavaScript Runtimes', javascriptRuntimes, chartPalette)"
+                        :data="makeBarData(t('stats.label_javascript_runtimes'), javascriptRuntimes, chartPalette)"
                         :options="chartOptions"
                     />
                 </div>
             </section>
 
             <section v-if="Object.keys(authProviders).length" class="rounded-sm border border-border p-4">
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">[Auth Providers]</h2>
+                <h2 class="mb-4 text-sm font-semibold tracking-tight">{{ t('stats.chart_auth_providers') }}</h2>
                 <div class="h-48">
                     <component
                         :is="BarChart"
-                        :data="makeBarData('Auth Providers', authProviders, chartPalette)"
+                        :data="makeBarData(t('stats.label_auth_providers'), authProviders, chartPalette)"
                         :options="chartOptions"
                     />
                 </div>
             </section>
 
             <section v-if="Object.keys(testingFrameworks).length" class="rounded-sm border border-border p-4">
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">[Testing Frameworks]</h2>
+                <h2 class="mb-4 text-sm font-semibold tracking-tight">{{ t('stats.chart_testing_frameworks') }}</h2>
                 <div class="h-48">
                     <component
                         :is="BarChart"
-                        :data="makeBarData('Testing Frameworks', testingFrameworks, chartPalette)"
+                        :data="makeBarData(t('stats.label_testing_frameworks'), testingFrameworks, chartPalette)"
                         :options="chartOptions"
                     />
                 </div>
             </section>
 
             <section class="rounded-sm border border-border p-4 md:col-span-3">
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">[Options]</h2>
+                <h2 class="mb-4 text-sm font-semibold tracking-tight">{{ t('stats.chart_options') }}</h2>
                 <div class="h-48">
                     <component
                         :is="BarChart"
-                        :data="makeBarData('Options', optionsData, chartPalette)"
+                        :data="makeBarData(t('stats.label_options'), optionsData, chartPalette)"
                         :options="chartOptions"
                     />
                 </div>
@@ -382,7 +386,7 @@ onMounted(async () => {
         </div>
 
         <div v-else class="flex items-center justify-center py-12 text-sm text-muted-foreground">
-            Loading charts...
+            {{ t('stats.loading') }}
         </div>
 
         <AppFooter />
