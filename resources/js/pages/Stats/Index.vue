@@ -45,10 +45,10 @@ const mode = useColorMode();
 
 const isDark = computed(() => mode.value === 'dark');
 
-const ink = computed(() => (isDark.value ? '#fdfcfc' : '#201d1d'));
-const body = computed(() => (isDark.value ? '#fdfcfc' : '#424245'));
-const mute = computed(() => (isDark.value ? '#9a9898' : '#646262'));
-const surfaceCard = computed(() => (isDark.value ? '#302c2c' : '#f1eeee'));
+const ink = computed(() => (isDark.value ? '#ffffff' : '#171717'));
+const body = computed(() => (isDark.value ? '#ffffff' : '#424245'));
+const mute = computed(() => (isDark.value ? '#888888' : '#646262'));
+const surfaceCard = computed(() => (isDark.value ? '#222222' : '#f1eeee'));
 const accent = computed(() => (isDark.value ? '#4da6ff' : '#007aff'));
 const success = computed(() => (isDark.value ? '#5dd879' : '#30d158'));
 const warning = computed(() => (isDark.value ? '#ffb84d' : '#ff9f0a'));
@@ -117,7 +117,7 @@ const chartOptions = computed(() => ({
         tooltip: {
             titleFont: { family: monospaceFont, size: 11 },
             bodyFont: { family: monospaceFont, size: 11 },
-            backgroundColor: isDark.value ? '#302c2c' : '#fdfcfc',
+            backgroundColor: isDark.value ? '#222222' : '#fdfcfc',
             titleColor: ink.value,
             bodyColor: body.value,
             borderColor: surfaceCard.value,
@@ -146,7 +146,7 @@ const radarOptions = computed(() => ({
         tooltip: {
             titleFont: { family: monospaceFont, size: 11 },
             bodyFont: { family: monospaceFont, size: 11 },
-            backgroundColor: isDark.value ? '#302c2c' : '#fdfcfc',
+            backgroundColor: isDark.value ? '#222222' : '#fdfcfc',
             titleColor: ink.value,
             bodyColor: body.value,
             borderColor: surfaceCard.value,
