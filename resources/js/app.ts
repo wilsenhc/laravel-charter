@@ -25,11 +25,14 @@ createInertiaApp({
             i18n.global.locale.value = serverLocale;
         }
 
+        const app = createApp({ render: () => h(App, props) })
+            .use(plugin)
+            .use(i18n);
+
         if (typeof window !== 'undefined') {
-            createApp({ render: () => h(App, props) })
-                .use(plugin)
-                .use(i18n)
-                .mount(el);
+            app.mount(el);
         }
+
+        return app;
     },
 });
