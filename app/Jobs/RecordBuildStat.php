@@ -16,6 +16,10 @@ class RecordBuildStat implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    /**
+     * @param  array<string, string|bool|null>  $data
+     * @param  list<string>  $services
+     */
     public function __construct(
         public array $data,
         public array $services,
