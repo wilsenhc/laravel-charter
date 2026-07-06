@@ -505,14 +505,22 @@ const faqItems = computed(() => {
         <Alert v-if="selectedStarterKit === 'custom'" class="mb-6">
             <AlertTitle>{{ t('custom_kit_alert.title') }}</AlertTitle>
             <AlertDescription>
-                {{ t('custom_kit_alert.description').split('{link}')[0] }}
+                {{
+                    t('custom_kit_alert.description', {
+                        link: '\x00',
+                    }).split('\x00')[0]
+                }}
                 <a
                     href="https://github.com/tnylea/laravel-new"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="font-medium text-foreground underline underline-offset-4"
                     >github.com/tnylea/laravel-new</a
-                >{{ t('custom_kit_alert.description').split('{link}')[1] }}
+                >{{
+                    t('custom_kit_alert.description', {
+                        link: '\x00',
+                    }).split('\x00')[1]
+                }}
             </AlertDescription>
         </Alert>
 
