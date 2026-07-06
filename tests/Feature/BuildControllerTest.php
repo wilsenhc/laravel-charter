@@ -1,6 +1,7 @@
 <?php
 
-use App\Models\Stat;
+use App\Jobs\RecordBuildStat;
+use Illuminate\Support\Facades\Queue;
 use Inertia\Testing\AssertableInertia as Assert;
 
 describe('index', function () {
@@ -362,47 +363,103 @@ describe('show', function () {
     });
 
     test('stores anonymous stats on build request', function () {
-        $this->get('/build?name=my-app&services=redis,pgsql&frontend=react&javascript=bun&auth=laravel&testing=pest&php=8.5&boost');
+        Queue::fake();
 
-        $this->assertDatabaseHas('stats', [
-            'php_version' => '8.5',
-            'starter_kit' => 'react',
-            'custom_starter_kit' => false,
-            'javascript_runtime' => 'bun',
-            'auth_provider' => 'laravel',
-            'testing_framework' => 'pest',
-            'teams' => false,
-            'boost' => true,
-            'devcontainer' => false,
-            'no_node' => false,
-            'livewire_class_components' => false,
-        ]);
+        $this->withHeader('User-Agent', 'curl/8.5')
+            ->get('/build?name=my-app&services=redis,pgsql&frontend=react&javascript=bun&auth=laravel&testing=pest&php=8.5&boost');
+
+        Queue::assertPushed(RecordBuildStat::class, function (RecordBuildStat $job) {
+            return $job->data['php_version'] === '8.5'
+                && $job->data['starter_kit'] === 'react'
+                && $job->data['custom_starter_kit'] === false
+                && $job->data['javascript_runtime'] === 'bun'
+                && $job->data['auth_provider'] === 'laravel'
+                && $job->data['testing_framework'] === 'pest'
+                && $job->data['teams'] === false
+                && $job->data['boost'] === true
+                && $job->data['devcontainer'] === false
+                && $job->data['no_node'] === false
+                && $job->data['livewire_class_components'] === false;
+        });
     });
 
     test('stores services in pivot table', function () {
-        $this->get('/build?name=my-app&services=redis,pgsql');
+        Queue::fake();
 
-        $stat = Stat::first();
+        $this->withHeader('User-Agent', 'curl/8.5')
+            ->get('/build?name=my-app&services=redis,pgsql');
 
-        expect($stat->services->pluck('name')->toArray())
-            ->toEqualCanonicalizing(['redis', 'pgsql']);
+        Queue::assertPushed(RecordBuildStat::class, function (RecordBuildStat $job) {
+            return $job->services === ['redis', 'pgsql'];
+        });
     });
 
     test('does not store name or custom url or ip', function () {
-        $this->get('/build?name=my-secret-app&services=redis&frontend=custom&using=https://example.com/kit');
+        Queue::fake();
 
-        $stat = Stat::first();
+        $this->withHeader('User-Agent', 'curl/8.5')
+            ->get('/build?name=my-secret-app&services=redis&frontend=custom&using=https://example.com/kit');
 
-        expect($stat)
-            ->custom_starter_kit->toBeTrue()
-            ->starter_kit->toBe('custom');
+        Queue::assertPushed(RecordBuildStat::class, function (RecordBuildStat $job) {
+            return $job->data['custom_starter_kit'] === true
+                && $job->data['starter_kit'] === 'custom';
+        });
     });
 
     test('stores none services without pivot entries', function () {
-        $this->get('/build?name=my-app&services=none');
+        Queue::fake();
 
-        $stat = Stat::first();
+        $this->withHeader('User-Agent', 'curl/8.5')
+            ->get('/build?name=my-app&services=none');
 
-        expect($stat->services)->toBeEmpty();
+        Queue::assertPushed(RecordBuildStat::class, function (RecordBuildStat $job) {
+            return $job->services === ['none'];
+        });
+    });
+
+    describe('user agent filtering', function () {
+        test('passes browser user agent to the job', function () {
+            Queue::fake();
+
+            $this->withHeader('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/134.0.0.0 Safari/537.36')
+                ->get('/build?name=my-app');
+
+            Queue::assertPushed(RecordBuildStat::class, function (RecordBuildStat $job) {
+                return str_contains($job->userAgent, 'Mozilla');
+            });
+        });
+
+        test('passes crawler user agent to the job', function () {
+            Queue::fake();
+
+            $this->withHeader('User-Agent', 'Googlebot/2.1')
+                ->get('/build?name=my-app');
+
+            Queue::assertPushed(RecordBuildStat::class, function (RecordBuildStat $job) {
+                return str_contains($job->userAgent, 'Googlebot');
+            });
+        });
+
+        test('passes curl user agent to the job', function () {
+            Queue::fake();
+
+            $this->withHeader('User-Agent', 'curl/8.5.0')
+                ->get('/build?name=my-app');
+
+            Queue::assertPushed(RecordBuildStat::class, function (RecordBuildStat $job) {
+                return $job->userAgent === 'curl/8.5.0';
+            });
+        });
+
+        test('passes empty string for missing or empty user agent', function () {
+            Queue::fake();
+
+            $this->withHeader('User-Agent', '')
+                ->get('/build?name=my-app');
+
+            Queue::assertPushed(RecordBuildStat::class, function (RecordBuildStat $job) {
+                return $job->userAgent === '';
+            });
+        });
     });
 });
