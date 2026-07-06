@@ -10,7 +10,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Str;
 
 class RecordBuildStat implements ShouldQueue
 {
@@ -23,18 +22,19 @@ class RecordBuildStat implements ShouldQueue
     public function __construct(
         public array $data,
         public array $services,
-        public string $userAgent,
     ) {}
 
     public function handle(): void
     {
-        if (Str::contains($this->userAgent, 'Mozilla')) {
-            return;
-        }
+        $data = $this->data;
+        ksort($data);
+
+        $services = $this->services;
+        sort($services);
 
         $fingerprint = hash('sha256', serialize([
-            ...$this->data,
-            'services' => $this->services,
+            ...$data,
+            'services' => $services,
         ]));
 
         if (! Cache::add("stat_dedup:{$fingerprint}", true, 600)) {

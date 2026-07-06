@@ -7,6 +7,7 @@ use App\Jobs\RecordBuildStat;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
 
@@ -92,23 +93,24 @@ class BuildController extends Controller
             ],
         );
 
-        RecordBuildStat::dispatch(
-            data: [
-                'php_version' => $php,
-                'starter_kit' => $frontend ?? 'none',
-                'custom_starter_kit' => $frontend === 'custom',
-                'javascript_runtime' => $javascript,
-                'auth_provider' => $auth,
-                'testing_framework' => $testing,
-                'teams' => $teams,
-                'boost' => $request->has('boost'),
-                'devcontainer' => $request->has('devcontainer'),
-                'no_node' => $noNodeFlag !== null,
-                'livewire_class_components' => $livewireClassComponents,
-            ],
-            services: $servicesArray,
-            userAgent: $request->userAgent() ?? '',
-        );
+        if (! Str::contains($request->userAgent() ?? '', 'Mozilla')) {
+            RecordBuildStat::dispatch(
+                data: [
+                    'php_version' => $php,
+                    'starter_kit' => $frontend ?? 'none',
+                    'custom_starter_kit' => $frontend === 'custom',
+                    'javascript_runtime' => $javascript,
+                    'auth_provider' => $auth,
+                    'testing_framework' => $testing,
+                    'teams' => $teams,
+                    'boost' => $request->has('boost'),
+                    'devcontainer' => $request->has('devcontainer'),
+                    'no_node' => $noNodeFlag !== null,
+                    'livewire_class_components' => $livewireClassComponents,
+                ],
+                services: $servicesArray,
+            );
+        }
 
         return response($script, 200, ['Content-Type' => 'text/plain']);
     }

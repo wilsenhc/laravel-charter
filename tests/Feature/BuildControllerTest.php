@@ -418,48 +418,40 @@ describe('show', function () {
     });
 
     describe('user agent filtering', function () {
-        test('passes browser user agent to the job', function () {
+        test('does not dispatch job for browser requests', function () {
             Queue::fake();
 
             $this->withHeader('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/134.0.0.0 Safari/537.36')
                 ->get('/build?name=my-app');
 
-            Queue::assertPushed(RecordBuildStat::class, function (RecordBuildStat $job) {
-                return str_contains($job->userAgent, 'Mozilla');
-            });
+            Queue::assertNotPushed(RecordBuildStat::class);
         });
 
-        test('passes crawler user agent to the job', function () {
+        test('does not dispatch job for browser-based crawler requests', function () {
             Queue::fake();
 
-            $this->withHeader('User-Agent', 'Googlebot/2.1')
+            $this->withHeader('User-Agent', 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)')
                 ->get('/build?name=my-app');
 
-            Queue::assertPushed(RecordBuildStat::class, function (RecordBuildStat $job) {
-                return str_contains($job->userAgent, 'Googlebot');
-            });
+            Queue::assertNotPushed(RecordBuildStat::class);
         });
 
-        test('passes curl user agent to the job', function () {
+        test('dispatches job for curl requests', function () {
             Queue::fake();
 
             $this->withHeader('User-Agent', 'curl/8.5.0')
                 ->get('/build?name=my-app');
 
-            Queue::assertPushed(RecordBuildStat::class, function (RecordBuildStat $job) {
-                return $job->userAgent === 'curl/8.5.0';
-            });
+            Queue::assertPushed(RecordBuildStat::class);
         });
 
-        test('passes empty string for missing or empty user agent', function () {
+        test('dispatches job for empty user agent header', function () {
             Queue::fake();
 
             $this->withHeader('User-Agent', '')
                 ->get('/build?name=my-app');
 
-            Queue::assertPushed(RecordBuildStat::class, function (RecordBuildStat $job) {
-                return $job->userAgent === '';
-            });
+            Queue::assertPushed(RecordBuildStat::class);
         });
     });
 });
