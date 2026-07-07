@@ -2,28 +2,47 @@
 import { Link } from '@inertiajs/vue3';
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
 import AppearanceSwitcher from '@/components/AppearanceSwitcher.vue';
+import { Button } from '@/components/ui/button';
 import { useI18n } from 'vue-i18n';
+import { ref, onMounted, onUnmounted } from 'vue';
 
 const { t } = useI18n();
+
+const isScrolled = ref(false);
+
+function onScroll() {
+    isScrolled.value = window.scrollY > 0;
+}
+
+onMounted(() => {
+    window.addEventListener('scroll', onScroll, { passive: true });
+});
+
+onUnmounted(() => {
+    window.removeEventListener('scroll', onScroll);
+});
 </script>
 
 <template>
     <header
-        class="flex h-14 items-center justify-between border-b border-border px-5"
+        class="sticky top-0 z-50 flex h-14 items-center justify-between border-b border-border bg-background px-5 transition-[background-color,backdrop-filter] duration-300"
+        :class="{ 'bg-background/80 backdrop-blur-xl': isScrolled }"
     >
         <Link href="/" class="text-base font-bold tracking-tight hover:underline">{{ t('header.app_name') }}</Link>
         <div class="flex items-center gap-3">
-            <a
+            <Button
+                variant="outline"
+                size="sm"
+                as="a"
                 href="https://github.com/wilsenhc/laravel-charter"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    class="size-4"
+                    class="size-3.5"
                     aria-hidden="true"
                 >
                     <path
@@ -31,7 +50,7 @@ const { t } = useI18n();
                     />
                 </svg>
                 {{ t('nav.github') }}
-            </a>
+            </Button>
             <LanguageSwitcher />
             <AppearanceSwitcher />
         </div>

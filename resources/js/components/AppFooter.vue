@@ -10,7 +10,7 @@ const { t } = useI18n();
     <footer
         class="mt-12 flex flex-col items-center gap-3 border-t border-border pt-8 text-center text-sm text-muted-foreground"
     >
-        <div class="flex items-center gap-4">
+        <div class="flex items-center justify-center gap-4">
             <a
                 href="https://github.com/wilsenhc/laravel-charter"
                 target="_blank"
@@ -39,7 +39,8 @@ const { t } = useI18n();
                 <HeartIcon class="size-4" aria-hidden="true" />
                 {{ t('nav.sponsor') }}
             </a>
-            <span class="text-border">|</span>
+        </div>
+        <div class="flex items-center justify-center gap-4">
             <Link
                 href="/stats"
                 prefetch
@@ -55,6 +56,7 @@ const { t } = useI18n();
             >
                 {{ t('nav.privacy') }}
             </Link>
+            <span class="text-border">|</span>
             <Link
                 href="/terms"
                 prefetch
