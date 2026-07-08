@@ -173,7 +173,7 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
 
 const faqItems = computed(() => {
     const items = [];
-    for (let i = 0; i <= 11; i++) {
+    for (let i = 0; i <= 7; i++) {
         items.push({
             value: `faq-${i}`,
             question: t(`faq.q${i}`),
@@ -194,25 +194,14 @@ const faqItems = computed(() => {
             <p class="text-sm text-muted-foreground">
                 {{ t('hero.description') }}
             </p>
+            <a
+                href="#how-it-works"
+                class="inline-flex text-xs text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
+            >
+                {{ t('how_it_works.learn_link') }} &darr;
+            </a>
         </section>
 
-        <section class="mb-8 space-y-4">
-            <h2 class="text-base font-semibold tracking-tight">{{ t('how_it_works.title') }}</h2>
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <div class="space-y-2 rounded-sm border border-border p-4">
-                    <span class="text-lg font-bold text-foreground">{{ t('how_it_works.step1_title') }}</span>
-                    <p class="text-sm text-muted-foreground">{{ t('how_it_works.step1_desc') }}</p>
-                </div>
-                <div class="space-y-2 rounded-sm border border-border p-4">
-                    <span class="text-lg font-bold text-foreground">{{ t('how_it_works.step2_title') }}</span>
-                    <p class="text-sm text-muted-foreground">{{ t('how_it_works.step2_desc') }}</p>
-                </div>
-                <div class="space-y-2 rounded-sm border border-border p-4">
-                    <span class="text-lg font-bold text-foreground">{{ t('how_it_works.step3_title') }}</span>
-                    <p class="text-sm text-muted-foreground">{{ t('how_it_works.step3_desc') }}</p>
-                </div>
-            </div>
-        </section>
 
         <Card class="mb-6">
             <CardContent class="space-y-5">
@@ -524,6 +513,24 @@ const faqItems = computed(() => {
             </AlertDescription>
         </Alert>
 
+        <section id="how-it-works" class="mb-8 scroll-mt-20 space-y-4">
+            <h2 class="text-base font-semibold tracking-tight">{{ t('how_it_works.title') }}</h2>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <div class="space-y-2 rounded-sm border border-border p-4">
+                    <span class="text-lg font-bold text-foreground">{{ t('how_it_works.step1_title') }}</span>
+                    <p class="text-sm text-muted-foreground">{{ t('how_it_works.step1_desc') }}</p>
+                </div>
+                <div class="space-y-2 rounded-sm border border-border p-4">
+                    <span class="text-lg font-bold text-foreground">{{ t('how_it_works.step2_title') }}</span>
+                    <p class="text-sm text-muted-foreground">{{ t('how_it_works.step2_desc') }}</p>
+                </div>
+                <div class="space-y-2 rounded-sm border border-border p-4">
+                    <span class="text-lg font-bold text-foreground">{{ t('how_it_works.step3_title') }}</span>
+                    <p class="text-sm text-muted-foreground">{{ t('how_it_works.step3_desc') }}</p>
+                </div>
+            </div>
+        </section>
+
         <section class="mt-12">
             <h2 class="mb-4 text-base font-semibold tracking-tight">
                 {{ t('faq.title') }}
@@ -536,15 +543,15 @@ const faqItems = computed(() => {
                 >
                     <AccordionTrigger>{{ item.question }}</AccordionTrigger>
                     <AccordionContent>
-                        <template v-if="item.value === 'faq-3'">
-                            {{ t('faq.a3_prefix') }}
+                        <template v-if="item.value === 'faq-2'">
+                            {{ t('faq.a2') }}
                             <a
                                 href="https://github.com/tnylea/laravel-new"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 class="font-medium text-foreground underline underline-offset-4"
-                            >{{ t('faq.a3_url') }}</a>
-                            {{ t('faq.a3_suffix') }}
+                            >{{ t('faq.a2_url') }}</a>
+                            {{ t('faq.a2_suffix') }}
                         </template>
                         <template v-else>
                             {{ item.answer }}
