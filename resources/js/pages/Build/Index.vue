@@ -145,10 +145,7 @@ const generatedUrl = computed(() => {
     let auth = '';
     let using = '';
 
-    if (
-        selectedStarterKit.value !== 'custom' &&
-        selectedAuth.value !== 'laravel'
-    ) {
+    if (selectedStarterKit.value !== 'custom') {
         auth = `&auth=${selectedAuth.value}`;
     }
 

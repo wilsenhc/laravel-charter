@@ -24,6 +24,7 @@ class BuildShowRequest extends FormRequest
         $this->merge([
             'services' => $services === 'none' ? ['none'] : explode(',', $services),
             'frontend' => $this->query('frontend', 'none'),
+            'auth' => $this->query('auth', 'laravel'),
             'testing' => $this->query('testing', 'pest'),
             'php' => $this->query('php', '8.5'),
             'teams' => $this->has('teams'),
