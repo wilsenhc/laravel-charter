@@ -294,7 +294,15 @@ const faqItems = computed(() => {
                 </Field>
 
                 <Field>
-                    <FieldLabel>{{ t('form.database_driver') }}</FieldLabel>
+                    <div class="flex items-center gap-2">
+                        <Label for="database-driver">{{
+                            t('form.database_driver')
+                        }}</Label>
+                        <InfoTooltip
+                            :label="t('tooltips.database_driver_label')"
+                            :tooltip="t('tooltips.database_driver')"
+                        />
+                    </div>
                     <Select
                         :model-value="selectedDatabase"
                         @update:model-value="onDatabaseChange"

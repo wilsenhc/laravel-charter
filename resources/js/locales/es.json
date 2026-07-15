@@ -49,7 +49,7 @@
         "include_devcontainer": "Incluir devcontainer",
         "skip_node": "Omitir Node",
         "skip_node_install": "Omitir instalación de Node.js",
-        "database_driver": "Base de datos",
+        "database_driver": "Controlador de Base de datos",
         "select_database": "Selecciona un controlador de base de datos",
         "database_none": "Ninguno"
     },
@@ -67,7 +67,9 @@
         "devcontainer_label": "¿Qué es un devcontainer?",
         "devcontainer": "Genera una configuración Devcontainer para que tu aplicación pueda ejecutarse en un entorno de desarrollo containerizado, como VS Code Dev Containers o GitHub Codespaces.",
         "skip_node_label": "¿Qué hace omitir Node?",
-        "skip_node": "Omite la instalación de Node.js y la ejecución de NPM build al generar la aplicación. Útil para proyectos que no requieren herramientas de build frontend."
+        "skip_node": "Omite la instalación de Node.js y la ejecución de NPM build al generar la aplicación. Útil para proyectos que no requieren herramientas de build frontend.",
+        "database_driver_label": "¿Qué hace el controlador de base de datos?",
+        "database_driver": "Define la conexión de base de datos en tu archivo .env. SQLite funciona sin servicios Docker; otros controladores requieren el servicio correspondiente activado arriba."
     },
     "custom_kit_alert": {
         "title": "Starter Kit personalizado",

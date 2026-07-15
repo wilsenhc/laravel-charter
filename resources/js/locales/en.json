@@ -49,7 +49,7 @@
         "include_devcontainer": "Include devcontainer",
         "skip_node": "Skip Node",
         "skip_node_install": "Skip Node.js install",
-        "database_driver": "Database",
+        "database_driver": "Database Driver",
         "select_database": "Select a database driver",
         "database_none": "None"
     },
@@ -67,7 +67,9 @@
         "devcontainer_label": "What is a devcontainer?",
         "devcontainer": "Generates a Devcontainer configuration so your application can run in a containerized development environment, such as VS Code Dev Containers or GitHub Codespaces.",
         "skip_node_label": "What does skip node do?",
-        "skip_node": "Skips installing Node.js and running NPM build when the application is scaffolded. Useful for projects that do not require frontend build tooling."
+        "skip_node": "Skips installing Node.js and running NPM build when the application is scaffolded. Useful for projects that do not require frontend build tooling.",
+        "database_driver_label": "What does the database driver do?",
+        "database_driver": "Sets the default database connection in your .env file. SQLite works without any Docker services; other drivers require the matching service to be enabled above."
     },
     "custom_kit_alert": {
         "title": "Custom Starter Kit",
