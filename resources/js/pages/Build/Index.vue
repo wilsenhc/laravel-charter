@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import AppFooter from '@/components/AppFooter.vue';
-import AppHeader from '@/components/AppHeader.vue';
-import InfoTooltip from '@/components/InfoTooltip.vue';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import {
     availableAuthProviders,
+    availableDatabaseDrivers,
     availableJavascriptRuntimes,
     availablePhpVersions,
     availableServices,
     availableStarterKits,
     availableTestingFrameworks,
 } from '@/build';
+import AppFooter from '@/components/AppFooter.vue';
+import AppHeader from '@/components/AppHeader.vue';
 import CodeBlock from '@/components/CodeBlock.vue';
+import InfoTooltip from '@/components/InfoTooltip.vue';
 import {
     Accordion,
     AccordionContent,
@@ -44,13 +45,7 @@ const isLocal = import.meta.env.DEV;
 
 const appName = ref('new-laravel');
 const appNameError = ref('');
-const selectedServices = ref([
-    'pgsql',
-    'redis',
-    'typesense',
-    'minio',
-    'mailpit',
-]);
+const selectedServices = ref([]);
 const selectedStarterKit = ref('react');
 const customStarterKitUrl = ref('');
 const customStarterKitUrlError = ref('');
@@ -63,6 +58,8 @@ const withDevcontainer = ref(false);
 const withNoNode = ref(false);
 const withLivewireClassComponents = ref(false);
 const selectedPhpVersion = ref('8.5');
+const selectedDatabase = ref('none');
+const hasManuallyChangedDatabase = ref(false);
 
 const services = ref([...availableServices]);
 const starterKit = ref([...availableStarterKits]);
@@ -70,6 +67,7 @@ const javascriptRuntime = ref([...availableJavascriptRuntimes]);
 const authProvider = ref([...availableAuthProviders]);
 const testingFramework = ref([...availableTestingFrameworks]);
 const phpVersions = ref([...availablePhpVersions]);
+const databaseDrivers = ref([...availableDatabaseDrivers]);
 
 const toggleService = (service: string) => {
     if (selectedServices.value.includes(service)) {
@@ -126,6 +124,25 @@ const validateCustomUrl = () => {
     }
 };
 
+const databaseServiceNames = ['mysql', 'mariadb', 'pgsql'];
+
+watch(selectedServices, (newServices) => {
+    if (hasManuallyChangedDatabase.value) {
+        return;
+    }
+
+    const lastDbService = newServices
+        .filter((s) => databaseServiceNames.includes(s))
+        .at(-1);
+
+    selectedDatabase.value = lastDbService ?? 'none';
+});
+
+const onDatabaseChange = (value: string) => {
+    hasManuallyChangedDatabase.value = true;
+    selectedDatabase.value = value;
+};
+
 const laravelStarterKits = ['livewire', 'vue', 'react', 'svelte'];
 
 const showTeams = computed(
@@ -158,18 +175,24 @@ const generatedUrl = computed(() => {
     const devcontainer = withDevcontainer.value ? '&devcontainer' : '';
     const noNode = withNoNode.value ? '&no-node' : '';
     const livewireClassComponents =
-        selectedStarterKit.value === 'livewire' && withLivewireClassComponents.value
+        selectedStarterKit.value === 'livewire' &&
+        withLivewireClassComponents.value
             ? '&livewire-class-components'
             : '';
     const php = `&php=${selectedPhpVersion.value}`;
+    const database =
+        selectedDatabase.value !== 'none'
+            ? `&database=${selectedDatabase.value}`
+            : '';
 
-    return `${baseUrl}${nameParam}${serviceParams}${frontend}${javascript}${testing}${auth}${teams}${boost}${devcontainer}${noNode}${livewireClassComponents}${php}${using}`;
+    return `${baseUrl}${nameParam}${serviceParams}${frontend}${javascript}${testing}${auth}${teams}${boost}${devcontainer}${noNode}${livewireClassComponents}${php}${database}${using}`;
 });
 
 const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
 
 const faqItems = computed(() => {
     const items = [];
+
     for (let i = 0; i <= 7; i++) {
         items.push({
             value: `faq-${i}`,
@@ -177,6 +200,7 @@ const faqItems = computed(() => {
             answer: t(`faq.a${i}`),
         });
     }
+
     return items;
 });
 </script>
@@ -199,12 +223,13 @@ const faqItems = computed(() => {
             </a>
         </section>
 
-
         <Card class="mb-6">
             <CardContent class="space-y-5">
                 <div class="grid grid-cols-1 gap-5 sm:grid-cols-[1fr_auto]">
                     <Field :data-invalid="!!appNameError">
-                        <FieldLabel for="app-name">{{ t('form.application_name') }}</FieldLabel>
+                        <FieldLabel for="app-name">{{
+                            t('form.application_name')
+                        }}</FieldLabel>
                         <Input
                             id="app-name"
                             v-model="appName"
@@ -216,7 +241,9 @@ const faqItems = computed(() => {
                         }}</FieldError>
                     </Field>
                     <Field>
-                        <FieldLabel for="php-version">{{ t('form.php_version') }}</FieldLabel>
+                        <FieldLabel for="php-version">{{
+                            t('form.php_version')
+                        }}</FieldLabel>
                         <Select v-model="selectedPhpVersion">
                             <SelectTrigger id="php-version" class="w-28">
                                 <SelectValue placeholder="PHP">
@@ -266,6 +293,34 @@ const faqItems = computed(() => {
                     </div>
                 </Field>
 
+                <Field>
+                    <FieldLabel>{{ t('form.database_driver') }}</FieldLabel>
+                    <Select
+                        :model-value="selectedDatabase"
+                        @update:model-value="onDatabaseChange"
+                    >
+                        <SelectTrigger id="database-driver" class="w-full">
+                            <SelectValue
+                                :placeholder="t('form.select_database')"
+                            >
+                                {{ selectedDatabase }}
+                            </SelectValue>
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="none">
+                                {{ t('form.database_none') }}
+                            </SelectItem>
+                            <SelectItem
+                                v-for="driver in databaseDrivers"
+                                :key="driver"
+                                :value="driver"
+                            >
+                                {{ driver }}
+                            </SelectItem>
+                        </SelectContent>
+                    </Select>
+                </Field>
+
                 <div>
                     <CodeBlock :code="command" />
                     <p
@@ -294,10 +349,14 @@ const faqItems = computed(() => {
                     class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3"
                 >
                     <Field>
-                        <FieldLabel for="starter-kit">{{ t('form.starter_kit') }}</FieldLabel>
+                        <FieldLabel for="starter-kit">{{
+                            t('form.starter_kit')
+                        }}</FieldLabel>
                         <Select v-model="selectedStarterKit">
                             <SelectTrigger id="starter-kit" class="w-full">
-                                <SelectValue :placeholder="t('form.select_starter_kit')">
+                                <SelectValue
+                                    :placeholder="t('form.select_starter_kit')"
+                                >
                                     {{ selectedStarterKit }}
                                 </SelectValue>
                             </SelectTrigger>
@@ -317,9 +376,9 @@ const faqItems = computed(() => {
                         v-if="selectedStarterKit === 'custom'"
                         :data-invalid="!!customStarterKitUrlError"
                     >
-                        <FieldLabel for="custom-url"
-                            >{{ t('form.custom_starter_kit_url') }}</FieldLabel
-                        >
+                        <FieldLabel for="custom-url">{{
+                            t('form.custom_starter_kit_url')
+                        }}</FieldLabel>
                         <Input
                             id="custom-url"
                             v-model="customStarterKitUrl"
@@ -332,12 +391,14 @@ const faqItems = computed(() => {
                     </Field>
 
                     <Field>
-                        <FieldLabel for="js-runtime"
-                            >{{ t('form.javascript_runtime') }}</FieldLabel
-                        >
+                        <FieldLabel for="js-runtime">{{
+                            t('form.javascript_runtime')
+                        }}</FieldLabel>
                         <Select v-model="selectedJavascriptRuntime">
                             <SelectTrigger id="js-runtime" class="w-full">
-                                <SelectValue :placeholder="t('form.select_runtime')">
+                                <SelectValue
+                                    :placeholder="t('form.select_runtime')"
+                                >
                                     {{ selectedJavascriptRuntime }}
                                 </SelectValue>
                             </SelectTrigger>
@@ -354,10 +415,14 @@ const faqItems = computed(() => {
                     </Field>
 
                     <Field>
-                        <FieldLabel for="testing">{{ t('form.testing_framework') }}</FieldLabel>
+                        <FieldLabel for="testing">{{
+                            t('form.testing_framework')
+                        }}</FieldLabel>
                         <Select v-model="selectedTesting">
                             <SelectTrigger id="testing" class="w-full">
-                                <SelectValue :placeholder="t('form.select_framework')">
+                                <SelectValue
+                                    :placeholder="t('form.select_framework')"
+                                >
                                     {{ selectedTesting }}
                                 </SelectValue>
                             </SelectTrigger>
@@ -374,11 +439,15 @@ const faqItems = computed(() => {
                     </Field>
 
                     <Field v-if="selectedStarterKit !== 'custom'">
-                        <FieldLabel for="auth">{{ t('form.auth_provider') }}</FieldLabel>
+                        <FieldLabel for="auth">{{
+                            t('form.auth_provider')
+                        }}</FieldLabel>
                         <Select v-model="selectedAuth">
                             <SelectTrigger id="auth" class="w-full">
                                 <SelectValue
-                                    :placeholder="t('form.select_auth_provider')"
+                                    :placeholder="
+                                        t('form.select_auth_provider')
+                                    "
                                 >
                                     {{ selectedAuth }}
                                 </SelectValue>
@@ -395,14 +464,23 @@ const faqItems = computed(() => {
                         </Select>
                     </Field>
 
-                    <div v-if="selectedStarterKit === 'livewire'" class="space-y-3">
+                    <div
+                        v-if="selectedStarterKit === 'livewire'"
+                        class="space-y-3"
+                    >
                         <div class="flex items-center gap-2">
-                            <Label for="livewire-class-components"
-                                >{{ t('form.livewire_class_components') }}</Label
-                            >
+                            <Label for="livewire-class-components">{{
+                                t('form.livewire_class_components')
+                            }}</Label>
                             <InfoTooltip
-                                :label="t('tooltips.livewire_class_components_label')"
-                                :tooltip="t('tooltips.livewire_class_components')"
+                                :label="
+                                    t(
+                                        'tooltips.livewire_class_components_label',
+                                    )
+                                "
+                                :tooltip="
+                                    t('tooltips.livewire_class_components')
+                                "
                             />
                         </div>
                         <label
@@ -447,7 +525,9 @@ const faqItems = computed(() => {
 
                     <div class="space-y-3">
                         <div class="flex items-center gap-2">
-                            <Label for="devcontainer">{{ t('form.devcontainer') }}</Label>
+                            <Label for="devcontainer">{{
+                                t('form.devcontainer')
+                            }}</Label>
                             <InfoTooltip
                                 :label="t('tooltips.devcontainer_label')"
                                 :tooltip="t('tooltips.devcontainer')"
@@ -467,7 +547,9 @@ const faqItems = computed(() => {
 
                     <div class="space-y-3">
                         <div class="flex items-center gap-2">
-                            <Label for="no-node">{{ t('form.skip_node') }}</Label>
+                            <Label for="no-node">{{
+                                t('form.skip_node')
+                            }}</Label>
                             <InfoTooltip
                                 :label="t('tooltips.skip_node_label')"
                                 :tooltip="t('tooltips.skip_node')"
@@ -478,10 +560,7 @@ const faqItems = computed(() => {
                             class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
                         >
                             {{ t('form.skip_node_install') }}
-                            <Switch
-                                id="no-node"
-                                v-model="withNoNode"
-                            />
+                            <Switch id="no-node" v-model="withNoNode" />
                         </label>
                     </div>
                 </div>
@@ -511,19 +590,33 @@ const faqItems = computed(() => {
         </Alert>
 
         <section id="how-it-works" class="mb-8 scroll-mt-20 space-y-4">
-            <h2 class="text-base font-semibold tracking-tight">{{ t('how_it_works.title') }}</h2>
+            <h2 class="text-base font-semibold tracking-tight">
+                {{ t('how_it_works.title') }}
+            </h2>
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <div class="space-y-2 rounded-sm border border-border p-4">
-                    <span class="text-lg font-bold text-foreground">{{ t('how_it_works.step1_title') }}</span>
-                    <p class="text-sm text-muted-foreground">{{ t('how_it_works.step1_desc') }}</p>
+                    <span class="text-lg font-bold text-foreground">{{
+                        t('how_it_works.step1_title')
+                    }}</span>
+                    <p class="text-sm text-muted-foreground">
+                        {{ t('how_it_works.step1_desc') }}
+                    </p>
                 </div>
                 <div class="space-y-2 rounded-sm border border-border p-4">
-                    <span class="text-lg font-bold text-foreground">{{ t('how_it_works.step2_title') }}</span>
-                    <p class="text-sm text-muted-foreground">{{ t('how_it_works.step2_desc') }}</p>
+                    <span class="text-lg font-bold text-foreground">{{
+                        t('how_it_works.step2_title')
+                    }}</span>
+                    <p class="text-sm text-muted-foreground">
+                        {{ t('how_it_works.step2_desc') }}
+                    </p>
                 </div>
                 <div class="space-y-2 rounded-sm border border-border p-4">
-                    <span class="text-lg font-bold text-foreground">{{ t('how_it_works.step3_title') }}</span>
-                    <p class="text-sm text-muted-foreground">{{ t('how_it_works.step3_desc') }}</p>
+                    <span class="text-lg font-bold text-foreground">{{
+                        t('how_it_works.step3_title')
+                    }}</span>
+                    <p class="text-sm text-muted-foreground">
+                        {{ t('how_it_works.step3_desc') }}
+                    </p>
                 </div>
             </div>
         </section>
@@ -547,7 +640,8 @@ const faqItems = computed(() => {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 class="font-medium text-foreground underline underline-offset-4"
-                            >{{ t('faq.a2_url') }}</a>
+                                >{{ t('faq.a2_url') }}</a
+                            >
                             {{ t('faq.a2_suffix') }}
                         </template>
                         <template v-else>

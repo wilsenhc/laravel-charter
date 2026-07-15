@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
+import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
-import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 
@@ -34,24 +34,38 @@ const sectionCount = 8;
 
                 <template v-if="i === 3">
                     <p>
-                        {{ t('terms.sections.2.content', { link: '\x00' }).split('\x00')[0] }}
+                        {{
+                            t('terms.sections.2.content', {
+                                link: '\x00',
+                            }).split('\x00')[0]
+                        }}
                         <Link
                             href="/privacy"
                             class="font-medium text-foreground underline underline-offset-4"
-                        >{{ t('terms.sections.2.link_text') }}</Link>.
+                            >{{ t('terms.sections.2.link_text') }}</Link
+                        >.
                     </p>
                 </template>
 
                 <template v-else-if="i === 7">
                     <p>
-                        {{ t('terms.sections.6.content', { link: '\x00' }).split('\x00')[0] }}
+                        {{
+                            t('terms.sections.6.content', {
+                                link: '\x00',
+                            }).split('\x00')[0]
+                        }}
                         <a
                             href="https://github.com/wilsenhc/laravel-charter"
                             target="_blank"
                             rel="noopener noreferrer"
                             class="font-medium text-foreground underline underline-offset-4"
-                        >{{ t('terms.sections.6.link_text') }}</a>
-                        {{ t('terms.sections.6.content', { link: '\x00' }).split('\x00')[1] }}
+                            >{{ t('terms.sections.6.link_text') }}</a
+                        >
+                        {{
+                            t('terms.sections.6.content', {
+                                link: '\x00',
+                            }).split('\x00')[1]
+                        }}
                     </p>
                 </template>
 

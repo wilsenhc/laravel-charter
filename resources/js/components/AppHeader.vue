@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
-import AppearanceSwitcher from '@/components/AppearanceSwitcher.vue';
-import { Button } from '@/components/ui/button';
-import { useI18n } from 'vue-i18n';
 import { ref, onMounted, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import AppearanceSwitcher from '@/components/AppearanceSwitcher.vue';
+import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
+import { Button } from '@/components/ui/button';
 
 const { t } = useI18n();
 
@@ -28,7 +28,11 @@ onUnmounted(() => {
         class="sticky top-0 z-50 flex h-14 items-center justify-between border-b border-border bg-background px-5 transition-[background-color,backdrop-filter] duration-300"
         :class="{ 'bg-background/80 backdrop-blur-xl': isScrolled }"
     >
-        <Link href="/" class="text-base font-bold tracking-tight hover:underline">{{ t('header.app_name') }}</Link>
+        <Link
+            href="/"
+            class="text-base font-bold tracking-tight hover:underline"
+            >{{ t('header.app_name') }}</Link
+        >
         <div class="flex items-center gap-3">
             <Button
                 variant="outline"

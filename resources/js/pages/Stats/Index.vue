@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { Link, router } from '@inertiajs/vue3';
+import { useColorMode } from '@vueuse/core';
+import { onMounted, ref, computed, shallowRef, watch } from 'vue';
+import type { Component } from 'vue';
+import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
-import { onMounted, ref, computed, shallowRef, watch, type Component } from 'vue';
-import { useColorMode } from '@vueuse/core';
-import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 
@@ -15,6 +16,7 @@ const props = defineProps<{
     javascriptRuntimes: Record<string, number>;
     authProviders: Record<string, number>;
     testingFrameworks: Record<string, number>;
+    databaseDrivers: Record<string, number>;
     booleanOptions: {
         teams: number;
         boost: number;
@@ -34,10 +36,14 @@ const from = ref(props.filters.from ?? '');
 const to = ref(props.filters.to ?? '');
 const mounted = ref(false);
 
-watch(() => props.filters, (filters) => {
-    from.value = filters.from ?? '';
-    to.value = filters.to ?? '';
-}, { immediate: true });
+watch(
+    () => props.filters,
+    (filters) => {
+        from.value = filters.from ?? '';
+        to.value = filters.to ?? '';
+    },
+    { immediate: true },
+);
 
 const BarChart = shallowRef<Component | null>(null);
 const RadarChart = shallowRef<Component | null>(null);
@@ -64,7 +70,8 @@ const chartPalette = computed(() => [
     mute.value,
 ]);
 
-const monospaceFont = "'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace";
+const monospaceFont =
+    "'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace";
 
 type ChartDataType = {
     labels: string[];
@@ -79,8 +86,13 @@ type ChartDataType = {
     }[];
 };
 
-function makeBarData(label: string, data: Record<string, number>, colors: string[]): ChartDataType {
+function makeBarData(
+    label: string,
+    data: Record<string, number>,
+    colors: string[],
+): ChartDataType {
     const keys = Object.keys(data);
+
     return {
         labels: keys,
         datasets: [
@@ -127,12 +139,19 @@ const chartOptions = computed(() => ({
     },
     scales: {
         x: {
-            ticks: { font: { family: monospaceFont, size: 11 }, color: mute.value },
+            ticks: {
+                font: { family: monospaceFont, size: 11 },
+                color: mute.value,
+            },
             grid: { color: surfaceCard.value },
         },
         y: {
             beginAtZero: true,
-            ticks: { font: { family: monospaceFont, size: 11 }, color: mute.value, precision: 0 },
+            ticks: {
+                font: { family: monospaceFont, size: 11 },
+                color: mute.value,
+                precision: 0,
+            },
             grid: { color: surfaceCard.value },
         },
     },
@@ -157,18 +176,32 @@ const radarOptions = computed(() => ({
     scales: {
         r: {
             beginAtZero: true,
-            ticks: { font: { family: monospaceFont, size: 10 }, color: mute.value, backdropColor: 'transparent', precision: 0 },
+            ticks: {
+                font: { family: monospaceFont, size: 10 },
+                color: mute.value,
+                backdropColor: 'transparent',
+                precision: 0,
+            },
             grid: { color: surfaceCard.value },
             angleLines: { color: surfaceCard.value },
-            pointLabels: { font: { family: monospaceFont, size: 11 }, color: body.value },
+            pointLabels: {
+                font: { family: monospaceFont, size: 11 },
+                color: body.value,
+            },
         },
     },
 }));
 
 function applyFilters() {
     const params: Record<string, string> = {};
-    if (from.value) params.from = from.value;
-    if (to.value) params.to = to.value;
+
+    if (from.value) {
+        params.from = from.value;
+    }
+
+    if (to.value) {
+        params.to = to.value;
+    }
 
     router.get('/stats', params, { preserveState: true, replace: true });
 }
@@ -199,7 +232,11 @@ function setQuickRange(days: number | 'ytd') {
 
     from.value = dateFrom;
     to.value = dateTo;
-    router.get('/stats', { from: dateFrom, to: dateTo }, { preserveState: true, replace: true });
+    router.get(
+        '/stats',
+        { from: dateFrom, to: dateTo },
+        { preserveState: true, replace: true },
+    );
 }
 
 const optionsData = computed<Record<string, number>>(() => ({
@@ -207,15 +244,41 @@ const optionsData = computed<Record<string, number>>(() => ({
     [t('stats.option_boost')]: props.booleanOptions.boost,
     [t('stats.option_devcontainer')]: props.booleanOptions.devcontainer,
     [t('stats.option_skip_node')]: props.booleanOptions.no_node,
-    [t('stats.option_lw_class_components')]: props.booleanOptions.livewire_class_components,
+    [t('stats.option_lw_class_components')]:
+        props.booleanOptions.livewire_class_components,
     [t('stats.option_custom_kit')]: props.booleanOptions.custom_starter_kit,
 }));
 
 onMounted(async () => {
-    const { Chart: ChartJS, CategoryScale, LinearScale, BarElement, PointElement, RadialLinearScale, ArcElement, LineElement, Title, Tooltip, Legend, Filler } = await import('chart.js');
+    const {
+        Chart: ChartJS,
+        CategoryScale,
+        LinearScale,
+        BarElement,
+        PointElement,
+        RadialLinearScale,
+        ArcElement,
+        LineElement,
+        Title,
+        Tooltip,
+        Legend,
+        Filler,
+    } = await import('chart.js');
     const { Bar, Radar } = await import('vue-chartjs');
 
-    ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, RadialLinearScale, ArcElement, LineElement, Title, Tooltip, Legend, Filler);
+    ChartJS.register(
+        CategoryScale,
+        LinearScale,
+        BarElement,
+        PointElement,
+        RadialLinearScale,
+        ArcElement,
+        LineElement,
+        Title,
+        Tooltip,
+        Legend,
+        Filler,
+    );
 
     BarChart.value = Bar as Component;
     RadarChart.value = Radar as Component;
@@ -241,32 +304,44 @@ onMounted(async () => {
         </p>
 
         <section class="mb-8 space-y-3 rounded-sm border border-border p-4">
-            <h2 class="text-sm font-semibold tracking-tight">{{ t('stats.filter_title') }}</h2>
+            <h2 class="text-sm font-semibold tracking-tight">
+                {{ t('stats.filter_title') }}
+            </h2>
             <div class="flex flex-wrap gap-2">
                 <button
                     type="button"
                     class="rounded-sm border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
                     @click="setQuickRange(7)"
-                >{{ t('stats.last_7_days') }}</button>
+                >
+                    {{ t('stats.last_7_days') }}
+                </button>
                 <button
                     type="button"
                     class="rounded-sm border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
                     @click="setQuickRange(30)"
-                >{{ t('stats.last_30_days') }}</button>
+                >
+                    {{ t('stats.last_30_days') }}
+                </button>
                 <button
                     type="button"
                     class="rounded-sm border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
                     @click="setQuickRange(90)"
-                >{{ t('stats.last_3_months') }}</button>
+                >
+                    {{ t('stats.last_3_months') }}
+                </button>
                 <button
                     type="button"
                     class="rounded-sm border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
                     @click="setQuickRange('ytd')"
-                >{{ t('stats.year_to_date') }}</button>
+                >
+                    {{ t('stats.year_to_date') }}
+                </button>
             </div>
             <div class="flex flex-wrap items-end gap-3">
                 <div class="flex flex-col gap-1">
-                    <label for="from" class="text-xs text-muted-foreground">{{ t('stats.from') }}</label>
+                    <label for="from" class="text-xs text-muted-foreground">{{
+                        t('stats.from')
+                    }}</label>
                     <input
                         id="from"
                         v-model="from"
@@ -275,7 +350,9 @@ onMounted(async () => {
                     />
                 </div>
                 <div class="flex flex-col gap-1">
-                    <label for="to" class="text-xs text-muted-foreground">{{ t('stats.to') }}</label>
+                    <label for="to" class="text-xs text-muted-foreground">{{
+                        t('stats.to')
+                    }}</label>
                     <input
                         id="to"
                         v-model="to"
@@ -302,13 +379,20 @@ onMounted(async () => {
         </section>
 
         <div class="mb-8 rounded-sm border border-border p-4 text-center">
-            <p class="text-xs text-muted-foreground">{{ t('stats.total_builds') }}</p>
+            <p class="text-xs text-muted-foreground">
+                {{ t('stats.total_builds') }}
+            </p>
             <p class="mt-1 text-3xl font-bold tracking-tight">{{ total }}</p>
         </div>
 
         <div v-if="mounted" class="grid grid-cols-1 gap-6 md:grid-cols-3">
-            <section v-if="Object.keys(services).length" class="rounded-sm border border-border p-4 md:col-span-3">
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">{{ t('stats.chart_services') }}</h2>
+            <section
+                v-if="Object.keys(services).length"
+                class="rounded-sm border border-border p-4 md:col-span-3"
+            >
+                <h2 class="mb-4 text-sm font-semibold tracking-tight">
+                    {{ t('stats.chart_services') }}
+                </h2>
                 <div class="h-72">
                     <component
                         :is="RadarChart"
@@ -318,74 +402,162 @@ onMounted(async () => {
                 </div>
             </section>
 
-            <section v-if="Object.keys(phpVersions).length" class="rounded-sm border border-border p-4">
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">{{ t('stats.chart_php_versions') }}</h2>
+            <section
+                v-if="Object.keys(phpVersions).length"
+                class="rounded-sm border border-border p-4"
+            >
+                <h2 class="mb-4 text-sm font-semibold tracking-tight">
+                    {{ t('stats.chart_php_versions') }}
+                </h2>
                 <div class="h-48">
                     <component
                         :is="BarChart"
-                        :data="makeBarData(t('stats.label_php_versions'), phpVersions, chartPalette)"
+                        :data="
+                            makeBarData(
+                                t('stats.label_php_versions'),
+                                phpVersions,
+                                chartPalette,
+                            )
+                        "
                         :options="chartOptions"
                     />
                 </div>
             </section>
 
-            <section v-if="Object.keys(starterKits).length" class="rounded-sm border border-border p-4">
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">{{ t('stats.chart_starter_kits') }}</h2>
+            <section
+                v-if="Object.keys(starterKits).length"
+                class="rounded-sm border border-border p-4"
+            >
+                <h2 class="mb-4 text-sm font-semibold tracking-tight">
+                    {{ t('stats.chart_starter_kits') }}
+                </h2>
                 <div class="h-48">
                     <component
                         :is="BarChart"
-                        :data="makeBarData(t('stats.label_starter_kits'), starterKits, chartPalette)"
+                        :data="
+                            makeBarData(
+                                t('stats.label_starter_kits'),
+                                starterKits,
+                                chartPalette,
+                            )
+                        "
                         :options="chartOptions"
                     />
                 </div>
             </section>
 
-            <section v-if="Object.keys(javascriptRuntimes).length" class="rounded-sm border border-border p-4">
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">{{ t('stats.chart_javascript_runtimes') }}</h2>
+            <section
+                v-if="Object.keys(javascriptRuntimes).length"
+                class="rounded-sm border border-border p-4"
+            >
+                <h2 class="mb-4 text-sm font-semibold tracking-tight">
+                    {{ t('stats.chart_javascript_runtimes') }}
+                </h2>
                 <div class="h-48">
                     <component
                         :is="BarChart"
-                        :data="makeBarData(t('stats.label_javascript_runtimes'), javascriptRuntimes, chartPalette)"
+                        :data="
+                            makeBarData(
+                                t('stats.label_javascript_runtimes'),
+                                javascriptRuntimes,
+                                chartPalette,
+                            )
+                        "
                         :options="chartOptions"
                     />
                 </div>
             </section>
 
-            <section v-if="Object.keys(authProviders).length" class="rounded-sm border border-border p-4">
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">{{ t('stats.chart_auth_providers') }}</h2>
+            <section
+                v-if="Object.keys(authProviders).length"
+                class="rounded-sm border border-border p-4"
+            >
+                <h2 class="mb-4 text-sm font-semibold tracking-tight">
+                    {{ t('stats.chart_auth_providers') }}
+                </h2>
                 <div class="h-48">
                     <component
                         :is="BarChart"
-                        :data="makeBarData(t('stats.label_auth_providers'), authProviders, chartPalette)"
+                        :data="
+                            makeBarData(
+                                t('stats.label_auth_providers'),
+                                authProviders,
+                                chartPalette,
+                            )
+                        "
                         :options="chartOptions"
                     />
                 </div>
             </section>
 
-            <section v-if="Object.keys(testingFrameworks).length" class="rounded-sm border border-border p-4">
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">{{ t('stats.chart_testing_frameworks') }}</h2>
+            <section
+                v-if="Object.keys(testingFrameworks).length"
+                class="rounded-sm border border-border p-4"
+            >
+                <h2 class="mb-4 text-sm font-semibold tracking-tight">
+                    {{ t('stats.chart_testing_frameworks') }}
+                </h2>
                 <div class="h-48">
                     <component
                         :is="BarChart"
-                        :data="makeBarData(t('stats.label_testing_frameworks'), testingFrameworks, chartPalette)"
+                        :data="
+                            makeBarData(
+                                t('stats.label_testing_frameworks'),
+                                testingFrameworks,
+                                chartPalette,
+                            )
+                        "
+                        :options="chartOptions"
+                    />
+                </div>
+            </section>
+
+            <section
+                v-if="Object.keys(databaseDrivers).length"
+                class="rounded-sm border border-border p-4"
+            >
+                <h2 class="mb-4 text-sm font-semibold tracking-tight">
+                    {{ t('stats.chart_database_drivers') }}
+                </h2>
+                <div class="h-48">
+                    <component
+                        :is="BarChart"
+                        :data="
+                            makeBarData(
+                                t('stats.label_database_drivers'),
+                                databaseDrivers,
+                                chartPalette,
+                            )
+                        "
                         :options="chartOptions"
                     />
                 </div>
             </section>
 
             <section class="rounded-sm border border-border p-4 md:col-span-3">
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">{{ t('stats.chart_options') }}</h2>
+                <h2 class="mb-4 text-sm font-semibold tracking-tight">
+                    {{ t('stats.chart_options') }}
+                </h2>
                 <div class="h-48">
                     <component
                         :is="BarChart"
-                        :data="makeBarData(t('stats.label_options'), optionsData, chartPalette)"
+                        :data="
+                            makeBarData(
+                                t('stats.label_options'),
+                                optionsData,
+                                chartPalette,
+                            )
+                        "
                         :options="chartOptions"
                     />
                 </div>
             </section>
         </div>
 
-        <div v-else class="flex items-center justify-center py-12 text-sm text-muted-foreground">
+        <div
+            v-else
+            class="flex items-center justify-center py-12 text-sm text-muted-foreground"
+        >
             {{ t('stats.loading') }}
         </div>
 

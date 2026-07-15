@@ -67,7 +67,7 @@ Update the `## Current Options Status` table to reflect any changes. Do not upda
 | `--branch` | VALUE_REQUIRED | NO - Ignored should not be implemented |
 | `--github` | VALUE_OPTIONAL | NO - Ignored should not be implemented |
 | `--organization` | VALUE_REQUIRED | NO - Ignored should not be implemented |
-| `--database` | VALUE_REQUIRED | Partial (only auto-derived from services) |
+| `--database` | VALUE_REQUIRED | Yes — `$databaseFlag` |
 | `--{react,svelte,vue,livewire}` | VALUE_NONE | Yes — `$frontendFlag` |
 | `--livewire-class-components` | VALUE_NONE | Yes — `$frontendFlag` |
 | `--workos` | VALUE_NONE | Yes — `$authFlag` |

@@ -334,39 +334,39 @@ describe('show', function () {
         $response->assertSee('--with=redis');
     });
 
-    test('database flag is passed when a single database service is selected', function (string $service) {
-        $response = $this->get("/build?name=my-app&services={$service},redis");
+    test('database flag is passed when an explicit database driver is specified', function (string $driver) {
+        $response = $this->get("/build?name=my-app&services=redis&database={$driver}");
 
         $response->assertSuccessful();
-        $response->assertSee("--database={$service}");
-    })->with(['mysql', 'pgsql', 'mariadb']);
+        $response->assertSee("--database={$driver}");
+    })->with(['mysql', 'mariadb', 'pgsql', 'sqlite', 'sqlsrv']);
 
-    test('database flag is not passed when multiple database services are selected', function () {
-        $response = $this->get('/build?name=my-app&services=mysql,pgsql,redis');
-
-        $response->assertSuccessful();
-        $response->assertDontSee('--database=');
-    });
-
-    test('database flag is not passed when no database service is selected', function () {
-        $response = $this->get('/build?name=my-app&services=redis,mailpit');
+    test('database flag is not passed when database is none', function () {
+        $response = $this->get('/build?name=my-app&services=redis&database=none');
 
         $response->assertSuccessful();
         $response->assertDontSee('--database=');
     });
 
-    test('database flag is not passed when services is none', function () {
-        $response = $this->get('/build?name=my-app&services=none');
+    test('database flag is not passed when database is not specified', function () {
+        $response = $this->get('/build?name=my-app&services=redis');
 
         $response->assertSuccessful();
         $response->assertDontSee('--database=');
+    });
+
+    test('does not accept invalid database driver', function () {
+        $response = $this->get('/build?name=my-app&database=invalid-db');
+
+        $response->assertStatus(400);
+        $response->assertSee('Invalid database driver', false);
     });
 
     test('stores anonymous stats on build request', function () {
         Queue::fake();
 
         $this->withHeader('User-Agent', 'curl/8.5')
-            ->get('/build?name=my-app&services=redis,pgsql&frontend=react&javascript=bun&auth=laravel&testing=pest&php=8.5&boost');
+            ->get('/build?name=my-app&services=redis,pgsql&frontend=react&javascript=bun&auth=laravel&testing=pest&php=8.5&boost&database=pgsql');
 
         Queue::assertPushed(RecordBuildStat::class, function (RecordBuildStat $job) {
             return $job->data['php_version'] === '8.5'
@@ -379,7 +379,8 @@ describe('show', function () {
                 && $job->data['boost'] === true
                 && $job->data['devcontainer'] === false
                 && $job->data['no_node'] === false
-                && $job->data['livewire_class_components'] === false;
+                && $job->data['livewire_class_components'] === false
+                && $job->data['database_driver'] === 'pgsql';
         });
     });
 

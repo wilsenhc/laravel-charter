@@ -63,6 +63,13 @@ class StatsController extends Controller
             ->orderByDesc('count')
             ->pluck('count', 'testing_framework');
 
+        $databaseDrivers = (clone $query)
+            ->whereNotNull('database_driver')
+            ->selectRaw('database_driver, count(*) as count')
+            ->groupBy('database_driver')
+            ->orderByDesc('count')
+            ->pluck('count', 'database_driver');
+
         $booleanOptions = (clone $query)->toBase()->select(
             DB::raw('SUM(CASE WHEN teams THEN 1 ELSE 0 END) as teams'),
             DB::raw('SUM(CASE WHEN boost THEN 1 ELSE 0 END) as boost'),
@@ -79,6 +86,7 @@ class StatsController extends Controller
             'javascriptRuntimes' => $javascriptRuntimes,
             'authProviders' => $authProviders,
             'testingFrameworks' => $testingFrameworks,
+            'databaseDrivers' => $databaseDrivers,
             'booleanOptions' => $booleanOptions,
             'total' => $query->count(),
             'filters' => ['from' => $from, 'to' => $to],

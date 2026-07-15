@@ -24,6 +24,7 @@ class Stat extends Model
         'devcontainer',
         'no_node',
         'livewire_class_components',
+        'database_driver',
     ];
 
     protected function casts(): array
