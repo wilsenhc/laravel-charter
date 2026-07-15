@@ -1,225 +1,230 @@
 {
-  "nav": {
-    "github": "GitHub",
-    "language": "Language",
-    "sponsor": "Sponsor",
-    "stats": "Stats",
-    "privacy": "Privacy",
-    "terms": "Terms",
-    "back_to_charter": "\u2190 Back to Charter"
-  },
-  "header": {
-    "app_name": "Charter for Laravel"
-  },
-  "hero": {
-    "title": "Spin up a Laravel app with Sail in one command",
-    "description": "Charter simplifies creating new Laravel apps: pick your services and options visually, then copy a single CLI command that scaffolds your project with Laravel Sail from the start."
-  },
-  "how_it_works": {
-    "title": "How it works",
-    "learn_link": "Learn how it works",
-    "step1_title": "1. Configure",
-    "step1_desc": "Pick your Laravel version, database, cache, mail driver, and starter kit. All the options from laravel new in a visual UI.",
-    "step2_title": "2. Generate",
-    "step2_desc": "Charter builds a ready-to-run bash command that combines the Laravel installer with Sail setup \u2014 no more digging through docs for the right flags.",
-    "step3_title": "3. Run",
-    "step3_desc": "Copy the command, paste it into your terminal, and hit enter. Minutes later you have a fresh Laravel project with Sail, services, and your chosen stack running."
-  },
-  "form": {
-    "application_name": "Application name",
-    "php_version": "PHP Version",
-    "services": "Services",
-    "additional_fields": "Additional Fields",
-    "starter_kit": "Starter Kit",
-    "select_starter_kit": "Select a starter kit",
-    "custom_starter_kit_url": "Custom Starter Kit URL",
-    "javascript_runtime": "JavaScript Runtime",
-    "select_runtime": "Select a runtime",
-    "testing_framework": "Testing Framework",
-    "select_framework": "Select a framework",
-    "auth_provider": "Auth Provider",
-    "select_auth_provider": "Select an auth provider",
-    "livewire_class_components": "Livewire Class Components",
-    "use_class_components": "Use class components",
-    "laravel_boost": "Laravel Boost",
-    "install_boost": "Install Laravel Boost",
-    "teams": "Teams",
-    "include_teams": "Include teams support",
-    "devcontainer": "Devcontainer",
-    "include_devcontainer": "Include devcontainer",
-    "skip_node": "Skip Node",
-    "skip_node_install": "Skip Node.js install"
-  },
-  "form_errors": {
-    "name_required": "Application name is required",
-    "name_invalid": "Application name may only contain letters, numbers, dashes, and underscores",
-    "url_required": "URL is required for custom starter kit",
-    "url_invalid": "Please enter a valid URL"
-  },
-  "tooltips": {
-    "livewire_class_components_label": "What are Livewire class components?",
-    "livewire_class_components": "Generates stand-alone Livewire class components instead of single-file components.",
-    "teams_label": "What is teams support?",
-    "teams": "Adds team support to your application, including team membership and team-based data scoping. Available for Laravel starter kits with built-in authentication or WorkOS.",
-    "devcontainer_label": "What is a devcontainer?",
-    "devcontainer": "Generates a Devcontainer configuration so your application can run in a containerized development environment, such as VS Code Dev Containers or GitHub Codespaces.",
-    "skip_node_label": "What does skip node do?",
-    "skip_node": "Skips installing Node.js and running NPM build when the application is scaffolded. Useful for projects that do not require frontend build tooling."
-  },
-  "custom_kit_alert": {
-    "title": "Custom Starter Kit",
-    "description": "Looking for a custom starter kit? Browse a collection of community starter kits at {link}. Note that some starter kits may not be supported and installation may fail unexpectedly."
-  },
-  "faq": {
-    "title": "Frequently Asked Questions",
-    "q0": "What is Charter for Laravel?",
-    "a0": "Charter is a visual tool that helps you spin up new Laravel applications with Sail. Pick the services, starter kit, and options you want in a friendly UI, then get a ready-to-run laravel new command \u2014 no more memorizing flags. Laravel Sail is a lightweight CLI for managing Laravel's Docker environment, providing MySQL, PostgreSQL, Redis, Mailpit, and more without needing PHP or a web server installed locally.",
-    "q1": "How do I use the generated command?",
-    "a1": "Just copy the command, paste it into your terminal, and hit enter. It downloads the Laravel installer and runs it with the options you chose. Wait a minute or two and you'll have a fresh project ready to go.",
-    "q2": "What is a Starter Kit, and can I use a custom one?",
-    "a2": "Starter kits give your new app a head start with auth, a frontend setup, and common scaffolding out of the box. Laravel ships kits for Livewire, Vue, React, and Svelte. You can also use a custom starter kit by picking \"custom\" in the dropdown and pasting a URL. Browse community kits at ",
-    "a2_url": "github.com/tnylea/laravel-new",
-    "a2_suffix": ". Heads-up: since community kits are community-maintained, some may not be fully supported and installation can occasionally hit a snag.",
-    "q3": "What services does Charter support?",
-    "a3": "Charter supports all Sail services: MySQL, PostgreSQL, MariaDB, Redis, Typesense, Meilisearch, MinIO, Mailpit, and Selenium. You can toggle each one on or off and the generated command will include only what you need.",
-    "q4": "What additional options does Charter support?",
-    "a4": "Besides services, Charter lets you toggle Laravel Boost (AI-powered MCP helpers), Teams (team membership and scoping), and Devcontainer (VS Code / Codespaces container config). You can also skip Node.js installation for projects that don't need a frontend build.",
-    "q5": "Can I modify the generated command?",
-    "a5": "Absolutely. The generated command is a standard laravel new invocation with Sail flags. You can edit it before running, or use it as a starting point and tweak the options to match your exact requirements.",
-    "q6": "Is Charter for Laravel affiliated with Laravel?",
-    "a6": "Nope. Charter is an independent, community-built project and isn't affiliated with, endorsed by, or sponsored by Laravel or Laravel Holdings Inc.",
-    "q7": "Is my data stored or sent anywhere?",
-    "a7": "Not at all. Everything you configure here is generated in your browser \u2014 there's no server-side storage. When you're ready, the command is built entirely client-side and runs locally on your machine."
-  },
-  "code_block": {
-    "heading": "Start shipping now",
-    "copy": "Copy",
-    "copied": "Copied",
-    "aria_label": "Copy command",
-    "hint": "Run this in your terminal to scaffold your project with Laravel Sail."
-  },
-  "debug": {
-    "label": "Debug:",
-    "open_url": "Open generated URL in a new tab"
-  },
-  "appearance": {
-    "label": "Color scheme",
-    "system": "System",
-    "light": "Light",
-    "dark": "Dark"
-  },
-  "footer": {
-    "disclaimer": "This project is NOT affiliated with, endorsed by, or sponsored by Laravel or Laravel Holdings Inc."
-  },
-  "stats": {
-    "title": "Usage Statistics",
-    "description": "Anonymous aggregate data from generated build commands. No personal or identifying information is collected.",
-    "filter_title": "Filter by date",
-    "last_7_days": "Last 7 days",
-    "last_30_days": "Last 30 days",
-    "last_3_months": "Last 3 months",
-    "year_to_date": "Year to date",
-    "from": "From",
-    "to": "To",
-    "apply": "Apply",
-    "clear": "Clear",
-    "total_builds": "Total Builds",
-    "chart_services": "[Services]",
-    "chart_php_versions": "[PHP Versions]",
-    "chart_starter_kits": "[Starter Kits]",
-    "chart_javascript_runtimes": "[JavaScript Runtimes]",
-    "chart_auth_providers": "[Auth Providers]",
+    "nav": {
+        "github": "GitHub",
+        "language": "Language",
+        "sponsor": "Sponsor",
+        "stats": "Stats",
+        "privacy": "Privacy",
+        "terms": "Terms",
+        "back_to_charter": "\u2190 Back to Charter"
+    },
+    "header": {
+        "app_name": "Charter for Laravel"
+    },
+    "hero": {
+        "title": "Spin up a Laravel app with Sail in one command",
+        "description": "Charter simplifies creating new Laravel apps: pick your services and options visually, then copy a single CLI command that scaffolds your project with Laravel Sail from the start."
+    },
+    "how_it_works": {
+        "title": "How it works",
+        "learn_link": "Learn how it works",
+        "step1_title": "1. Configure",
+        "step1_desc": "Pick your Laravel version, database, cache, mail driver, and starter kit. All the options from laravel new in a visual UI.",
+        "step2_title": "2. Generate",
+        "step2_desc": "Charter builds a ready-to-run bash command that combines the Laravel installer with Sail setup \u2014 no more digging through docs for the right flags.",
+        "step3_title": "3. Run",
+        "step3_desc": "Copy the command, paste it into your terminal, and hit enter. Minutes later you have a fresh Laravel project with Sail, services, and your chosen stack running."
+    },
+    "form": {
+        "application_name": "Application name",
+        "php_version": "PHP Version",
+        "services": "Services",
+        "additional_fields": "Additional Fields",
+        "starter_kit": "Starter Kit",
+        "select_starter_kit": "Select a starter kit",
+        "custom_starter_kit_url": "Custom Starter Kit URL",
+        "javascript_runtime": "JavaScript Runtime",
+        "select_runtime": "Select a runtime",
+        "testing_framework": "Testing Framework",
+        "select_framework": "Select a framework",
+        "auth_provider": "Auth Provider",
+        "select_auth_provider": "Select an auth provider",
+        "livewire_class_components": "Livewire Class Components",
+        "use_class_components": "Use class components",
+        "laravel_boost": "Laravel Boost",
+        "install_boost": "Install Laravel Boost",
+        "teams": "Teams",
+        "include_teams": "Include teams support",
+        "devcontainer": "Devcontainer",
+        "include_devcontainer": "Include devcontainer",
+        "skip_node": "Skip Node",
+        "skip_node_install": "Skip Node.js install",
+        "database_driver": "Database",
+        "select_database": "Select a database driver",
+        "database_none": "None"
+    },
+    "form_errors": {
+        "name_required": "Application name is required",
+        "name_invalid": "Application name may only contain letters, numbers, dashes, and underscores",
+        "url_required": "URL is required for custom starter kit",
+        "url_invalid": "Please enter a valid URL"
+    },
+    "tooltips": {
+        "livewire_class_components_label": "What are Livewire class components?",
+        "livewire_class_components": "Generates stand-alone Livewire class components instead of single-file components.",
+        "teams_label": "What is teams support?",
+        "teams": "Adds team support to your application, including team membership and team-based data scoping. Available for Laravel starter kits with built-in authentication or WorkOS.",
+        "devcontainer_label": "What is a devcontainer?",
+        "devcontainer": "Generates a Devcontainer configuration so your application can run in a containerized development environment, such as VS Code Dev Containers or GitHub Codespaces.",
+        "skip_node_label": "What does skip node do?",
+        "skip_node": "Skips installing Node.js and running NPM build when the application is scaffolded. Useful for projects that do not require frontend build tooling."
+    },
+    "custom_kit_alert": {
+        "title": "Custom Starter Kit",
+        "description": "Looking for a custom starter kit? Browse a collection of community starter kits at {link}. Note that some starter kits may not be supported and installation may fail unexpectedly."
+    },
+    "faq": {
+        "title": "Frequently Asked Questions",
+        "q0": "What is Charter for Laravel?",
+        "a0": "Charter is a visual tool that helps you spin up new Laravel applications with Sail. Pick the services, starter kit, and options you want in a friendly UI, then get a ready-to-run laravel new command \u2014 no more memorizing flags. Laravel Sail is a lightweight CLI for managing Laravel's Docker environment, providing MySQL, PostgreSQL, Redis, Mailpit, and more without needing PHP or a web server installed locally.",
+        "q1": "How do I use the generated command?",
+        "a1": "Just copy the command, paste it into your terminal, and hit enter. It downloads the Laravel installer and runs it with the options you chose. Wait a minute or two and you'll have a fresh project ready to go.",
+        "q2": "What is a Starter Kit, and can I use a custom one?",
+        "a2": "Starter kits give your new app a head start with auth, a frontend setup, and common scaffolding out of the box. Laravel ships kits for Livewire, Vue, React, and Svelte. You can also use a custom starter kit by picking \"custom\" in the dropdown and pasting a URL. Browse community kits at ",
+        "a2_url": "github.com/tnylea/laravel-new",
+        "a2_suffix": ". Heads-up: since community kits are community-maintained, some may not be fully supported and installation can occasionally hit a snag.",
+        "q3": "What services does Charter support?",
+        "a3": "Charter supports all Sail services: MySQL, PostgreSQL, MariaDB, Redis, Typesense, Meilisearch, MinIO, Mailpit, and Selenium. You can toggle each one on or off and the generated command will include only what you need.",
+        "q4": "What additional options does Charter support?",
+        "a4": "Besides services, Charter lets you toggle Laravel Boost (AI-powered MCP helpers), Teams (team membership and scoping), and Devcontainer (VS Code / Codespaces container config). You can also skip Node.js installation for projects that don't need a frontend build.",
+        "q5": "Can I modify the generated command?",
+        "a5": "Absolutely. The generated command is a standard laravel new invocation with Sail flags. You can edit it before running, or use it as a starting point and tweak the options to match your exact requirements.",
+        "q6": "Is Charter for Laravel affiliated with Laravel?",
+        "a6": "Nope. Charter is an independent, community-built project and isn't affiliated with, endorsed by, or sponsored by Laravel or Laravel Holdings Inc.",
+        "q7": "Is my data stored or sent anywhere?",
+        "a7": "Not at all. Everything you configure here is generated in your browser \u2014 there's no server-side storage. When you're ready, the command is built entirely client-side and runs locally on your machine."
+    },
+    "code_block": {
+        "heading": "Start shipping now",
+        "copy": "Copy",
+        "copied": "Copied",
+        "aria_label": "Copy command",
+        "hint": "Run this in your terminal to scaffold your project with Laravel Sail."
+    },
+    "debug": {
+        "label": "Debug:",
+        "open_url": "Open generated URL in a new tab"
+    },
+    "appearance": {
+        "label": "Color scheme",
+        "system": "System",
+        "light": "Light",
+        "dark": "Dark"
+    },
+    "footer": {
+        "disclaimer": "This project is NOT affiliated with, endorsed by, or sponsored by Laravel or Laravel Holdings Inc."
+    },
+    "stats": {
+        "title": "Usage Statistics",
+        "description": "Anonymous aggregate data from generated build commands. No personal or identifying information is collected.",
+        "filter_title": "Filter by date",
+        "last_7_days": "Last 7 days",
+        "last_30_days": "Last 30 days",
+        "last_3_months": "Last 3 months",
+        "year_to_date": "Year to date",
+        "from": "From",
+        "to": "To",
+        "apply": "Apply",
+        "clear": "Clear",
+        "total_builds": "Total Builds",
+        "chart_services": "[Services]",
+        "chart_php_versions": "[PHP Versions]",
+        "chart_starter_kits": "[Starter Kits]",
+        "chart_javascript_runtimes": "[JavaScript Runtimes]",
+        "chart_auth_providers": "[Auth Providers]",
     "chart_testing_frameworks": "[Testing Frameworks]",
+    "chart_database_drivers": "[Database Drivers]",
     "chart_options": "[Options]",
-    "label_services": "Services",
-    "label_php_versions": "PHP Versions",
-    "label_starter_kits": "Starter Kits",
-    "label_javascript_runtimes": "JavaScript Runtimes",
-    "label_auth_providers": "Auth Providers",
+        "label_services": "Services",
+        "label_php_versions": "PHP Versions",
+        "label_starter_kits": "Starter Kits",
+        "label_javascript_runtimes": "JavaScript Runtimes",
+        "label_auth_providers": "Auth Providers",
     "label_testing_frameworks": "Testing Frameworks",
+    "label_database_drivers": "Database Drivers",
     "label_options": "Options",
-    "loading": "Loading charts...",
-    "option_teams": "Teams",
-    "option_boost": "Laravel Boost",
-    "option_devcontainer": "Devcontainer",
-    "option_skip_node": "Skip Node.js",
-    "option_lw_class_components": "LW Class Components",
-    "option_custom_kit": "Custom Kit"
-  },
-  "privacy": {
-    "title": "Privacy Policy",
-    "last_updated": "Last updated: July 2026",
-    "sections": [
-      {
-        "heading": "Information We Collect",
-        "content": "Charter for Laravel does not collect, store, or transmit any personal information. All configuration options you select are processed entirely in your browser. No data is sent to our servers."
-      },
-      {
-        "heading": "How We Use Information",
-        "content": "Since we don't collect any information, there is nothing to use. The command generated from your selections is displayed on screen and executed locally on your machine."
-      },
-      {
-        "heading": "Anonymous Usage Statistics",
-        "content_p1": "When you use the build endpoint, non-personal configuration options (PHP version, selected services, starter kit type, JavaScript runtime, auth provider, testing framework, and similar boolean options) are stored anonymously on our server. This data helps us understand which options are most popular.",
-        "content_p2": "No personally identifiable information is stored \u2014 we do not collect your IP address, user agent, application name, custom starter kit URL, or any other identifying data. The stored information cannot be traced back to any individual user."
-      },
-      {
-        "heading": "Cookies",
-        "content": "We do not use cookies for tracking or analytics. Your appearance preference (light/dark mode) is stored locally in your browser's localStorage and is never transmitted to our servers."
-      },
-      {
-        "heading": "Third-Party Services",
-        "content": "This site does not embed third-party analytics, tracking scripts, or advertising networks. The only external resources loaded are the application's own CSS and JavaScript assets, and web fonts served from the application's own build pipeline."
-      },
-      {
-        "heading": "Changes to This Policy",
-        "content": "If this policy changes in the future, the \"Last updated\" date at the top will be revised. Continued use of the site after changes constitutes acceptance of the updated policy."
-      },
-      {
-        "heading": "Contact",
-        "content": "If you have questions about this privacy policy, please open an issue on the {link}.",
-        "link_text": "GitHub repository"
-      }
-    ]
-  },
-  "terms": {
-    "title": "Terms of Service",
-    "last_updated": "Last updated: July 2026",
-    "sections": [
-      {
-        "heading": "Acceptance of Terms",
-        "content": "By using Charter for Laravel (\"the Service\"), you agree to these Terms of Service. If you do not agree, do not use the Service."
-      },
-      {
-        "heading": "Description of Service",
-        "content": "Charter for Laravel is a free, open-source tool that provides a visual interface for generating Laravel Sail installation commands. The Service is provided \"as is\" without any warranty, express or implied."
-      },
-      {
-        "heading": "Anonymous Usage Statistics",
-        "content": "The Service collects anonymous, non-personal usage statistics when the build endpoint is used. This includes selected configuration options only \u2014 no IP addresses, user agents, application names, or other identifying information is stored. For full details, see our {link}.",
-        "link_text": "Privacy Policy"
-      },
-      {
-        "heading": "No Affiliation",
-        "content": "Charter for Laravel is an independent, community-built project. It is not affiliated with, endorsed by, or sponsored by Laravel or Laravel Holdings Inc."
-      },
-      {
-        "heading": "Limitation of Liability",
-        "content": "The Service is provided free of charge. In no event shall the creators or contributors be liable for any damages arising from the use or inability to use the Service, including but not limited to data loss or system configuration issues resulting from commands generated by the Service."
-      },
-      {
-        "heading": "User Responsibility",
-        "content": "You are responsible for reviewing the generated command before executing it in your terminal. The Service generates standard laravel new commands, but you should verify they match your intended configuration."
-      },
-      {
-        "heading": "Open Source License",
-        "content": "The source code for Charter for Laravel is available on {link} and is released under the MIT License. You are free to view, fork, and modify it in accordance with that license.",
-        "link_text": "GitHub"
-      },
-      {
-        "heading": "Changes to Terms",
-        "content": "We reserve the right to update these terms at any time. Continued use of the Service after changes constitutes acceptance of the new terms."
-      }
-    ]
-  }
+        "loading": "Loading charts...",
+        "option_teams": "Teams",
+        "option_boost": "Laravel Boost",
+        "option_devcontainer": "Devcontainer",
+        "option_skip_node": "Skip Node.js",
+        "option_lw_class_components": "LW Class Components",
+        "option_custom_kit": "Custom Kit"
+    },
+    "privacy": {
+        "title": "Privacy Policy",
+        "last_updated": "Last updated: July 2026",
+        "sections": [
+            {
+                "heading": "Information We Collect",
+                "content": "Charter for Laravel does not collect, store, or transmit any personal information. All configuration options you select are processed entirely in your browser. No data is sent to our servers."
+            },
+            {
+                "heading": "How We Use Information",
+                "content": "Since we don't collect any information, there is nothing to use. The command generated from your selections is displayed on screen and executed locally on your machine."
+            },
+            {
+                "heading": "Anonymous Usage Statistics",
+                "content_p1": "When you use the build endpoint, non-personal configuration options (PHP version, selected services, starter kit type, JavaScript runtime, auth provider, testing framework, and similar boolean options) are stored anonymously on our server. This data helps us understand which options are most popular.",
+                "content_p2": "No personally identifiable information is stored \u2014 we do not collect your IP address, user agent, application name, custom starter kit URL, or any other identifying data. The stored information cannot be traced back to any individual user."
+            },
+            {
+                "heading": "Cookies",
+                "content": "We do not use cookies for tracking or analytics. Your appearance preference (light/dark mode) is stored locally in your browser's localStorage and is never transmitted to our servers."
+            },
+            {
+                "heading": "Third-Party Services",
+                "content": "This site does not embed third-party analytics, tracking scripts, or advertising networks. The only external resources loaded are the application's own CSS and JavaScript assets, and web fonts served from the application's own build pipeline."
+            },
+            {
+                "heading": "Changes to This Policy",
+                "content": "If this policy changes in the future, the \"Last updated\" date at the top will be revised. Continued use of the site after changes constitutes acceptance of the updated policy."
+            },
+            {
+                "heading": "Contact",
+                "content": "If you have questions about this privacy policy, please open an issue on the {link}.",
+                "link_text": "GitHub repository"
+            }
+        ]
+    },
+    "terms": {
+        "title": "Terms of Service",
+        "last_updated": "Last updated: July 2026",
+        "sections": [
+            {
+                "heading": "Acceptance of Terms",
+                "content": "By using Charter for Laravel (\"the Service\"), you agree to these Terms of Service. If you do not agree, do not use the Service."
+            },
+            {
+                "heading": "Description of Service",
+                "content": "Charter for Laravel is a free, open-source tool that provides a visual interface for generating Laravel Sail installation commands. The Service is provided \"as is\" without any warranty, express or implied."
+            },
+            {
+                "heading": "Anonymous Usage Statistics",
+                "content": "The Service collects anonymous, non-personal usage statistics when the build endpoint is used. This includes selected configuration options only \u2014 no IP addresses, user agents, application names, or other identifying information is stored. For full details, see our {link}.",
+                "link_text": "Privacy Policy"
+            },
+            {
+                "heading": "No Affiliation",
+                "content": "Charter for Laravel is an independent, community-built project. It is not affiliated with, endorsed by, or sponsored by Laravel or Laravel Holdings Inc."
+            },
+            {
+                "heading": "Limitation of Liability",
+                "content": "The Service is provided free of charge. In no event shall the creators or contributors be liable for any damages arising from the use or inability to use the Service, including but not limited to data loss or system configuration issues resulting from commands generated by the Service."
+            },
+            {
+                "heading": "User Responsibility",
+                "content": "You are responsible for reviewing the generated command before executing it in your terminal. The Service generates standard laravel new commands, but you should verify they match your intended configuration."
+            },
+            {
+                "heading": "Open Source License",
+                "content": "The source code for Charter for Laravel is available on {link} and is released under the MIT License. You are free to view, fork, and modify it in accordance with that license.",
+                "link_text": "GitHub"
+            },
+            {
+                "heading": "Changes to Terms",
+                "content": "We reserve the right to update these terms at any time. Continued use of the Service after changes constitutes acceptance of the new terms."
+            }
+        ]
+    }
 }

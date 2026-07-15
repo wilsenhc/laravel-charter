@@ -10,6 +10,7 @@ enum BuildOptions
     case AvailableAuthProviders;
     case AvailableTestingFrameworks;
     case AvailablePhpVersions;
+    case AvailableDatabaseDrivers;
 
     /**
      * @return array<string>
@@ -19,8 +20,8 @@ enum BuildOptions
         return match ($this) {
             self::AvailableServices => [
                 'mysql',
-                'pgsql',
                 'mariadb',
+                'pgsql',
                 'mongodb',
                 'redis',
                 'valkey',
@@ -46,6 +47,7 @@ enum BuildOptions
             self::AvailableAuthProviders => ['no-authentication', 'laravel', 'workos'],
             self::AvailableTestingFrameworks => ['pest', 'phpunit'],
             self::AvailablePhpVersions => ['8.5', '8.4', '8.3'],
+            self::AvailableDatabaseDrivers => ['mysql', 'mariadb', 'pgsql', 'sqlite', 'sqlsrv'],
         };
     }
 
@@ -58,6 +60,7 @@ enum BuildOptions
             self::AvailableAuthProviders => 'availableAuthProviders',
             self::AvailableTestingFrameworks => 'availableTestingFrameworks',
             self::AvailablePhpVersions => 'availablePhpVersions',
+            self::AvailableDatabaseDrivers => 'availableDatabaseDrivers',
         };
     }
 
@@ -73,6 +76,7 @@ enum BuildOptions
             'availableAuthProviders' => self::AvailableAuthProviders->values(),
             'availableTestingFrameworks' => self::AvailableTestingFrameworks->values(),
             'availablePhpVersions' => self::AvailablePhpVersions->values(),
+            'availableDatabaseDrivers' => self::AvailableDatabaseDrivers->values(),
         ];
     }
 }

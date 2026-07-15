@@ -30,6 +30,7 @@ class BuildShowRequest extends FormRequest
             'teams' => $this->has('teams'),
             'no-node' => $this->has('no-node'),
             'livewire-class-components' => $this->has('livewire-class-components'),
+            'database' => $this->query('database', 'none'),
         ]);
     }
 
@@ -55,6 +56,7 @@ class BuildShowRequest extends FormRequest
             'teams' => ['boolean'],
             'no-node' => ['boolean'],
             'livewire-class-components' => ['boolean'],
+            'database' => ['string', Rule::in([...BuildOptions::AvailableDatabaseDrivers->values(), 'none'])],
         ];
     }
 
@@ -112,6 +114,10 @@ class BuildShowRequest extends FormRequest
 
         if ($hasError('php')) {
             $messages[] = 'Invalid PHP version. Please provide one supported version ('.implode(', ', BuildOptions::AvailablePhpVersions->values()).').';
+        }
+
+        if ($hasError('database')) {
+            $messages[] = 'Invalid database driver. Please provide one supported driver ('.implode(', ', BuildOptions::AvailableDatabaseDrivers->values()).') or "none".';
         }
 
         if ($hasError('using')) {

@@ -31,6 +31,7 @@ class BuildController extends Controller
         $using = $request->validated('using');
         $teams = $request->validated('teams');
         $php = $request->validated('php');
+        $database = $request->validated('database');
 
         $with = implode(',', $servicesArray);
 
@@ -64,9 +65,7 @@ class BuildController extends Controller
 
         $noNodeFlag = $request->validated('no-node') ? '--no-node' : null;
 
-        $databaseServices = ['mysql', 'pgsql', 'mariadb'];
-        $selectedDatabases = array_values(array_intersect($servicesArray, $databaseServices));
-        $databaseFlag = count($selectedDatabases) === 1 ? "--database={$selectedDatabases[0]}" : null;
+        $databaseFlag = $database !== 'none' ? "--database={$database}" : null;
 
         $options = implode(' ', array_filter([
             $frontendFlag,
@@ -107,6 +106,7 @@ class BuildController extends Controller
                     'devcontainer' => $request->has('devcontainer'),
                     'no_node' => $noNodeFlag !== null,
                     'livewire_class_components' => $livewireClassComponents,
+                    'database_driver' => $database !== 'none' ? $database : null,
                 ],
                 services: $servicesArray,
             );
