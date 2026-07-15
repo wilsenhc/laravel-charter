@@ -30,10 +30,12 @@ function selectAndCopy() {
         const range = document.createRange();
         range.selectNodeContents(codeEl.value);
         const selection = window.getSelection();
+
         if (selection) {
             selection.removeAllRanges();
             selection.addRange(range);
         }
+
         document.execCommand('copy');
         showCopiedFeedback();
     }
@@ -43,12 +45,16 @@ function selectAndCopy() {
 <template>
     <div class="space-y-2">
         <div class="flex items-center justify-between gap-2">
-            <span class="text-sm font-medium">{{ t('code_block.heading') }}</span>
+            <span class="text-sm font-medium">{{
+                t('code_block.heading')
+            }}</span>
             <Button
                 variant="outline"
                 size="sm"
                 class="gap-1.5"
-                :aria-label="copied ? t('code_block.copied') : t('code_block.aria_label')"
+                :aria-label="
+                    copied ? t('code_block.copied') : t('code_block.aria_label')
+                "
                 @click="copy(code)"
             >
                 <CheckIcon v-if="copied" class="size-3.5" />

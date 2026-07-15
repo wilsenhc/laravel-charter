@@ -19,7 +19,8 @@ createInertiaApp({
         color: '#4B5563',
     },
     setup({ el, App, props, plugin }) {
-        const serverLocale = props.initialPage.props?.locale as string | undefined;
+        const serverLocale = props.initialPage.props?.locale as
+            string | undefined;
 
         if (serverLocale) {
             i18n.global.locale.value = serverLocale;

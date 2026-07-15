@@ -45,8 +45,7 @@ const isLocal = import.meta.env.DEV;
 
 const appName = ref('new-laravel');
 const appNameError = ref('');
-const selectedServices = ref([
-]);
+const selectedServices = ref([]);
 const selectedStarterKit = ref('react');
 const customStarterKitUrl = ref('');
 const customStarterKitUrlError = ref('');
@@ -129,8 +128,8 @@ const databaseServiceNames = ['mysql', 'mariadb', 'pgsql'];
 
 watch(selectedServices, (newServices) => {
     if (hasManuallyChangedDatabase.value) {
-return;
-}
+        return;
+    }
 
     const lastDbService = newServices
         .filter((s) => databaseServiceNames.includes(s))

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { HeartIcon } from '@lucide/vue';
 import { Link } from '@inertiajs/vue3';
+import { HeartIcon } from '@lucide/vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();

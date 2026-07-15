@@ -17,9 +17,15 @@ const open = ref(false);
 const clickOpened = ref(false);
 
 function onOpenChange(newOpen: boolean) {
-    if (!newOpen && clickOpened.value) return;
+    if (!newOpen && clickOpened.value) {
+        return;
+    }
+
     open.value = newOpen;
-    if (!newOpen) clickOpened.value = false;
+
+    if (!newOpen) {
+        clickOpened.value = false;
+    }
 }
 
 function onClick() {

@@ -1,15 +1,8 @@
 <script setup lang="ts">
 import { Link, router } from '@inertiajs/vue3';
 import { useColorMode } from '@vueuse/core';
-import {
-    onMounted,
-    ref,
-    computed,
-    shallowRef,
-    watch
-    
-} from 'vue';
-import type {Component} from 'vue';
+import { onMounted, ref, computed, shallowRef, watch } from 'vue';
+import type { Component } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
@@ -203,12 +196,12 @@ function applyFilters() {
     const params: Record<string, string> = {};
 
     if (from.value) {
-params.from = from.value;
-}
+        params.from = from.value;
+    }
 
     if (to.value) {
-params.to = to.value;
-}
+        params.to = to.value;
+    }
 
     router.get('/stats', params, { preserveState: true, replace: true });
 }
