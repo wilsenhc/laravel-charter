@@ -7640,16 +7640,16 @@
         },
         {
             "name": "laravel/installer",
-            "version": "v5.30.0",
+            "version": "v5.31.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/installer.git",
-                "reference": "c73dc3e0068b00a69402ddba07dd95b50471a5e4"
+                "reference": "c0871b779da93b2e1cd655559e4a7ee73a3bc40e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/installer/zipball/c73dc3e0068b00a69402ddba07dd95b50471a5e4",
-                "reference": "c73dc3e0068b00a69402ddba07dd95b50471a5e4",
+                "url": "https://api.github.com/repos/laravel/installer/zipball/c0871b779da93b2e1cd655559e4a7ee73a3bc40e",
+                "reference": "c0871b779da93b2e1cd655559e4a7ee73a3bc40e",
                 "shasum": ""
             },
             "require": {
@@ -7691,9 +7691,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/installer/issues",
-                "source": "https://github.com/laravel/installer/tree/v5.30.0"
+                "source": "https://github.com/laravel/installer/tree/v5.31.0"
             },
-            "time": "2026-07-02T21:21:58+00:00"
+            "time": "2026-07-16T14:58:21+00:00"
         },
         {
             "name": "laravel/mcp",
