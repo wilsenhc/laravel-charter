@@ -58,10 +58,10 @@ class BuildPackageController extends Controller
             $metadataFlags[] = "--class-name=\"{$className}\"";
         }
 
-        $options = implode(' ', array_filter([
+        $options = implode(' ', [
             ...$featureFlags,
             ...$metadataFlags,
-        ]));
+        ]);
 
         $script = Blade::render(
             (string) file_get_contents(resource_path('stubs/build-package.sh')),

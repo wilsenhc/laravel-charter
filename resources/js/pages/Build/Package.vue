@@ -8,12 +8,6 @@ import {
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
 import CodeBlock from '@/components/CodeBlock.vue';
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
@@ -89,13 +83,33 @@ const generatedUrl = computed(() => {
 
     const params: string[] = [];
 
-    if (authorName.value) params.push(`author_name=${encodeURIComponent(authorName.value)}`);
-    if (authorEmail.value) params.push(`author_email=${encodeURIComponent(authorEmail.value)}`);
-    if (composerPackageName.value) params.push(`package_name=${encodeURIComponent(composerPackageName.value)}`);
-    if (packageNameHuman.value) params.push(`package_name_human=${encodeURIComponent(packageNameHuman.value)}`);
-    if (packageDescription.value) params.push(`package_description=${encodeURIComponent(packageDescription.value)}`);
-    if (vendorNamespace.value) params.push(`vendor_namespace=${encodeURIComponent(vendorNamespace.value)}`);
-    if (className.value) params.push(`class_name=${encodeURIComponent(className.value)}`);
+    if (authorName.value) {
+params.push(`author_name=${encodeURIComponent(authorName.value)}`);
+}
+
+    if (authorEmail.value) {
+params.push(`author_email=${encodeURIComponent(authorEmail.value)}`);
+}
+
+    if (composerPackageName.value) {
+params.push(`package_name=${encodeURIComponent(composerPackageName.value)}`);
+}
+
+    if (packageNameHuman.value) {
+params.push(`package_name_human=${encodeURIComponent(packageNameHuman.value)}`);
+}
+
+    if (packageDescription.value) {
+params.push(`package_description=${encodeURIComponent(packageDescription.value)}`);
+}
+
+    if (vendorNamespace.value) {
+params.push(`vendor_namespace=${encodeURIComponent(vendorNamespace.value)}`);
+}
+
+    if (className.value) {
+params.push(`class_name=${encodeURIComponent(className.value)}`);
+}
 
     const metadata = params.length > 0 ? `&${params.join('&')}` : '';
 
