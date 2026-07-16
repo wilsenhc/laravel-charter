@@ -10,8 +10,8 @@ metadata:
 
 There are two independent tracks:
 
-- **Application Build** (`build-application.sh`, `BuildController::show()`) — the `laravel new` + `sail:install` commands
-- **Package Build** (`build-package.sh`, `BuildController::package()`) — the `laravel package` command
+- **Application Build** (`build-application.sh`, `BuildApplicationController::show()`) — the `laravel new` + `sail:install` commands
+- **Package Build** (`build-package.sh`, `BuildPackageController::show()`) — the `laravel package` command
 
 Each track has its own options, controller method, form request, frontend page, and tests. Run the workflow below for **each track separately**.
 
@@ -37,15 +37,15 @@ Read the following files to identify all current options and arguments:
 
 ### 4a. Compare against build-application.sh
 
-Read `resources/stubs/build-application.sh` and `app/Http/Controllers/BuildController.php` (the `show()` method that builds `$options` and passes variables to the Blade render).
+Read `resources/stubs/build-application.sh` and `app/Http/Controllers/BuildApplicationController.php` (the `show()` method that builds `$options` and passes variables to the Blade render).
 
-Compare every option/argument from the vendor commands (`laravel new`, `sail:install`) against what `BuildController::show()` passes in `$options` and what `build-application.sh` uses as template variables.
+Compare every option/argument from the vendor commands (`laravel new`, `sail:install`) against what `BuildApplicationController::show()` passes in `$options` and what `build-application.sh` uses as template variables.
 
 ### 4b. Compare against build-package.sh
 
-Read `resources/stubs/build-package.sh` and `app/Http/Controllers/BuildController.php` (the `package()` method that builds `$options` and passes variables to the Blade render).
+Read `resources/stubs/build-package.sh` and `app/Http/Controllers/BuildPackageController.php` (the `show()` method that builds `$options` and passes variables to the Blade render).
 
-Compare every option/argument from `vendor/laravel/installer/src/PackageCommand.php` (`configure()` method) against what `BuildController::package()` passes in `$options` and what `build-package.sh` uses as template variables.
+Compare every option/argument from `vendor/laravel/installer/src/PackageCommand.php` (`configure()` method) against what `BuildPackageController::show()` passes in `$options` and what `build-package.sh` uses as template variables.
 
 Also check if the generated `configure.php` boilerplate (inside the scaffolded package) has gained or lost options — `PackageCommand` passes feature/metadata flags to `configure.php` as shell arguments, so any change there could break the round-trip. Inspect `vendor/laravel/installer/src/stubs/package/configure.php` (or wherever the stub lives) for changed flag names.
 
@@ -64,15 +64,16 @@ After the report, for each missing option, recommend how it *should* be implemen
 #### Application track (`build-application.sh`)
 - `app/Enums/BuildOptions.php` — whether a new category or value is needed
 - `app/Http/Requests/BuildShowRequest.php` — what validation rules to add
-- `app/Http/Controllers/BuildController.php` — which flag(s) to append to `$options` and/or new template variables to pass
+- `app/Http/Controllers/BuildApplicationController.php` — which flag(s) to append to `$options` and/or new template variables to pass
 - `resources/stubs/build-application.sh` — any new template variable placeholders
 - `resources/js/pages/Build/Index.vue` — what form fields to add and under what conditions
-- `tests/Feature/BuildControllerTest.php` — what test cases to write
+- `tests/Feature/BuildApplicationControllerTest.php` — what test cases to write
+- `tests/Feature/HomepageControllerTest.php` — if new homepage redirect behavior needs testing
 
 #### Package track (`build-package.sh`)
 - `app/Enums/BuildOptions.php` — whether `AvailablePackageFeatures` needs a new value
 - `app/Http/Requests/BuildPackageRequest.php` — what validation rules to add
-- `app/Http/Controllers/BuildController.php` — which flag(s) to append to `$options` and/or new template variables to pass
+- `app/Http/Controllers/BuildPackageController.php` — which flag(s) to append to `$options` and/or new template variables to pass
 - `resources/stubs/build-package.sh` — any new template variable placeholders
 - `resources/js/pages/Build/Package.vue` — what form fields to add and under what conditions (feature badges vs metadata inputs)
 - `resources/js/build/index.ts` — auto-generated build options

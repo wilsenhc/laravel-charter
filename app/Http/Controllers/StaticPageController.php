@@ -33,7 +33,14 @@ class StaticPageController extends Controller
         );
 
         $sitemap->add(
-            Url::create(url('/build'))
+            Url::create(url('/application/build'))
+                ->setLastModificationDate(now())
+                ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+                ->setPriority(0.9),
+        );
+
+        $sitemap->add(
+            Url::create(url('/package/build'))
                 ->setLastModificationDate(now())
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
                 ->setPriority(0.9),

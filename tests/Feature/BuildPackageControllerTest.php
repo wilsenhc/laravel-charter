@@ -19,7 +19,7 @@ describe('index', function () {
 
 describe('show', function () {
     test('returns the build script for a valid request', function () {
-        $response = $this->get('/build-package?name=my-package');
+        $response = $this->get('/package/build?name=my-package');
 
         $response->assertSuccessful();
         $response->assertHeader('Content-Type', 'text/plain; charset=utf-8');
@@ -27,7 +27,7 @@ describe('show', function () {
     });
 
     test('features can be included', function () {
-        $response = $this->get('/build-package?name=my-package&features=config,routes');
+        $response = $this->get('/package/build?name=my-package&features=config,routes');
 
         $response->assertSuccessful();
         $response->assertSee('--config');
@@ -35,7 +35,7 @@ describe('show', function () {
     });
 
     test('features are not added by default', function () {
-        $response = $this->get('/build-package?name=my-package');
+        $response = $this->get('/package/build?name=my-package');
 
         $response->assertSuccessful();
         $response->assertDontSee('--config');
@@ -43,21 +43,21 @@ describe('show', function () {
     });
 
     test('single feature can be included', function () {
-        $response = $this->get('/build-package?name=my-package&features=views');
+        $response = $this->get('/package/build?name=my-package&features=views');
 
         $response->assertSuccessful();
         $response->assertSee('--views');
     });
 
     test('does not accept invalid features', function () {
-        $response = $this->get('/build-package?name=my-package&features=invalid-feature');
+        $response = $this->get('/package/build?name=my-package&features=invalid-feature');
 
         $response->assertStatus(400);
         $response->assertSee('Invalid feature', false);
     });
 
     test('metadata fields can be filled', function () {
-        $response = $this->get('/build-package?name=my-package&author_name=John&author_email=john@example.com&package_name=vendor/my-package&package_name_human=My+Package&package_description=A+great+package&vendor_namespace=Vendor&class_name=MyPackage');
+        $response = $this->get('/package/build?name=my-package&author_name=John&author_email=john@example.com&package_name=vendor/my-package&package_name_human=My+Package&package_description=A+great+package&vendor_namespace=Vendor&class_name=MyPackage');
 
         $response->assertSuccessful();
         $response->assertSee('--author-name="John"', false);
@@ -70,7 +70,7 @@ describe('show', function () {
     });
 
     test('metadata fields are not included by default', function () {
-        $response = $this->get('/build-package?name=my-package');
+        $response = $this->get('/package/build?name=my-package');
 
         $response->assertSuccessful();
         $response->assertDontSee('--author-name');
@@ -78,49 +78,49 @@ describe('show', function () {
     });
 
     test('does not accept invalid package name', function () {
-        $response = $this->get('/build-package?name=invalid.name');
+        $response = $this->get('/package/build?name=invalid.name');
 
         $response->assertStatus(400);
         $response->assertSee('Invalid package name', false);
     });
 
     test('package name is required', function () {
-        $response = $this->get('/build-package');
+        $response = $this->get('/package/build');
 
         $response->assertStatus(400);
         $response->assertSee('Invalid package name', false);
     });
 
     test('package name is sanitized in the error output', function () {
-        $response = $this->get('/build-package?name=evil$(whoami)evil');
+        $response = $this->get('/package/build?name=evil$(whoami)evil');
 
         $response->assertStatus(400);
         $response->assertDontSee('$(whoami)', false);
     });
 
     test('php version defaults to 8.5', function () {
-        $response = $this->get('/build-package?name=my-package');
+        $response = $this->get('/package/build?name=my-package');
 
         $response->assertSuccessful();
         $response->assertSee('php:8.5-cli');
     });
 
     test('different php versions can be picked', function (string $version) {
-        $response = $this->get("/build-package?name=my-package&php={$version}");
+        $response = $this->get("/package/build?name=my-package&php={$version}");
 
         $response->assertSuccessful();
         $response->assertSee("php:{$version}-cli");
     })->with(['8.5', '8.4', '8.3']);
 
     test('does not accept invalid php version', function () {
-        $response = $this->get('/build-package?name=my-package&php=7.4');
+        $response = $this->get('/package/build?name=my-package&php=7.4');
 
         $response->assertStatus(400);
         $response->assertSee('Invalid PHP version', false);
     });
 
     test('all options work together', function () {
-        $response = $this->get('/build-package?name=my-package&features=config,routes,views&author_name=John&php=8.4');
+        $response = $this->get('/package/build?name=my-package&features=config,routes,views&author_name=John&php=8.4');
 
         $response->assertSuccessful();
         $response->assertSee('--config');
@@ -134,7 +134,7 @@ describe('show', function () {
         Queue::fake();
 
         $this->withHeader('User-Agent', 'curl/8.5')
-            ->get('/build-package?name=my-package&features=config,routes&php=8.5');
+            ->get('/package/build?name=my-package&features=config,routes&php=8.5');
 
         Queue::assertPushed(RecordPackageBuildStat::class, function (RecordPackageBuildStat $job) {
             return $job->data['php_version'] === '8.5'
@@ -149,7 +149,7 @@ describe('show', function () {
         Queue::fake();
 
         $this->withHeader('User-Agent', 'curl/8.5')
-            ->get('/build-package?name=my-package&php=8.4');
+            ->get('/package/build?name=my-package&php=8.4');
 
         Queue::assertPushed(RecordPackageBuildStat::class, function (RecordPackageBuildStat $job) {
             return $job->data['php_version'] === '8.4'
@@ -164,7 +164,7 @@ describe('show', function () {
             Queue::fake();
 
             $this->withHeader('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/134.0.0.0 Safari/537.36')
-                ->get('/build-package?name=my-package');
+                ->get('/package/build?name=my-package');
 
             Queue::assertNotPushed(RecordPackageBuildStat::class);
         });
@@ -173,7 +173,7 @@ describe('show', function () {
             Queue::fake();
 
             $this->withHeader('User-Agent', 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)')
-                ->get('/build-package?name=my-package');
+                ->get('/package/build?name=my-package');
 
             Queue::assertNotPushed(RecordPackageBuildStat::class);
         });
@@ -182,7 +182,7 @@ describe('show', function () {
             Queue::fake();
 
             $this->withHeader('User-Agent', 'curl/8.5.0')
-                ->get('/build-package?name=my-package');
+                ->get('/package/build?name=my-package');
 
             Queue::assertPushed(RecordPackageBuildStat::class);
         });
@@ -191,7 +191,7 @@ describe('show', function () {
             Queue::fake();
 
             $this->withHeader('User-Agent', '')
-                ->get('/build-package?name=my-package');
+                ->get('/package/build?name=my-package');
 
             Queue::assertPushed(RecordPackageBuildStat::class);
         });

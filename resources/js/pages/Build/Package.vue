@@ -80,7 +80,7 @@ const validatePackageName = () => {
 };
 
 const generatedUrl = computed(() => {
-    const baseUrl = `${props.url}/build-package`;
+    const baseUrl = `${props.url}/package/build`;
     const nameParam = `?name=${encodeURIComponent(packageName.value)}`;
     const php = `&php=${selectedPhpVersion.value}`;
     const features = selectedFeatures.value.length > 0

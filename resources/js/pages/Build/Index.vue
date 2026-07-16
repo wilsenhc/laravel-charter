@@ -152,7 +152,7 @@ const showTeams = computed(
 );
 
 const generatedUrl = computed(() => {
-    const baseUrl = `${props.url}/build`;
+    const baseUrl = `${props.url}/application/build`;
     const nameParam = `?name=${encodeURIComponent(appName.value)}`;
     const serviceParams = `&services=${selectedServices.value.join(',')}`;
     const frontend = `&frontend=${selectedStarterKit.value}`;
