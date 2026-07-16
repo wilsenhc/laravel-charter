@@ -10,6 +10,10 @@ Route::get('/', [BuildController::class, 'index'])->name('build.index');
 
 Route::get('/build', [BuildController::class, 'show'])->middleware('throttle:30,1')->name('build.show');
 
+Route::get('/package', [BuildController::class, 'packageIndex'])->name('build.package.index');
+
+Route::get('/build-package', [BuildController::class, 'package'])->middleware('throttle:30,1')->name('build.package');
+
 Route::get('/stats', [StatsController::class, 'index'])->name('stats.index');
 
 Route::get('/privacy', [StaticPageController::class, 'privacy'])->name('privacy');

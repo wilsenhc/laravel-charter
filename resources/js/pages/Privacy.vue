@@ -16,7 +16,7 @@ const sectionCount = 7;
             href="/"
             class="mb-8 inline-flex text-sm text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
         >
-            {{ t('nav.back_to_charter') }}
+            &larr; {{ t('nav.back_to_charter') }}
         </Link>
 
         <h1 class="mb-2 text-2xl font-bold tracking-tight">

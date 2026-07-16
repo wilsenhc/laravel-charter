@@ -215,12 +215,20 @@ const faqItems = computed(() => {
             <p class="text-sm text-muted-foreground">
                 {{ t('hero.description') }}
             </p>
-            <a
-                href="#how-it-works"
-                class="inline-flex text-xs text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
-            >
-                {{ t('how_it_works.learn_link') }} &darr;
-            </a>
+            <div class="flex items-center gap-4">
+                <a
+                    href="/package"
+                    class="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                >
+                    {{ t('hero.package_link') }}
+                </a>
+                <a
+                    href="#how-it-works"
+                    class="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+                >
+                    {{ t('how_it_works.learn_link') }}
+                </a>
+            </div>
         </section>
 
         <Card class="mb-6">

@@ -1,6 +1,6 @@
 <?php
 
-use App\Jobs\RecordBuildStat;
+use App\Jobs\RecordApplicationBuildStat;
 use Illuminate\Support\Facades\Queue;
 use Inertia\Testing\AssertableInertia as Assert;
 
@@ -368,7 +368,7 @@ describe('show', function () {
         $this->withHeader('User-Agent', 'curl/8.5')
             ->get('/build?name=my-app&services=redis,pgsql&frontend=react&javascript=bun&auth=laravel&testing=pest&php=8.5&boost&database=pgsql');
 
-        Queue::assertPushed(RecordBuildStat::class, function (RecordBuildStat $job) {
+        Queue::assertPushed(RecordApplicationBuildStat::class, function (RecordApplicationBuildStat $job) {
             return $job->data['php_version'] === '8.5'
                 && $job->data['starter_kit'] === 'react'
                 && $job->data['custom_starter_kit'] === false
@@ -390,7 +390,7 @@ describe('show', function () {
         $this->withHeader('User-Agent', 'curl/8.5')
             ->get('/build?name=my-app&services=redis,pgsql');
 
-        Queue::assertPushed(RecordBuildStat::class, function (RecordBuildStat $job) {
+        Queue::assertPushed(RecordApplicationBuildStat::class, function (RecordApplicationBuildStat $job) {
             return $job->services === ['redis', 'pgsql'];
         });
     });
@@ -401,7 +401,7 @@ describe('show', function () {
         $this->withHeader('User-Agent', 'curl/8.5')
             ->get('/build?name=my-secret-app&services=redis&frontend=custom&using=https://example.com/kit');
 
-        Queue::assertPushed(RecordBuildStat::class, function (RecordBuildStat $job) {
+        Queue::assertPushed(RecordApplicationBuildStat::class, function (RecordApplicationBuildStat $job) {
             return $job->data['custom_starter_kit'] === true
                 && $job->data['starter_kit'] === 'custom';
         });
@@ -413,7 +413,7 @@ describe('show', function () {
         $this->withHeader('User-Agent', 'curl/8.5')
             ->get('/build?name=my-app&services=none');
 
-        Queue::assertPushed(RecordBuildStat::class, function (RecordBuildStat $job) {
+        Queue::assertPushed(RecordApplicationBuildStat::class, function (RecordApplicationBuildStat $job) {
             return $job->services === ['none'];
         });
     });
@@ -425,7 +425,7 @@ describe('show', function () {
             $this->withHeader('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/134.0.0.0 Safari/537.36')
                 ->get('/build?name=my-app');
 
-            Queue::assertNotPushed(RecordBuildStat::class);
+            Queue::assertNotPushed(RecordApplicationBuildStat::class);
         });
 
         test('does not dispatch job for browser-based crawler requests', function () {
@@ -434,7 +434,7 @@ describe('show', function () {
             $this->withHeader('User-Agent', 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)')
                 ->get('/build?name=my-app');
 
-            Queue::assertNotPushed(RecordBuildStat::class);
+            Queue::assertNotPushed(RecordApplicationBuildStat::class);
         });
 
         test('dispatches job for curl requests', function () {
@@ -443,7 +443,7 @@ describe('show', function () {
             $this->withHeader('User-Agent', 'curl/8.5.0')
                 ->get('/build?name=my-app');
 
-            Queue::assertPushed(RecordBuildStat::class);
+            Queue::assertPushed(RecordApplicationBuildStat::class);
         });
 
         test('dispatches job for empty user agent header', function () {
@@ -452,7 +452,7 @@ describe('show', function () {
             $this->withHeader('User-Agent', '')
                 ->get('/build?name=my-app');
 
-            Queue::assertPushed(RecordBuildStat::class);
+            Queue::assertPushed(RecordApplicationBuildStat::class);
         });
     });
 });

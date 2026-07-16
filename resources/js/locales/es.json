@@ -6,14 +6,15 @@
         "stats": "Estadísticas",
         "privacy": "Privacidad",
         "terms": "Términos",
-        "back_to_charter": "← Volver a Charter"
+        "back_to_charter": "Volver a Charter"
     },
     "header": {
         "app_name": "Charter para Laravel"
     },
     "hero": {
         "title": "Crea una app de Laravel con Sail en un solo comando",
-        "description": "Charter simplifica la creación de nuevas apps de Laravel: elige tus servicios y opciones visualmente, luego copia un único comando que configura tu proyecto con Laravel Sail desde el inicio."
+        "description": "Charter simplifica la creación de nuevas apps de Laravel: elige tus servicios y opciones visualmente, luego copia un único comando que configura tu proyecto con Laravel Sail desde el inicio.",
+        "package_link": "¿Creando un paquete?"
     },
     "how_it_works": {
         "title": "Cómo funciona",
@@ -71,6 +72,23 @@
         "database_driver_label": "¿Qué hace el controlador de base de datos?",
         "database_driver": "Define la conexión de base de datos en tu archivo .env. SQLite funciona sin servicios Docker; otros controladores requieren el servicio correspondiente activado arriba."
     },
+    "package_hero": {
+        "title": "Crea un paquete de Laravel en un solo comando",
+        "description": "Charter simplifica la creación de nuevos paquetes de Laravel: elige las características y metadatos, luego copia un único comando que configura tu paquete con Docker.",
+        "docker_notice": "Docker solo se usa para la creación inicial. El desarrollo de paquetes no está soportado en Sail."
+    },
+    "package_form": {
+        "title": "Nombre del paquete",
+        "description": "Características",
+        "metadata_title": "Metadatos del Paquete (opcional)",
+        "author_name": "Nombre del autor",
+        "author_email": "Email del autor",
+        "package_name": "Nombre del paquete Composer",
+        "package_name_human": "Nombre para mostrar",
+        "package_description": "Descripción",
+        "vendor_namespace": "Namespace del vendor",
+        "class_name": "Nombre de la clase"
+    },
     "custom_kit_alert": {
         "title": "Starter Kit personalizado",
         "description": "¿Buscas un starter kit personalizado? Explora una colección de starter kits de la comunidad en {link}. Ten en cuenta que algunos kits pueden no tener soporte completo y la instalación podría fallar inesperadamente."
@@ -119,6 +137,21 @@
     "stats": {
         "title": "Estadísticas de uso",
         "description": "Datos agregados anónimos de los comandos de build generados. No se recopila información personal o identificable.",
+        "total_apps": "Total Apps",
+        "total_packages": "Total Paquetes",
+        "applications_section": "Aplicaciones",
+        "packages_section": "Paquetes",
+        "chart_package_features": "[Características de Paquetes]",
+        "label_package_features": "Características de Paquetes",
+        "package_feature_config": "Config",
+        "package_feature_routes": "Rutas",
+        "package_feature_views": "Vistas",
+        "package_feature_translations": "Traducciones",
+        "package_feature_migrations": "Migraciones",
+        "package_feature_assets": "Assets",
+        "package_feature_commands": "Comandos",
+        "package_feature_facade": "Facade",
+        "package_feature_boost_skill": "Boost Skill",
         "filter_title": "Filtrar por fecha",
         "last_7_days": "Últimos 7 días",
         "last_30_days": "Últimos 30 días",

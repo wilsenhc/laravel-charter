@@ -2,16 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\Service;
-use App\Models\Stat;
+use App\Models\ApplicationService;
+use App\Models\ApplicationStat;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 
-class StatsSeeder extends Seeder
+class ApplicationStatsSeeder extends Seeder
 {
     public function run(): void
     {
-        $services = Service::pluck('id', 'name');
+        $services = ApplicationService::pluck('id', 'name');
 
         $records = [];
 
@@ -57,9 +57,9 @@ class StatsSeeder extends Seeder
             ];
         }
 
-        Stat::insert($records);
+        ApplicationStat::insert($records);
 
-        $stats = Stat::all();
+        $stats = ApplicationStat::all();
 
         foreach ($stats as $stat) {
             $selectedServices = $this->pickServices($services);

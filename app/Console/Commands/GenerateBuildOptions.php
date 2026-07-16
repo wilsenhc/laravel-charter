@@ -34,6 +34,7 @@ export const availableAuthProviders = {$this->arrayToTs($options['availableAuthP
 export const availableTestingFrameworks = {$this->arrayToTs($options['availableTestingFrameworks'])} as const;
 export const availablePhpVersions = {$this->arrayToTs($options['availablePhpVersions'])} as const;
 export const availableDatabaseDrivers = {$this->arrayToTs($options['availableDatabaseDrivers'])} as const;
+export const availablePackageFeatures = {$this->arrayToTs($options['availablePackageFeatures'])} as const;
 
 export type AvailableService = typeof availableServices[number];
 export type AvailableStarterKit = typeof availableStarterKits[number];
@@ -42,6 +43,7 @@ export type AvailableAuthProvider = typeof availableAuthProviders[number];
 export type AvailableTestingFramework = typeof availableTestingFrameworks[number];
 export type AvailablePhpVersion = typeof availablePhpVersions[number];
 export type AvailableDatabaseDriver = typeof availableDatabaseDrivers[number];
+export type AvailablePackageFeature = typeof availablePackageFeatures[number];
 TYPESCRIPT;
 
         File::put($filePath, $content);

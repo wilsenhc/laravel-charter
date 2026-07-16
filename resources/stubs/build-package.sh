@@ -21,62 +21,39 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-@if($isCustomStarterKit)
-# Extract Node.js from the official Node image (needed for custom starter kits via npx)...
-docker volume create node-binaries >/dev/null 2>&1
-docker run --rm -v node-binaries:/out node:24-slim cp -a /usr/local/bin /usr/local/lib /out/
-@endif
+# Docker is used here only to scaffold the package. Laravel Sail Sail is not supported for package development.
+echo -e "${CYAN}⚡ Docker is only used to create the package — Sail is not supported for package development.${NC}"
+echo ""
 
 docker run --rm \
     --pull=always \
     --user root \
     -e SHOW_WELCOME_MESSAGE=false \
+    -e PHP_OPCACHE_ENABLE=1 \
     -e COMPOSER_HOME=/tmp/composer \
-@if($isCustomStarterKit)
-    -v node-binaries:/usr/local/node:ro \
-@endif
     -v "$(pwd)":/opt \
     -w /opt \
-    serversideup/php:8.5-cli \
-    bash -c " \
-@if($isCustomStarterKit)
-        export PATH=/usr/local/node/bin:\$PATH && \
-@endif
-        apt-get update -qq && apt-get install -y -qq git && \
+    serversideup/php:{!! $php !!}-cli \
+    bash -c "
+        apt-get update -qq >/dev/null 2>&1 && apt-get install -y -qq git >/dev/null 2>&1 && \
         composer global require laravel/installer --no-interaction --no-progress && \
-        php /tmp/composer/vendor/bin/laravel new {!! $name !!} {!! $options !!} --no-interaction ; \
-        cd {!! $name !!} && \
-        ([ -f vendor/autoload.php ] || composer install --no-interaction --ignore-platform-reqs) && \
-        php ./artisan sail:install --with={!! $with !!} --php={!! $php !!} {!! $devcontainer !!}"
-
-@if($isCustomStarterKit)
-docker volume rm node-binaries >/dev/null 2>&1
-@endif
+        php /tmp/composer/vendor/bin/laravel package {!! $name !!} {!! $options !!} --no-interaction
+    "
 
 if [ ! -d "{!! $name !!}" ]; then
     echo ""
-    echo -e "${BOLD}Project could not be created.${NC}"
-    echo "The application may not be supported and installation may fail unexpectedly."
+    echo -e "${BOLD}Package could not be created.${NC}"
     echo ""
     exit 1
 fi
 
-if [ ! -f "{!! $name !!}/artisan" ]; then
+if [ ! -f "{!! $name !!}/composer.json" ]; then
     echo ""
-    echo -e "${BOLD}Project may not have been created properly.${NC}"
-    echo "The application may not be supported and installation may fail unexpectedly."
+    echo -e "${BOLD}Package may not have been created properly.${NC}"
     echo ""
 fi
 
 cd {!! $name !!}
-
-# Allow build with no additional services..
-if [ "{!! $services !!}" == "none" ]; then
-    ./vendor/bin/sail build
-else
-    ./vendor/bin/sail pull {!! $services !!}
-    ./vendor/bin/sail build
-fi
 
 echo ""
 
@@ -99,15 +76,17 @@ echo ""
 echo -e "${CYAN}Enjoying Charter for Laravel? Consider supporting development:${NC}"
 echo -e "${BOLD}https://paypal.me/wilsenjhc${NC}"
 echo ""
+echo -e "${CYAN}⚡ Docker is only used to create the package — Sail is not supported for package development.${NC}"
+echo ""
 
 if $SUDO -n true 2>/dev/null; then
     $SUDO chown -R $USER: .
-    echo -e "${BOLD}Get started with:${NC} cd {!! $name !!} && ./vendor/bin/sail up && ./vendor/bin/sail npm install && ./vendor/bin/sail npm run dev"
+    echo -e "${BOLD}Get started with:${NC} cd {!! $name !!}"
 else
     echo -e "${BOLD}Please provide your password so we can make some final adjustments to your application's permissions.${NC}"
     echo ""
     $SUDO chown -R $USER: .
     echo ""
     echo -e "${BOLD}Thank you! We hope you build something incredible."
-    echo -e "Dive in with:${NC} cd {!! $name !!} && ./vendor/bin/sail up && ./vendor/bin/sail npm install && ./vendor/bin/sail npm run dev"
+    echo -e "Dive in with:${NC} cd {!! $name !!}"
 fi
