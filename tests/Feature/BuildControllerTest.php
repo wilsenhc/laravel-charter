@@ -91,6 +91,42 @@ describe('show', function () {
         $response->assertSee('--svelte');
     });
 
+    test('api starter kit can be picked', function () {
+        $response = $this->get('/build?name=my-app&frontend=api');
+
+        $response->assertSuccessful();
+        $response->assertSee('--api');
+    });
+
+    test('api starter kit does not pass an auth provider flag', function () {
+        $response = $this->get('/build?name=my-app&frontend=api&auth=no-authentication');
+
+        $response->assertSuccessful();
+        $response->assertSee('--api');
+        $response->assertDontSee('--no-authentication');
+        $response->assertDontSee('--workos');
+    });
+
+    test('api starter kit works with teams', function () {
+        $response = $this->get('/build?name=my-app&frontend=api&teams');
+
+        $response->assertSuccessful();
+        $response->assertSee('--api');
+        $response->assertSee('--teams');
+    });
+
+    test('api starter kit works with other options', function () {
+        $response = $this->get('/build?name=my-app&services=pgsql,redis&frontend=api&javascript=bun&testing=pest&boost&php=8.4');
+
+        $response->assertSuccessful();
+        $response->assertSee('--api');
+        $response->assertSee('--bun');
+        $response->assertSee('--pest');
+        $response->assertSee('--boost');
+        $response->assertSee('--php=8.4');
+        $response->assertSee('sail:install --with=pgsql,redis --php=8.4');
+    });
+
     test('custom starter kit does not add a frontend flag', function () {
         $response = $this->get('/build?name=my-app&frontend=custom&using=https://example.com/starter-kit');
 
