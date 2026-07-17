@@ -51,7 +51,7 @@ class BuildApplicationController extends Controller
             $frontendFlag = '--livewire --livewire-class-components';
         }
 
-        $authFlag = $auth ? "--{$auth}" : null;
+        $authFlag = $auth && $auth !== 'laravel' ? "--{$auth}" : null;
 
         $testFramework = $testing ? "--{$testing}" : null;
 
