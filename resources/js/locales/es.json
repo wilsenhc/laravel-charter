@@ -155,20 +155,20 @@
     },
     "privacy": {
         "title": "Política de privacidad",
-        "last_updated": "Última actualización: julio 2026",
+        "last_updated": "Última actualización: 17 de julio de 2026",
         "sections": [
             {
                 "heading": "Información que recopilamos",
-                "content": "Charter para Laravel no recopila, almacena ni transmite información personal. Todas las opciones de configuración que selecciones se procesan íntegramente en tu navegador. No se envían datos a nuestros servidores."
+                "content": "Charter para Laravel recopila opciones de configuración anónimas con fines estadísticos para entender qué funciones son más populares. Nunca se recopila, almacena ni transmite información personal o identificativa. Puedes verificarlo revisando el código fuente en GitHub."
             },
             {
                 "heading": "Cómo usamos la información",
-                "content": "Como no recopilamos información, no hay nada que usar. El comando generado a partir de tus selecciones se muestra en pantalla y se ejecuta localmente en tu máquina."
+                "content": "Las opciones de configuración anónimas que recopilamos se utilizan únicamente con fines estadísticos para comprender tendencias de uso agregadas. No disponemos de información personal para usar, compartir o vender."
             },
             {
                 "heading": "Estadísticas de uso anónimas",
                 "content_p1": "Cuando usas el endpoint de build, las opciones de configuración no personales (versión de PHP, servicios seleccionados, tipo de starter kit, runtime de JavaScript, proveedor de autenticación, framework de testing y opciones booleanas similares) se almacenan de forma anónima en nuestro servidor. Estos datos nos ayudan a entender qué opciones son más populares.",
-                "content_p2": "No se almacena información personalmente identificable — no recopilamos tu dirección IP, agente de usuario, nombre de la aplicación, URL de starter kit personalizado ni ningún otro dato identificativo. La información almacenada no puede rastrearse hasta ningún usuario individual."
+                "content_p2": "No se almacena información personalmente identificable — no recopilamos tu dirección IP, agente de usuario, nombre de la aplicación, URL de starter kit personalizado ni ningún otro dato identificativo. La información almacenada no puede rastrearse hasta ningún usuario individual. Puedes auditarlo revisando el código fuente en GitHub."
             },
             {
                 "heading": "Cookies",

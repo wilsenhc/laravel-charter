@@ -155,20 +155,20 @@
     },
     "privacy": {
         "title": "Privacy Policy",
-        "last_updated": "Last updated: July 2026",
+        "last_updated": "Last updated: July 17th, 2026",
         "sections": [
             {
                 "heading": "Information We Collect",
-                "content": "Charter for Laravel does not collect, store, or transmit any personal information. All configuration options you select are processed entirely in your browser. No data is sent to our servers."
+                "content": "Charter for Laravel collects anonymous configuration options for statistics purposes to understand which features are most popular. No personal or identifying information is ever collected, stored, or transmitted. You can verify this by reviewing the source code on GitHub."
             },
             {
                 "heading": "How We Use Information",
-                "content": "Since we don't collect any information, there is nothing to use. The command generated from your selections is displayed on screen and executed locally on your machine."
+                "content": "The anonymous configuration options we collect are used solely for statistical purposes to understand aggregate usage trends. No personal information is available to use, share, or sell."
             },
             {
                 "heading": "Anonymous Usage Statistics",
                 "content_p1": "When you use the build endpoint, non-personal configuration options (PHP version, selected services, starter kit type, JavaScript runtime, auth provider, testing framework, and similar boolean options) are stored anonymously on our server. This data helps us understand which options are most popular.",
-                "content_p2": "No personally identifiable information is stored \u2014 we do not collect your IP address, user agent, application name, custom starter kit URL, or any other identifying data. The stored information cannot be traced back to any individual user."
+                "content_p2": "No personally identifiable information is stored \u2014 we do not collect your IP address, user agent, application name, custom starter kit URL, or any other identifying data. The stored information cannot be traced back to any individual user. You can audit this by reviewing the source code on GitHub."
             },
             {
                 "heading": "Cookies",
