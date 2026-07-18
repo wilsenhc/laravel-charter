@@ -58,7 +58,8 @@
         "name_required": "El nombre de la aplicación es obligatorio",
         "name_invalid": "El nombre solo puede contener letras, números, guiones y guiones bajos",
         "url_required": "La URL es obligatoria para un starter kit personalizado",
-        "url_invalid": "Por favor ingresa una URL válida"
+        "url_invalid": "Por favor ingresa una URL válida",
+        "package_name_invalid": "El nombre del paquete debe tener el formato vendor/package"
     },
     "tooltips": {
         "livewire_class_components_label": "¿Qué son los Livewire class components?",

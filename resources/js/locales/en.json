@@ -58,7 +58,8 @@
         "name_required": "Application name is required",
         "name_invalid": "Application name may only contain letters, numbers, dashes, and underscores",
         "url_required": "URL is required for custom starter kit",
-        "url_invalid": "Please enter a valid URL"
+        "url_invalid": "Please enter a valid URL",
+        "package_name_invalid": "Package name must be in the format vendor/package"
     },
     "tooltips": {
         "livewire_class_components_label": "What are Livewire class components?",

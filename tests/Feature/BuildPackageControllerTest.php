@@ -77,6 +77,13 @@ describe('show', function () {
         $response->assertDontSee('--author-email');
     });
 
+    test('does not accept invalid package_name format', function () {
+        $response = $this->get('/package/build?name=my-package&package_name=invalid');
+
+        $response->assertStatus(400);
+        $response->assertSee('Package name must be in the format vendor/package', false);
+    });
+
     test('does not accept invalid package name', function () {
         $response = $this->get('/package/build?name=invalid.name');
 

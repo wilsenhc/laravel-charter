@@ -30,6 +30,7 @@ const isLocal = import.meta.env.DEV;
 
 const packageName = ref('my-package');
 const packageNameError = ref('');
+const composerPackageNameError = ref('');
 const selectedPhpVersion = ref('8.5');
 const selectedFeatures = ref<string[]>([]);
 const authorName = ref('');
@@ -69,6 +70,24 @@ const validatePackageName = () => {
     }
 
     packageNameError.value = '';
+
+    return true;
+};
+
+const validateComposerPackageName = () => {
+    if (!composerPackageName.value) {
+        composerPackageNameError.value = '';
+
+        return true;
+    }
+
+    if (!/^[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+$/.test(composerPackageName.value)) {
+        composerPackageNameError.value = t('form_errors.package_name_invalid');
+
+        return false;
+    }
+
+    composerPackageNameError.value = '';
 
     return true;
 };
@@ -252,14 +271,19 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                         <Input id="author-email" v-model="authorEmail" type="email" />
                     </Field>
 
-                    <Field>
+                    <Field :data-invalid="!!composerPackageNameError">
                         <FieldLabel for="composer-package-name">{{
                             t('package_form.package_name')
                         }}</FieldLabel>
                         <Input
                             id="composer-package-name"
                             v-model="composerPackageName"
+                            :aria-invalid="!!composerPackageNameError"
+                            @blur="validateComposerPackageName"
                         />
+                        <FieldError v-if="composerPackageNameError">{{
+                            composerPackageNameError
+                        }}</FieldError>
                     </Field>
 
                     <Field>

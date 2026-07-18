@@ -37,7 +37,7 @@ class BuildPackageRequest extends FormRequest
             'features.*' => ['string', Rule::in(BuildOptions::AvailablePackageFeatures->values())],
             'author_name' => ['nullable', 'string', 'max:255'],
             'author_email' => ['nullable', 'email', 'max:255'],
-            'package_name' => ['nullable', 'string', 'max:255'],
+            'package_name' => ['nullable', 'string', 'max:255', 'regex:/^[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+$/'],
             'package_name_human' => ['nullable', 'string', 'max:255'],
             'package_description' => ['nullable', 'string', 'max:500'],
             'vendor_namespace' => ['nullable', 'string', 'max:255', 'alpha_dash'],
@@ -64,6 +64,10 @@ class BuildPackageRequest extends FormRequest
 
         if ($hasError('features')) {
             $messages[] = 'Invalid feature. Please provide one or more of the supported features ('.implode(', ', BuildOptions::AvailablePackageFeatures->values()).').';
+        }
+
+        if ($hasError('package_name')) {
+            $messages[] = 'Package name must be in the format vendor/package.';
         }
 
         if ($hasError('author_email')) {
