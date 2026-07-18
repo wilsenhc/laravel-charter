@@ -31,31 +31,31 @@ class BuildPackageController extends Controller
         $metadataFlags = [];
 
         if ($authorName = $request->validated('author_name')) {
-            $metadataFlags[] = "--author-name=\"{$authorName}\"";
+            $metadataFlags[] = '--author-name=\\"'.$authorName.'\\"';
         }
 
         if ($authorEmail = $request->validated('author_email')) {
-            $metadataFlags[] = "--author-email=\"{$authorEmail}\"";
+            $metadataFlags[] = '--author-email=\\"'.$authorEmail.'\\"';
         }
 
         if ($packageName = $request->validated('package_name')) {
-            $metadataFlags[] = "--package-name=\"{$packageName}\"";
+            $metadataFlags[] = '--package-name=\\"'.$packageName.'\\"';
         }
 
         if ($packageNameHuman = $request->validated('package_name_human')) {
-            $metadataFlags[] = "--package-name-human=\"{$packageNameHuman}\"";
+            $metadataFlags[] = '--package-name-human=\\"'.$packageNameHuman.'\\"';
         }
 
         if ($packageDescription = $request->validated('package_description')) {
-            $metadataFlags[] = "--package-description=\"{$packageDescription}\"";
+            $metadataFlags[] = '--package-description=\\"'.$packageDescription.'\\"';
         }
 
         if ($vendorNamespace = $request->validated('vendor_namespace')) {
-            $metadataFlags[] = "--vendor-namespace=\"{$vendorNamespace}\"";
+            $metadataFlags[] = '--vendor-namespace=\\"'.$vendorNamespace.'\\"';
         }
 
         if ($className = $request->validated('class_name')) {
-            $metadataFlags[] = "--class-name=\"{$className}\"";
+            $metadataFlags[] = '--class-name=\\"'.$className.'\\"';
         }
 
         $options = implode(' ', [

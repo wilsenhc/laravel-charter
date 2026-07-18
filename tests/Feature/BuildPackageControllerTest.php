@@ -60,13 +60,13 @@ describe('show', function () {
         $response = $this->get('/package/build?name=my-package&author_name=John&author_email=john@example.com&package_name=vendor/my-package&package_name_human=My+Package&package_description=A+great+package&vendor_namespace=Vendor&class_name=MyPackage');
 
         $response->assertSuccessful();
-        $response->assertSee('--author-name="John"', false);
-        $response->assertSee('--author-email="john@example.com"', false);
-        $response->assertSee('--package-name="vendor/my-package"', false);
-        $response->assertSee('--package-name-human="My Package"', false);
-        $response->assertSee('--package-description="A great package"', false);
-        $response->assertSee('--vendor-namespace="Vendor"', false);
-        $response->assertSee('--class-name="MyPackage"', false);
+        $response->assertSee('--author-name=\\"John\\"', false);
+        $response->assertSee('--author-email=\\"john@example.com\\"', false);
+        $response->assertSee('--package-name=\\"vendor/my-package\\"', false);
+        $response->assertSee('--package-name-human=\\"My Package\\"', false);
+        $response->assertSee('--package-description=\\"A great package\\"', false);
+        $response->assertSee('--vendor-namespace=\\"Vendor\\"', false);
+        $response->assertSee('--class-name=\\"MyPackage\\"', false);
     });
 
     test('metadata fields are not included by default', function () {
@@ -133,7 +133,7 @@ describe('show', function () {
         $response->assertSee('--config');
         $response->assertSee('--routes');
         $response->assertSee('--views');
-        $response->assertSee('--author-name="John"', false);
+        $response->assertSee('--author-name=\\"John\\"', false);
         $response->assertSee('php:8.4-cli');
     });
 
