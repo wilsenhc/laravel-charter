@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { Head } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
 import {
     availablePackageFeatures,
@@ -139,6 +140,11 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
 </script>
 
 <template>
+    <Head>
+        <title>{{ t('package_hero.title') }} — {{ t('header.app_name') }}</title>
+        <meta name="description" :content="t('package_hero.description')">
+        <link rel="canonical" :href="`${props.url}/package`">
+    </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <section class="mb-8 space-y-3">

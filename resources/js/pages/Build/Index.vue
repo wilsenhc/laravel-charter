@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
+import { Head } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
 import {
     availableAuthProviders,
@@ -206,6 +207,11 @@ const faqItems = computed(() => {
 </script>
 
 <template>
+    <Head>
+        <title>{{ t('hero.title') }} — {{ t('header.app_name') }}</title>
+        <meta name="description" :content="t('hero.description')">
+        <link rel="canonical" :href="`${props.url}/application`">
+    </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <section class="mb-8 space-y-3">

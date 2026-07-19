@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
@@ -10,6 +10,10 @@ const sectionCount = 8;
 </script>
 
 <template>
+    <Head>
+        <title>{{ t('terms.title') }} — {{ t('header.app_name') }}</title>
+        <link rel="canonical" :href="`${window.location.origin}/terms`">
+    </Head>
     <AppHeader />
     <main class="mx-auto max-w-2xl px-4 py-12">
         <Link

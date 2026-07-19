@@ -112,6 +112,9 @@ class BuildApplicationController extends Controller
             );
         }
 
-        return response($script, 200, ['Content-Type' => 'text/plain']);
+        return response($script, 200, [
+            'Content-Type' => 'text/plain',
+            'X-Robots-Tag' => 'noindex',
+        ]);
     }
 }

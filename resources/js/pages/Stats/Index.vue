@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Link, router } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { useColorMode } from '@vueuse/core';
 import { onMounted, ref, computed, shallowRef, watch } from 'vue';
 import type { Component } from 'vue';
@@ -317,6 +317,11 @@ onMounted(async () => {
 </script>
 
 <template>
+    <Head>
+        <title>{{ t('stats.title') }} — {{ t('header.app_name') }}</title>
+        <meta name="description" :content="t('stats.description')">
+        <link rel="canonical" :href="`${window.location.origin}/stats`">
+    </Head>
     <AppHeader />
     <main class="mx-auto max-w-5xl px-4 py-12">
         <Link
