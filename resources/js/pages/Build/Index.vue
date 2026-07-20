@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
 import { Head, usePage } from '@inertiajs/vue3';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import {
     availableAuthProviders,
@@ -216,31 +216,31 @@ const faqItems = computed(() => {
 
 <template>
     <Head>
-        <title>{{ t('hero.title') }} — {{ t('header.app_name') }}</title>
-        <meta name="description" :content="t('hero.description')">
+        <title>{{ t('hero.application.title') }} — {{ t('header.app_name') }}</title>
+        <meta name="description" :content="t('hero.application.description')">
         <link rel="canonical" :href="`${props.url}/${locale}/application`">
     </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <section class="mb-8 space-y-3">
             <h1 class="text-2xl font-bold tracking-tight">
-                {{ t('hero.title') }}
+                {{ t('hero.application.title') }}
             </h1>
             <p class="text-sm text-muted-foreground">
-                {{ t('hero.description') }}
+                {{ t('hero.application.description') }}
             </p>
             <div class="flex items-center gap-4">
                 <a
                     :href="`/${locale}/package`"
                     class="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary/90"
                 >
-                    {{ t('hero.package_link') }}
+                    {{ t('hero.application.package_link') }}
                 </a>
                 <a
                     href="#how-it-works"
                     class="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
                 >
-                    {{ t('how_it_works.learn_link') }}
+                    {{ t('hero.learn_link') }}
                 </a>
             </div>
         </section>
@@ -621,31 +621,31 @@ const faqItems = computed(() => {
 
         <section id="how-it-works" class="mb-8 scroll-mt-20 space-y-4">
             <h2 class="text-base font-semibold tracking-tight">
-                {{ t('how_it_works.title') }}
+                {{ t('hero.application.how_it_works.title') }}
             </h2>
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <div class="space-y-2 rounded-sm border border-border p-4">
                     <span class="text-lg font-bold text-foreground">{{
-                        t('how_it_works.step1_title')
+                        t('hero.application.how_it_works.step1_title')
                     }}</span>
                     <p class="text-sm text-muted-foreground">
-                        {{ t('how_it_works.step1_desc') }}
+                        {{ t('hero.application.how_it_works.step1_desc') }}
                     </p>
                 </div>
                 <div class="space-y-2 rounded-sm border border-border p-4">
                     <span class="text-lg font-bold text-foreground">{{
-                        t('how_it_works.step2_title')
+                        t('hero.application.how_it_works.step2_title')
                     }}</span>
                     <p class="text-sm text-muted-foreground">
-                        {{ t('how_it_works.step2_desc') }}
+                        {{ t('hero.application.how_it_works.step2_desc') }}
                     </p>
                 </div>
                 <div class="space-y-2 rounded-sm border border-border p-4">
                     <span class="text-lg font-bold text-foreground">{{
-                        t('how_it_works.step3_title')
+                        t('hero.application.how_it_works.step3_title')
                     }}</span>
                     <p class="text-sm text-muted-foreground">
-                        {{ t('how_it_works.step3_desc') }}
+                        {{ t('hero.application.how_it_works.step3_desc') }}
                     </p>
                 </div>
             </div>

@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import { Head, Link, usePage } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
 
-const { t } = useI18n();
+const { t, tm } = useI18n();
 
 const locale = computed(() => usePage().props.locale as string);
-
-const sectionCount = 8;
+const origin = typeof window !== 'undefined' ? window.location.origin : '';
+const sectionCount = computed(() => tm('terms.sections').length);
 </script>
 
 <template>
     <Head>
         <title>{{ t('terms.title') }} — {{ t('header.app_name') }}</title>
         <meta name="description" :content="t('terms.meta_description')">
-        <link rel="canonical" :href="`${window.location.origin}/${locale}/terms`">
+        <link rel="canonical" :href="`${origin}/${locale}/terms`">
     </Head>
     <AppHeader />
-    <main class="mx-auto max-w-2xl px-4 py-12">
+    <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <Link
             :href="`/${locale}/application`"
             class="mb-8 inline-flex text-sm text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"

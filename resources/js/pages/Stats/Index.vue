@@ -10,6 +10,7 @@ import AppHeader from '@/components/AppHeader.vue';
 const { t } = useI18n();
 
 const locale = computed(() => usePage().props.locale as string);
+const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
 const props = defineProps<{
     phpVersions: Record<string, number>;
@@ -322,10 +323,10 @@ onMounted(async () => {
     <Head>
         <title>{{ t('stats.title') }} — {{ t('header.app_name') }}</title>
         <meta name="description" :content="t('stats.description')">
-        <link rel="canonical" :href="`${window.location.origin}/${locale}/stats`">
+        <link rel="canonical" :href="`${origin}/${locale}/stats`">
     </Head>
     <AppHeader />
-    <main class="mx-auto max-w-5xl px-4 py-12">
+    <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <Link
             :href="`/${locale}/application`"
             class="mb-8 inline-flex text-sm text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"

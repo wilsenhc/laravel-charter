@@ -6,25 +6,43 @@
         "stats": "Stats",
         "privacy": "Privacy",
         "terms": "Terms",
-        "back_to_charter": "Back to Charter"
+        "back_to_charter": "Back to Charter",
+        "back_to_glossary": "Back to Glossary"
     },
     "header": {
         "app_name": "Charter for Laravel"
     },
     "hero": {
-        "title": "Spin up a Laravel app with Sail in one command",
-        "description": "Charter simplifies creating new Laravel apps: pick your services and options visually, then copy a single CLI command that scaffolds your project with Laravel Sail from the start.",
-        "package_link": "Building a new package?"
-    },
-    "how_it_works": {
-        "title": "How it works",
         "learn_link": "Learn how it works",
-        "step1_title": "1. Configure",
-        "step1_desc": "Pick your Laravel version, database, cache, mail driver, and starter kit. All the options from laravel new in a visual UI.",
-        "step2_title": "2. Generate",
-        "step2_desc": "Charter builds a ready-to-run bash command that combines the Laravel installer with Sail setup \u2014 no more digging through docs for the right flags.",
-        "step3_title": "3. Run",
-        "step3_desc": "Copy the command, paste it into your terminal, and hit enter. Minutes later you have a fresh Laravel project with Sail, services, and your chosen stack running."
+        "application": {
+            "title": "Spin up a Laravel app with Sail in one command",
+            "description": "Charter simplifies creating new Laravel apps: pick your services and options visually, then copy a single CLI command that scaffolds your project with Laravel Sail from the start.",
+            "package_link": "Building a new package?",
+            "how_it_works": {
+                "title": "How it works",
+                "step1_title": "1. Configure",
+                "step1_desc": "Pick your Laravel version, database, cache, mail driver, and starter kit. All the options from laravel new in a visual UI.",
+                "step2_title": "2. Generate",
+                "step2_desc": "Charter builds a ready-to-run bash command that combines the Laravel installer with Sail setup — no more digging through docs for the right flags.",
+                "step3_title": "3. Run",
+                "step3_desc": "Copy the command, paste it into your terminal, and hit enter. Minutes later you have a fresh Laravel project with Sail, services, and your chosen stack running."
+            }
+        },
+        "package": {
+            "title": "Scaffold a Laravel package in one command",
+            "description": "Charter simplifies creating new Laravel packages: pick your features and metadata, then copy a single CLI command that bootstraps your package with Docker.",
+            "docker_notice": "Docker is only used for one-time scaffolding. Sail is not supported for package development.",
+            "application_link": "Building an application?",
+            "how_it_works": {
+                "title": "How it works",
+                "step1_title": "1. Configure",
+                "step1_desc": "Pick your package name, PHP version, features, and metadata — all the options from laravel new-package in a visual UI.",
+                "step2_title": "2. Generate",
+                "step2_desc": "Charter builds a ready-to-run bash command that bootstraps your package scaffolding with Docker.",
+                "step3_title": "3. Run",
+                "step3_desc": "Copy the command, paste it into your terminal, and hit enter. Your package scaffolding is generated in seconds."
+            }
+        }
     },
     "form": {
         "application_name": "Application name",
@@ -73,11 +91,6 @@
         "database_driver_label": "What does the database driver do?",
         "database_driver": "Sets the default database connection in your .env file. SQLite works without any Docker services; other drivers require the matching service to be enabled above."
     },
-    "package_hero": {
-        "title": "Scaffold a Laravel package in one command",
-        "description": "Charter simplifies creating new Laravel packages: pick your features and metadata, then copy a single CLI command that bootstraps your package with Docker.",
-        "docker_notice": "Docker is only used for one-time scaffolding. Sail is not supported for package development."
-    },
     "package_form": {
         "title": "Package name",
         "description": "Features",
@@ -97,7 +110,7 @@
     "faq": {
         "title": "Frequently Asked Questions",
         "q0": "What is Charter for Laravel?",
-        "a0": "Charter is a visual tool that helps you spin up new Laravel applications with Sail. Pick the services, starter kit, and options you want in a friendly UI, then get a ready-to-run laravel new command \u2014 no more memorizing flags. Laravel Sail is a lightweight CLI for managing Laravel's Docker environment, providing MySQL, PostgreSQL, Redis, Mailpit, and more without needing PHP or a web server installed locally.",
+        "a0": "Charter is a visual tool that helps you spin up new Laravel applications with Sail. Pick the services, starter kit, and options you want in a friendly UI, then get a ready-to-run laravel new command — no more memorizing flags. Laravel Sail is a lightweight CLI for managing Laravel's Docker environment, providing MySQL, PostgreSQL, Redis, Mailpit, and more without needing PHP or a web server installed locally.",
         "q1": "How do I use the generated command?",
         "a1": "Just copy the command, paste it into your terminal, and hit enter. It downloads the Laravel installer and runs it with the options you chose. Wait a minute or two and you'll have a fresh project ready to go.",
         "q2": "What is a Starter Kit, and can I use a custom one?",
@@ -113,7 +126,7 @@
         "q6": "Is Charter for Laravel affiliated with Laravel?",
         "a6": "Nope. Charter is an independent, community-built project and isn't affiliated with, endorsed by, or sponsored by Laravel or Laravel Holdings Inc.",
         "q7": "Is my data stored or sent anywhere?",
-        "a7": "Not at all. Everything you configure here is generated in your browser \u2014 there's no server-side storage. When you're ready, the command is built entirely client-side and runs locally on your machine."
+        "a7": "Not at all. Everything you configure here is generated in your browser — there's no server-side storage. When you're ready, the command is built entirely client-side and runs locally on your machine."
     },
     "code_block": {
         "heading": "Start shipping now",
@@ -205,7 +218,7 @@
             {
                 "heading": "Anonymous Usage Statistics",
                 "content_p1": "When you use the build endpoint, non-personal configuration options (PHP version, selected services, starter kit type, JavaScript runtime, auth provider, testing framework, and similar boolean options) are stored anonymously on our server. This data helps us understand which options are most popular.",
-                "content_p2": "No personally identifiable information is stored \u2014 we do not collect your IP address, user agent, application name, custom starter kit URL, or any other identifying data. The stored information cannot be traced back to any individual user. You can audit this by reviewing the source code on GitHub."
+                "content_p2": "No personally identifiable information is stored — we do not collect your IP address, user agent, application name, custom starter kit URL, or any other identifying data. The stored information cannot be traced back to any individual user. You can audit this by reviewing the source code on GitHub."
             },
             {
                 "heading": "Cookies",
@@ -241,7 +254,7 @@
             },
             {
                 "heading": "Anonymous Usage Statistics",
-                "content": "The Service collects anonymous, non-personal usage statistics when the build endpoint is used. This includes selected configuration options only \u2014 no IP addresses, user agents, application names, or other identifying information is stored. For full details, see our {link}.",
+                "content": "The Service collects anonymous, non-personal usage statistics when the build endpoint is used. This includes selected configuration options only — no IP addresses, user agents, application names, or other identifying information is stored. For full details, see our {link}.",
                 "link_text": "Privacy Policy"
             },
             {
@@ -266,5 +279,24 @@
                 "content": "We reserve the right to update these terms at any time. Continued use of the Service after changes constitutes acceptance of the new terms."
             }
         ]
+    },
+    "glossary": {
+        "page_title": "Laravel Glossary",
+        "meta_description": "Understand every option in the Laravel new command: services, starter kits, testing frameworks, and tools you can configure with Laravel Sail.",
+        "cta_title": "Ready to build your Laravel app?",
+        "cta_description": "Pick your services, starter kit, and options visually, then copy a single command to scaffold your project with Laravel Sail.",
+        "cta_button": "Build your app",
+        "related_title": "Related terms"
+    },
+    "comparison": {
+        "back_to_comparisons": "Back to Comparisons",
+        "verdict_title": "Which one should you choose?",
+        "aspects": {
+            "overview": "Overview",
+            "performance": "Performance",
+            "ease_of_use": "Ease of Use",
+            "ecosystem": "Ecosystem",
+            "learning_curve": "Learning Curve"
+        }
     }
 }

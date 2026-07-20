@@ -1,0 +1,921 @@
+[
+  {
+    "slug": "laravel-sail",
+    "category": "Concept",
+    "builder_params": [],
+    "related": [
+      "laravel-boost",
+      "laravel-octane",
+      "laravel-breeze",
+      "laravel-jetstream"
+    ],
+    "translations": {
+      "en": {
+        "title": "Laravel Sail",
+        "question": "What is Laravel Sail?",
+        "summary": "Sail is a lightweight CLI for managing Laravel's Docker development environment with built-in service support.",
+        "definition": "Laravel Sail is a command-line interface for managing Laravel's Docker development environment. It provides MySQL, PostgreSQL, Redis, Meilisearch, Typesense, Mailpit, and other services without requiring PHP, Composer, or a web server on your host machine. Sail uses Docker Compose under the hood and is the recommended development environment for new Laravel projects.",
+        "sail_integration": "Charter generates the laravel new --with-sail command that configures Sail as the development environment. The command includes service flags for each option you selected, so containers are ready when the project starts."
+      },
+      "es": {
+        "title": "Laravel Sail",
+        "question": "¿Qué es Laravel Sail?",
+        "summary": "Sail es una CLI ligera para gestionar el entorno de desarrollo Docker de Laravel con soporte integrado de servicios.",
+        "definition": "Laravel Sail es una interfaz de línea de comandos para gestionar el entorno de desarrollo Docker de Laravel. Proporciona MySQL, PostgreSQL, Redis, Meilisearch, Typesense, Mailpit y otros servicios sin necesidad de PHP, Composer o un servidor web en tu máquina anfitriona. Sail usa Docker Compose y es el entorno recomendado para nuevos proyectos Laravel.",
+        "sail_integration": "Charter genera el comando laravel new --with-sail que configura Sail como entorno de desarrollo, incluyendo banderas para cada servicio seleccionado."
+      }
+    }
+  },
+  {
+    "slug": "laravel-boost",
+    "category": "Concept",
+    "builder_params": {
+      "boost": true
+    },
+    "related": [
+      "laravel-sail",
+      "laravel-octane"
+    ],
+    "translations": {
+      "en": {
+        "title": "Laravel Boost",
+        "question": "What is Laravel Boost?",
+        "summary": "Laravel Boost is a collection of AI-powered MCP tools that enhance Laravel development workflows.",
+        "definition": "Laravel Boost is an MCP (Model Context Protocol) server created by the Laravel team that provides AI-powered development tools for Laravel applications. It offers tools for database queries, documentation search, Artisan command execution, URL resolution, and browser log inspection. Boost integrates with AI assistants like Cursor, Windsurf, and opencode to provide context-aware Laravel development assistance directly in the editor.",
+        "sail_integration": "Charter includes a toggle to install Laravel Boost when scaffolding a new project. The generated command includes the --boost flag to add Boost configuration."
+      },
+      "es": {
+        "title": "Laravel Boost",
+        "question": "¿Qué es Laravel Boost?",
+        "summary": "Laravel Boost es una colección de herramientas MCP potenciadas por IA para mejorar el desarrollo con Laravel.",
+        "definition": "Laravel Boost es un servidor MCP (Model Context Protocol) creado por el equipo de Laravel que proporciona herramientas de desarrollo asistidas por IA. Ofrece consultas a bases de datos, búsqueda en documentación, ejecución de comandos Artisan y más. Boost se integra con asistentes IA como Cursor y opencode.",
+        "sail_integration": "Charter incluye un interruptor para instalar Laravel Boost. El comando generado incluye --boost para añadir la configuración de Boost."
+      }
+    }
+  },
+  {
+    "slug": "laravel-octane",
+    "category": "Concept",
+    "builder_params": [],
+    "related": [
+      "laravel-sail",
+      "laravel-boost"
+    ],
+    "translations": {
+      "en": {
+        "title": "Laravel Octane",
+        "question": "What is Laravel Octane?",
+        "summary": "Octane supercharges Laravel performance by serving the application once and keeping it in memory for all requests.",
+        "definition": "Laravel Octane is a package that dramatically improves Laravel application performance by running the application as a long-running process. Instead of booting Laravel from scratch for each request (as PHP-FPM does), Octane boots once and handles thousands of requests within that single process. It supports Swoole, RoadRunner, and FrankenPHP drivers.",
+        "sail_integration": "Sail supports Octane out of the box. After scaffolding with Charter, you can run ./vendor/bin/sail artisan octane:start to serve your app through Swoole or RoadRunner."
+      },
+      "es": {
+        "title": "",
+        "question": "",
+        "summary": "",
+        "definition": "",
+        "sail_integration": ""
+      }
+    }
+  },
+  {
+    "slug": "laravel-breeze",
+    "category": "Concept",
+    "builder_params": {
+      "frontend": "react",
+      "auth": "laravel"
+    },
+    "related": [
+      "laravel-jetstream",
+      "laravel-sail"
+    ],
+    "translations": {
+      "en": {
+        "title": "Laravel Breeze",
+        "question": "What is Laravel Breeze?",
+        "summary": "Laravel Breeze is a minimal starter kit that provides authentication scaffolding for Laravel applications.",
+        "definition": "Laravel Breeze is a minimal, simple starter kit for Laravel applications. It provides authentication scaffolding with login, registration, password reset, email verification, and profile management. Breeze supports Livewire (with Volt or class components), Vue with Inertia, React with Inertia, and Svelte with Inertia. Breeze is the default starter kit for new Laravel applications since Laravel 11, replacing Jetstream as the recommended starting point.",
+        "sail_integration": "Breeze is not a standalone Charter option. It's included in starter kit selection when the --livewire, --vue, --react, or --svelte flags are passed to laravel new."
+      },
+      "es": {
+        "title": "Laravel Breeze",
+        "question": "¿Qué es Laravel Breeze?",
+        "summary": "Laravel Breeze es un starter kit mínimo que proporciona scaffolding de autenticación para Laravel.",
+        "definition": "Laravel Breeze es un starter kit mínimo y simple para Laravel. Proporciona scaffolding de autenticación con inicio de sesión, registro, restablecimiento de contraseña, verificación de email y gestión de perfil. Breeze soporta Livewire, Vue con Inertia, React con Inertia y Svelte con Inertia.",
+        "sail_integration": "Breeze no es una opción independiente en Charter. Se incluye en la selección de starter kit mediante las banderas --livewire, --vue, --react o --svelte."
+      }
+    }
+  },
+  {
+    "slug": "laravel-jetstream",
+    "category": "Concept",
+    "builder_params": {
+      "frontend": "livewire",
+      "auth": "laravel",
+      "teams": true
+    },
+    "related": [
+      "laravel-breeze",
+      "laravel-sail"
+    ],
+    "translations": {
+      "en": {
+        "title": "Laravel Jetstream",
+        "question": "What is Laravel Jetstream?",
+        "summary": "Jetstream is a more feature-rich starter kit with teams, API tokens, and two-factor authentication.",
+        "definition": "Laravel Jetstream is a feature-rich starter kit that provides authentication, team management, API token support (via Sanctum), two-factor authentication, and session management. Jetstream supports Livewire and Inertia.js (Vue/React) stacks. While Jetstream was the recommended starter kit before Laravel 11, Breeze is now the default recommendation for new projects.",
+        "sail_integration": "Jetstream is not directly toggled in Charter. It can be installed after scaffolding via Composer, but Charter's starter kit options focus on Breeze-based scaffolding."
+      },
+      "es": {
+        "title": "Laravel Jetstream",
+        "question": "¿Qué es Laravel Jetstream?",
+        "summary": "Jetstream es un starter kit con funcionalidades avanzadas como equipos, tokens API y autenticación de dos factores.",
+        "definition": "Laravel Jetstream es un starter kit más completo que proporciona autenticación, gestión de equipos, tokens API (via Sanctum), autenticación de dos factores y gestión de sesiones. Jetstream soporta Livewire e Inertia.js. Aunque fue el starter kit recomendado antes de Laravel 11, Breeze es ahora la recomendación por defecto.",
+        "sail_integration": "Jetstream no está disponible directamente en Charter. Puede instalarse después vía Composer."
+      }
+    }
+  },
+  {
+    "slug": "redis",
+    "category": "Service",
+    "builder_params": {
+      "services": [
+        "redis"
+      ]
+    },
+    "related": [
+      "meilisearch",
+      "typesense",
+      "valkey",
+      "memcached"
+    ],
+    "translations": {
+      "en": {
+        "title": "Redis",
+        "question": "What is Redis?",
+        "summary": "Redis is an in-memory data store used by Laravel for caching, sessions, and queues.",
+        "definition": "Redis is an open-source, in-memory data structure store used as a database, cache, message broker, and queue backend. It supports strings, hashes, lists, sets, sorted sets, streams, and more. Laravel uses Redis for cache drivers, session storage, queue backends (via the redis driver), and as a broadcast driver for WebSockets via Laravel Reverb.",
+        "sail_integration": "Charter toggles the --redis flag. Sail runs Redis in a Docker container on port 6379. Laravel automatically detects and configures it for caching, sessions, and queues."
+      },
+      "es": {
+        "title": "Redis",
+        "question": "¿Qué es Redis?",
+        "summary": "Redis es un almacén de datos en memoria usado por Laravel para caché, sesiones y colas.",
+        "definition": "Redis es un almacén de datos en memoria de código abierto usado como base de datos, caché, broker de mensajes y backend de colas. Soporta strings, hashes, listas, conjuntos, streams y más. Laravel usa Redis para drivers de caché, almacenamiento de sesiones, backends de colas y broadcasting via Laravel Reverb.",
+        "sail_integration": "Charter activa la bandera --redis. Sail ejecuta Redis en un contenedor Docker en el puerto 6379. Laravel lo detecta y configura automáticamente."
+      }
+    }
+  },
+  {
+    "slug": "mysql",
+    "category": "Service",
+    "builder_params": {
+      "services": [
+        "mysql"
+      ],
+      "database": "mysql"
+    },
+    "related": [
+      "mariadb",
+      "pgsql",
+      "sqlite",
+      "sqlsrv"
+    ],
+    "translations": {
+      "en": {
+        "title": "MySQL",
+        "question": "What is MySQL?",
+        "summary": "MySQL is a popular open-source relational database management system used by Laravel applications.",
+        "definition": "MySQL is an open-source relational database management system developed by Oracle. It uses SQL for querying and supports ACID-compliant transactions, stored procedures, triggers, and views. MySQL is the most widely deployed database for Laravel applications and is fully supported by Sail with automatic database creation and configuration.",
+        "sail_integration": "Charter toggles the --mysql flag in the generated command. Sail runs MySQL in a Docker container on port 3306 and automatically creates a database matching your application name."
+      },
+      "es": {
+        "title": "MySQL",
+        "question": "¿Qué es MySQL?",
+        "summary": "MySQL es un sistema de gestión de bases de datos relacional de código abierto usado por aplicaciones Laravel.",
+        "definition": "MySQL es un sistema de gestión de bases de datos relacional de código abierto desarrollado por Oracle. Usa SQL para consultas y soporta transacciones ACID, procedimientos almacenados, disparadores y vistas. MySQL es la base de datos más utilizada para Laravel y Sail la soporta completamente.",
+        "sail_integration": "Charter activa la bandera --mysql. Sail ejecuta MySQL en un contenedor Docker en el puerto 3306 y crea automáticamente una base de datos con el nombre de tu aplicación."
+      }
+    }
+  },
+  {
+    "slug": "mariadb",
+    "category": "Service",
+    "builder_params": {
+      "services": [
+        "mariadb"
+      ],
+      "database": "mariadb"
+    },
+    "related": [
+      "mysql",
+      "pgsql",
+      "sqlite",
+      "sqlsrv"
+    ],
+    "translations": {
+      "en": {
+        "title": "MariaDB",
+        "question": "What is MariaDB?",
+        "summary": "MariaDB is a community-developed fork of MySQL maintained by the original MySQL developers.",
+        "definition": "MariaDB is a fork of MySQL created by the original MySQL developers after Oracle's acquisition. It maintains full compatibility with MySQL while adding new storage engines, performance optimizations, and improved security features. MariaDB uses the same SQL syntax and protocols as MySQL, so Laravel treats it identically via the mysql database driver.",
+        "sail_integration": "Charter toggles the --mariadb flag. Sail runs MariaDB in a Docker container as a drop-in replacement for MySQL, compatible with all Laravel database features."
+      },
+      "es": {
+        "title": "MariaDB",
+        "question": "¿Qué es MariaDB?",
+        "summary": "MariaDB es un fork de MySQL desarrollado por la comunidad, mantenido por los desarrolladores originales de MySQL.",
+        "definition": "MariaDB es un fork de MySQL creado por los desarrolladores originales tras la adquisición de MySQL por Oracle. Mantiene compatibilidad total con MySQL mientras añade nuevos motores de almacenamiento y optimizaciones de rendimiento. Laravel la trata de forma idéntica mediante el driver de base de datos mysql.",
+        "sail_integration": "Charter activa la bandera --mariadb. Sail ejecuta MariaDB como reemplazo directo de MySQL, compatible con todas las funcionalidades de Laravel."
+      }
+    }
+  },
+  {
+    "slug": "pgsql",
+    "category": "Service",
+    "builder_params": {
+      "services": [
+        "pgsql"
+      ],
+      "database": "pgsql"
+    },
+    "related": [
+      "mysql",
+      "mariadb",
+      "sqlite",
+      "sqlsrv"
+    ],
+    "translations": {
+      "en": {
+        "title": "PostgreSQL",
+        "question": "What is PostgreSQL?",
+        "summary": "PostgreSQL is an advanced open-source relational database known for reliability and feature richness.",
+        "definition": "PostgreSQL is an advanced open-source relational database management system. It supports ACID transactions, advanced indexing (GIN, GiST, BRIN), JSON/JSONB document storage, full-text search, custom data types, and concurrent read-heavy workloads. PostgreSQL is often chosen for applications that require complex queries, geographic data (PostGIS), or strict data integrity.",
+        "sail_integration": "Charter toggles the --pgsql flag. Sail runs PostgreSQL in a Docker container on port 5432 and automatically configures the .env file with the correct connection settings."
+      },
+      "es": {
+        "title": "PostgreSQL",
+        "question": "¿Qué es PostgreSQL?",
+        "summary": "PostgreSQL es una base de datos relacional avanzada conocida por su fiabilidad y riqueza de funcionalidades.",
+        "definition": "PostgreSQL es un sistema de base de datos relacional avanzado de código abierto. Soporta transacciones ACID, indexación avanzada (GIN, GiST, BRIN), almacenamiento JSON/JSONB, búsqueda de texto completo y cargas de trabajo de lectura intensiva. Es ideal para aplicaciones que requieren consultas complejas o datos geográficos (PostGIS).",
+        "sail_integration": "Charter activa la bandera --pgsql. Sail ejecuta PostgreSQL en un contenedor Docker en el puerto 5432 y configura automáticamente el archivo .env."
+      }
+    }
+  },
+  {
+    "slug": "sqlite",
+    "category": "Database",
+    "builder_params": {
+      "database": "sqlite"
+    },
+    "related": [
+      "mysql",
+      "mariadb",
+      "pgsql",
+      "sqlsrv"
+    ],
+    "translations": {
+      "en": {
+        "title": "SQLite",
+        "question": "What is SQLite?",
+        "summary": "SQLite is a self-contained, serverless database engine that stores data in a single file on disk.",
+        "definition": "SQLite is a C-language library that implements a small, fast, self-contained SQL database engine. Unlike MySQL or PostgreSQL, SQLite is serverless and stores the entire database in a single file. It's ideal for development, testing, and small applications. Laravel supports SQLite out of the box and uses it by default for testing.",
+        "sail_integration": "SQLite works without any Docker container since it writes to a local file. Charter includes it as a database driver option that functions without the --mysql or --pgsql service flags."
+      },
+      "es": {
+        "title": "SQLite",
+        "question": "¿Qué es SQLite?",
+        "summary": "SQLite es un motor de base de datos autónomo y sin servidor que almacena datos en un solo archivo.",
+        "definition": "SQLite es una biblioteca que implementa un motor SQL de base de datos pequeño, rápido y autónomo. A diferencia de MySQL o PostgreSQL, SQLite no necesita servidor y almacena toda la base de datos en un solo archivo. Es ideal para desarrollo, testing y aplicaciones pequeñas.",
+        "sail_integration": "SQLite funciona sin contenedor Docker ya que escribe en un archivo local. Charter lo incluye como opción que funciona sin las banderas --mysql ni --pgsql."
+      }
+    }
+  },
+  {
+    "slug": "sqlsrv",
+    "category": "Database",
+    "builder_params": {
+      "database": "sqlsrv"
+    },
+    "related": [
+      "mysql",
+      "mariadb",
+      "pgsql",
+      "sqlite"
+    ],
+    "translations": {
+      "en": {
+        "title": "SQL Server",
+        "question": "What is SQL Server (sqlsrv)?",
+        "summary": "SQL Server is Microsoft's relational database management system, supported by Laravel via the sqlsrv driver.",
+        "definition": "Microsoft SQL Server is a relational database management system developed by Microsoft. Laravel supports SQL Server through the sqlsrv PDO driver, allowing Eloquent and the query builder to work with SQL Server databases. While not commonly used for local development with Sail, Laravel applications deployed on Windows servers often connect to SQL Server.",
+        "sail_integration": "SQL Server is not available as a Sail service. Charter offers it as a database driver option on the application form for projects that will target SQL Server in production."
+      },
+      "es": {
+        "title": "",
+        "question": "",
+        "summary": "",
+        "definition": "",
+        "sail_integration": ""
+      }
+    }
+  },
+  {
+    "slug": "mongodb",
+    "category": "Service",
+    "builder_params": {
+      "services": [
+        "mongodb"
+      ]
+    },
+    "related": [
+      "mysql",
+      "pgsql",
+      "redis"
+    ],
+    "translations": {
+      "en": {
+        "title": "MongoDB",
+        "question": "What is MongoDB?",
+        "summary": "MongoDB is a NoSQL document database that stores data in flexible, JSON-like documents.",
+        "definition": "MongoDB is a source-available NoSQL document database that stores data in flexible, JSON-like documents with optional schemas. It supports indexing, aggregation pipelines, replication, and sharding. While Laravel primarily works with relational databases, MongoDB can be used via the mongodb/laravel-mongodb package for applications requiring document storage.",
+        "sail_integration": "MongoDB is available as a Sail service. Charter includes it as a service toggle for applications that need document database storage alongside the relational database."
+      },
+      "es": {
+        "title": "",
+        "question": "",
+        "summary": "",
+        "definition": "",
+        "sail_integration": ""
+      }
+    }
+  },
+  {
+    "slug": "meilisearch",
+    "category": "Service",
+    "builder_params": {
+      "services": [
+        "meilisearch"
+      ]
+    },
+    "related": [
+      "typesense",
+      "redis",
+      "mysql"
+    ],
+    "translations": {
+      "en": {
+        "title": "Meilisearch",
+        "question": "What is Meilisearch?",
+        "summary": "Meilisearch is an open-source search engine designed for fast, relevant full-text search in web applications.",
+        "definition": "Meilisearch is an open-source, RESTful search engine designed for speed and relevance. It provides typo-tolerant full-text search, faceted filtering, sorting, and instant search results. Meilisearch is particularly well-suited for Laravel Scout integration, where it serves as a search driver with automatic indexing of Eloquent models.",
+        "sail_integration": "Charter toggles the --meilisearch flag. Sail runs Meilisearch in a Docker container on port 7700. Laravel Scout can be configured to use it as the search driver for model indexing."
+      },
+      "es": {
+        "title": "Meilisearch",
+        "question": "¿Qué es Meilisearch?",
+        "summary": "Meilisearch es un motor de búsqueda de código abierto diseñado para búsquedas rápidas y relevantes.",
+        "definition": "Meilisearch es un motor de búsqueda RESTful de código abierto diseñado para velocidad y relevancia. Proporciona búsqueda de texto completo con tolerancia a errores tipográficos, filtros por facetas, ordenamiento y resultados instantáneos. Se integra con Laravel Scout como driver de búsqueda con indexación automática de modelos Eloquent.",
+        "sail_integration": "Charter activa la bandera --meilisearch. Sail ejecuta Meilisearch en el puerto 7700. Laravel Scout puede configurarse para usarlo como motor de búsqueda."
+      }
+    }
+  },
+  {
+    "slug": "typesense",
+    "category": "Service",
+    "builder_params": {
+      "services": [
+        "typesense"
+      ]
+    },
+    "related": [
+      "meilisearch",
+      "redis",
+      "mysql"
+    ],
+    "translations": {
+      "en": {
+        "title": "Typesense",
+        "question": "What is Typesense?",
+        "summary": "Typesense is an open-source search engine similar to Meilisearch, focused on developer experience and performance.",
+        "definition": "Typesense is an open-source, typo-tolerant search engine optimized for instant search experiences. It provides faceted search, geolocation queries, vector search for AI-powered recommendations, and automatic ranking. Typesense serves as an alternative to Meilisearch and is supported by Laravel Scout as a search driver with automatic model indexing.",
+        "sail_integration": "Charter toggles the --typesense flag. Sail runs Typesense in a Docker container on port 8108. Laravel Scout can use it as the search backend for full-text model search."
+      },
+      "es": {
+        "title": "Typesense",
+        "question": "¿Qué es Typesense?",
+        "summary": "Typesense es un motor de búsqueda de código abierto similar a Meilisearch, centrado en rendimiento y experiencia de desarrollo.",
+        "definition": "Typesense es un motor de búsqueda de código abierto optimizado para experiencias de búsqueda instantánea. Proporciona búsqueda con tolerancia a errores, búsqueda geográfica, búsqueda vectorial para recomendaciones IA y ranking automático. Es compatible con Laravel Scout como driver de búsqueda.",
+        "sail_integration": "Charter activa la bandera --typesense. Sail ejecuta Typesense en el puerto 8108. Laravel Scout puede usarlo como backend de búsqueda."
+      }
+    }
+  },
+  {
+    "slug": "valkey",
+    "category": "Service",
+    "builder_params": {
+      "services": [
+        "valkey"
+      ]
+    },
+    "related": [
+      "redis",
+      "memcached"
+    ],
+    "translations": {
+      "en": {
+        "title": "Valkey",
+        "question": "What is Valkey?",
+        "summary": "Valkey is a Redis-compatible in-memory data store, forked after Redis's license change in 2024.",
+        "definition": "Valkey is an open-source, Redis-compatible in-memory data store created as a fork of Redis 7.4 after Redis changed its license in 2024. It maintains full API compatibility with Redis, meaning Laravel applications can use Valkey as a drop-in replacement for caching, sessions, queues, and broadcasting without code changes. Valkey is backed by the Linux Foundation and supported by major cloud providers.",
+        "sail_integration": "Charter toggles the --valkey flag. Sail runs Valkey in a Docker container as a drop-in replacement for Redis, compatible with all Laravel cache, session, and queue drivers."
+      },
+      "es": {
+        "title": "Valkey",
+        "question": "¿Qué es Valkey?",
+        "summary": "Valkey es un almacén de datos en memoria compatible con Redis, bifurcado tras el cambio de licencia de Redis en 2024.",
+        "definition": "Valkey es un almacén de datos en memoria de código abierto y compatible con Redis, creado como fork de Redis 7.4 tras el cambio de licencia de Redis en 2024. Mantiene compatibilidad total de API, permitiendo a Laravel usarlo como reemplazo directo para caché, sesiones, colas y broadcasting.",
+        "sail_integration": "Charter activa la bandera --valkey. Sail ejecuta Valkey como reemplazo directo de Redis, compatible con todos los drivers de Laravel."
+      }
+    }
+  },
+  {
+    "slug": "memcached",
+    "category": "Service",
+    "builder_params": {
+      "services": [
+        "memcached"
+      ]
+    },
+    "related": [
+      "redis",
+      "valkey"
+    ],
+    "translations": {
+      "en": {
+        "title": "Memcached",
+        "question": "What is Memcached?",
+        "summary": "Memcached is a distributed memory caching system that speeds up dynamic web applications by reducing database load.",
+        "definition": "Memcached is a high-performance, distributed memory caching system. It stores data in key-value pairs in RAM, reducing database read requests for frequently accessed data. Laravel supports Memcached as a cache driver, though Redis has become the more common choice in the Laravel ecosystem due to its richer data structures.",
+        "sail_integration": "Memcached is available as a Sail service. Charter includes it as a service toggle for projects that need a dedicated caching layer via Memcached."
+      },
+      "es": {
+        "title": "",
+        "question": "",
+        "summary": "",
+        "definition": "",
+        "sail_integration": ""
+      }
+    }
+  },
+  {
+    "slug": "minio",
+    "category": "Service",
+    "builder_params": {
+      "services": [
+        "minio"
+      ]
+    },
+    "related": [
+      "mysql",
+      "pgsql",
+      "mailpit"
+    ],
+    "translations": {
+      "en": {
+        "title": "MinIO",
+        "question": "What is MinIO?",
+        "summary": "MinIO is an S3-compatible object storage server used for local file storage development.",
+        "definition": "MinIO is a high-performance, S3-compatible object storage server. It provides the same API as Amazon S3, allowing Laravel applications to use the s3 disk driver during development with local storage. MinIO supports bucketing, versioning, lifecycle policies, and encryption, making it ideal for testing file uploads, avatars, and media handling before deploying to AWS.",
+        "sail_integration": "Charter toggles the --minio flag. Sail runs MinIO in a Docker container on port 9000 with the S3-compatible API. Laravel's filesystem config can use it as the s3 disk for local development."
+      },
+      "es": {
+        "title": "MinIO",
+        "question": "¿Qué es MinIO?",
+        "summary": "MinIO es un servidor de almacenamiento de objetos compatible con S3 para desarrollo local.",
+        "definition": "MinIO es un servidor de almacenamiento de objetos de alto rendimiento compatible con Amazon S3. Proporciona la misma API que S3, permitiendo a Laravel usar el driver s3 durante el desarrollo con almacenamiento local. Soporta buckets, versionado y cifrado.",
+        "sail_integration": "Charter activa la bandera --minio. Sail ejecuta MinIO en el puerto 9000 con la API S3. Laravel puede usarlo como disco s3 para desarrollo local."
+      }
+    }
+  },
+  {
+    "slug": "mailpit",
+    "category": "Service",
+    "builder_params": {
+      "services": [
+        "mailpit"
+      ]
+    },
+    "related": [
+      "selenium",
+      "minio",
+      "redis"
+    ],
+    "translations": {
+      "en": {
+        "title": "Mailpit",
+        "question": "What is Mailpit?",
+        "summary": "Mailpit is an email testing tool for development environments that captures and previews outgoing emails.",
+        "definition": "Mailpit is an open-source email testing tool for development. It runs an SMTP server that captures outgoing emails from your application and provides a web UI to preview, search, and inspect them. Mailpit replaces Mailhog in newer Laravel Sail setups and is the default mail driver in development. It supports HTML rendering, attachment preview, and multi-user isolation.",
+        "sail_integration": "Charter toggles the --mailpit flag. Sail runs Mailpit in a Docker container with SMTP on port 1025 and a web UI on port 8025 to preview captured emails."
+      },
+      "es": {
+        "title": "Mailpit",
+        "question": "¿Qué es Mailpit?",
+        "summary": "Mailpit es una herramienta de prueba de correo electrónico para entornos de desarrollo.",
+        "definition": "Mailpit es una herramienta de código abierto para pruebas de correo electrónico en desarrollo. Ejecuta un servidor SMTP que captura los correos salientes de tu aplicación y proporciona una interfaz web para previsualizarlos, buscarlos e inspeccionarlos. Mailpit reemplaza a Mailhog en las versiones recientes de Laravel Sail.",
+        "sail_integration": "Charter activa la bandera --mailpit. Sail ejecuta Mailpit con SMTP en el puerto 1025 y una UI web en el puerto 8025."
+      }
+    }
+  },
+  {
+    "slug": "rabbitmq",
+    "category": "Service",
+    "builder_params": {
+      "services": [
+        "rabbitmq"
+      ]
+    },
+    "related": [
+      "redis",
+      "meilisearch"
+    ],
+    "translations": {
+      "en": {
+        "title": "RabbitMQ",
+        "question": "What is RabbitMQ?",
+        "summary": "RabbitMQ is a message broker that enables asynchronous processing and communication between services.",
+        "definition": "RabbitMQ is an open-source message broker that implements the AMQP protocol. It enables asynchronous processing by managing message queues between producers and consumers. Laravel can use RabbitMQ as a queue driver via the vladimir-yuldashev/laravel-queue-rabbitmq package, providing reliable job processing with advanced routing.",
+        "sail_integration": "RabbitMQ is available as a Sail service for development. Charter includes it as a service toggle when your application needs an alternative queue backend to Redis."
+      },
+      "es": {
+        "title": "",
+        "question": "",
+        "summary": "",
+        "definition": "",
+        "sail_integration": ""
+      }
+    }
+  },
+  {
+    "slug": "selenium",
+    "category": "Service",
+    "builder_params": {
+      "services": [
+        "selenium"
+      ]
+    },
+    "related": [
+      "mailpit",
+      "redis",
+      "mysql"
+    ],
+    "translations": {
+      "en": {
+        "title": "Selenium",
+        "question": "What is Selenium?",
+        "summary": "Selenium is a browser automation tool used for end-to-end testing of web applications.",
+        "definition": "Selenium is an open-source browser automation framework that supports Chrome, Firefox, Safari, and Edge. It's used for end-to-end testing of web applications by simulating real user interactions like clicks, form submissions, and navigation. Laravel Dusk uses Selenium (or ChromeDriver directly) for browser testing.",
+        "sail_integration": "Charter toggles the --selenium flag. Sail runs Selenium in a Docker container with Chrome, enabling Laravel Dusk browser tests in the Sail environment without installing browser drivers locally."
+      },
+      "es": {
+        "title": "Selenium",
+        "question": "¿Qué es Selenium?",
+        "summary": "Selenium es una herramienta de automatización de navegadores para testing end-to-end.",
+        "definition": "Selenium es un framework de automatización de navegadores de código abierto que soporta Chrome, Firefox, Safari y Edge. Se usa para testing end-to-end simulando interacciones reales de usuario. Laravel Dusk usa Selenium para pruebas de navegador.",
+        "sail_integration": "Charter activa la bandera --selenium. Sail ejecuta Selenium con Chrome en un contenedor Docker, permitiendo tests de Laravel Dusk sin instalar drivers localmente."
+      }
+    }
+  },
+  {
+    "slug": "soketi",
+    "category": "Service",
+    "builder_params": {
+      "services": [
+        "soketi"
+      ]
+    },
+    "related": [
+      "redis",
+      "meilisearch"
+    ],
+    "translations": {
+      "en": {
+        "title": "Soketi",
+        "question": "What is Soketi?",
+        "summary": "Soketi is an open-source WebSocket server that provides real-time communication using the Pusher protocol.",
+        "definition": "Soketi is a simple, open-source WebSocket server that implements the Pusher protocol. It allows Laravel applications to send real-time events to the browser using Laravel Broadcasting without depending on Pusher's cloud service. Soketi is built on Node.js and supports all Pusher-compatible Laravel broadcasting features.",
+        "sail_integration": "Soketi is available as a Sail service. Charter includes it as a service toggle for real-time broadcasting without external dependencies like Pusher."
+      },
+      "es": {
+        "title": "",
+        "question": "",
+        "summary": "",
+        "definition": "",
+        "sail_integration": ""
+      }
+    }
+  },
+  {
+    "slug": "livewire",
+    "category": "Starter Kit",
+    "builder_params": {
+      "frontend": "livewire"
+    },
+    "related": [
+      "vue",
+      "react",
+      "svelte"
+    ],
+    "translations": {
+      "en": {
+        "title": "Livewire",
+        "question": "What is Laravel Livewire?",
+        "summary": "Livewire is a Laravel framework for building dynamic UI components without writing JavaScript.",
+        "definition": "Laravel Livewire is a full-stack framework for Laravel that enables building dynamic, reactive user interfaces using server-rendered PHP components. Livewire handles AJAX requests and DOM diffing automatically, so developers can create interactive features like forms, modals, and live search without writing JavaScript. Livewire supports Volt (single-file components) and class-based components.",
+        "sail_integration": "Charter offers Livewire as a starter kit option. The generated command includes the --livewire flag, scaffolding a Laravel app with Livewire, Tailwind CSS, and authentication."
+      },
+      "es": {
+        "title": "Livewire",
+        "question": "¿Qué es Laravel Livewire?",
+        "summary": "Livewire es un framework de Laravel para construir componentes UI dinámicos sin escribir JavaScript.",
+        "definition": "Laravel Livewire es un framework full-stack para Laravel que permite construir interfaces de usuario dinámicas y reactivas usando componentes PHP renderizados en el servidor. Livewire maneja las peticiones AJAX y el diff del DOM automáticamente, permitiendo crear formularios, modales y búsqueda en vivo sin JavaScript.",
+        "sail_integration": "Charter ofrece Livewire como opción de starter kit. El comando generado incluye --livewire para configurar una app con Livewire y autenticación."
+      }
+    }
+  },
+  {
+    "slug": "react",
+    "category": "Starter Kit",
+    "builder_params": {
+      "frontend": "react"
+    },
+    "related": [
+      "vue",
+      "livewire",
+      "svelte"
+    ],
+    "translations": {
+      "en": {
+        "title": "React",
+        "question": "What is React?",
+        "summary": "React is a JavaScript library for building user interfaces, maintained by Meta and widely used with Laravel.",
+        "definition": "React is a JavaScript library for building user interfaces, developed and maintained by Meta. It features a component-based architecture, virtual DOM for performance, and a large ecosystem of libraries. React pairs well with Laravel via Inertia.js and is one of the starter kit options for new Laravel applications alongside Vue, Livewire, and Svelte.",
+        "sail_integration": "Charter offers React as a starter kit option. The generated command includes the --react flag for a Laravel app with React, Inertia.js, Tailwind CSS, and authentication."
+      },
+      "es": {
+        "title": "React",
+        "question": "¿Qué es React?",
+        "summary": "React es una biblioteca JavaScript para construir interfaces de usuario, mantenida por Meta.",
+        "definition": "React es una biblioteca JavaScript para construir interfaces de usuario, desarrollada y mantenida por Meta. Cuenta con una arquitectura basada en componentes, DOM virtual para rendimiento y un gran ecosistema de bibliotecas. React se integra con Laravel mediante Inertia.js.",
+        "sail_integration": "Charter ofrece React como opción de starter kit. El comando generado incluye --react para configurar una app con React, Inertia.js y autenticación."
+      }
+    }
+  },
+  {
+    "slug": "vue",
+    "category": "Starter Kit",
+    "builder_params": {
+      "frontend": "vue"
+    },
+    "related": [
+      "react",
+      "livewire",
+      "svelte"
+    ],
+    "translations": {
+      "en": {
+        "title": "Vue.js",
+        "question": "What is Vue.js?",
+        "summary": "Vue.js is a progressive JavaScript framework for building user interfaces, commonly paired with Laravel.",
+        "definition": "Vue.js is a progressive JavaScript framework for building user interfaces and single-page applications. It features a component-based architecture, reactive data binding, and a gentle learning curve. Vue integrates natively with Laravel via Inertia.js (included in the Vue starter kit) and is the most popular frontend choice in the Laravel ecosystem.",
+        "sail_integration": "Charter offers Vue as a starter kit option. The generated command includes the --vue flag, scaffolding a Laravel app with Vue, Inertia.js, Tailwind CSS, and authentication."
+      },
+      "es": {
+        "title": "Vue.js",
+        "question": "¿Qué es Vue.js?",
+        "summary": "Vue.js es un framework progresivo de JavaScript para construir interfaces de usuario.",
+        "definition": "Vue.js es un framework progresivo de JavaScript para construir interfaces de usuario y aplicaciones de una sola página. Cuenta con una arquitectura basada en componentes, enlace de datos reactivo y una curva de aprendizaje suave. Vue se integra nativamente con Laravel mediante Inertia.js y es la opción frontend más popular en el ecosistema Laravel.",
+        "sail_integration": "Charter ofrece Vue como opción de starter kit. El comando generado incluye --vue para configurar una app con Vue, Inertia.js y autenticación."
+      }
+    }
+  },
+  {
+    "slug": "svelte",
+    "category": "Starter Kit",
+    "builder_params": {
+      "frontend": "svelte"
+    },
+    "related": [
+      "react",
+      "vue",
+      "livewire"
+    ],
+    "translations": {
+      "en": {
+        "title": "Svelte",
+        "question": "What is Svelte?",
+        "summary": "Svelte is a compiler-based JavaScript framework that shifts work from runtime to compile time for smaller bundles.",
+        "definition": "Svelte is a JavaScript framework that shifts much of the work from runtime to compile time, producing highly optimized vanilla JavaScript bundles. It features reactive declarations, stores for state management, and seamless transitions. Svelte pairs with Laravel via Inertia.js and is available as a starter kit option for new Laravel applications.",
+        "sail_integration": "Charter offers Svelte as a starter kit option. The generated command includes the --svelte flag, scaffolding a Laravel app with Svelte, Inertia.js, Tailwind CSS, and authentication."
+      },
+      "es": {
+        "title": "Svelte",
+        "question": "¿Qué es Svelte?",
+        "summary": "Svelte es un framework JavaScript basado en compilador que traslada el trabajo del runtime al tiempo de compilación.",
+        "definition": "Svelte es un framework JavaScript que traslada el trabajo del runtime al tiempo de compilación, produciendo bundles de JavaScript altamente optimizados. Cuenta con declaraciones reactivas, stores para gestión de estado y transiciones fluidas. Svelte se integra con Laravel mediante Inertia.js como starter kit.",
+        "sail_integration": "Charter ofrece Svelte como opción de starter kit. El comando generado incluye --svelte para configurar una app con Svelte, Inertia.js y autenticación."
+      }
+    }
+  },
+  {
+    "slug": "pest",
+    "category": "Testing",
+    "builder_params": {
+      "testing": "pest"
+    },
+    "related": [
+      "phpunit"
+    ],
+    "translations": {
+      "en": {
+        "title": "Pest",
+        "question": "What is Pest PHP?",
+        "summary": "Pest is a testing framework for PHP designed around a clean, expressive syntax built on top of PHPUnit.",
+        "definition": "Pest is a PHP testing framework created by Nuno Maduro that wraps PHPUnit with a cleaner, more expressive syntax. It supports closures for test definitions, test datasets, arch testing for codebase analysis, and higher-order expectations like expect()->toBeTrue(). Pest is the recommended testing framework for new Laravel applications and is the default option in laravel new since Laravel 11.",
+        "sail_integration": "Charter offers Pest as the default testing framework option. The generated command includes --pest to scaffold tests with Pest's expressive syntax."
+      },
+      "es": {
+        "title": "Pest",
+        "question": "¿Qué es Pest PHP?",
+        "summary": "Pest es un framework de testing para PHP con sintaxis limpia y expresiva, construido sobre PHPUnit.",
+        "definition": "Pest es un framework de testing PHP creado por Nuno Maduro que envuelve PHPUnit con una sintaxis más limpia y expresiva. Soporta closures para definiciones de tests, datasets, arch testing y expectativas de alto nivel como expect()->toBeTrue(). Pest es el framework de testing recomendado para nuevos proyectos Laravel desde Laravel 11.",
+        "sail_integration": "Charter ofrece Pest como opción por defecto. El comando generado incluye --pest para configurar tests con sintaxis expresiva."
+      }
+    }
+  },
+  {
+    "slug": "phpunit",
+    "category": "Testing",
+    "builder_params": {
+      "testing": "phpunit"
+    },
+    "related": [
+      "pest"
+    ],
+    "translations": {
+      "en": {
+        "title": "PHPUnit",
+        "question": "What is PHPUnit?",
+        "summary": "PHPUnit is the classic testing framework for PHP, providing xUnit-style unit and feature testing.",
+        "definition": "PHPUnit is the original PHP testing framework following the xUnit architecture. It provides assertions, test fixtures, data providers, mock objects, and code coverage analysis. While Pest has become the default for new Laravel projects, PHPUnit remains fully supported and many existing Laravel applications use it. PHPUnit tests are valid Pest tests since Pest is built on top of PHPUnit.",
+        "sail_integration": "Charter offers PHPUnit as an alternative to Pest. The generated command omits the --pest flag, scaffolding tests with PHPUnit's traditional syntax."
+      },
+      "es": {
+        "title": "PHPUnit",
+        "question": "¿Qué es PHPUnit?",
+        "summary": "PHPUnit es el framework de testing clásico para PHP, proporcionando tests unitarios y de funcionalidad.",
+        "definition": "PHPUnit es el framework de testing original para PHP que sigue la arquitectura xUnit. Proporciona aserciones, fixtures, data providers, mocks y cobertura de código. Aunque Pest es ahora la opción por defecto para nuevos proyectos Laravel, PHPUnit sigue siendo totalmente compatible y muchas aplicaciones existentes lo usan.",
+        "sail_integration": "Charter ofrece PHPUnit como alternativa a Pest. El comando generado omite --pest, configurando tests con sintaxis PHPUnit tradicional."
+      }
+    }
+  },
+  {
+    "slug": "workos",
+    "category": "Auth",
+    "builder_params": {
+      "auth": "workos"
+    },
+    "related": [
+      "laravel-breeze"
+    ],
+    "translations": {
+      "en": {
+        "title": "WorkOS",
+        "question": "What is WorkOS?",
+        "summary": "WorkOS provides enterprise-ready authentication with SSO, SCIM, and directory sync for Laravel applications.",
+        "definition": "WorkOS is a platform that adds enterprise features to applications: single sign-on (SSO) via SAML and OIDC, SCIM provisioning, directory sync, and audit trails. Laravel starter kits with WorkOS integration provide authentication flows that work with corporate identity providers like Okta, Azure AD, and Google Workspace.",
+        "sail_integration": "Charter offers WorkOS as an auth provider option. When selected alongside a starter kit, the generated command includes the WorkOS driver for enterprise authentication."
+      },
+      "es": {
+        "title": "WorkOS",
+        "question": "¿Qué es WorkOS?",
+        "summary": "WorkOS proporciona autenticación empresarial con SSO, SCIM y sincronización de directorios.",
+        "definition": "WorkOS es una plataforma que añade funcionalidades empresariales a las aplicaciones: inicio de sesión único (SSO) via SAML y OIDC, aprovisionamiento SCIM, sincronización de directorios y registros de auditoría. Los starter kits de Laravel con WorkOS proporcionan flujos de autenticación para proveedores corporativos.",
+        "sail_integration": "Charter ofrece WorkOS como proveedor de autenticación. Al seleccionarlo, el comando incluye el driver WorkOS para autenticación empresarial."
+      }
+    }
+  },
+  {
+    "slug": "npm",
+    "category": "Runtime",
+    "builder_params": {
+      "javascript": "npm"
+    },
+    "related": [
+      "bun",
+      "pnpm",
+      "yarn"
+    ],
+    "translations": {
+      "en": {
+        "title": "npm",
+        "question": "What is npm?",
+        "summary": "npm is the default package manager for Node.js, used to install JavaScript dependencies in Laravel projects.",
+        "definition": "npm (Node Package Manager) is the default package manager for Node.js and the JavaScript ecosystem. It manages project dependencies listed in package.json, publishes packages to the npm registry, and runs build scripts defined in the project. npm is included with Node.js and is the traditional package manager used by Laravel for frontend asset compilation via Vite.",
+        "sail_integration": "npm is the default runtime choice in Charter. When selected, the generated command uses npm install for frontend dependencies and npm run build for asset compilation."
+      },
+      "es": {
+        "title": "npm",
+        "question": "¿Qué es npm?",
+        "summary": "npm es el gestor de paquetes por defecto de Node.js, usado para instalar dependencias JavaScript.",
+        "definition": "npm (Node Package Manager) es el gestor de paquetes por defecto de Node.js. Gestiona las dependencias en package.json, publica paquetes en el registro npm y ejecuta scripts de build. npm se incluye con Node.js y es la opción tradicional para la compilación de assets frontend via Vite.",
+        "sail_integration": "npm es la opción por defecto en Charter. El comando generado usa npm install y npm run build para assets."
+      }
+    }
+  },
+  {
+    "slug": "bun",
+    "category": "Runtime",
+    "builder_params": {
+      "javascript": "bun"
+    },
+    "related": [
+      "npm",
+      "pnpm",
+      "yarn"
+    ],
+    "translations": {
+      "en": {
+        "title": "Bun",
+        "question": "What is Bun?",
+        "summary": "Bun is a fast JavaScript runtime, bundler, and package manager designed as a drop-in replacement for Node.js.",
+        "definition": "Bun is a JavaScript runtime and toolkit developed by Jarred Sumner. It serves as a drop-in replacement for Node.js with built-in bundling, transpilation, package management (bun install), and a test runner. Bun uses JavaScriptCore instead of V8 and is written in Zig, resulting in significantly faster startup times and package installations compared to Node.js and npm.",
+        "sail_integration": "Charter offers Bun as a JavaScript runtime option. The generated command includes --bun to use Bun for dependency installation and build scripts instead of npm."
+      },
+      "es": {
+        "title": "Bun",
+        "question": "¿Qué es Bun?",
+        "summary": "Bun es un runtime, bundler y gestor de paquetes JavaScript rápido, diseñado como reemplazo de Node.js.",
+        "definition": "Bun es un runtime y conjunto de herramientas JavaScript desarrollado por Jarred Sumner. Sirve como reemplazo directo de Node.js con bundling, transpilación, gestión de paquetes (bun install) y un test runner integrados. Bun usa JavaScriptCore en lugar de V8, resultando en inicios más rápidos.",
+        "sail_integration": "Charter ofrece Bun como runtime JavaScript. El comando generado incluye --bun para usar Bun en la instalación de dependencias y builds."
+      }
+    }
+  },
+  {
+    "slug": "pnpm",
+    "category": "Runtime",
+    "builder_params": {
+      "javascript": "pnpm"
+    },
+    "related": [
+      "npm",
+      "bun",
+      "yarn"
+    ],
+    "translations": {
+      "en": {
+        "title": "pnpm",
+        "question": "What is pnpm?",
+        "summary": "pnpm is a fast, disk-space-efficient package manager for JavaScript using hard links and symlinks.",
+        "definition": "pnpm is a JavaScript package manager that uses hard links and symlinks to store dependencies in a single content-addressable store. This saves disk space significantly when multiple projects share the same packages. pnpm is faster than npm for installs and provides strict module isolation, preventing access to undeclared dependencies.",
+        "sail_integration": "Charter offers pnpm as a JavaScript runtime option alongside Bun and npm. The generated command uses pnpm for dependency installation."
+      },
+      "es": {
+        "title": "pnpm",
+        "question": "¿Qué es pnpm?",
+        "summary": "pnpm es un gestor de paquetes JavaScript rápido y eficiente en disco que usa enlaces simbólicos.",
+        "definition": "pnpm es un gestor de paquetes JavaScript que usa enlaces duros y simbólicos para almacenar dependencias en un único almacén direccionable por contenido. Esto ahorra espacio en disco cuando múltiples proyectos comparten los mismos paquetes y proporciona aislamiento estricto de módulos.",
+        "sail_integration": "Charter ofrece pnpm como runtime JavaScript. El comando generado usa pnpm para la instalación de dependencias."
+      }
+    }
+  },
+  {
+    "slug": "yarn",
+    "category": "Runtime",
+    "builder_params": {
+      "javascript": "yarn"
+    },
+    "related": [
+      "npm",
+      "pnpm",
+      "bun"
+    ],
+    "translations": {
+      "en": {
+        "title": "Yarn",
+        "question": "What is Yarn?",
+        "summary": "Yarn is a fast, reliable, and secure JavaScript package manager, created as an alternative to npm.",
+        "definition": "Yarn is a JavaScript package manager developed by Meta. It was created to address npm's performance and reliability issues during the early npm years. Yarn features deterministic dependency resolution via yarn.lock, offline caching, and workspace support for monorepos. Modern npm versions have since caught up, but Yarn remains popular in many organizations.",
+        "sail_integration": "Charter offers Yarn as a JavaScript runtime option alongside npm, pnpm, and Bun. The generated command uses yarn for dependency installation instead of npm."
+      },
+      "es": {
+        "title": "",
+        "question": "",
+        "summary": "",
+        "definition": "",
+        "sail_integration": ""
+      }
+    }
+  }
+]

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
 import { Head, usePage } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import {
     availablePackageFeatures,
@@ -143,25 +143,33 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
 
 <template>
     <Head>
-        <title>{{ t('package_hero.title') }} — {{ t('header.app_name') }}</title>
-        <meta name="description" :content="t('package_hero.description')">
+        <title>{{ t('hero.package.title') }} — {{ t('header.app_name') }}</title>
+        <meta name="description" :content="t('hero.package.description')">
         <link rel="canonical" :href="`${props.url}/${locale}/package`">
     </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <section class="mb-8 space-y-3">
             <h1 class="text-2xl font-bold tracking-tight">
-                {{ t('package_hero.title') }}
+                {{ t('hero.package.title') }}
             </h1>
             <p class="text-sm text-muted-foreground">
-                {{ t('package_hero.description') }}
+                {{ t('hero.package.description') }}
             </p>
-            <a
-                :href="`/${locale}/application`"
-                class="inline-flex text-xs text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
-            >
-                &larr; {{ t('nav.back_to_charter') }}
-            </a>
+            <div class="flex items-center gap-4">
+                <a
+                    :href="`/${locale}/application`"
+                    class="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                >
+                    {{ t('hero.package.application_link') }}
+                </a>
+                <a
+                    href="#how-it-works"
+                    class="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+                >
+                    {{ t('hero.learn_link') }}
+                </a>
+            </div>
         </section>
 
         <Card class="mb-6">
@@ -238,7 +246,7 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                 <div>
                     <CodeBlock :code="command" />
                     <p class="mt-2 text-xs text-muted-foreground">
-                        {{ t('package_hero.docker_notice') }}
+                        {{ t('hero.package.docker_notice') }}
                     </p>
                     <p
                         v-if="isLocal"
@@ -333,6 +341,38 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                 </div>
             </CardContent>
         </Card>
+
+        <section id="how-it-works" class="mb-8 scroll-mt-20 space-y-4">
+            <h2 class="text-base font-semibold tracking-tight">
+                {{ t('hero.package.how_it_works.title') }}
+            </h2>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <div class="space-y-2 rounded-sm border border-border p-4">
+                    <span class="text-lg font-bold text-foreground">{{
+                        t('hero.package.how_it_works.step1_title')
+                    }}</span>
+                    <p class="text-sm text-muted-foreground">
+                        {{ t('hero.package.how_it_works.step1_desc') }}
+                    </p>
+                </div>
+                <div class="space-y-2 rounded-sm border border-border p-4">
+                    <span class="text-lg font-bold text-foreground">{{
+                        t('hero.package.how_it_works.step2_title')
+                    }}</span>
+                    <p class="text-sm text-muted-foreground">
+                        {{ t('hero.package.how_it_works.step2_desc') }}
+                    </p>
+                </div>
+                <div class="space-y-2 rounded-sm border border-border p-4">
+                    <span class="text-lg font-bold text-foreground">{{
+                        t('hero.package.how_it_works.step3_title')
+                    }}</span>
+                    <p class="text-sm text-muted-foreground">
+                        {{ t('hero.package.how_it_works.step3_desc') }}
+                    </p>
+                </div>
+            </div>
+        </section>
 
         <AppFooter />
     </main>

@@ -22,7 +22,7 @@ class LocaleController extends Controller
 
         if ($referer) {
             $refererPath = parse_url($referer, PHP_URL_PATH);
-            $refererSegments = array_values(array_filter(explode('/', $refererPath)));
+            $refererSegments = array_values(array_filter(explode('/', $refererPath ?: '')));
 
             if (count($refererSegments) > 0 && in_array($refererSegments[0], Locale::codes(), true)) {
                 $refererSegments[0] = $validated['locale'];

@@ -6,6 +6,9 @@ use Database\Factories\PackageStatFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperPackageStat
+ */
 class PackageStat extends Model
 {
     /** @use HasFactory<PackageStatFactory> */
