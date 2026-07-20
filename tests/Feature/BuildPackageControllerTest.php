@@ -6,7 +6,7 @@ use Inertia\Testing\AssertableInertia as Assert;
 
 describe('index', function () {
     test('renders the build package page', function () {
-        $this->get(route('build.package.index'))
+        $this->get(route('build.package.index', ['locale' => 'en']))
             ->assertSuccessful()
             ->assertInertia(
                 fn (Assert $page) => $page

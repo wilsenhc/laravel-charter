@@ -8,6 +8,6 @@ class HomepageController extends Controller
 {
     public function index(): RedirectResponse
     {
-        return redirect('/application');
+        return redirect('/'.app()->getLocale().'/application');
     }
 }

@@ -29,17 +29,26 @@
         <meta name="twitter:title" content="{{ __('meta.twitter_title') }}">
         <meta name="twitter:description" content="{{ __('meta.twitter_description') }}">
 
-        <link rel="canonical" href="{{ url()->current() }}">
-        <link rel="alternate" hreflang="en" href="{{ url()->current() }}">
-        <link rel="alternate" hreflang="es" href="{{ url()->current() }}">
+        @php
+            $segments = request()->segments();
+            if (count($segments) > 0 && in_array($segments[0], App\Enums\Locale::codes())) {
+                array_shift($segments);
+            }
+            $relativePath = implode('/', $segments) ?: 'application';
+        @endphp
+        <link rel="canonical" href="{{ url(app()->getLocale().'/'.$relativePath) }}">
+        @foreach (App\Enums\Locale::cases() as $locale)
+            <link rel="alternate" hreflang="{{ $locale->value }}" href="{{ url($locale->value.'/'.$relativePath) }}">
+        @endforeach
+        <link rel="alternate" hreflang="x-default" href="{{ url(App\Enums\Locale::default()->value.'/'.$relativePath) }}">
 
         <script type="application/ld+json">{"@@context":"https://schema.org","@@type":"FAQPage","mainEntity":[{"@@type":"Question","name":{{ Illuminate\Support\Js::from(__('faq.0.question')) }},"acceptedAnswer":{"@@type":"Answer","text":{{ Illuminate\Support\Js::from(__('faq.0.answer')) }}}},{"@@type":"Question","name":{{ Illuminate\Support\Js::from(__('faq.1.question')) }},"acceptedAnswer":{"@@type":"Answer","text":{{ Illuminate\Support\Js::from(__('faq.1.answer')) }}}},{"@@type":"Question","name":{{ Illuminate\Support\Js::from(__('faq.2.question')) }},"acceptedAnswer":{"@@type":"Answer","text":{{ Illuminate\Support\Js::from(__('faq.2.answer')) }}}},{"@@type":"Question","name":{{ Illuminate\Support\Js::from(__('faq.3.question')) }},"acceptedAnswer":{"@@type":"Answer","text":{{ Illuminate\Support\Js::from(__('faq.3.answer')) }}}},{"@@type":"Question","name":{{ Illuminate\Support\Js::from(__('faq.4.question')) }},"acceptedAnswer":{"@@type":"Answer","text":{{ Illuminate\Support\Js::from(__('faq.4.answer')) }}}},{"@@type":"Question","name":{{ Illuminate\Support\Js::from(__('faq.5.question')) }},"acceptedAnswer":{"@@type":"Answer","text":{{ Illuminate\Support\Js::from(__('faq.5.answer')) }}}}]}</script>
 
         <script type="application/ld+json">{"@@context":"https://schema.org","@@type":"WebApplication","name":{{ Illuminate\Support\Js::from(__('wa.name')) }},"url":"https://laravelcharter.com","description":{{ Illuminate\Support\Js::from(__('wa.description')) }},"operatingSystem":"Linux, macOS, Windows","browserRequirements":"Requires a modern web browser","applicationCategory":"DeveloperApplication","offers":{"@@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
 
-        <x-inertia::head>
-            <title>{{ __('meta.title') }}</title>
-        </x-inertia::head>
+        <title>{{ __('meta.title') }}</title>
+
+        <x-inertia::head />
     </head>
     <body class="font-sans antialiased">
         <x-inertia::app />

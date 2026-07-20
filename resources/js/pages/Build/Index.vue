@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
 import {
     availableAuthProviders,
@@ -41,6 +41,8 @@ const { t } = useI18n();
 const props = defineProps<{
     url: string;
 }>();
+
+const locale = computed(() => usePage().props.locale as string);
 
 const isLocal = import.meta.env.DEV;
 
@@ -210,7 +212,7 @@ const faqItems = computed(() => {
     <Head>
         <title>{{ t('hero.title') }} — {{ t('header.app_name') }}</title>
         <meta name="description" :content="t('hero.description')">
-        <link rel="canonical" :href="`${props.url}/application`">
+        <link rel="canonical" :href="`${props.url}/${locale}/application`">
     </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
@@ -223,7 +225,7 @@ const faqItems = computed(() => {
             </p>
             <div class="flex items-center gap-4">
                 <a
-                    href="/package"
+                    :href="`/${locale}/package`"
                     class="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary/90"
                 >
                     {{ t('hero.package_link') }}

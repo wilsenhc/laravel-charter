@@ -6,7 +6,7 @@ use Inertia\Testing\AssertableInertia as Assert;
 
 describe('index', function () {
     test('renders the build application page', function () {
-        $this->get(route('build.application.index'))
+        $this->get(route('build.application.index', ['locale' => 'en']))
             ->assertSuccessful()
             ->assertInertia(
                 fn (Assert $page) => $page

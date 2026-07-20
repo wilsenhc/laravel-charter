@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
 
 const { t } = useI18n();
+
+const locale = computed(() => usePage().props.locale as string);
 
 const sectionCount = 7;
 </script>
@@ -12,12 +15,13 @@ const sectionCount = 7;
 <template>
     <Head>
         <title>{{ t('privacy.title') }} — {{ t('header.app_name') }}</title>
-        <link rel="canonical" :href="`${window.location.origin}/privacy`">
+        <meta name="description" :content="t('privacy.meta_description')">
+        <link rel="canonical" :href="`${window.location.origin}/${locale}/privacy`">
     </Head>
     <AppHeader />
     <main class="mx-auto max-w-2xl px-4 py-12">
         <Link
-            href="/"
+            :href="`/${locale}/application`"
             class="mb-8 inline-flex text-sm text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
         >
             &larr; {{ t('nav.back_to_charter') }}

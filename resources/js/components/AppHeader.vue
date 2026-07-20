@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
-import { ref, onMounted, onUnmounted } from 'vue';
+import { Link, usePage } from '@inertiajs/vue3';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppearanceSwitcher from '@/components/AppearanceSwitcher.vue';
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
 import { Button } from '@/components/ui/button';
 
 const { t } = useI18n();
+
+const locale = computed(() => usePage().props.locale as string);
 
 const isScrolled = ref(false);
 
@@ -29,7 +31,7 @@ onUnmounted(() => {
         :class="{ 'bg-background/80 backdrop-blur-xl': isScrolled }"
     >
         <Link
-            href="/"
+            :href="`/${locale}/application`"
             class="text-base font-bold tracking-tight hover:underline"
             >{{ t('header.app_name') }}</Link
         >

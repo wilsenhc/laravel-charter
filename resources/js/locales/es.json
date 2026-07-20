@@ -133,7 +133,9 @@
         "dark": "Oscuro"
     },
     "footer": {
-        "disclaimer": "Este proyecto NO está afiliado, respaldado ni patrocinado por Laravel o Laravel Holdings Inc."
+        "disclaimer": "Este proyecto NO está afiliado, respaldado ni patrocinado por Laravel o Laravel Holdings Inc.",
+        "credit_prefix": "Creado por",
+        "credit_suffix": "— código abierto en"
     },
     "stats": {
         "title": "Estadísticas de uso",
@@ -189,6 +191,7 @@
     },
     "privacy": {
         "title": "Política de privacidad",
+        "meta_description": "Revisa la política de privacidad de Charter para Laravel. Conoce cómo recopilamos y protegemos tus datos al usar nuestro generador de comandos Laravel Sail — no almacenamos información personal.",
         "last_updated": "Última actualización: 17 de julio de 2026",
         "sections": [
             {
@@ -225,6 +228,7 @@
     },
     "terms": {
         "title": "Términos del servicio",
+        "meta_description": "Lee los términos del servicio de Charter para Laravel. Conoce las condiciones de uso de nuestra herramienta gratuita y de código abierto para configurar Laravel Sail.",
         "last_updated": "Última actualización: julio 2026",
         "sections": [
             {

@@ -8,7 +8,7 @@ use function Pest\Laravel\get;
 
 describe('index', function () {
     test('renders the stats page with empty state', function () {
-        get(route('stats.index'))
+        get(route('stats.index', ['locale' => 'en']))
             ->assertSuccessful()
             ->assertInertia(
                 fn (Assert $page) => $page
@@ -36,7 +36,7 @@ describe('index', function () {
             'starter_kit' => 'vue',
         ]);
 
-        get(route('stats.index'))
+        get(route('stats.index', ['locale' => 'en']))
             ->assertSuccessful()
             ->assertInertia(
                 fn (Assert $page) => $page
@@ -62,7 +62,7 @@ describe('index', function () {
 
         $from = now()->subDays(7)->format('Y-m-d');
 
-        get(route('stats.index', ['from' => $from]))
+        get(route('stats.index', ['locale' => 'en', 'from' => $from]))
             ->assertSuccessful()
             ->assertInertia(
                 fn (Assert $page) => $page
@@ -83,7 +83,7 @@ describe('index', function () {
 
         $to = now()->subDays(7)->format('Y-m-d');
 
-        get(route('stats.index', ['to' => $to]))
+        get(route('stats.index', ['locale' => 'en', 'to' => $to]))
             ->assertSuccessful()
             ->assertInertia(
                 fn (Assert $page) => $page
@@ -112,7 +112,7 @@ describe('index', function () {
         $from = now()->subDays(15)->format('Y-m-d');
         $to = now()->subDays(6)->format('Y-m-d');
 
-        get(route('stats.index', ['from' => $from, 'to' => $to]))
+        get(route('stats.index', ['locale' => 'en', 'from' => $from, 'to' => $to]))
             ->assertSuccessful()
             ->assertInertia(
                 fn (Assert $page) => $page
@@ -134,7 +134,7 @@ describe('index', function () {
         $stat3 = ApplicationStat::factory()->create();
         $stat3->services()->sync([$pgsql->id, $redis->id]);
 
-        get(route('stats.index'))
+        get(route('stats.index', ['locale' => 'en']))
             ->assertSuccessful()
             ->assertInertia(
                 fn (Assert $page) => $page

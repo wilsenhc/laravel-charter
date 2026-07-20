@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
 import {
     availablePackageFeatures,
@@ -26,6 +26,8 @@ const { t } = useI18n();
 const props = defineProps<{
     url: string;
 }>();
+
+const locale = computed(() => usePage().props.locale as string);
 
 const isLocal = import.meta.env.DEV;
 
@@ -143,7 +145,7 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
     <Head>
         <title>{{ t('package_hero.title') }} — {{ t('header.app_name') }}</title>
         <meta name="description" :content="t('package_hero.description')">
-        <link rel="canonical" :href="`${props.url}/package`">
+        <link rel="canonical" :href="`${props.url}/${locale}/package`">
     </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
@@ -155,7 +157,7 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                 {{ t('package_hero.description') }}
             </p>
             <a
-                href="/"
+                :href="`/${locale}/application`"
                 class="inline-flex text-xs text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
             >
                 &larr; {{ t('nav.back_to_charter') }}

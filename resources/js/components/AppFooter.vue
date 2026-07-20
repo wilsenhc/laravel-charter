@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import { HeartIcon } from '@lucide/vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
+
+const locale = computed(() => usePage().props.locale as string);
 </script>
 
 <template>
@@ -42,7 +45,7 @@ const { t } = useI18n();
         </div>
         <div class="flex items-center justify-center gap-4">
             <Link
-                href="/stats"
+                :href="`/${locale}/stats`"
                 prefetch
                 class="transition-colors hover:text-foreground"
             >
@@ -50,7 +53,7 @@ const { t } = useI18n();
             </Link>
             <span class="text-border">|</span>
             <Link
-                href="/privacy"
+                :href="`/${locale}/privacy`"
                 prefetch
                 class="transition-colors hover:text-foreground"
             >
@@ -58,7 +61,7 @@ const { t } = useI18n();
             </Link>
             <span class="text-border">|</span>
             <Link
-                href="/terms"
+                :href="`/${locale}/terms`"
                 prefetch
                 class="transition-colors hover:text-foreground"
             >
@@ -67,6 +70,9 @@ const { t } = useI18n();
         </div>
         <p>
             {{ t('footer.disclaimer') }}
+        </p>
+        <p>
+            {{ t('footer.credit_prefix') }} <a href="https://github.com/wilsenhc" target="_blank" rel="noopener noreferrer" class="underline transition-colors hover:text-foreground">@wilsenhc</a> {{ t('footer.credit_suffix') }} <a href="https://github.com/wilsenhc/laravel-charter" target="_blank" rel="noopener noreferrer" class="underline transition-colors hover:text-foreground">GitHub</a>
         </p>
     </footer>
 </template>

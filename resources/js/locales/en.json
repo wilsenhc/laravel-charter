@@ -133,7 +133,9 @@
         "dark": "Dark"
     },
     "footer": {
-        "disclaimer": "This project is NOT affiliated with, endorsed by, or sponsored by Laravel or Laravel Holdings Inc."
+        "disclaimer": "This project is NOT affiliated with, endorsed by, or sponsored by Laravel or Laravel Holdings Inc.",
+        "credit_prefix": "Built by",
+        "credit_suffix": "— open source on"
     },
     "stats": {
         "title": "Usage Statistics",
@@ -189,6 +191,7 @@
     },
     "privacy": {
         "title": "Privacy Policy",
+        "meta_description": "Review the Charter for Laravel privacy policy. Learn how we collect and protect your data when using our Laravel Sail command builder — no personal information is stored.",
         "last_updated": "Last updated: July 17th, 2026",
         "sections": [
             {
@@ -225,6 +228,7 @@
     },
     "terms": {
         "title": "Terms of Service",
+        "meta_description": "Read the Charter for Laravel terms of service. Understand the conditions for using our free, open-source Laravel Sail configuration tool.",
         "last_updated": "Last updated: July 2026",
         "sections": [
             {
