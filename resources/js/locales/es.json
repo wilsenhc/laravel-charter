@@ -6,25 +6,43 @@
         "stats": "Estadísticas",
         "privacy": "Privacidad",
         "terms": "Términos",
-        "back_to_charter": "Volver a Charter"
+        "back_to_charter": "Volver a Charter",
+        "back_to_glossary": "Volver al Glosario"
     },
     "header": {
         "app_name": "Charter para Laravel"
     },
     "hero": {
-        "title": "Crea una app de Laravel con Sail en un solo comando",
-        "description": "Charter simplifica la creación de nuevas apps de Laravel: elige tus servicios y opciones visualmente, luego copia un único comando que configura tu proyecto con Laravel Sail desde el inicio.",
-        "package_link": "¿Creando un paquete?"
-    },
-    "how_it_works": {
-        "title": "Cómo funciona",
         "learn_link": "Aprende cómo funciona",
-        "step1_title": "1. Configurar",
-        "step1_desc": "Elige tu versión de Laravel, base de datos, caché, driver de correo y starter kit. Todas las opciones de laravel new en una interfaz visual.",
-        "step2_title": "2. Generar",
-        "step2_desc": "Charter construye un comando bash listo para ejecutar que combina el instalador de Laravel con la configuración de Sail — sin necesidad de buscar las banderas correctas en la documentación.",
-        "step3_title": "3. Ejecutar",
-        "step3_desc": "Copia el comando, pégalo en tu terminal y presiona enter. En minutos tendrás un proyecto fresco de Laravel con Sail, servicios y tu stack elegido funcionando."
+        "application": {
+            "title": "Crea una app de Laravel con Sail en un solo comando",
+            "description": "Charter simplifica la creación de nuevas apps de Laravel: elige tus servicios y opciones visualmente, luego copia un único comando que configura tu proyecto con Laravel Sail desde el inicio.",
+            "package_link": "¿Creando un paquete?",
+            "how_it_works": {
+                "title": "Cómo funciona",
+                "step1_title": "1. Configurar",
+                "step1_desc": "Elige tu versión de Laravel, base de datos, caché, driver de correo y starter kit. Todas las opciones de laravel new en una interfaz visual.",
+                "step2_title": "2. Generar",
+                "step2_desc": "Charter construye un comando bash listo para ejecutar que combina el instalador de Laravel con la configuración de Sail — sin necesidad de buscar las banderas correctas en la documentación.",
+                "step3_title": "3. Ejecutar",
+                "step3_desc": "Copia el comando, pégalo en tu terminal y presiona enter. En minutos tendrás un proyecto fresco de Laravel con Sail, servicios y tu stack elegido funcionando."
+            }
+        },
+        "package": {
+            "title": "Crea un paquete de Laravel en un solo comando",
+            "description": "Charter simplifica la creación de nuevos paquetes de Laravel: elige las características y metadatos, luego copia un único comando que configura tu paquete con Docker.",
+            "docker_notice": "Docker solo se usa para la creación inicial. El desarrollo de paquetes no está soportado en Sail.",
+            "application_link": "¿Creando una aplicación?",
+            "how_it_works": {
+                "title": "Cómo funciona",
+                "step1_title": "1. Configurar",
+                "step1_desc": "Elige el nombre del paquete, versión de PHP, características y metadatos — todas las opciones de laravel new-package en una UI visual.",
+                "step2_title": "2. Generar",
+                "step2_desc": "Charter crea un comando bash listo para ejecutar que prepara el scaffolding de tu paquete con Docker.",
+                "step3_title": "3. Ejecutar",
+                "step3_desc": "Copia el comando, pégalo en tu terminal y ejecútalo. El scaffolding de tu paquete se genera en segundos."
+            }
+        }
     },
     "form": {
         "application_name": "Nombre de la aplicación",
@@ -73,11 +91,7 @@
         "database_driver_label": "¿Qué hace el controlador de base de datos?",
         "database_driver": "Define la conexión de base de datos en tu archivo .env. SQLite funciona sin servicios Docker; otros controladores requieren el servicio correspondiente activado arriba."
     },
-    "package_hero": {
-        "title": "Crea un paquete de Laravel en un solo comando",
-        "description": "Charter simplifica la creación de nuevos paquetes de Laravel: elige las características y metadatos, luego copia un único comando que configura tu paquete con Docker.",
-        "docker_notice": "Docker solo se usa para la creación inicial. El desarrollo de paquetes no está soportado en Sail."
-    },
+
     "package_form": {
         "title": "Nombre del paquete",
         "description": "Características",
@@ -266,5 +280,24 @@
                 "content": "Nos reservamos el derecho de actualizar estos términos en cualquier momento. El uso continuado del Servicio después de los cambios constituye la aceptación de los nuevos términos."
             }
         ]
+    },
+    "glossary": {
+        "page_title": "Glosario de Laravel",
+        "meta_description": "Entiende cada opción del comando laravel new: servicios, starter kits, frameworks de testing y herramientas configurables con Laravel Sail.",
+        "cta_title": "¿Listo para crear tu app de Laravel?",
+        "cta_description": "Elige tus servicios, starter kit y opciones visualmente, luego copia un solo comando para crear tu proyecto con Laravel Sail.",
+        "cta_button": "Crear tu app",
+        "related_title": "Términos relacionados"
+    },
+    "comparison": {
+        "back_to_comparisons": "Volver a Comparativas",
+        "verdict_title": "¿Cuál deberías elegir?",
+        "aspects": {
+            "overview": "Visión general",
+            "performance": "Rendimiento",
+            "ease_of_use": "Facilidad de uso",
+            "ecosystem": "Ecosistema",
+            "learning_curve": "Curva de aprendizaje"
+        }
     }
 }
