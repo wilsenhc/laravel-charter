@@ -47,6 +47,12 @@ jobs:
       - name: Build Assets
         run: bun run build
 
+      - name: Generate IDE Helper Files
+        run: |
+          php artisan ide-helper:generate
+          php artisan ide-helper:eloquent
+          php artisan ide-helper:models -M
+
       - name: Run Type Analysis
         run: composer types:check
 

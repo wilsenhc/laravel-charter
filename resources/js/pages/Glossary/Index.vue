@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
@@ -31,6 +31,7 @@ const grouped = computed(() => {
         if (!groups[term.category]) {
             groups[term.category] = [];
         }
+
         groups[term.category].push(term);
     }
 

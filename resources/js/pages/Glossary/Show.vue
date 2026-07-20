@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
@@ -11,7 +11,7 @@ const { t } = useI18n();
 const locale = computed(() => usePage().props.locale as string);
 const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
-const props = defineProps<{
+defineProps<{
     term: string;
     entry: {
         category: string;
