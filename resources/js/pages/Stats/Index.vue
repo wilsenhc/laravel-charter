@@ -326,7 +326,7 @@ onMounted(async () => {
         <link rel="canonical" :href="`${origin}/${locale}/stats`">
     </Head>
     <AppHeader />
-    <main class="mx-auto max-w-5xl px-4 py-12">
+    <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <Link
             :href="`/${locale}/application`"
             class="mb-8 inline-flex text-sm text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"

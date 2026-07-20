@@ -47,7 +47,7 @@ const grouped = computed(() => {
         <link rel="canonical" :href="`${origin}/${locale}/glossary`">
     </Head>
     <AppHeader />
-    <main class="mx-auto max-w-4xl px-4 py-12">
+    <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <h1 class="mb-2 text-2xl font-bold tracking-tight">
             {{ t('glossary.page_title') }}
         </h1>

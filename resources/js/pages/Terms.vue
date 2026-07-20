@@ -5,10 +5,11 @@ import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
 
-const { t } = useI18n();
+const { t, tm } = useI18n();
 
 const locale = computed(() => usePage().props.locale as string);
 const origin = typeof window !== 'undefined' ? window.location.origin : '';
+const sectionCount = computed(() => tm('terms.sections').length);
 </script>
 
 <template>
@@ -18,7 +19,7 @@ const origin = typeof window !== 'undefined' ? window.location.origin : '';
         <link rel="canonical" :href="`${origin}/${locale}/terms`">
     </Head>
     <AppHeader />
-    <main class="mx-auto max-w-2xl px-4 py-12">
+    <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <Link
             :href="`/${locale}/application`"
             class="mb-8 inline-flex text-sm text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"

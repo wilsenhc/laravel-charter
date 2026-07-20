@@ -49,17 +49,19 @@ const aspects = [
         <link rel="canonical" :href="`${origin}/${locale}/compare/${comparison}`">
     </Head>
     <AppHeader />
-    <main class="mx-auto max-w-4xl px-4 py-12">
-        <Link
-            :href="`/${locale}/glossary`"
-            class="mb-8 inline-flex text-sm text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
-        >
-            &larr; {{ t('comparison.back_to_comparisons') }}
-        </Link>
+    <main class="mx-auto w-full max-w-4xl px-5 py-7">
+        <div class="flex flex-col items-start">
+            <Link
+                :href="`/${locale}/glossary`"
+                class="mb-6 inline-flex text-sm text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
+            >
+                &larr; {{ t('comparison.back_to_comparisons') }}
+            </Link>
 
-        <span class="mb-2 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-            {{ entry.category }}
-        </span>
+            <span class="mb-2 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                {{ entry.category }}
+            </span>
+        </div>
 
         <h1 class="mb-2 text-2xl font-bold tracking-tight">
             {{ entry.translations.page_title }}
