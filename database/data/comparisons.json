@@ -1,0 +1,592 @@
+[
+    {
+        "slug": "mysql-vs-mariadb",
+        "first_term_slug": "mysql",
+        "second_term_slug": "mariadb",
+        "category": "Database",
+        "related": ["mysql-vs-pgsql"],
+        "translations": {
+            "en": {
+                "page_title": "MySQL vs MariaDB for Laravel",
+                "meta_description": "Compare MySQL vs MariaDB for your Laravel Sail project. Performance, compatibility, and ecosystem differences explained.",
+                "overview": {
+                    "first": "MySQL is the most widely deployed relational database for Laravel, developed by Oracle. It's battle-tested and has the largest community support.",
+                    "second": "MariaDB is a MySQL fork by the original MySQL developers, maintaining full compatibility while adding extra storage engines and optimizations."
+                },
+                "performance": {
+                    "first": "MySQL 8.4+ offers strong performance with improved InnoDB engine, but some operations (JSON queries, CTEs) have improved slower than MariaDB.",
+                    "second": "MariaDB shows better performance in concurrent read/write workloads and complex queries with its Aria and MyRocks storage engines."
+                },
+                "ease_of_use": {
+                    "first": "MySQL is supported everywhere and has the most extensive documentation and tooling. Laravel defaults to MySQL settings.",
+                    "second": "MariaDB is a drop-in replacement — Laravel connects to it using the same mysql driver with identical configuration."
+                },
+                "ecosystem": {
+                    "first": "Massive ecosystem: every hosting platform supports MySQL, all database tools work with it, and community resources are abundant.",
+                    "second": "Slightly smaller ecosystem but fully compatible with MySQL tooling. Most MySQL GUI tools and ORMs work without changes."
+                },
+                "learning_curve": {
+                    "first": "Low — extensive tutorials, courses, and Laravel-specific guides make MySQL the easiest choice for beginners.",
+                    "second": "Identical to MySQL for basic usage. MariaDB-specific features like system-versioned tables have minimal additional learning."
+                },
+                "verdict": "Both are excellent choices. MariaDB is ideal if you want a community-driven database with no Oracle involvement. MySQL is better if you need maximum hosting compatibility and the largest ecosystem. For most Laravel projects, the practical differences are minimal."
+            },
+            "es": {
+                "page_title": "MySQL vs MariaDB para Laravel",
+                "meta_description": "Compara MySQL vs MariaDB para tu proyecto Laravel Sail. Diferencias de rendimiento, compatibilidad y ecosistema.",
+                "overview": {
+                    "first": "MySQL es la base de datos relacional más usada para Laravel, desarrollada por Oracle. Es la opción más probada con el mayor soporte comunitario.",
+                    "second": "MariaDB es un fork de MySQL por los desarrolladores originales, manteniendo compatibilidad total y añadiendo motores de almacenamiento adicionales."
+                },
+                "performance": {
+                    "first": "MySQL 8.4+ ofrece buen rendimiento con el motor InnoDB mejorado, aunque algunas operaciones avanzan más lentamente que en MariaDB.",
+                    "second": "MariaDB muestra mejor rendimiento en cargas de trabajo de lectura/escritura concurrentes y consultas complejas."
+                },
+                "ease_of_use": {
+                    "first": "MySQL está soportado en todas partes con la documentación y herramientas más extensas. Laravel usa configuración MySQL por defecto.",
+                    "second": "MariaDB es un reemplazo directo — Laravel se conecta usando el mismo driver mysql con configuración idéntica."
+                },
+                "ecosystem": {
+                    "first": "Ecosistema masivo: todas las plataformas de hosting soportan MySQL y todas las herramientas funcionan con él.",
+                    "second": "Ecosistema ligeramente menor pero totalmente compatible con las herramientas de MySQL."
+                },
+                "learning_curve": {
+                    "first": "Baja — tutoriales extensos y guías específicas de Laravel hacen de MySQL la opción más fácil para principiantes.",
+                    "second": "Idéntica a MySQL para uso básico. Las funcionalidades específicas de MariaDB requieren aprendizaje mínimo adicional."
+                },
+                "verdict": "Ambas son excelentes. MariaDB es ideal si prefieres una base de datos impulsada por la comunidad. MySQL es mejor si necesitas máxima compatibilidad de hosting. Para la mayoría de proyectos Laravel, las diferencias prácticas son mínimas."
+            }
+        }
+    },
+    {
+        "slug": "mysql-vs-pgsql",
+        "first_term_slug": "mysql",
+        "second_term_slug": "pgsql",
+        "category": "Database",
+        "related": ["mysql-vs-mariadb"],
+        "translations": {
+            "en": {
+                "page_title": "MySQL vs PostgreSQL for Laravel",
+                "meta_description": "Compare MySQL vs PostgreSQL for your Laravel Sail project. Performance, feature set, and use case differences explained.",
+                "overview": {
+                    "first": "MySQL is a mature relational database with a focus on ease of use, speed, and reliability. It's the default choice for most Laravel applications.",
+                    "second": "PostgreSQL is an advanced relational database with rich feature support, ACID compliance, and excellent concurrency handling."
+                },
+                "performance": {
+                    "first": "MySQL excels at read-heavy workloads and simple queries. Its InnoDB engine provides good performance with minimal configuration.",
+                    "second": "PostgreSQL handles complex queries, concurrent writes, and large datasets more efficiently with its MVCC architecture and advanced query optimizer."
+                },
+                "ease_of_use": {
+                    "first": "Very straightforward. Laravel's default configuration targets MySQL, and most hosting platforms support it with one-click setup.",
+                    "second": "Slightly more configuration required. PostgreSQL uses different syntax for some operations (e.g., JSONB vs JSON). Laravel's Eloquent abstracts most differences."
+                },
+                "ecosystem": {
+                    "first": "Largest PHP ecosystem support. Every hosting platform, tool, and service supports MySQL first.",
+                    "second": "Strong ecosystem with excellent support in Laravel, but some hosting platforms treat it as a second-class option."
+                },
+                "learning_curve": {
+                    "first": "Low — widely documented with extensive Laravel-specific guides and community tutorials.",
+                    "second": "Moderate — requires understanding PostgreSQL-specific features and differences in SQL syntax for advanced usage."
+                },
+                "verdict": "Choose MySQL if you want maximum hosting flexibility and the simplest setup. Choose PostgreSQL if you need advanced features like JSONB, full-text search, geographic queries (PostGIS), or handle complex write-heavy workloads. Laravel supports both excellently."
+            },
+            "es": {
+                "page_title": "MySQL vs PostgreSQL para Laravel",
+                "meta_description": "Compara MySQL vs PostgreSQL para tu proyecto Laravel Sail. Diferencias de rendimiento, funcionalidades y usos.",
+                "overview": {
+                    "first": "MySQL es una base de datos relacional madura centrada en facilidad de uso y velocidad. Es la opción por defecto para Laravel.",
+                    "second": "PostgreSQL es una base de datos relacional avanzada con rico soporte de funcionalidades y excelente concurrencia."
+                },
+                "performance": {
+                    "first": "MySQL destaca en cargas de trabajo de lectura intensiva. El motor InnoDB ofrece buen rendimiento con configuración mínima.",
+                    "second": "PostgreSQL maneja consultas complejas, escrituras concurrentes y grandes conjuntos de datos más eficientemente."
+                },
+                "ease_of_use": {
+                    "first": "Muy directa. Laravel configura MySQL por defecto y la mayoría del hosting lo soporta con instalación en un clic.",
+                    "second": "Configuración ligeramente más compleja. PostgreSQL usa sintaxis diferente para algunas operaciones."
+                },
+                "ecosystem": {
+                    "first": "Mayor soporte en el ecosistema PHP. Todas las plataformas de hosting lo soportan primero.",
+                    "second": "Ecosistema sólido con excelente soporte en Laravel, aunque algunas plataformas lo tratan como opción secundaria."
+                },
+                "learning_curve": {
+                    "first": "Baja — ampliamente documentado con guías específicas de Laravel.",
+                    "second": "Moderada — requiere entender funcionalidades específicas de PostgreSQL para uso avanzado."
+                },
+                "verdict": "Elige MySQL para máxima flexibilidad de hosting. Elige PostgreSQL si necesitas JSONB, búsqueda de texto completo, PostGIS o cargas de trabajo complejas. Laravel soporta ambas excelentemente."
+            }
+        }
+    },
+    {
+        "slug": "redis-vs-valkey",
+        "first_term_slug": "redis",
+        "second_term_slug": "valkey",
+        "category": "Service",
+        "related": ["meilisearch-vs-typesense"],
+        "translations": {
+            "en": {
+                "page_title": "Redis vs Valkey for Laravel",
+                "meta_description": "Compare Redis vs Valkey for caching, sessions, and queues in your Laravel Sail project.",
+                "overview": {
+                    "first": "Redis is the industry-standard in-memory data store, used by Laravel for caching, sessions, queues, and broadcasting. It changed to a non-open-source license in 2024.",
+                    "second": "Valkey is a fully Redis-compatible fork created after Redis's license change, backed by the Linux Foundation with full open-source licensing."
+                },
+                "performance": {
+                    "first": "Excellent performance with mature optimization. Redis has years of production tuning and the widest deployment base.",
+                    "second": "Identical performance to Redis since Valkey is a direct fork of Redis 7.4 with full API compatibility."
+                },
+                "ease_of_use": {
+                    "first": "Extremely easy — Laravel has first-class Redis support for cache, sessions, queues, and broadcasting. Configuration is minimal.",
+                    "second": "Drop-in replacement. Swap the service and Laravel works identically with no code changes — same driver, same configuration."
+                },
+                "ecosystem": {
+                    "first": "Largest ecosystem with extensive tooling, client libraries, and community resources. Redis Insight GUI, redis-cli, and extensive documentation.",
+                    "second": "Growing ecosystem. Compatible with all Redis tools and clients, but some third-party tools may still reference Redis by name."
+                },
+                "learning_curve": {
+                    "first": "Low — abundant tutorials, Laravel documentation, and community guides for Redis integration.",
+                    "second": "Identical to Redis — same commands, same API, same configuration. Zero learning curve if you know Redis."
+                },
+                "verdict": "Valkey is the recommended choice for new projects due to its fully open-source licensing under the Linux Foundation. Redis remains a solid choice if you need the largest ecosystem or existing Redis infrastructure. For Laravel, the practical difference is zero — both work identically."
+            },
+            "es": {
+                "page_title": "Redis vs Valkey para Laravel",
+                "meta_description": "Compara Redis vs Valkey para caché, sesiones y colas en tu proyecto Laravel Sail.",
+                "overview": {
+                    "first": "Redis es el estándar de la industria en almacenes de datos en memoria. Cambió a una licencia no open-source en 2024.",
+                    "second": "Valkey es un fork totalmente compatible con Redis creado tras el cambio de licencia, respaldado por la Linux Foundation."
+                },
+                "performance": {
+                    "first": "Excelente rendimiento con optimización madura. Redis tiene años de ajustes de producción.",
+                    "second": "Rendimiento idéntico a Redis, ya que Valkey es un fork directo de Redis 7.4."
+                },
+                "ease_of_use": {
+                    "first": "Muy fácil — Laravel tiene soporte de primera clase para Redis. Configuración mínima.",
+                    "second": "Reemplazo directo. Cambia el servicio y Laravel funciona idénticamente sin cambios de código."
+                },
+                "ecosystem": {
+                    "first": "Mayor ecosistema con herramientas extensas (Redis Insight, redis-cli) y documentación abundante.",
+                    "second": "Ecosistema creciente. Compatible con todas las herramientas de Redis."
+                },
+                "learning_curve": {
+                    "first": "Baja — tutoriales abundantes y documentación de Laravel.",
+                    "second": "Idéntica a Redis — mismos comandos, misma API, misma configuración."
+                },
+                "verdict": "Valkey es la opción recomendada para proyectos nuevos por su licencia open-source. Redis sigue siendo una opción sólida si necesitas el ecosistema más grande. Para Laravel, ambos funcionan de forma idéntica."
+            }
+        }
+    },
+    {
+        "slug": "meilisearch-vs-typesense",
+        "first_term_slug": "meilisearch",
+        "second_term_slug": "typesense",
+        "category": "Service",
+        "related": ["redis-vs-valkey"],
+        "translations": {
+            "en": {
+                "page_title": "Meilisearch vs Typesense for Laravel",
+                "meta_description": "Compare Meilisearch vs Typesense for full-text search in your Laravel Sail application.",
+                "overview": {
+                    "first": "Meilisearch is an open-source search engine focused on developer experience and instant search. It provides typo-tolerant search and automatic ranking.",
+                    "second": "Typesense is an open-source search engine offering similar features with a focus on performance, vector search, and AI-powered recommendations."
+                },
+                "performance": {
+                    "first": "Fast indexing and querying with automatic typo tolerance. Good for most search workloads with minimal configuration.",
+                    "second": "Generally faster query performance, especially for large datasets. Typesense's C++ core provides lower latency for concurrent searches."
+                },
+                "ease_of_use": {
+                    "first": "Very simple setup with sensible defaults. Meilisearch works out of the box with minimal configuration — just point it at your data.",
+                    "second": "Also straightforward but requires slightly more explicit configuration for ranking and faceting rules."
+                },
+                "ecosystem": {
+                    "first": "Laravel Scout has built-in driver support for Meilisearch. Strong ecosystem with official PHP client and active community.",
+                    "second": "Laravel Scout also supports Typesense. Good ecosystem with official PHP client and growing community adoption."
+                },
+                "learning_curve": {
+                    "first": "Low — Meilisearch's auto-complete and instant search work with little configuration. Most users get results in minutes.",
+                    "second": "Low to moderate — basic search is easy to set up, but advanced features like vector search require more understanding."
+                },
+                "verdict": "Both are excellent choices. Choose Meilisearch for the simplest setup with automatic ranking. Choose Typesense if you need vector search for AI-powered recommendations or need maximum performance at scale. Laravel Scout supports both equally well."
+            },
+            "es": {
+                "page_title": "Meilisearch vs Typesense para Laravel",
+                "meta_description": "Compara Meilisearch vs Typesense para búsqueda de texto completo en tu aplicación Laravel Sail.",
+                "overview": {
+                    "first": "Meilisearch es un motor de búsqueda centrado en la experiencia del desarrollador y búsqueda instantánea.",
+                    "second": "Typesense ofrece funcionalidades similares con enfoque en rendimiento y búsqueda vectorial."
+                },
+                "performance": {
+                    "first": "Indexación y consultas rápidas con tolerancia automática a errores tipográficos.",
+                    "second": "Rendimiento de consultas generalmente más rápido, especialmente para grandes conjuntos de datos."
+                },
+                "ease_of_use": {
+                    "first": "Configuración muy simple con valores predeterminados sensatos. Funciona casi sin configuración.",
+                    "second": "También directo pero requiere configuración más explícita para reglas de ranking."
+                },
+                "ecosystem": {
+                    "first": "Laravel Scout tiene driver integrado. Fuerte ecosistema con cliente PHP oficial.",
+                    "second": "Laravel Scout también lo soporta. Buen ecosistema con creciente adopción."
+                },
+                "learning_curve": {
+                    "first": "Baja — la búsqueda instantánea funciona con poca configuración.",
+                    "second": "Baja a moderada — la búsqueda básica es fácil, pero la búsqueda vectorial requiere más aprendizaje."
+                },
+                "verdict": "Ambas son excelentes. Elige Meilisearch para la configuración más simple. Elige Typesense para búsqueda vectorial o máximo rendimiento. Laravel Scout soporta ambas igual de bien."
+            }
+        }
+    },
+    {
+        "slug": "react-vs-vue",
+        "first_term_slug": "react",
+        "second_term_slug": "vue",
+        "category": "Starter Kit",
+        "related": ["livewire-vs-vue", "react-vs-svelte"],
+        "translations": {
+            "en": {
+                "page_title": "React vs Vue for Laravel",
+                "meta_description": "Compare React vs Vue for your Laravel starter kit. Learn which frontend framework pairs best with your Laravel Sail project.",
+                "overview": {
+                    "first": "React is Meta's UI library with a component-based architecture, virtual DOM, and the largest JavaScript ecosystem.",
+                    "second": "Vue.js is a progressive framework with reactive data binding and is the most popular frontend choice in the Laravel community."
+                },
+                "performance": {
+                    "first": "React's virtual DOM provides good performance for complex UIs. Server components in React 19+ improve initial load times.",
+                    "second": "Vue has excellent performance with its reactive system and smaller bundle size. Vue's compiler optimizations produce efficient render code."
+                },
+                "ease_of_use": {
+                    "first": "React requires understanding JSX, hooks, and state management patterns. More ecosystem choices can be overwhelming for beginners.",
+                    "second": "Vue's template syntax is intuitive and familiar. Single-file components (SFCs) keep HTML, CSS, and JS together naturally."
+                },
+                "ecosystem": {
+                    "first": "Largest ecosystem in the frontend world. Extensive component libraries, tools, and community resources. React Native for mobile.",
+                    "second": "Strong ecosystem with excellent Laravel integration. Vuetify, Pinia, Nuxt.js, and Inertia.js all have first-class Vue support."
+                },
+                "learning_curve": {
+                    "first": "Moderate to steep — JSX and hooks require understanding JavaScript patterns. State management needs additional libraries like Zustand or Redux.",
+                    "second": "Low — Vue's template system is approachable. Composition API is optional for simple components. Great for frontend beginners."
+                },
+                "verdict": "Choose Vue if you're building a Laravel application and want the tightest integration with the Laravel ecosystem, or if you prefer intuitive templates. Choose React if you need the largest job market, plan to build a mobile app with React Native, or your team already knows React well. Both work excellently with Inertia.js."
+            },
+            "es": {
+                "page_title": "React vs Vue para Laravel",
+                "meta_description": "Compara React vs Vue para tu starter kit de Laravel. Decide qué framework frontend se adapta mejor a tu proyecto.",
+                "overview": {
+                    "first": "React es la biblioteca UI de Meta con arquitectura de componentes, DOM virtual y el mayor ecosistema JavaScript.",
+                    "second": "Vue.js es un framework progresivo con enlace de datos reactivo y la opción frontend más popular en la comunidad Laravel."
+                },
+                "performance": {
+                    "first": "El DOM virtual de React ofrece buen rendimiento. Los server components mejoran la carga inicial.",
+                    "second": "Vue tiene excelente rendimiento con sistema reactivo y bundle más pequeño."
+                },
+                "ease_of_use": {
+                    "first": "Requiere entender JSX, hooks y patrones de estado. Más opciones que pueden abrumar.",
+                    "second": "Sintaxis de plantillas intuitiva. Los SFC mantienen HTML, CSS y JS juntos naturalmente."
+                },
+                "ecosystem": {
+                    "first": "El ecosistema frontend más grande. React Native para móvil, extensas bibliotecas de componentes.",
+                    "second": "Fuerte ecosistema con excelente integración Laravel. Vuetify, Pinia, Nuxt.js e Inertia.js."
+                },
+                "learning_curve": {
+                    "first": "Moderada a empinada — JSX y hooks requieren entender patrones JavaScript.",
+                    "second": "Baja — las plantillas de Vue son intuitivas. Ideal para principiantes frontend."
+                },
+                "verdict": "Elige Vue para la integración más estrecha con Laravel. Elige React para el mercado laboral más grande o React Native. Ambos funcionan excelentemente con Inertia.js."
+            }
+        }
+    },
+    {
+        "slug": "livewire-vs-vue",
+        "first_term_slug": "livewire",
+        "second_term_slug": "vue",
+        "category": "Starter Kit",
+        "related": ["react-vs-vue", "react-vs-svelte"],
+        "translations": {
+            "en": {
+                "page_title": "Livewire vs Vue for Laravel",
+                "meta_description": "Compare Laravel Livewire vs Vue.js for your starter kit. Decide between server-side and client-side rendering for your next project.",
+                "overview": {
+                    "first": "Livewire is a full-stack Laravel framework that builds dynamic UIs with PHP components and minimal JavaScript.",
+                    "second": "Vue is a client-side JavaScript framework that provides a rich, reactive UI with Inertia.js as the bridge to Laravel."
+                },
+                "performance": {
+                    "first": "Server-rendered with AJAX updates. Slower initial interaction compared to client-side rendering but no JavaScript bundle to download.",
+                    "second": "Client-side rendering with Inertia.js. Faster interactions after initial load, but requires downloading the JavaScript bundle."
+                },
+                "ease_of_use": {
+                    "first": "Write PHP for both backend and frontend logic. No JavaScript needed. Livewire Volt provides single-file components similar to Vue SFCs.",
+                    "second": "Requires JavaScript knowledge. Vue templates and composition API are intuitive but add a second language to the stack."
+                },
+                "ecosystem": {
+                    "first": "Growing ecosystem with Livewire components available. Wire Elements, TallStackUI, and community packages provide pre-built components.",
+                    "second": "Massive ecosystem of Vue plugins, component libraries, and tools. Every frontend solution works with Vue."
+                },
+                "learning_curve": {
+                    "first": "Low for Laravel developers — you already know PHP and Blade. Livewire extends existing knowledge without learning a new language.",
+                    "second": "Moderate — requires learning Vue, reactive patterns, and JavaScript tooling. Inertia.js simplifies the Laravel integration."
+                },
+                "verdict": "Choose Livewire if you want to stay in PHP and avoid writing JavaScript, or if you're building a team of Laravel developers without frontend specialists. Choose Vue if you need rich client-side interactivity, complex animations, or your team already knows JavaScript. Both are production-ready choices."
+            },
+            "es": {
+                "page_title": "Livewire vs Vue para Laravel",
+                "meta_description": "Compara Laravel Livewire vs Vue.js para tu starter kit. Decide entre renderizado servidor y cliente.",
+                "overview": {
+                    "first": "Livewire es un framework full-stack que construye UIs dinámicas con PHP y JavaScript mínimo.",
+                    "second": "Vue es un framework JavaScript del lado del cliente con Inertia.js como puente a Laravel."
+                },
+                "performance": {
+                    "first": "Renderizado del servidor con actualizaciones AJAX. Sin bundle JavaScript que descargar.",
+                    "second": "Renderizado del cliente. Interacciones más rápidas tras la carga inicial."
+                },
+                "ease_of_use": {
+                    "first": "Escribe PHP para frontend y backend. No necesitas JavaScript.",
+                    "second": "Requiere conocimiento de JavaScript. Plantillas y Composition API son intuitivas."
+                },
+                "ecosystem": {
+                    "first": "Ecosistema creciente con Wire Elements, TallStackUI y paquetes comunitarios.",
+                    "second": "Ecosistema masivo de plugins Vue y bibliotecas de componentes."
+                },
+                "learning_curve": {
+                    "first": "Baja para desarrolladores Laravel — ya conoces PHP y Blade.",
+                    "second": "Moderada — requiere aprender Vue y patrones reactivos."
+                },
+                "verdict": "Elige Livewire para mantenerte en PHP. Elige Vue para interactividad rica del lado del cliente. Ambos son opciones listas para producción."
+            }
+        }
+    },
+    {
+        "slug": "react-vs-svelte",
+        "first_term_slug": "react",
+        "second_term_slug": "svelte",
+        "category": "Starter Kit",
+        "related": ["react-vs-vue", "livewire-vs-vue"],
+        "translations": {
+            "en": {
+                "page_title": "React vs Svelte for Laravel",
+                "meta_description": "Compare React vs Svelte starter kits for Laravel. Performance, developer experience, and ecosystem differences explained.",
+                "overview": {
+                    "first": "React is Meta's UI library with component-based architecture, virtual DOM, and the largest JavaScript ecosystem.",
+                    "second": "Svelte is a compiler-based framework that shifts work to compile time, producing smaller bundles and simpler code."
+                },
+                "performance": {
+                    "first": "React's virtual DOM and Fiber architecture handle complex UIs well. React 19's server components improve first-load performance.",
+                    "second": "Svelte produces vanilla JavaScript with minimal overhead. No virtual DOM means faster initial render and smaller bundle sizes."
+                },
+                "ease_of_use": {
+                    "first": "JSX syntax requires adapting to HTML-in-JavaScript. Hooks must follow rules — no conditional hook calls.",
+                    "second": "Svelte uses familiar HTML templates with special directives. Less boilerplate and no virtual DOM concepts to understand."
+                },
+                "ecosystem": {
+                    "first": "Largest frontend ecosystem: React Native, Next.js, extensive component libraries, and the biggest job market.",
+                    "second": "Smaller ecosystem with fewer job opportunities, but all essential tools exist. SvelteKit for full-stack, Svelte stores for state."
+                },
+                "learning_curve": {
+                    "first": "Moderate — JSX, hooks, and state management libraries add complexity. Best for developers with JavaScript experience.",
+                    "second": "Low — Svelte's reactive declarations and minimal API make it approachable. Great for developers new to frontend frameworks."
+                },
+                "verdict": "Choose React if you need the largest ecosystem, plan to build a mobile app (React Native), or want the most job opportunities. Choose Svelte if you want the best performance with minimal JavaScript, prefer cleaner syntax, or are building a smaller team project. Both work well with Laravel via Inertia.js."
+            },
+            "es": {
+                "page_title": "React vs Svelte para Laravel",
+                "meta_description": "Compara React vs Svelte para Laravel. Rendimiento, experiencia de desarrollo y diferencias de ecosistema.",
+                "overview": {
+                    "first": "React es la biblioteca UI de Meta con DOM virtual y el mayor ecosistema JavaScript.",
+                    "second": "Svelte es un framework basado en compilador que produce bundles más pequeños y código más simple."
+                },
+                "performance": {
+                    "first": "El DOM virtual maneja UIs complejas bien. React 19 mejora la carga inicial.",
+                    "second": "Svelte produce JavaScript vainilla sin DOM virtual. Bundles más pequeños y render inicial más rápido."
+                },
+                "ease_of_use": {
+                    "first": "JSX requiere adaptarse a HTML en JavaScript. Hooks tienen reglas estrictas.",
+                    "second": "Svelte usa plantillas HTML con directivas especiales. Menos código boilerplate."
+                },
+                "ecosystem": {
+                    "first": "Mayor ecosistema frontend: React Native, Next.js, extensas bibliotecas.",
+                    "second": "Ecosistema más pequeño pero con todas las herramientas esenciales."
+                },
+                "learning_curve": {
+                    "first": "Moderada — JSX, hooks y gestión de estado añaden complejidad.",
+                    "second": "Baja — las declaraciones reactivas de Svelte son intuitivas."
+                },
+                "verdict": "Elige React para el ecosistema más grande. Elige Svelte para mejor rendimiento con JavaScript mínimo. Ambos funcionan bien con Inertia.js."
+            }
+        }
+    },
+    {
+        "slug": "pest-vs-phpunit",
+        "first_term_slug": "pest",
+        "second_term_slug": "phpunit",
+        "category": "Testing",
+        "related": [],
+        "translations": {
+            "en": {
+                "page_title": "Pest vs PHPUnit for Laravel",
+                "meta_description": "Compare Pest vs PHPUnit testing frameworks for Laravel. Which testing framework is right for your Sail project?",
+                "overview": {
+                    "first": "Pest is a modern PHP testing framework built on top of PHPUnit with expressive syntax, test datasets, and arch testing.",
+                    "second": "PHPUnit is the classic xUnit testing framework for PHP with mature tooling and extensive assertion library."
+                },
+                "performance": {
+                    "first": "Identical to PHPUnit since Pest runs tests through PHPUnit under the hood. No performance difference in test execution.",
+                    "second": "Same performance as Pest. PHPUnit is the execution engine for both frameworks."
+                },
+                "ease_of_use": {
+                    "first": "Expressive closure-based syntax reduces boilerplate. Higher-order expectations (expect()->toBeTrue()) and arch testing are built in.",
+                    "second": "Class-based xUnit syntax with more boilerplate. Assertion methods are straightforward but verbose for complex expectations."
+                },
+                "ecosystem": {
+                    "first": "Pest-specific plugins for arch testing, parallel testing, and type coverage. Growing ecosystem of Pest-specific extensions.",
+                    "second": "Largest ecosystem with the most plugins, extensions, and tooling. Compatible with all PHPUnit tools since Pest wraps PHPUnit."
+                },
+                "learning_curve": {
+                    "first": "Low — closure-based tests are intuitive. Pest's fluent API reads like natural language.",
+                    "second": "Low — familiar to anyone with xUnit testing experience. Slightly more ceremony with class and method declarations."
+                },
+                "verdict": "Pest is the recommended choice for new Laravel projects. Its expressive syntax, built-in arch testing, and higher-order expectations make tests more readable and maintainable. PHPUnit remains a solid choice if you have an existing PHPUnit codebase or prefer traditional xUnit patterns. All PHPUnit knowledge transfers to Pest."
+            },
+            "es": {
+                "page_title": "Pest vs PHPUnit para Laravel",
+                "meta_description": "Compara Pest vs PHPUnit para testing en Laravel. ¿Qué framework de testing es mejor para tu proyecto?",
+                "overview": {
+                    "first": "Pest es un framework moderno construido sobre PHPUnit con sintaxis expresiva y arch testing.",
+                    "second": "PHPUnit es el framework xUnit clásico con herramientas maduras y biblioteca extensa de aserciones."
+                },
+                "performance": {
+                    "first": "Idéntico a PHPUnit ya que Pest ejecuta tests a través de PHPUnit internamente.",
+                    "second": "Mismo rendimiento que Pest. PHPUnit es el motor de ejecución de ambos."
+                },
+                "ease_of_use": {
+                    "first": "Sintaxis expresiva basada en closures. expect()->toBeTrue() y arch testing integrados.",
+                    "second": "Sintaxis xUnit basada en clases con más boilerplate pero muy directa."
+                },
+                "ecosystem": {
+                    "first": "Plugins específicos para arch testing, tests paralelos y cobertura de tipos.",
+                    "second": "Mayor ecosistema con más plugins. Compatible con todas las herramientas PHPUnit."
+                },
+                "learning_curve": {
+                    "first": "Baja — tests con closures son intuitivos. API fluida que parece lenguaje natural.",
+                    "second": "Baja — familiar para cualquiera con experiencia en testing xUnit."
+                },
+                "verdict": "Pest es la opción recomendada para nuevos proyectos. Su sintaxis expresiva hace los tests más legibles. PHPUnit sigue siendo una opción sólida si tienes una base de código PHPUnit existente."
+            }
+        }
+    },
+    {
+        "slug": "bun-vs-npm",
+        "first_term_slug": "bun",
+        "second_term_slug": "npm",
+        "category": "Runtime",
+        "related": ["npm-vs-pnpm"],
+        "translations": {
+            "en": {
+                "page_title": "Bun vs npm for Laravel",
+                "meta_description": "Compare Bun vs npm for JavaScript runtime in your Laravel Sail project. Speed, compatibility, and features compared.",
+                "overview": {
+                    "first": "Bun is a fast, all-in-one JavaScript runtime, bundler, and package manager designed as a Node.js drop-in replacement using JavaScriptCore.",
+                    "second": "npm is the default Node.js package manager, bundled with Node.js, and the traditional choice for Laravel asset management."
+                },
+                "performance": {
+                    "first": "Significantly faster startup and package installs (10-30x faster than npm). Bun installs dependencies in milliseconds.",
+                    "second": "Slower install times compared to Bun and pnpm. npm's resolver can be slow for projects with many dependencies."
+                },
+                "ease_of_use": {
+                    "first": "Drop-in replacement for most Node.js projects. Bun run, bun install, and bun test replace npm, npx, and vitest/jest.",
+                    "second": "Works everywhere with no setup. Every developer knows npm install and npm run build. Zero configuration needed."
+                },
+                "ecosystem": {
+                    "first": "Growing but not fully compatible with all Node.js packages. Some packages with native Node.js APIs may not work yet.",
+                    "second": "100% compatible with the entire npm ecosystem. Every package and tool works with npm without issues."
+                },
+                "learning_curve": {
+                    "first": "Low — commands map directly from npm: bun add vs npm install, bun run dev vs npm run dev.",
+                    "second": "Minimal — npm is the default and requires no additional learning if you know basic Node.js."
+                },
+                "verdict": "Choose Bun for faster installs and a more modern toolchain if you don't need 100% Node.js API compatibility. Choose npm for maximum compatibility and the safest choice — it works everywhere with every package. For most Laravel projects, both work well."
+            },
+            "es": {
+                "page_title": "Bun vs npm para Laravel",
+                "meta_description": "Compara Bun vs npm para tu proyecto Laravel Sail. Velocidad, compatibilidad y características.",
+                "overview": {
+                    "first": "Bun es un runtime JavaScript rápido, todo-en-uno, diseñado como reemplazo de Node.js usando JavaScriptCore.",
+                    "second": "npm es el gestor de paquetes por defecto de Node.js y la opción tradicional para Laravel."
+                },
+                "performance": {
+                    "first": "Inicio e instalaciones significativamente más rápidos (10-30x).",
+                    "second": "Instalaciones más lentas comparado con Bun. npm puede ser lento con muchas dependencias."
+                },
+                "ease_of_use": {
+                    "first": "Reemplazo directo. bun install, bun run dev reemplazan npm install, npm run dev.",
+                    "second": "Funciona en todas partes sin configuración. Todo desarrollador conoce npm."
+                },
+                "ecosystem": {
+                    "first": "Creciente pero no 100% compatible con todos los paquetes Node.js.",
+                    "second": "100% compatible con todo el ecosistema npm."
+                },
+                "learning_curve": {
+                    "first": "Baja — comandos similares a npm.",
+                    "second": "Mínima — npm es el estándar y no requiere aprendizaje adicional."
+                },
+                "verdict": "Elige Bun para instalaciones más rápidas si no necesitas compatibilidad total con Node.js. Elige npm para máxima compatibilidad."
+            }
+        }
+    },
+    {
+        "slug": "npm-vs-pnpm",
+        "first_term_slug": "npm",
+        "second_term_slug": "pnpm",
+        "category": "Runtime",
+        "related": ["bun-vs-npm"],
+        "translations": {
+            "en": {
+                "page_title": "npm vs pnpm for Laravel",
+                "meta_description": "Compare npm vs pnpm for JavaScript package management in your Laravel Sail project. Speed and disk usage compared.",
+                "overview": {
+                    "first": "npm is the default Node.js package manager with flat dependency resolution and broadest ecosystem support.",
+                    "second": "pnpm uses hard links and symlinks for efficient disk usage with strict dependency isolation and faster installs."
+                },
+                "performance": {
+                    "first": "Adequate performance for most projects. npm 10+ improved install speeds but still slower than pnpm for large projects.",
+                    "second": "Faster installs than npm, especially for monorepos or projects with shared dependencies across multiple projects."
+                },
+                "ease_of_use": {
+                    "first": "Works out of the box with Node.js. No installation needed. package-lock.json is the standard lockfile format.",
+                    "second": "pnpm install required separately. Uses pnpm-lock.yaml. The CLI is similar to npm but has subtle differences."
+                },
+                "ecosystem": {
+                    "first": "100% ecosystem compatibility. Every tool and CI environment supports npm by default.",
+                    "second": "Compatible with the npm ecosystem but pnpm's strict module resolution can break packages that expect flat node_modules."
+                },
+                "learning_curve": {
+                    "first": "Zero — bundled with Node.js. Every developer and CI pipeline knows npm.",
+                    "second": "Low — pnpm commands mirror npm. The main learning is understanding the symlinked node_modules structure."
+                },
+                "verdict": "Choose npm for simplicity and maximum compatibility — it works everywhere with zero setup. Choose pnpm if disk space is limited, you work on multiple projects with overlapping dependencies, or you want faster installs in CI. pnpm is especially useful in monorepo setups."
+            },
+            "es": {
+                "page_title": "npm vs pnpm para Laravel",
+                "meta_description": "Compara npm vs pnpm para gestión de paquetes JavaScript en Laravel Sail. Velocidad y uso de disco.",
+                "overview": {
+                    "first": "npm es el gestor de paquetes por defecto de Node.js con resolución de dependencias plana.",
+                    "second": "pnpm usa enlaces duros y simbólicos para eficiencia de disco con instalaciones más rápidas."
+                },
+                "performance": {
+                    "first": "Rendimiento adecuado. npm 10+ mejoró la velocidad pero sigue siendo más lento que pnpm.",
+                    "second": "Instalaciones más rápidas que npm, especialmente en monorepos."
+                },
+                "ease_of_use": {
+                    "first": "Funciona sin instalación. package-lock.json es el formato de lockfile estándar.",
+                    "second": "Requiere instalación de pnpm. Usa pnpm-lock.yaml. CLI similar a npm."
+                },
+                "ecosystem": {
+                    "first": "Compatibilidad total con el ecosistema. Todos los entornos CI soportan npm.",
+                    "second": "Compatible con npm pero la resolución estricta puede romper algunos paquetes."
+                },
+                "learning_curve": {
+                    "first": "Cero — incluido con Node.js.",
+                    "second": "Baja — comandos similares a npm. El aprendizaje principal es la estructura node_modules."
+                },
+                "verdict": "Elige npm para simplicidad. Elige pnpm si el espacio en disco es limitado o trabajas con monorepos."
+            }
+        }
+    }
+]
