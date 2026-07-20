@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BuildShowRequest;
-use App\Jobs\RecordBuildStat;
+use App\Jobs\RecordApplicationBuildStat;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Blade;
@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
 
-class BuildController extends Controller
+class BuildApplicationController extends Controller
 {
     public function index(Request $request): InertiaResponse
     {
@@ -80,7 +80,7 @@ class BuildController extends Controller
         ]));
 
         $script = Blade::render(
-            (string) file_get_contents(resource_path('stubs/build.sh')),
+            (string) file_get_contents(resource_path('stubs/build-application.sh')),
             [
                 'name' => $name,
                 'options' => $options,
@@ -93,7 +93,7 @@ class BuildController extends Controller
         );
 
         if (! Str::contains($request->userAgent() ?? '', 'Mozilla')) {
-            RecordBuildStat::dispatch(
+            RecordApplicationBuildStat::dispatch(
                 data: [
                     'php_version' => $php,
                     'starter_kit' => $frontend ?? 'none',
@@ -112,6 +112,9 @@ class BuildController extends Controller
             );
         }
 
-        return response($script, 200, ['Content-Type' => 'text/plain']);
+        return response($script, 200, [
+            'Content-Type' => 'text/plain',
+            'X-Robots-Tag' => 'noindex',
+        ]);
     }
 }

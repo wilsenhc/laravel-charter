@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
-use Database\Factories\StatFactory;
+use Database\Factories\ApplicationStatFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Stat extends Model
+class ApplicationStat extends Model
 {
-    /** @use HasFactory<StatFactory> */
+    /** @use HasFactory<ApplicationStatFactory> */
     use HasFactory;
+
+    protected $table = 'application_stats';
 
     protected $fillable = [
         'php_version',
@@ -40,10 +42,10 @@ class Stat extends Model
     }
 
     /**
-     * @return BelongsToMany<Service, $this>
+     * @return BelongsToMany<ApplicationService, $this>
      */
     public function services(): BelongsToMany
     {
-        return $this->belongsToMany(Service::class, 'stat_services');
+        return $this->belongsToMany(ApplicationService::class, 'application_stat_services', 'stat_id', 'service_id');
     }
 }

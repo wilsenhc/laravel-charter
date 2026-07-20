@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
@@ -10,13 +10,17 @@ const sectionCount = 7;
 </script>
 
 <template>
+    <Head>
+        <title>{{ t('privacy.title') }} — {{ t('header.app_name') }}</title>
+        <link rel="canonical" :href="`${window.location.origin}/privacy`">
+    </Head>
     <AppHeader />
     <main class="mx-auto max-w-2xl px-4 py-12">
         <Link
             href="/"
             class="mb-8 inline-flex text-sm text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
         >
-            {{ t('nav.back_to_charter') }}
+            &larr; {{ t('nav.back_to_charter') }}
         </Link>
 
         <h1 class="mb-2 text-2xl font-bold tracking-tight">

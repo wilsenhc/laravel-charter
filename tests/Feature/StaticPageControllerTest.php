@@ -20,8 +20,8 @@ it('generates a valid sitemap', function () {
         ->assertHeader('Content-Type', 'application/xml');
 });
 
-it('renders the home page', function () {
-    get(route('build.index'))
+it('renders the application page', function () {
+    get(route('build.application.index'))
         ->assertSuccessful()
         ->assertSee('component":"Build', false);
 });
