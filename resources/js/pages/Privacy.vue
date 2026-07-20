@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import { Head, usePage } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
@@ -8,15 +8,14 @@ import AppHeader from '@/components/AppHeader.vue';
 const { t } = useI18n();
 
 const locale = computed(() => usePage().props.locale as string);
-
-const sectionCount = 7;
+const origin = typeof window !== 'undefined' ? window.location.origin : '';
 </script>
 
 <template>
     <Head>
         <title>{{ t('privacy.title') }} — {{ t('header.app_name') }}</title>
         <meta name="description" :content="t('privacy.meta_description')">
-        <link rel="canonical" :href="`${window.location.origin}/${locale}/privacy`">
+        <link rel="canonical" :href="`${origin}/${locale}/privacy`">
     </Head>
     <AppHeader />
     <main class="mx-auto max-w-2xl px-4 py-12">
