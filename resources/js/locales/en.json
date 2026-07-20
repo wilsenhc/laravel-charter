@@ -6,14 +6,15 @@
         "stats": "Stats",
         "privacy": "Privacy",
         "terms": "Terms",
-        "back_to_charter": "\u2190 Back to Charter"
+        "back_to_charter": "Back to Charter"
     },
     "header": {
         "app_name": "Charter for Laravel"
     },
     "hero": {
         "title": "Spin up a Laravel app with Sail in one command",
-        "description": "Charter simplifies creating new Laravel apps: pick your services and options visually, then copy a single CLI command that scaffolds your project with Laravel Sail from the start."
+        "description": "Charter simplifies creating new Laravel apps: pick your services and options visually, then copy a single CLI command that scaffolds your project with Laravel Sail from the start.",
+        "package_link": "Building a new package?"
     },
     "how_it_works": {
         "title": "How it works",
@@ -57,7 +58,8 @@
         "name_required": "Application name is required",
         "name_invalid": "Application name may only contain letters, numbers, dashes, and underscores",
         "url_required": "URL is required for custom starter kit",
-        "url_invalid": "Please enter a valid URL"
+        "url_invalid": "Please enter a valid URL",
+        "package_name_invalid": "Package name must be in the format vendor/package"
     },
     "tooltips": {
         "livewire_class_components_label": "What are Livewire class components?",
@@ -70,6 +72,23 @@
         "skip_node": "Skips installing Node.js and running NPM build when the application is scaffolded. Useful for projects that do not require frontend build tooling.",
         "database_driver_label": "What does the database driver do?",
         "database_driver": "Sets the default database connection in your .env file. SQLite works without any Docker services; other drivers require the matching service to be enabled above."
+    },
+    "package_hero": {
+        "title": "Scaffold a Laravel package in one command",
+        "description": "Charter simplifies creating new Laravel packages: pick your features and metadata, then copy a single CLI command that bootstraps your package with Docker.",
+        "docker_notice": "Docker is only used for one-time scaffolding. Sail is not supported for package development."
+    },
+    "package_form": {
+        "title": "Package name",
+        "description": "Features",
+        "metadata_title": "Package Metadata (optional)",
+        "author_name": "Author name",
+        "author_email": "Author email",
+        "package_name": "Composer package name",
+        "package_name_human": "Display name",
+        "package_description": "Description",
+        "vendor_namespace": "Vendor namespace",
+        "class_name": "Class name"
     },
     "custom_kit_alert": {
         "title": "Custom Starter Kit",
@@ -114,11 +133,28 @@
         "dark": "Dark"
     },
     "footer": {
-        "disclaimer": "This project is NOT affiliated with, endorsed by, or sponsored by Laravel or Laravel Holdings Inc."
+        "disclaimer": "This project is NOT affiliated with, endorsed by, or sponsored by Laravel or Laravel Holdings Inc.",
+        "credit_prefix": "Built by",
+        "credit_suffix": "— open source on"
     },
     "stats": {
         "title": "Usage Statistics",
         "description": "Anonymous aggregate data from generated build commands. No personal or identifying information is collected.",
+        "total_apps": "Total Apps",
+        "total_packages": "Total Packages",
+        "applications_section": "Applications",
+        "packages_section": "Packages",
+        "chart_package_features": "[Package Features]",
+        "label_package_features": "Package Features",
+        "package_feature_config": "Config",
+        "package_feature_routes": "Routes",
+        "package_feature_views": "Views",
+        "package_feature_translations": "Translations",
+        "package_feature_migrations": "Migrations",
+        "package_feature_assets": "Assets",
+        "package_feature_commands": "Commands",
+        "package_feature_facade": "Facade",
+        "package_feature_boost_skill": "Boost Skill",
         "filter_title": "Filter by date",
         "last_7_days": "Last 7 days",
         "last_30_days": "Last 30 days",
@@ -155,20 +191,21 @@
     },
     "privacy": {
         "title": "Privacy Policy",
-        "last_updated": "Last updated: July 2026",
+        "meta_description": "Review the Charter for Laravel privacy policy. Learn how we collect and protect your data when using our Laravel Sail command builder — no personal information is stored.",
+        "last_updated": "Last updated: July 17th, 2026",
         "sections": [
             {
                 "heading": "Information We Collect",
-                "content": "Charter for Laravel does not collect, store, or transmit any personal information. All configuration options you select are processed entirely in your browser. No data is sent to our servers."
+                "content": "Charter for Laravel collects anonymous configuration options for statistics purposes to understand which features are most popular. No personal or identifying information is ever collected, stored, or transmitted. You can verify this by reviewing the source code on GitHub."
             },
             {
                 "heading": "How We Use Information",
-                "content": "Since we don't collect any information, there is nothing to use. The command generated from your selections is displayed on screen and executed locally on your machine."
+                "content": "The anonymous configuration options we collect are used solely for statistical purposes to understand aggregate usage trends. No personal information is available to use, share, or sell."
             },
             {
                 "heading": "Anonymous Usage Statistics",
                 "content_p1": "When you use the build endpoint, non-personal configuration options (PHP version, selected services, starter kit type, JavaScript runtime, auth provider, testing framework, and similar boolean options) are stored anonymously on our server. This data helps us understand which options are most popular.",
-                "content_p2": "No personally identifiable information is stored \u2014 we do not collect your IP address, user agent, application name, custom starter kit URL, or any other identifying data. The stored information cannot be traced back to any individual user."
+                "content_p2": "No personally identifiable information is stored \u2014 we do not collect your IP address, user agent, application name, custom starter kit URL, or any other identifying data. The stored information cannot be traced back to any individual user. You can audit this by reviewing the source code on GitHub."
             },
             {
                 "heading": "Cookies",
@@ -191,6 +228,7 @@
     },
     "terms": {
         "title": "Terms of Service",
+        "meta_description": "Read the Charter for Laravel terms of service. Understand the conditions for using our free, open-source Laravel Sail configuration tool.",
         "last_updated": "Last updated: July 2026",
         "sections": [
             {

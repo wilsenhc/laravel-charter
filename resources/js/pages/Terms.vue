@@ -1,22 +1,30 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
 
 const { t } = useI18n();
 
+const locale = computed(() => usePage().props.locale as string);
+
 const sectionCount = 8;
 </script>
 
 <template>
+    <Head>
+        <title>{{ t('terms.title') }} — {{ t('header.app_name') }}</title>
+        <meta name="description" :content="t('terms.meta_description')">
+        <link rel="canonical" :href="`${window.location.origin}/${locale}/terms`">
+    </Head>
     <AppHeader />
     <main class="mx-auto max-w-2xl px-4 py-12">
         <Link
-            href="/"
+            :href="`/${locale}/application`"
             class="mb-8 inline-flex text-sm text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
         >
-            {{ t('nav.back_to_charter') }}
+            &larr; {{ t('nav.back_to_charter') }}
         </Link>
 
         <h1 class="mb-2 text-2xl font-bold tracking-tight">
@@ -40,7 +48,7 @@ const sectionCount = 8;
                             }).split('\x00')[0]
                         }}
                         <Link
-                            href="/privacy"
+                            :href="`/${locale}/privacy`"
                             class="font-medium text-foreground underline underline-offset-4"
                             >{{ t('terms.sections.2.link_text') }}</Link
                         >.

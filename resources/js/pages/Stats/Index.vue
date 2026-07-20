@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Link, router } from '@inertiajs/vue3';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import { useColorMode } from '@vueuse/core';
 import { onMounted, ref, computed, shallowRef, watch } from 'vue';
 import type { Component } from 'vue';
@@ -8,6 +8,8 @@ import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
 
 const { t } = useI18n();
+
+const locale = computed(() => usePage().props.locale as string);
 
 const props = defineProps<{
     phpVersions: Record<string, number>;
@@ -25,7 +27,21 @@ const props = defineProps<{
         livewire_class_components: number;
         custom_starter_kit: number;
     };
+    totalApps: number;
+    totalPackages: number;
     total: number;
+    packagePhpVersions: Record<string, number>;
+    packageFeatureOptions: {
+        config: number;
+        routes: number;
+        views: number;
+        translations: number;
+        migrations: number;
+        assets: number;
+        commands: number;
+        facade: number;
+        boost_skill: number;
+    };
     filters: {
         from?: string;
         to?: string;
@@ -239,7 +255,7 @@ function setQuickRange(days: number | 'ytd') {
     );
 }
 
-const optionsData = computed<Record<string, number>>(() => ({
+const appOptionsData = computed<Record<string, number>>(() => ({
     [t('stats.option_teams')]: props.booleanOptions.teams,
     [t('stats.option_boost')]: props.booleanOptions.boost,
     [t('stats.option_devcontainer')]: props.booleanOptions.devcontainer,
@@ -248,6 +264,22 @@ const optionsData = computed<Record<string, number>>(() => ({
         props.booleanOptions.livewire_class_components,
     [t('stats.option_custom_kit')]: props.booleanOptions.custom_starter_kit,
 }));
+
+const packageFeatureData = computed<Record<string, number>>(() => {
+    const raw = props.packageFeatureOptions;
+
+    return {
+        [t('stats.package_feature_config')]: raw.config,
+        [t('stats.package_feature_routes')]: raw.routes,
+        [t('stats.package_feature_views')]: raw.views,
+        [t('stats.package_feature_translations')]: raw.translations,
+        [t('stats.package_feature_migrations')]: raw.migrations,
+        [t('stats.package_feature_assets')]: raw.assets,
+        [t('stats.package_feature_commands')]: raw.commands,
+        [t('stats.package_feature_facade')]: raw.facade,
+        [t('stats.package_feature_boost_skill')]: raw.boost_skill,
+    };
+});
 
 onMounted(async () => {
     const {
@@ -287,13 +319,18 @@ onMounted(async () => {
 </script>
 
 <template>
+    <Head>
+        <title>{{ t('stats.title') }} — {{ t('header.app_name') }}</title>
+        <meta name="description" :content="t('stats.description')">
+        <link rel="canonical" :href="`${window.location.origin}/${locale}/stats`">
+    </Head>
     <AppHeader />
     <main class="mx-auto max-w-5xl px-4 py-12">
         <Link
-            href="/"
+            :href="`/${locale}/application`"
             class="mb-8 inline-flex text-sm text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
         >
-            {{ t('nav.back_to_charter') }}
+            &larr; {{ t('nav.back_to_charter') }}
         </Link>
 
         <h1 class="mb-2 text-2xl font-bold tracking-tight">
@@ -378,180 +415,251 @@ onMounted(async () => {
             </div>
         </section>
 
-        <div class="mb-8 rounded-sm border border-border p-4 text-center">
-            <p class="text-xs text-muted-foreground">
-                {{ t('stats.total_builds') }}
-            </p>
-            <p class="mt-1 text-3xl font-bold tracking-tight">{{ total }}</p>
+        <div class="mb-8 grid grid-cols-3 gap-4">
+            <div class="rounded-sm border border-border p-4 text-center">
+                <p class="text-xs text-muted-foreground">
+                    {{ t('stats.total_builds') }}
+                </p>
+                <p class="mt-1 text-3xl font-bold tracking-tight">{{ total }}</p>
+            </div>
+            <div class="rounded-sm border border-border p-4 text-center">
+                <p class="text-xs text-muted-foreground">
+                    {{ t('stats.total_apps') }}
+                </p>
+                <p class="mt-1 text-3xl font-bold tracking-tight">{{ totalApps }}</p>
+            </div>
+            <div class="rounded-sm border border-border p-4 text-center">
+                <p class="text-xs text-muted-foreground">
+                    {{ t('stats.total_packages') }}
+                </p>
+                <p class="mt-1 text-3xl font-bold tracking-tight">{{ totalPackages }}</p>
+            </div>
         </div>
 
-        <div v-if="mounted" class="grid grid-cols-1 gap-6 md:grid-cols-3">
-            <section
-                v-if="Object.keys(services).length"
-                class="rounded-sm border border-border p-4 md:col-span-3"
-            >
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">
-                    {{ t('stats.chart_services') }}
-                </h2>
-                <div class="h-72">
-                    <component
-                        :is="RadarChart"
-                        :data="servicesData"
-                        :options="radarOptions"
-                    />
-                </div>
-            </section>
+        <div v-if="mounted">
+            <h2 class="mb-4 text-lg font-semibold tracking-tight">
+                {{ t('stats.applications_section') }}
+            </h2>
 
-            <section
-                v-if="Object.keys(phpVersions).length"
-                class="rounded-sm border border-border p-4"
-            >
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">
-                    {{ t('stats.chart_php_versions') }}
-                </h2>
-                <div class="h-48">
-                    <component
-                        :is="BarChart"
-                        :data="
-                            makeBarData(
-                                t('stats.label_php_versions'),
-                                phpVersions,
-                                chartPalette,
-                            )
-                        "
-                        :options="chartOptions"
-                    />
-                </div>
-            </section>
+            <div class="mb-10 grid grid-cols-1 gap-6 md:grid-cols-3">
+                <section
+                    v-if="Object.keys(services).length"
+                    class="rounded-sm border border-border p-4 md:col-span-3"
+                >
+                    <h3 class="mb-4 text-sm font-semibold tracking-tight">
+                        {{ t('stats.chart_services') }}
+                    </h3>
+                    <div class="h-72">
+                        <component
+                            :is="RadarChart"
+                            :data="servicesData"
+                            :options="radarOptions"
+                        />
+                    </div>
+                </section>
 
-            <section
-                v-if="Object.keys(starterKits).length"
-                class="rounded-sm border border-border p-4"
-            >
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">
-                    {{ t('stats.chart_starter_kits') }}
-                </h2>
-                <div class="h-48">
-                    <component
-                        :is="BarChart"
-                        :data="
-                            makeBarData(
-                                t('stats.label_starter_kits'),
-                                starterKits,
-                                chartPalette,
-                            )
-                        "
-                        :options="chartOptions"
-                    />
-                </div>
-            </section>
+                <section
+                    v-if="Object.keys(phpVersions).length"
+                    class="rounded-sm border border-border p-4"
+                >
+                    <h3 class="mb-4 text-sm font-semibold tracking-tight">
+                        {{ t('stats.chart_php_versions') }}
+                    </h3>
+                    <div class="h-48">
+                        <component
+                            :is="BarChart"
+                            :data="
+                                makeBarData(
+                                    t('stats.label_php_versions'),
+                                    phpVersions,
+                                    chartPalette,
+                                )
+                            "
+                            :options="chartOptions"
+                        />
+                    </div>
+                </section>
 
-            <section
-                v-if="Object.keys(javascriptRuntimes).length"
-                class="rounded-sm border border-border p-4"
-            >
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">
-                    {{ t('stats.chart_javascript_runtimes') }}
-                </h2>
-                <div class="h-48">
-                    <component
-                        :is="BarChart"
-                        :data="
-                            makeBarData(
-                                t('stats.label_javascript_runtimes'),
-                                javascriptRuntimes,
-                                chartPalette,
-                            )
-                        "
-                        :options="chartOptions"
-                    />
-                </div>
-            </section>
+                <section
+                    v-if="Object.keys(starterKits).length"
+                    class="rounded-sm border border-border p-4"
+                >
+                    <h3 class="mb-4 text-sm font-semibold tracking-tight">
+                        {{ t('stats.chart_starter_kits') }}
+                    </h3>
+                    <div class="h-48">
+                        <component
+                            :is="BarChart"
+                            :data="
+                                makeBarData(
+                                    t('stats.label_starter_kits'),
+                                    starterKits,
+                                    chartPalette,
+                                )
+                            "
+                            :options="chartOptions"
+                        />
+                    </div>
+                </section>
 
-            <section
-                v-if="Object.keys(authProviders).length"
-                class="rounded-sm border border-border p-4"
-            >
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">
-                    {{ t('stats.chart_auth_providers') }}
-                </h2>
-                <div class="h-48">
-                    <component
-                        :is="BarChart"
-                        :data="
-                            makeBarData(
-                                t('stats.label_auth_providers'),
-                                authProviders,
-                                chartPalette,
-                            )
-                        "
-                        :options="chartOptions"
-                    />
-                </div>
-            </section>
+                <section
+                    v-if="Object.keys(javascriptRuntimes).length"
+                    class="rounded-sm border border-border p-4"
+                >
+                    <h3 class="mb-4 text-sm font-semibold tracking-tight">
+                        {{ t('stats.chart_javascript_runtimes') }}
+                    </h3>
+                    <div class="h-48">
+                        <component
+                            :is="BarChart"
+                            :data="
+                                makeBarData(
+                                    t('stats.label_javascript_runtimes'),
+                                    javascriptRuntimes,
+                                    chartPalette,
+                                )
+                            "
+                            :options="chartOptions"
+                        />
+                    </div>
+                </section>
 
-            <section
-                v-if="Object.keys(testingFrameworks).length"
-                class="rounded-sm border border-border p-4"
-            >
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">
-                    {{ t('stats.chart_testing_frameworks') }}
-                </h2>
-                <div class="h-48">
-                    <component
-                        :is="BarChart"
-                        :data="
-                            makeBarData(
-                                t('stats.label_testing_frameworks'),
-                                testingFrameworks,
-                                chartPalette,
-                            )
-                        "
-                        :options="chartOptions"
-                    />
-                </div>
-            </section>
+                <section
+                    v-if="Object.keys(authProviders).length"
+                    class="rounded-sm border border-border p-4"
+                >
+                    <h3 class="mb-4 text-sm font-semibold tracking-tight">
+                        {{ t('stats.chart_auth_providers') }}
+                    </h3>
+                    <div class="h-48">
+                        <component
+                            :is="BarChart"
+                            :data="
+                                makeBarData(
+                                    t('stats.label_auth_providers'),
+                                    authProviders,
+                                    chartPalette,
+                                )
+                            "
+                            :options="chartOptions"
+                        />
+                    </div>
+                </section>
 
-            <section
-                v-if="Object.keys(databaseDrivers).length"
-                class="rounded-sm border border-border p-4"
-            >
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">
-                    {{ t('stats.chart_database_drivers') }}
-                </h2>
-                <div class="h-48">
-                    <component
-                        :is="BarChart"
-                        :data="
-                            makeBarData(
-                                t('stats.label_database_drivers'),
-                                databaseDrivers,
-                                chartPalette,
-                            )
-                        "
-                        :options="chartOptions"
-                    />
-                </div>
-            </section>
+                <section
+                    v-if="Object.keys(testingFrameworks).length"
+                    class="rounded-sm border border-border p-4"
+                >
+                    <h3 class="mb-4 text-sm font-semibold tracking-tight">
+                        {{ t('stats.chart_testing_frameworks') }}
+                    </h3>
+                    <div class="h-48">
+                        <component
+                            :is="BarChart"
+                            :data="
+                                makeBarData(
+                                    t('stats.label_testing_frameworks'),
+                                    testingFrameworks,
+                                    chartPalette,
+                                )
+                            "
+                            :options="chartOptions"
+                        />
+                    </div>
+                </section>
 
-            <section class="rounded-sm border border-border p-4 md:col-span-3">
-                <h2 class="mb-4 text-sm font-semibold tracking-tight">
-                    {{ t('stats.chart_options') }}
-                </h2>
-                <div class="h-48">
-                    <component
-                        :is="BarChart"
-                        :data="
-                            makeBarData(
-                                t('stats.label_options'),
-                                optionsData,
-                                chartPalette,
-                            )
-                        "
-                        :options="chartOptions"
-                    />
-                </div>
-            </section>
+                <section
+                    v-if="Object.keys(databaseDrivers).length"
+                    class="rounded-sm border border-border p-4"
+                >
+                    <h3 class="mb-4 text-sm font-semibold tracking-tight">
+                        {{ t('stats.chart_database_drivers') }}
+                    </h3>
+                    <div class="h-48">
+                        <component
+                            :is="BarChart"
+                            :data="
+                                makeBarData(
+                                    t('stats.label_database_drivers'),
+                                    databaseDrivers,
+                                    chartPalette,
+                                )
+                            "
+                            :options="chartOptions"
+                        />
+                    </div>
+                </section>
+
+                <section
+                    class="rounded-sm border border-border p-4 md:col-span-3"
+                >
+                    <h3 class="mb-4 text-sm font-semibold tracking-tight">
+                        {{ t('stats.chart_options') }}
+                    </h3>
+                    <div class="h-48">
+                        <component
+                            :is="BarChart"
+                            :data="
+                                makeBarData(
+                                    t('stats.label_options'),
+                                    appOptionsData,
+                                    chartPalette,
+                                )
+                            "
+                            :options="chartOptions"
+                        />
+                    </div>
+                </section>
+            </div>
+
+            <h2 class="mb-4 text-lg font-semibold tracking-tight">
+                {{ t('stats.packages_section') }}
+            </h2>
+
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+                <section
+                    v-if="Object.keys(packagePhpVersions).length"
+                    class="rounded-sm border border-border p-4"
+                >
+                    <h3 class="mb-4 text-sm font-semibold tracking-tight">
+                        {{ t('stats.chart_php_versions') }}
+                    </h3>
+                    <div class="h-48">
+                        <component
+                            :is="BarChart"
+                            :data="
+                                makeBarData(
+                                    t('stats.label_php_versions'),
+                                    packagePhpVersions,
+                                    chartPalette,
+                                )
+                            "
+                            :options="chartOptions"
+                        />
+                    </div>
+                </section>
+
+                <section
+                    class="rounded-sm border border-border p-4 md:col-span-3"
+                >
+                    <h3 class="mb-4 text-sm font-semibold tracking-tight">
+                        {{ t('stats.chart_package_features') }}
+                    </h3>
+                    <div class="h-48">
+                        <component
+                            :is="BarChart"
+                            :data="
+                                makeBarData(
+                                    t('stats.label_package_features'),
+                                    packageFeatureData,
+                                    chartPalette,
+                                )
+                            "
+                            :options="chartOptions"
+                        />
+                    </div>
+                </section>
+            </div>
         </div>
 
         <div

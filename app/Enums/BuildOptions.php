@@ -11,6 +11,7 @@ enum BuildOptions
     case AvailableTestingFrameworks;
     case AvailablePhpVersions;
     case AvailableDatabaseDrivers;
+    case AvailablePackageFeatures;
 
     /**
      * @return array<string>
@@ -49,6 +50,17 @@ enum BuildOptions
             self::AvailableTestingFrameworks => ['pest', 'phpunit'],
             self::AvailablePhpVersions => ['8.5', '8.4', '8.3'],
             self::AvailableDatabaseDrivers => ['mysql', 'mariadb', 'pgsql', 'sqlite', 'sqlsrv'],
+            self::AvailablePackageFeatures => [
+                'config',
+                'routes',
+                'views',
+                'translations',
+                'migrations',
+                'assets',
+                'commands',
+                'facade',
+                'boost-skill',
+            ],
         };
     }
 
@@ -62,6 +74,7 @@ enum BuildOptions
             self::AvailableTestingFrameworks => 'availableTestingFrameworks',
             self::AvailablePhpVersions => 'availablePhpVersions',
             self::AvailableDatabaseDrivers => 'availableDatabaseDrivers',
+            self::AvailablePackageFeatures => 'availablePackageFeatures',
         };
     }
 
@@ -78,6 +91,7 @@ enum BuildOptions
             'availableTestingFrameworks' => self::AvailableTestingFrameworks->values(),
             'availablePhpVersions' => self::AvailablePhpVersions->values(),
             'availableDatabaseDrivers' => self::AvailableDatabaseDrivers->values(),
+            'availablePackageFeatures' => self::AvailablePackageFeatures->values(),
         ];
     }
 }

@@ -22,7 +22,6 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 /auth.json
-/.agents
 /.fleet
 /.github/skills
 /.ai/skills
@@ -39,3 +38,6 @@ AGENTS.md
 frankenphp
 frankenphp-worker.php
 config/psysh/psysh_history
+
+.agents
+!.agents/skills/update-build/*.md

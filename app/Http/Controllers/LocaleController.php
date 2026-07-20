@@ -14,8 +14,22 @@ class LocaleController extends Controller
             'locale' => ['required', 'string', 'in:'.implode(',', Locale::codes())],
         ]);
 
-        return redirect()->back()->withCookie(
+        $redirect = redirect()->back()->withCookie(
             cookie('locale', $validated['locale'], 43200)
         );
+
+        $referer = $request->header('Referer');
+
+        if ($referer) {
+            $refererPath = parse_url($referer, PHP_URL_PATH);
+            $refererSegments = array_values(array_filter(explode('/', $refererPath)));
+
+            if (count($refererSegments) > 0 && in_array($refererSegments[0], Locale::codes(), true)) {
+                $refererSegments[0] = $validated['locale'];
+                $redirect->setTargetUrl(url('/'.implode('/', $refererSegments)));
+            }
+        }
+
+        return $redirect;
     }
 }

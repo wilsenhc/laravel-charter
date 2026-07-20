@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Models\Service;
-use App\Models\Stat;
+use App\Models\ApplicationService;
+use App\Models\ApplicationStat;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -11,7 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
 
-class RecordBuildStat implements ShouldQueue
+class RecordApplicationBuildStat implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -41,11 +41,11 @@ class RecordBuildStat implements ShouldQueue
             return;
         }
 
-        $stat = Stat::create($this->data);
+        $stat = ApplicationStat::create($this->data);
 
         if ($this->services !== ['none']) {
             $stat->services()->sync(
-                Service::whereIn('name', $this->services)->pluck('id'),
+                ApplicationService::whereIn('name', $this->services)->pluck('id'),
             );
         }
     }

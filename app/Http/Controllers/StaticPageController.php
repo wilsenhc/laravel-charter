@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Enums\Locale;
 use Illuminate\Http\Response;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
@@ -11,12 +11,12 @@ use Spatie\Sitemap\Tags\Url;
 
 class StaticPageController extends Controller
 {
-    public function privacy(Request $request): InertiaResponse
+    public function privacy(): InertiaResponse
     {
         return Inertia::render('Privacy');
     }
 
-    public function terms(Request $request): InertiaResponse
+    public function terms(): InertiaResponse
     {
         return Inertia::render('Terms');
     }
@@ -25,40 +25,26 @@ class StaticPageController extends Controller
     {
         $sitemap = Sitemap::create();
 
-        $sitemap->add(
-            Url::create(url('/'))
-                ->setLastModificationDate(now())
-                ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
-                ->setPriority(1.0),
-        );
+        $pages = [
+            ['path' => 'application', 'priority' => 1.0, 'frequency' => Url::CHANGE_FREQUENCY_WEEKLY],
+            ['path' => 'package', 'priority' => 0.9, 'frequency' => Url::CHANGE_FREQUENCY_WEEKLY],
+            ['path' => 'stats', 'priority' => 0.5, 'frequency' => Url::CHANGE_FREQUENCY_WEEKLY],
+            ['path' => 'privacy', 'priority' => 0.3, 'frequency' => Url::CHANGE_FREQUENCY_MONTHLY],
+            ['path' => 'terms', 'priority' => 0.3, 'frequency' => Url::CHANGE_FREQUENCY_MONTHLY],
+        ];
 
-        $sitemap->add(
-            Url::create(url('/build'))
+        foreach ($pages as $page) {
+            $url = Url::create(url(Locale::default()->value.'/'.$page['path']))
                 ->setLastModificationDate(now())
-                ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
-                ->setPriority(0.9),
-        );
+                ->setChangeFrequency($page['frequency'])
+                ->setPriority($page['priority']);
 
-        $sitemap->add(
-            Url::create(url('/stats'))
-                ->setLastModificationDate(now())
-                ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
-                ->setPriority(0.5),
-        );
+            foreach (Locale::cases() as $locale) {
+                $url->addAlternate($locale->value, url($locale->value.'/'.$page['path']));
+            }
 
-        $sitemap->add(
-            Url::create(url('/privacy'))
-                ->setLastModificationDate(now())
-                ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
-                ->setPriority(0.3),
-        );
-
-        $sitemap->add(
-            Url::create(url('/terms'))
-                ->setLastModificationDate(now())
-                ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
-                ->setPriority(0.3),
-        );
+            $sitemap->add($url);
+        }
 
         return response($sitemap->render(), 200, ['Content-Type' => 'application/xml']);
     }

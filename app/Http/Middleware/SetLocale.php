@@ -12,10 +12,16 @@ class SetLocale
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $locale = $request->cookie('locale', Locale::default()->value);
+        $localeFromUrl = $request->route('locale');
 
-        if (in_array($locale, Locale::codes(), true)) {
-            App::setLocale($locale);
+        if ($localeFromUrl && in_array($localeFromUrl, Locale::codes(), true)) {
+            App::setLocale($localeFromUrl);
+        } else {
+            $locale = $request->cookie('locale', Locale::default()->value);
+
+            if (in_array($locale, Locale::codes(), true)) {
+                App::setLocale($locale);
+            }
         }
 
         return $next($request);

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
+import { Head, usePage } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
 import {
     availableAuthProviders,
@@ -40,6 +41,8 @@ const { t } = useI18n();
 const props = defineProps<{
     url: string;
 }>();
+
+const locale = computed(() => usePage().props.locale as string);
 
 const isLocal = import.meta.env.DEV;
 
@@ -158,7 +161,7 @@ const showTeams = computed(
 );
 
 const generatedUrl = computed(() => {
-    const baseUrl = `${props.url}/build`;
+    const baseUrl = `${props.url}/application/build`;
     const nameParam = `?name=${encodeURIComponent(appName.value)}`;
     const serviceParams = `&services=${selectedServices.value.join(',')}`;
     const frontend = `&frontend=${selectedStarterKit.value}`;
@@ -212,6 +215,11 @@ const faqItems = computed(() => {
 </script>
 
 <template>
+    <Head>
+        <title>{{ t('hero.title') }} — {{ t('header.app_name') }}</title>
+        <meta name="description" :content="t('hero.description')">
+        <link rel="canonical" :href="`${props.url}/${locale}/application`">
+    </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <section class="mb-8 space-y-3">
@@ -221,12 +229,20 @@ const faqItems = computed(() => {
             <p class="text-sm text-muted-foreground">
                 {{ t('hero.description') }}
             </p>
-            <a
-                href="#how-it-works"
-                class="inline-flex text-xs text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
-            >
-                {{ t('how_it_works.learn_link') }} &darr;
-            </a>
+            <div class="flex items-center gap-4">
+                <a
+                    :href="`/${locale}/package`"
+                    class="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                >
+                    {{ t('hero.package_link') }}
+                </a>
+                <a
+                    href="#how-it-works"
+                    class="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+                >
+                    {{ t('how_it_works.learn_link') }}
+                </a>
+            </div>
         </section>
 
         <Card class="mb-6">

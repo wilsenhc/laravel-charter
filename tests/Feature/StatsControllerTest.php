@@ -1,14 +1,14 @@
 <?php
 
-use App\Models\Service;
-use App\Models\Stat;
+use App\Models\ApplicationService;
+use App\Models\ApplicationStat;
 use Inertia\Testing\AssertableInertia as Assert;
 
 use function Pest\Laravel\get;
 
 describe('index', function () {
     test('renders the stats page with empty state', function () {
-        get(route('stats.index'))
+        get(route('stats.index', ['locale' => 'en']))
             ->assertSuccessful()
             ->assertInertia(
                 fn (Assert $page) => $page
@@ -26,17 +26,17 @@ describe('index', function () {
     });
 
     test('shows aggregated stats from stored builds', function () {
-        Stat::factory()->count(3)->create([
+        ApplicationStat::factory()->count(3)->create([
             'php_version' => '8.5',
             'starter_kit' => 'react',
         ]);
 
-        Stat::factory()->count(2)->create([
+        ApplicationStat::factory()->count(2)->create([
             'php_version' => '8.4',
             'starter_kit' => 'vue',
         ]);
 
-        get(route('stats.index'))
+        get(route('stats.index', ['locale' => 'en']))
             ->assertSuccessful()
             ->assertInertia(
                 fn (Assert $page) => $page
@@ -48,21 +48,21 @@ describe('index', function () {
     });
 
     test('filters by date range', function () {
-        Stat::factory()->create([
+        ApplicationStat::factory()->create([
             'created_at' => now()->subDays(10),
         ]);
 
-        Stat::factory()->create([
+        ApplicationStat::factory()->create([
             'created_at' => now()->subDays(5),
         ]);
 
-        Stat::factory()->create([
+        ApplicationStat::factory()->create([
             'created_at' => now()->subDays(1),
         ]);
 
         $from = now()->subDays(7)->format('Y-m-d');
 
-        get(route('stats.index', ['from' => $from]))
+        get(route('stats.index', ['locale' => 'en', 'from' => $from]))
             ->assertSuccessful()
             ->assertInertia(
                 fn (Assert $page) => $page
@@ -73,17 +73,17 @@ describe('index', function () {
     });
 
     test('filters by to date', function () {
-        Stat::factory()->create([
+        ApplicationStat::factory()->create([
             'created_at' => now()->subDays(10),
         ]);
 
-        Stat::factory()->create([
+        ApplicationStat::factory()->create([
             'created_at' => now()->subDays(5),
         ]);
 
         $to = now()->subDays(7)->format('Y-m-d');
 
-        get(route('stats.index', ['to' => $to]))
+        get(route('stats.index', ['locale' => 'en', 'to' => $to]))
             ->assertSuccessful()
             ->assertInertia(
                 fn (Assert $page) => $page
@@ -93,26 +93,26 @@ describe('index', function () {
     });
 
     test('filters by both from and to', function () {
-        Stat::factory()->create([
+        ApplicationStat::factory()->create([
             'created_at' => now()->subDays(20),
         ]);
 
-        Stat::factory()->create([
+        ApplicationStat::factory()->create([
             'created_at' => now()->subDays(12),
         ]);
 
-        Stat::factory()->create([
+        ApplicationStat::factory()->create([
             'created_at' => now()->subDays(8),
         ]);
 
-        Stat::factory()->create([
+        ApplicationStat::factory()->create([
             'created_at' => now()->subDays(2),
         ]);
 
         $from = now()->subDays(15)->format('Y-m-d');
         $to = now()->subDays(6)->format('Y-m-d');
 
-        get(route('stats.index', ['from' => $from, 'to' => $to]))
+        get(route('stats.index', ['locale' => 'en', 'from' => $from, 'to' => $to]))
             ->assertSuccessful()
             ->assertInertia(
                 fn (Assert $page) => $page
@@ -122,19 +122,19 @@ describe('index', function () {
     });
 
     test('aggregates services correctly', function () {
-        $redis = Service::where('name', 'redis')->first();
-        $pgsql = Service::where('name', 'pgsql')->first();
+        $redis = ApplicationService::where('name', 'redis')->first();
+        $pgsql = ApplicationService::where('name', 'pgsql')->first();
 
-        $stat1 = Stat::factory()->create();
+        $stat1 = ApplicationStat::factory()->create();
         $stat1->services()->sync([$redis->id, $pgsql->id]);
 
-        $stat2 = Stat::factory()->create();
+        $stat2 = ApplicationStat::factory()->create();
         $stat2->services()->sync([$redis->id]);
 
-        $stat3 = Stat::factory()->create();
+        $stat3 = ApplicationStat::factory()->create();
         $stat3->services()->sync([$pgsql->id, $redis->id]);
 
-        get(route('stats.index'))
+        get(route('stats.index', ['locale' => 'en']))
             ->assertSuccessful()
             ->assertInertia(
                 fn (Assert $page) => $page

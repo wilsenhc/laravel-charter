@@ -6,14 +6,15 @@
         "stats": "Estadísticas",
         "privacy": "Privacidad",
         "terms": "Términos",
-        "back_to_charter": "← Volver a Charter"
+        "back_to_charter": "Volver a Charter"
     },
     "header": {
         "app_name": "Charter para Laravel"
     },
     "hero": {
         "title": "Crea una app de Laravel con Sail en un solo comando",
-        "description": "Charter simplifica la creación de nuevas apps de Laravel: elige tus servicios y opciones visualmente, luego copia un único comando que configura tu proyecto con Laravel Sail desde el inicio."
+        "description": "Charter simplifica la creación de nuevas apps de Laravel: elige tus servicios y opciones visualmente, luego copia un único comando que configura tu proyecto con Laravel Sail desde el inicio.",
+        "package_link": "¿Creando un paquete?"
     },
     "how_it_works": {
         "title": "Cómo funciona",
@@ -57,7 +58,8 @@
         "name_required": "El nombre de la aplicación es obligatorio",
         "name_invalid": "El nombre solo puede contener letras, números, guiones y guiones bajos",
         "url_required": "La URL es obligatoria para un starter kit personalizado",
-        "url_invalid": "Por favor ingresa una URL válida"
+        "url_invalid": "Por favor ingresa una URL válida",
+        "package_name_invalid": "El nombre del paquete debe tener el formato vendor/package"
     },
     "tooltips": {
         "livewire_class_components_label": "¿Qué son los Livewire class components?",
@@ -70,6 +72,23 @@
         "skip_node": "Omite la instalación de Node.js y la ejecución de NPM build al generar la aplicación. Útil para proyectos que no requieren herramientas de build frontend.",
         "database_driver_label": "¿Qué hace el controlador de base de datos?",
         "database_driver": "Define la conexión de base de datos en tu archivo .env. SQLite funciona sin servicios Docker; otros controladores requieren el servicio correspondiente activado arriba."
+    },
+    "package_hero": {
+        "title": "Crea un paquete de Laravel en un solo comando",
+        "description": "Charter simplifica la creación de nuevos paquetes de Laravel: elige las características y metadatos, luego copia un único comando que configura tu paquete con Docker.",
+        "docker_notice": "Docker solo se usa para la creación inicial. El desarrollo de paquetes no está soportado en Sail."
+    },
+    "package_form": {
+        "title": "Nombre del paquete",
+        "description": "Características",
+        "metadata_title": "Metadatos del Paquete (opcional)",
+        "author_name": "Nombre del autor",
+        "author_email": "Email del autor",
+        "package_name": "Nombre del paquete Composer",
+        "package_name_human": "Nombre para mostrar",
+        "package_description": "Descripción",
+        "vendor_namespace": "Namespace del vendor",
+        "class_name": "Nombre de la clase"
     },
     "custom_kit_alert": {
         "title": "Starter Kit personalizado",
@@ -114,11 +133,28 @@
         "dark": "Oscuro"
     },
     "footer": {
-        "disclaimer": "Este proyecto NO está afiliado, respaldado ni patrocinado por Laravel o Laravel Holdings Inc."
+        "disclaimer": "Este proyecto NO está afiliado, respaldado ni patrocinado por Laravel o Laravel Holdings Inc.",
+        "credit_prefix": "Creado por",
+        "credit_suffix": "— código abierto en"
     },
     "stats": {
         "title": "Estadísticas de uso",
         "description": "Datos agregados anónimos de los comandos de build generados. No se recopila información personal o identificable.",
+        "total_apps": "Total Apps",
+        "total_packages": "Total Paquetes",
+        "applications_section": "Aplicaciones",
+        "packages_section": "Paquetes",
+        "chart_package_features": "[Características de Paquetes]",
+        "label_package_features": "Características de Paquetes",
+        "package_feature_config": "Config",
+        "package_feature_routes": "Rutas",
+        "package_feature_views": "Vistas",
+        "package_feature_translations": "Traducciones",
+        "package_feature_migrations": "Migraciones",
+        "package_feature_assets": "Assets",
+        "package_feature_commands": "Comandos",
+        "package_feature_facade": "Facade",
+        "package_feature_boost_skill": "Boost Skill",
         "filter_title": "Filtrar por fecha",
         "last_7_days": "Últimos 7 días",
         "last_30_days": "Últimos 30 días",
@@ -155,20 +191,21 @@
     },
     "privacy": {
         "title": "Política de privacidad",
-        "last_updated": "Última actualización: julio 2026",
+        "meta_description": "Revisa la política de privacidad de Charter para Laravel. Conoce cómo recopilamos y protegemos tus datos al usar nuestro generador de comandos Laravel Sail — no almacenamos información personal.",
+        "last_updated": "Última actualización: 17 de julio de 2026",
         "sections": [
             {
                 "heading": "Información que recopilamos",
-                "content": "Charter para Laravel no recopila, almacena ni transmite información personal. Todas las opciones de configuración que selecciones se procesan íntegramente en tu navegador. No se envían datos a nuestros servidores."
+                "content": "Charter para Laravel recopila opciones de configuración anónimas con fines estadísticos para entender qué funciones son más populares. Nunca se recopila, almacena ni transmite información personal o identificativa. Puedes verificarlo revisando el código fuente en GitHub."
             },
             {
                 "heading": "Cómo usamos la información",
-                "content": "Como no recopilamos información, no hay nada que usar. El comando generado a partir de tus selecciones se muestra en pantalla y se ejecuta localmente en tu máquina."
+                "content": "Las opciones de configuración anónimas que recopilamos se utilizan únicamente con fines estadísticos para comprender tendencias de uso agregadas. No disponemos de información personal para usar, compartir o vender."
             },
             {
                 "heading": "Estadísticas de uso anónimas",
                 "content_p1": "Cuando usas el endpoint de build, las opciones de configuración no personales (versión de PHP, servicios seleccionados, tipo de starter kit, runtime de JavaScript, proveedor de autenticación, framework de testing y opciones booleanas similares) se almacenan de forma anónima en nuestro servidor. Estos datos nos ayudan a entender qué opciones son más populares.",
-                "content_p2": "No se almacena información personalmente identificable — no recopilamos tu dirección IP, agente de usuario, nombre de la aplicación, URL de starter kit personalizado ni ningún otro dato identificativo. La información almacenada no puede rastrearse hasta ningún usuario individual."
+                "content_p2": "No se almacena información personalmente identificable — no recopilamos tu dirección IP, agente de usuario, nombre de la aplicación, URL de starter kit personalizado ni ningún otro dato identificativo. La información almacenada no puede rastrearse hasta ningún usuario individual. Puedes auditarlo revisando el código fuente en GitHub."
             },
             {
                 "heading": "Cookies",
@@ -191,6 +228,7 @@
     },
     "terms": {
         "title": "Términos del servicio",
+        "meta_description": "Lee los términos del servicio de Charter para Laravel. Conoce las condiciones de uso de nuestra herramienta gratuita y de código abierto para configurar Laravel Sail.",
         "last_updated": "Última actualización: julio 2026",
         "sections": [
             {
