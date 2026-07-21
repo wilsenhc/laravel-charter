@@ -10,7 +10,7 @@ describe('index', function () {
             ->assertSuccessful()
             ->assertInertia(
                 fn (Assert $page) => $page
-                    ->component('Build/Index')
+                    ->component('Build/Application')
                     ->has('url')
                     ->where('url', fn (string $url) => str_starts_with($url, 'http')),
             );
