@@ -4,7 +4,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 
 const { t } = useI18n();
 
@@ -39,6 +39,7 @@ defineProps<{
         <div class="flex flex-col items-start">
             <Link
                 :href="`/${locale}/glossary`"
+                prefetch
                 class="mb-6 inline-flex text-sm text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
             >
                 &larr; {{ $t('nav.back_to_glossary') }}
@@ -68,9 +69,9 @@ defineProps<{
             <p class="mb-4 text-sm text-muted-foreground">
                 {{ t('glossary.cta_description') }}
             </p>
-            <Button as="a" :href="`/${locale}/application`">
+            <Link prefetch :href="`/${locale}/application`" :class="buttonVariants()">
                 {{ t('glossary.cta_button') }}
-            </Button>
+            </Link>
         </div>
 
         <div v-if="related.length > 0">
@@ -82,6 +83,7 @@ defineProps<{
                     v-for="term in related"
                     :key="term.slug"
                     :href="`/${locale}/glossary/${term.slug}`"
+                    prefetch
                     class="rounded-lg border border-border bg-card p-3 transition-colors hover:bg-accent"
                 >
                     <h3 class="text-sm font-medium">{{ term.title }}</h3>
