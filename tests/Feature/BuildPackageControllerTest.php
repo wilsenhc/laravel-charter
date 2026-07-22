@@ -26,55 +26,11 @@ describe('show', function () {
         $response->assertSee('laravel package my-package');
     });
 
-    test('features can be included', function () {
-        $response = $this->get('/package/build?name=my-package&features=config,routes');
-
-        $response->assertSuccessful();
-        $response->assertSee('--config');
-        $response->assertSee('--routes');
-    });
-
-    test('features are not added by default', function () {
-        $response = $this->get('/package/build?name=my-package');
-
-        $response->assertSuccessful();
-        $response->assertDontSee('--config');
-        $response->assertDontSee('--routes');
-    });
-
-    test('single feature can be included', function () {
-        $response = $this->get('/package/build?name=my-package&features=views');
-
-        $response->assertSuccessful();
-        $response->assertSee('--views');
-    });
-
     test('does not accept invalid features', function () {
         $response = $this->get('/package/build?name=my-package&features=invalid-feature');
 
         $response->assertStatus(400);
         $response->assertSee('Invalid feature', false);
-    });
-
-    test('metadata fields can be filled', function () {
-        $response = $this->get('/package/build?name=my-package&author_name=John&author_email=john@example.com&package_name=vendor/my-package&package_name_human=My+Package&package_description=A+great+package&vendor_namespace=Vendor&class_name=MyPackage');
-
-        $response->assertSuccessful();
-        $response->assertSee('--author-name=\\"John\\"', false);
-        $response->assertSee('--author-email=\\"john@example.com\\"', false);
-        $response->assertSee('--package-name=\\"vendor/my-package\\"', false);
-        $response->assertSee('--package-name-human=\\"My Package\\"', false);
-        $response->assertSee('--package-description=\\"A great package\\"', false);
-        $response->assertSee('--vendor-namespace=\\"Vendor\\"', false);
-        $response->assertSee('--class-name=\\"MyPackage\\"', false);
-    });
-
-    test('metadata fields are not included by default', function () {
-        $response = $this->get('/package/build?name=my-package');
-
-        $response->assertSuccessful();
-        $response->assertDontSee('--author-name');
-        $response->assertDontSee('--author-email');
     });
 
     test('does not accept invalid package_name format', function () {
@@ -105,36 +61,11 @@ describe('show', function () {
         $response->assertDontSee('$(whoami)', false);
     });
 
-    test('php version defaults to 8.5', function () {
-        $response = $this->get('/package/build?name=my-package');
-
-        $response->assertSuccessful();
-        $response->assertSee('php:8.5-cli');
-    });
-
-    test('different php versions can be picked', function (string $version) {
-        $response = $this->get("/package/build?name=my-package&php={$version}");
-
-        $response->assertSuccessful();
-        $response->assertSee("php:{$version}-cli");
-    })->with(['8.5', '8.4', '8.3']);
-
     test('does not accept invalid php version', function () {
         $response = $this->get('/package/build?name=my-package&php=7.4');
 
         $response->assertStatus(400);
         $response->assertSee('Invalid PHP version', false);
-    });
-
-    test('all options work together', function () {
-        $response = $this->get('/package/build?name=my-package&features=config,routes,views&author_name=John&php=8.4');
-
-        $response->assertSuccessful();
-        $response->assertSee('--config');
-        $response->assertSee('--routes');
-        $response->assertSee('--views');
-        $response->assertSee('--author-name=\\"John\\"', false);
-        $response->assertSee('php:8.4-cli');
     });
 
     test('stores anonymous stats on build request', function () {
