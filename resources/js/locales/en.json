@@ -1,9 +1,11 @@
 {
     "nav": {
         "github": "GitHub",
+        "mcp": "MCP",
         "language": "Language",
         "sponsor": "Sponsor",
         "stats": "Stats",
+        "mcp_footer": "MCP",
         "privacy": "Privacy",
         "terms": "Terms",
         "back_to_charter": "Back to Charter",
@@ -287,6 +289,28 @@
         "cta_description": "Pick your services, starter kit, and options visually, then copy a single command to scaffold your project with Laravel Sail.",
         "cta_button": "Build your app",
         "related_title": "Related terms"
+    },
+    "mcp": {
+        "title": "Model Context Protocol (MCP)",
+        "meta_description": "Use Charter for Laravel via the Model Context Protocol (MCP). Connect your AI coding assistant to scaffold Laravel applications and packages directly.",
+        "description": "Charter for Laravel exposes an MCP server so your AI coding assistant can scaffold Laravel applications and packages on demand.",
+        "available_tools": "Available Tools",
+        "configuration": "Configuration",
+        "configuration_description": "Add the following configuration to your MCP client to connect to the Charter for Laravel server.",
+        "how_to_use": "How to Use",
+        "how_to_use_prefix": "Once configured, your AI assistant can scaffold a new Laravel project by calling the",
+        "how_to_use_or": "or",
+        "how_to_use_suffix": "tool. The tool returns a bash script that the assistant can explain or help you execute step by step.",
+        "tool_application_desc": "Generates a bash script that scaffolds a new Laravel application with Sail. Accepts project name, PHP version, Docker services, starter kit, authentication, testing framework, JavaScript runtime, database driver, and feature flags.",
+        "tool_package_desc": "Generates a bash script that bootstraps a new Laravel package. Accepts package name, PHP version, features (config, routes, views, etc.), and metadata (author, vendor namespace, class name).",
+        "tab_claude": "Claude Code",
+        "tab_cursor": "Cursor",
+        "tab_codex": "Codex",
+        "tab_opencode": "OpenCode",
+        "client_claude": "Add to your",
+        "client_cursor": "Add to your Cursor MCP configuration:",
+        "client_codex": "Add to your Codex configuration:",
+        "client_opencode": "Add to your"
     },
     "comparison": {
         "back_to_comparisons": "Back to Comparisons",

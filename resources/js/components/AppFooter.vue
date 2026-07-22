@@ -53,6 +53,14 @@ const locale = computed(() => usePage().props.locale as string);
             </Link>
             <span class="text-border">|</span>
             <Link
+                :href="`/${locale}/mcp`"
+                prefetch
+                class="transition-colors hover:text-foreground"
+            >
+                {{ t('nav.mcp_footer') }}
+            </Link>
+            <span class="text-border">|</span>
+            <Link
                 :href="`/${locale}/privacy`"
                 prefetch
                 class="transition-colors hover:text-foreground"

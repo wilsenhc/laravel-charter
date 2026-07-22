@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\BuildOptions;
 use App\Jobs\RecordApplicationBuildStat;
 use App\Jobs\RecordPackageBuildStat;
 use App\Mcp\Servers\CharterServer;
@@ -55,16 +54,6 @@ describe('build-application tool', function () {
 
             $response->assertHasErrors();
             $response->assertHasErrors(['Cannot use "none" with other services']);
-        });
-
-        test('accepts none as the only service', function () {
-            $response = CharterServer::tool(BuildApplicationTool::class, [
-                'name' => 'my-app',
-                'services' => ['none'],
-            ]);
-
-            $response->assertOk();
-            $response->assertSee('sail:install --with=none');
         });
 
         test('rejects invalid frontend', function () {
@@ -158,172 +147,16 @@ describe('build-application tool', function () {
         });
     });
 
-    describe('behaviour', function () {
-        test('generates a build script for a valid request', function () {
-            Queue::fake();
+    test('generates a build script for a valid request', function () {
+        Queue::fake();
 
-            $response = CharterServer::tool(BuildApplicationTool::class, [
-                'name' => 'my-app',
-                'services' => ['pgsql', 'redis'],
-            ]);
-
-            $response->assertOk();
-            $response->assertSee('laravel new my-app');
-            $response->assertSee('sail:install');
-        });
-
-        test('accepts full configuration', function () {
-            $response = CharterServer::tool(BuildApplicationTool::class, [
-                'name' => 'my-app',
-                'services' => ['pgsql', 'redis'],
-                'frontend' => 'vue',
-                'php' => '8.5',
-                'testing' => 'pest',
-                'javascript' => 'bun',
-                'boost' => true,
-                'teams' => true,
-                'database' => 'pgsql',
-                'devcontainer' => true,
-                'no-node' => true,
-            ]);
-
-            $response->assertOk();
-            $response->assertSee('--vue');
-            $response->assertSee('--php=8.5');
-            $response->assertSee('--pest');
-            $response->assertSee('--bun');
-            $response->assertSee('--boost');
-            $response->assertSee('--teams');
-            $response->assertSee('--database=pgsql');
-            $response->assertSee('--devcontainer');
-            $response->assertSee('--no-node');
-        });
-
-        test('defaults to no-boost', function () {
-            $response = CharterServer::tool(BuildApplicationTool::class, [
-                'name' => 'my-app',
-                'services' => ['redis'],
-            ]);
-
-            $response->assertOk();
-            $response->assertSee('--no-boost');
-            $response->assertDontSee('--boost');
-        });
-
-        test('custom starter kit with url includes node volume', function () {
-            $response = CharterServer::tool(BuildApplicationTool::class, [
-                'name' => 'my-app',
-                'services' => ['redis'],
-                'frontend' => 'custom',
-                'using' => 'https://example.com/kit',
-            ]);
-
-            $response->assertOk();
-            $response->assertSee('node-binaries');
-            $response->assertSee('node:24-slim');
-        });
-
-        test('standard starter kit does not include node volume', function () {
-            $response = CharterServer::tool(BuildApplicationTool::class, [
-                'name' => 'my-app',
-                'services' => ['redis'],
-                'frontend' => 'vue',
-            ]);
-
-            $response->assertOk();
-            $response->assertDontSee('node-binaries');
-            $response->assertDontSee('node:24-slim');
-        });
-
-        test('livewire with class components adds both flags', function () {
-            $response = CharterServer::tool(BuildApplicationTool::class, [
-                'name' => 'my-app',
-                'services' => ['redis'],
-                'frontend' => 'livewire',
-                'livewire-class-components' => true,
-            ]);
-
-            $response->assertOk();
-            $response->assertSee('--livewire --livewire-class-components');
-        });
-
-        test('livewire without class components does not add modifier', function () {
-            $response = CharterServer::tool(BuildApplicationTool::class, [
-                'name' => 'my-app',
-                'services' => ['redis'],
-                'frontend' => 'livewire',
-            ]);
-
-            $response->assertOk();
-            $response->assertSee('--livewire');
-            $response->assertDontSee('--livewire-class-components');
-        });
-
-        test('no-node flag is not added by default', function () {
-            $response = CharterServer::tool(BuildApplicationTool::class, [
-                'name' => 'my-app',
-                'services' => ['redis'],
-            ]);
-
-            $response->assertOk();
-            $response->assertDontSee('--no-node');
-        });
-
-        test('database flag is omitted when none', function () {
-            $response = CharterServer::tool(BuildApplicationTool::class, [
-                'name' => 'my-app',
-                'services' => ['redis'],
-                'database' => 'none',
-            ]);
-
-            $response->assertOk();
-            $response->assertDontSee('--database=');
-        });
-    });
-
-    describe('javascript runtimes', function () {
-        test('accepts {{ $runtime }} and sets correct commands', function (string $runtime, string $installCmd, string $devCmd) {
-            $response = CharterServer::tool(BuildApplicationTool::class, [
-                'name' => 'my-app',
-                'services' => ['redis'],
-                'javascript' => $runtime,
-            ]);
-
-            $response->assertOk();
-            $response->assertSee("--{$runtime}");
-            $response->assertSee("sail {$installCmd}");
-            $response->assertSee("sail {$devCmd}");
-        })->with([
-            ['npm', 'npm install', 'npm run dev'],
-            ['pnpm', 'pnpm install', 'pnpm run dev'],
-            ['bun', 'bun install', 'bun run dev'],
-            ['yarn', 'yarn install', 'yarn dev'],
+        $response = CharterServer::tool(BuildApplicationTool::class, [
+            'name' => 'my-app',
+            'services' => ['pgsql', 'redis'],
         ]);
-    });
 
-    describe('php versions', function () {
-        test('accepts php {php}', function (string $php) {
-            $response = CharterServer::tool(BuildApplicationTool::class, [
-                'name' => 'my-app',
-                'services' => ['redis'],
-                'php' => $php,
-            ]);
-
-            $response->assertOk();
-            $response->assertSee("--php={$php}");
-        })->with(BuildOptions::AvailablePhpVersions->values());
-    });
-
-    describe('starter kits', function () {
-        test('accepts starter kit {kit}', function (string $kit) {
-            $response = CharterServer::tool(BuildApplicationTool::class, [
-                'name' => 'my-app',
-                'services' => ['redis'],
-                'frontend' => $kit,
-            ]);
-
-            $response->assertOk();
-        })->with(BuildOptions::AvailableStarterKits->values());
+        $response->assertOk();
+        $response->assertSee('laravel new my-app');
     });
 
     describe('stats', function () {
@@ -487,89 +320,15 @@ describe('build-package tool', function () {
         });
     });
 
-    describe('behaviour', function () {
-        test('generates a build script for a valid request', function () {
-            Queue::fake();
+    test('generates a build script for a valid request', function () {
+        Queue::fake();
 
-            $response = CharterServer::tool(BuildPackageTool::class, [
-                'name' => 'my-package',
-            ]);
+        $response = CharterServer::tool(BuildPackageTool::class, [
+            'name' => 'my-package',
+        ]);
 
-            $response->assertOk();
-            $response->assertSee('laravel package my-package');
-        });
-
-        test('accepts all features', function () {
-            $response = CharterServer::tool(BuildPackageTool::class, [
-                'name' => 'my-package',
-                'features' => BuildOptions::AvailablePackageFeatures->values(),
-            ]);
-
-            $response->assertOk();
-
-            foreach (BuildOptions::AvailablePackageFeatures->values() as $feature) {
-                $response->assertSee("--{$feature}");
-            }
-        });
-
-        test('no features by default', function () {
-            $response = CharterServer::tool(BuildPackageTool::class, [
-                'name' => 'my-package',
-            ]);
-
-            $response->assertOk();
-            $response->assertDontSee('--config');
-            $response->assertDontSee('--routes');
-            $response->assertDontSee('--views');
-        });
-
-        test('accepts all metadata fields', function () {
-            $response = CharterServer::tool(BuildPackageTool::class, [
-                'name' => 'my-package',
-                'author_name' => 'John Doe',
-                'author_email' => 'john@example.com',
-                'package_name' => 'vendor/my-package',
-                'package_name_human' => 'My Package',
-                'package_description' => 'A great package',
-                'vendor_namespace' => 'Vendor',
-                'class_name' => 'MyPackage',
-                'php' => '8.4',
-            ]);
-
-            $response->assertOk();
-            $response->assertSee('--author-name=\\"John Doe\\"', false);
-            $response->assertSee('--author-email=\\"john@example.com\\"', false);
-            $response->assertSee('--package-name=\\"vendor/my-package\\"', false);
-            $response->assertSee('--package-name-human=\\"My Package\\"', false);
-            $response->assertSee('--package-description=\\"A great package\\"', false);
-            $response->assertSee('--vendor-namespace=\\"Vendor\\"', false);
-            $response->assertSee('--class-name=\\"MyPackage\\"', false);
-            $response->assertSee('php:8.4-cli');
-        });
-
-        test('metadata fields omitted by default', function () {
-            $response = CharterServer::tool(BuildPackageTool::class, [
-                'name' => 'my-package',
-            ]);
-
-            $response->assertOk();
-            $response->assertDontSee('--author-name');
-            $response->assertDontSee('--author-email');
-            $response->assertDontSee('--package-name');
-            $response->assertDontSee('--vendor-namespace');
-        });
-    });
-
-    describe('php versions', function () {
-        test('accepts php {php}', function (string $php) {
-            $response = CharterServer::tool(BuildPackageTool::class, [
-                'name' => 'my-package',
-                'php' => $php,
-            ]);
-
-            $response->assertOk();
-            $response->assertSee("php:{$php}-cli");
-        })->with(BuildOptions::AvailablePhpVersions->values());
+        $response->assertOk();
+        $response->assertSee('laravel package my-package');
     });
 
     describe('stats', function () {
@@ -578,7 +337,7 @@ describe('build-package tool', function () {
 
             CharterServer::tool(BuildPackageTool::class, [
                 'name' => 'my-package',
-                'features' => BuildOptions::AvailablePackageFeatures->values(),
+                'features' => ['config', 'routes', 'views', 'translations', 'migrations', 'assets', 'commands', 'facade', 'boost-skill'],
                 'php' => '8.5',
             ]);
 

@@ -42,6 +42,28 @@ onUnmounted(() => {
                 variant="outline"
                 size="sm"
                 as="a"
+                :href="`/${locale}/mcp`"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="size-3.5"
+                    aria-hidden="true"
+                >
+                    <path d="M12 3l1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5z" />
+                    <path d="M18 14l.8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8z" />
+                </svg>
+                {{ t('nav.mcp') }}
+            </Button>
+            <Button
+                variant="outline"
+                size="sm"
+                as="a"
                 href="https://github.com/wilsenhc/laravel-charter"
                 target="_blank"
                 rel="noopener noreferrer"
