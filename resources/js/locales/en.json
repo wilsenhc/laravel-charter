@@ -202,7 +202,9 @@
         "option_devcontainer": "Devcontainer",
         "option_skip_node": "Skip Node.js",
         "option_lw_class_components": "LW Class Components",
-        "option_custom_kit": "Custom Kit"
+        "option_custom_kit": "Custom Kit",
+        "mcp": "MCP",
+        "web": "Web"
     },
     "privacy": {
         "title": "Privacy Policy",

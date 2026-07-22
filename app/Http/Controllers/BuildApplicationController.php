@@ -58,6 +58,7 @@ class BuildApplicationController extends Controller
                     'no_node' => $data['no-node'],
                     'livewire_class_components' => $data['livewire-class-components'],
                     'database_driver' => $data['database'] !== 'none' ? $data['database'] : null,
+                    'mcp_source' => 'web',
                 ],
                 services: $data['services'],
             );

@@ -29,7 +29,9 @@ const props = defineProps<{
         custom_starter_kit: number;
     };
     totalApps: number;
+    appMcpSources: Record<string, number>;
     totalPackages: number;
+    packageMcpSources: Record<string, number>;
     total: number;
     packagePhpVersions: Record<string, number>;
     packageFeatureOptions: {
@@ -266,6 +268,14 @@ const appOptionsData = computed<Record<string, number>>(() => ({
     [t('stats.option_custom_kit')]: props.booleanOptions.custom_starter_kit,
 }));
 
+const appMcpCount = computed(() =>
+    Object.values(props.appMcpSources).reduce((sum, c) => sum + c, 0),
+);
+
+const packageMcpCount = computed(() =>
+    Object.values(props.packageMcpSources).reduce((sum, c) => sum + c, 0),
+);
+
 const packageFeatureData = computed<Record<string, number>>(() => {
     const raw = props.packageFeatureOptions;
 
@@ -429,12 +439,22 @@ onMounted(async () => {
                     {{ t('stats.total_apps') }}
                 </p>
                 <p class="mt-1 text-3xl font-bold tracking-tight">{{ totalApps }}</p>
+                <p class="mt-1 text-xs text-muted-foreground">
+                    <span class="text-foreground">{{ totalApps - appMcpCount }}</span> {{ t('stats.web') }}
+                    &middot;
+                    <span class="text-foreground">{{ appMcpCount }}</span> {{ t('stats.mcp') }}
+                </p>
             </div>
             <div class="rounded-sm border border-border p-4 text-center">
                 <p class="text-xs text-muted-foreground">
                     {{ t('stats.total_packages') }}
                 </p>
                 <p class="mt-1 text-3xl font-bold tracking-tight">{{ totalPackages }}</p>
+                <p class="mt-1 text-xs text-muted-foreground">
+                    <span class="text-foreground">{{ totalPackages - packageMcpCount }}</span> {{ t('stats.web') }}
+                    &middot;
+                    <span class="text-foreground">{{ packageMcpCount }}</span> {{ t('stats.mcp') }}
+                </p>
             </div>
         </div>
 

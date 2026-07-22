@@ -5,6 +5,7 @@ namespace App\Mcp\Tools;
 use App\Actions\BuildPackageScript;
 use App\Enums\BuildOptions;
 use App\Jobs\RecordPackageBuildStat;
+use App\Mcp\Traits\DetectsMcpSource;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
@@ -16,6 +17,8 @@ use Laravel\Mcp\Server\Tools\Annotations\IsReadOnly;
 #[IsReadOnly]
 class BuildPackageTool extends Tool
 {
+    use DetectsMcpSource;
+
     public function handle(Request $request, BuildPackageScript $buildScript): Response
     {
         $validated = $request->validate([
@@ -38,6 +41,9 @@ class BuildPackageTool extends Tool
             'package_name.regex' => 'Package name must be in the format vendor/package.',
         ]);
 
+        $mcpSource = $this->detectMcpSource();
+        $validated['mcp_source'] = $mcpSource;
+
         $script = $buildScript->handle($validated);
 
         $features = $validated['features'] ?? [];
@@ -57,6 +63,7 @@ class BuildPackageTool extends Tool
             'commands' => $featureData['commands'] ?? false,
             'facade' => $featureData['facade'] ?? false,
             'boost_skill' => $featureData['boost-skill'] ?? false,
+            'mcp_source' => $mcpSource,
         ]);
 
         return Response::text($script);

@@ -203,7 +203,9 @@
         "option_devcontainer": "Devcontainer",
         "option_skip_node": "Omitir Node.js",
         "option_lw_class_components": "LW Class Components",
-        "option_custom_kit": "Kit Personalizado"
+        "option_custom_kit": "Kit Personalizado",
+        "mcp": "MCP",
+        "web": "Web"
     },
     "privacy": {
         "title": "Política de privacidad",

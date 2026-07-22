@@ -14,6 +14,8 @@ class PackageStatsSeeder extends Seeder
         for ($i = 0; $i < 100; $i++) {
             $phpVersion = $this->weighted(['8.5', '8.4', '8.3'], [50, 35, 15]);
 
+            $mcpSource = $this->randomBool(30) ? 'mcp' : 'web';
+
             $daysAgo = fake()->numberBetween(0, 180);
             $createdAt = now()->subDays($daysAgo)->subHours(fake()->numberBetween(0, 23));
 
@@ -28,6 +30,7 @@ class PackageStatsSeeder extends Seeder
                 'commands' => $this->randomBool(30),
                 'facade' => $this->randomBool(20),
                 'boost_skill' => $this->randomBool(10),
+                'mcp_source' => $mcpSource,
                 'created_at' => $createdAt,
                 'updated_at' => $createdAt,
             ];

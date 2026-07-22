@@ -44,6 +44,7 @@ class BuildPackageController extends Controller
                 'commands' => $featureData['commands'] ?? false,
                 'facade' => $featureData['facade'] ?? false,
                 'boost_skill' => $featureData['boost-skill'] ?? false,
+                'mcp_source' => 'web',
             ]);
         }
 

@@ -79,7 +79,8 @@ describe('show', function () {
                 && $job->data['config'] === true
                 && $job->data['routes'] === true
                 && $job->data['views'] === false
-                && $job->data['boost_skill'] === false;
+                && $job->data['boost_skill'] === false
+                    && $job->data['mcp_source'] === 'web';
         });
     });
 
@@ -93,7 +94,8 @@ describe('show', function () {
             return $job->data['php_version'] === '8.4'
                 && $job->data['config'] === false
                 && $job->data['routes'] === false
-                && $job->data['boost_skill'] === false;
+                && $job->data['boost_skill'] === false
+                    && $job->data['mcp_source'] === 'web';
         });
     });
 

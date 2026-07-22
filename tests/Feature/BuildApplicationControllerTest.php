@@ -128,7 +128,8 @@ describe('show', function () {
                 && $job->data['devcontainer'] === false
                 && $job->data['no_node'] === false
                 && $job->data['livewire_class_components'] === false
-                && $job->data['database_driver'] === 'pgsql';
+                && $job->data['database_driver'] === 'pgsql'
+                && $job->data['mcp_source'] === 'web';
         });
     });
 
@@ -151,7 +152,8 @@ describe('show', function () {
 
         Queue::assertPushed(RecordApplicationBuildStat::class, function (RecordApplicationBuildStat $job) {
             return $job->data['custom_starter_kit'] === true
-                && $job->data['starter_kit'] === 'custom';
+                && $job->data['starter_kit'] === 'custom'
+                && $job->data['mcp_source'] === 'web';
         });
     });
 

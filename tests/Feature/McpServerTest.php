@@ -191,6 +191,7 @@ describe('build-application tool', function () {
                     && $job->data['no_node'] === true
                     && $job->data['livewire_class_components'] === false
                     && $job->data['database_driver'] === 'pgsql'
+                    && $job->data['mcp_source'] === 'mcp'
                     && $job->services === ['pgsql', 'redis'];
             });
         });
@@ -216,6 +217,7 @@ describe('build-application tool', function () {
                     && $job->data['no_node'] === false
                     && $job->data['livewire_class_components'] === false
                     && $job->data['database_driver'] === null
+                    && $job->data['mcp_source'] === 'mcp'
                     && $job->services === ['none'];
             });
         });
@@ -232,7 +234,8 @@ describe('build-application tool', function () {
 
             Queue::assertPushed(RecordApplicationBuildStat::class, function (RecordApplicationBuildStat $job) {
                 return $job->data['custom_starter_kit'] === true
-                    && $job->data['starter_kit'] === 'custom';
+                    && $job->data['starter_kit'] === 'custom'
+                    && $job->data['mcp_source'] === 'mcp';
             });
         });
     });
@@ -351,7 +354,8 @@ describe('build-package tool', function () {
                     && $job->data['assets'] === true
                     && $job->data['commands'] === true
                     && $job->data['facade'] === true
-                    && $job->data['boost_skill'] === true;
+                    && $job->data['boost_skill'] === true
+                    && $job->data['mcp_source'] === 'mcp';
             });
         });
 
@@ -372,7 +376,8 @@ describe('build-package tool', function () {
                     && $job->data['assets'] === false
                     && $job->data['commands'] === false
                     && $job->data['facade'] === false
-                    && $job->data['boost_skill'] === false;
+                    && $job->data['boost_skill'] === false
+                    && $job->data['mcp_source'] === 'mcp';
             });
         });
     });

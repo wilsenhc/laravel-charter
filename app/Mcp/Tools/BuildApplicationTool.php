@@ -5,6 +5,7 @@ namespace App\Mcp\Tools;
 use App\Actions\BuildApplicationScript;
 use App\Enums\BuildOptions;
 use App\Jobs\RecordApplicationBuildStat;
+use App\Mcp\Traits\DetectsMcpSource;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
@@ -16,6 +17,8 @@ use Laravel\Mcp\Server\Tools\Annotations\IsReadOnly;
 #[IsReadOnly]
 class BuildApplicationTool extends Tool
 {
+    use DetectsMcpSource;
+
     public function handle(Request $request, BuildApplicationScript $buildScript): Response
     {
         $validated = $request->validate([
@@ -53,6 +56,9 @@ class BuildApplicationTool extends Tool
             return Response::error('Cannot use "none" with other services.');
         }
 
+        $mcpSource = $this->detectMcpSource();
+        $data['mcp_source'] = $mcpSource;
+
         $script = $buildScript->handle($data);
 
         RecordApplicationBuildStat::dispatch(
@@ -69,6 +75,7 @@ class BuildApplicationTool extends Tool
                 'no_node' => $data['no-node'] ?? false,
                 'livewire_class_components' => $data['livewire-class-components'] ?? false,
                 'database_driver' => isset($data['database']) && $data['database'] !== 'none' ? $data['database'] : null,
+                'mcp_source' => $mcpSource,
             ],
             services: $data['services'],
         );

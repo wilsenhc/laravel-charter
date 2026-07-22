@@ -81,18 +81,14 @@ const opencodeConfig = computed(() => JSON.stringify({
                     <p class="mb-2 text-sm text-muted-foreground">
                         {{ t('mcp.tool_application_desc') }}
                     </p>
-                    <p class="text-xs text-muted-foreground">
-                        <span class="font-mono text-foreground">build-application --name my-app --services '["pgsql","redis"]' --frontend vue --php 8.5</span>
-                    </p>
+                    <pre class="text-xs text-foreground font-mono">build-application --name my-app --services '["pgsql","redis"]' --frontend vue --php 8.5</pre>
                 </div>
                 <div class="rounded-lg border border-border p-4">
                     <h3 class="mb-1 font-semibold">build-package</h3>
                     <p class="mb-2 text-sm text-muted-foreground">
                         {{ t('mcp.tool_package_desc') }}
                     </p>
-                    <p class="text-xs text-muted-foreground">
-                        <span class="font-mono text-foreground">build-package --name my-package --features '["config","routes"]' --author_name "Your Name"</span>
-                    </p>
+                    <pre class="text-xs text-foreground font-mono">build-package --name my-package --features '["config","routes"]' --author_name "Your Name"</pre>
                 </div>
             </div>
         </section>
