@@ -18,6 +18,7 @@ it('generates a valid sitemap', function () {
     get(route('sitemap'))
         ->assertSuccessful()
         ->assertHeader('Content-Type', 'application/xml')
+        ->assertHeader('X-Content-Type-Options', 'nosniff')
         ->assertSee('hreflang="en"', false)
         ->assertSee('hreflang="es"', false);
 });

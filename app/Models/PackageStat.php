@@ -25,6 +25,7 @@ class PackageStat extends Model
         'commands',
         'facade',
         'boost_skill',
+        'mcp_source',
     ];
 
     protected function casts(): array

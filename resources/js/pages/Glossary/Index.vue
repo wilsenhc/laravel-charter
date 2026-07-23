@@ -6,22 +6,44 @@ import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
 
 const { t } = useI18n();
+const page = usePage();
 
-const locale = computed(() => usePage().props.locale as string);
+const locale = computed(() => page.props.locale as string);
 const origin = typeof window !== 'undefined' ? window.location.origin : '';
+
+const breadcrumbJsonLd = computed(() =>
+    JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Charter for Laravel',
+                item: origin,
+            },
+            {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Glossary',
+                item: `${origin}/${locale.value}/glossary`,
+            },
+        ],
+    }),
+);
 
 const props = defineProps<{
     terms: { slug: string; category: string; title: string; summary: string }[];
 }>();
 
 const categoryOrder: Record<string, number> = {
-    'Concept': 0,
-    'Service': 1,
-    'Database': 2,
+    Concept: 0,
+    Service: 1,
+    Database: 2,
     'Starter Kit': 3,
-    'Testing': 4,
-    'Auth': 5,
-    'Runtime': 6,
+    Testing: 4,
+    Auth: 5,
+    Runtime: 6,
 };
 
 const grouped = computed(() => {
@@ -43,9 +65,14 @@ const grouped = computed(() => {
 
 <template>
     <Head>
-        <title>{{ t('glossary.page_title') }} — {{ $t('header.app_name') }}</title>
-        <meta name="description" :content="t('glossary.meta_description')">
-        <link rel="canonical" :href="`${origin}/${locale}/glossary`">
+        <title>
+            {{ t('glossary.page_title') }} — {{ $t('header.app_name') }}
+        </title>
+        <meta name="description" :content="t('glossary.meta_description')" />
+        <link rel="canonical" :href="`${origin}/${locale}/glossary`" />
+        <component :is="'script'" type="application/ld+json">{{
+            breadcrumbJsonLd
+        }}</component>
     </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
