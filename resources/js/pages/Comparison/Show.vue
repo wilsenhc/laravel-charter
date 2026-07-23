@@ -4,7 +4,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 
 const { t } = useI18n();
 
@@ -53,6 +53,7 @@ const aspects = [
         <div class="flex flex-col items-start">
             <Link
                 :href="`/${locale}/glossary`"
+                prefetch
                 class="mb-6 inline-flex text-sm text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
             >
                 &larr; {{ t('comparison.back_to_comparisons') }}
@@ -110,9 +111,9 @@ const aspects = [
             <p class="mb-4 text-sm text-muted-foreground">
                 {{ t('glossary.cta_description') }}
             </p>
-            <Button as="a" :href="`/${locale}/application`">
+            <Link prefetch :href="`/${locale}/application`" :class="buttonVariants()">
                 {{ t('glossary.cta_button') }}
-            </Button>
+            </Link>
         </div>
     </main>
     <AppFooter />

@@ -15,7 +15,7 @@ class BuildApplicationController extends Controller
 {
     public function index(Request $request): InertiaResponse
     {
-        return Inertia::render('Build/Index', [
+        return Inertia::render('Build/Application', [
             'url' => $request->root(),
         ]);
     }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, usePage } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
@@ -22,6 +22,7 @@ const sectionCount = computed(() => tm('terms.sections').length);
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <Link
             :href="`/${locale}/application`"
+            prefetch
             class="mb-8 inline-flex text-sm text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
         >
             &larr; {{ t('nav.back_to_charter') }}
@@ -49,6 +50,7 @@ const sectionCount = computed(() => tm('terms.sections').length);
                         }}
                         <Link
                             :href="`/${locale}/privacy`"
+                            prefetch
                             class="font-medium text-foreground underline underline-offset-4"
                             >{{ t('terms.sections.2.link_text') }}</Link
                         >.

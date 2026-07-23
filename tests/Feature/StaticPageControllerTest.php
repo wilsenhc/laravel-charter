@@ -17,7 +17,9 @@ it('renders the terms page', function () {
 it('generates a valid sitemap', function () {
     get(route('sitemap'))
         ->assertSuccessful()
-        ->assertHeader('Content-Type', 'application/xml');
+        ->assertHeader('Content-Type', 'application/xml')
+        ->assertSee('hreflang="en"', false)
+        ->assertSee('hreflang="es"', false);
 });
 
 it('renders the application page', function () {

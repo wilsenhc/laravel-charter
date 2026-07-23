@@ -51,7 +51,7 @@ class StaticPageController extends Controller
                 ->setPriority($page['priority']);
 
             foreach (Locale::cases() as $locale) {
-                $url->addAlternate($locale->value, url($locale->value.'/'.$page['path']));
+                $url->addAlternate(url($locale->value.'/'.$page['path']), $locale->value);
             }
 
             $sitemap->add($url);

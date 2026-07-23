@@ -32,9 +32,11 @@ onUnmounted(() => {
     >
         <Link
             :href="`/${locale}/application`"
+            prefetch
             class="text-base font-bold tracking-tight hover:underline"
-            >{{ t('header.app_name') }}</Link
         >
+            {{ t('header.app_name') }}
+        </Link>
         <div class="flex items-center gap-3">
             <Button
                 variant="outline"

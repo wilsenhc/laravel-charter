@@ -65,6 +65,7 @@ const grouped = computed(() => {
                     v-for="term in group.items"
                     :key="term.slug"
                     :href="`/${locale}/glossary/${term.slug}`"
+                    prefetch
                     class="rounded-lg border border-border bg-card p-4 transition-colors hover:bg-accent"
                 >
                     <h3 class="font-medium">{{ term.title }}</h3>

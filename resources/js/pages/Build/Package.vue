@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, usePage } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import {
@@ -157,12 +157,13 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                 {{ t('hero.package.description') }}
             </p>
             <div class="flex items-center gap-4">
-                <a
+                <Link
                     :href="`/${locale}/application`"
+                    prefetch
                     class="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary/90"
                 >
                     {{ t('hero.package.application_link') }}
-                </a>
+                </Link>
                 <a
                     href="#how-it-works"
                     class="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
