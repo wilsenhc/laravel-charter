@@ -9,7 +9,9 @@
         "privacy": "Privacy",
         "terms": "Terms",
         "back_to_charter": "Back to Charter",
-        "back_to_glossary": "Back to Glossary"
+        "back_to_glossary": "Back to Glossary",
+        "build_application": "Application Builder",
+        "build_package": "Package Builder"
     },
     "header": {
         "app_name": "Charter for Laravel"
@@ -17,7 +19,7 @@
     "hero": {
         "learn_link": "Learn how it works",
         "application": {
-            "title": "Spin up a Laravel app with Sail in one command",
+            "title": "Laravel Sail app in one command",
             "description": "Charter simplifies creating new Laravel apps: pick your services and options visually, then copy a single CLI command that scaffolds your project with Laravel Sail from the start.",
             "package_link": "Building a new package?",
             "how_it_works": {
@@ -31,7 +33,7 @@
             }
         },
         "package": {
-            "title": "Scaffold a Laravel package in one command",
+            "title": "Laravel package in one command",
             "description": "Charter simplifies creating new Laravel packages: pick your features and metadata, then copy a single CLI command that bootstraps your package with Docker.",
             "docker_notice": "Docker is only used for one-time scaffolding. Sail is not supported for package development.",
             "application_link": "Building an application?",

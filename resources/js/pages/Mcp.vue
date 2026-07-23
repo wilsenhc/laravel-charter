@@ -48,6 +48,15 @@ const opencodeConfig = computed(() => JSON.stringify({
         },
     },
 }, null, 4));
+
+const breadcrumbJsonLd = computed(() => JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Charter for Laravel', item: origin },
+        { '@type': 'ListItem', position: 2, name: 'MCP', item: `${origin}/${locale.value}/mcp` },
+    ],
+}));
 </script>
 
 <template>
@@ -55,6 +64,7 @@ const opencodeConfig = computed(() => JSON.stringify({
         <title>{{ t('mcp.title') }} — {{ t('header.app_name') }}</title>
         <meta :content="t('mcp.meta_description')" name="description">
         <link rel="canonical" :href="`${origin}/${locale}/mcp`">
+        <component :is="'script'" type="application/ld+json" v-text="breadcrumbJsonLd" />
     </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
@@ -81,14 +91,20 @@ const opencodeConfig = computed(() => JSON.stringify({
                     <p class="mb-2 text-sm text-muted-foreground">
                         {{ t('mcp.tool_application_desc') }}
                     </p>
-                    <pre class="text-xs text-foreground font-mono">build-application --name my-app --services '["pgsql","redis"]' --frontend vue --php 8.5</pre>
+                    <pre class="mb-3 text-xs text-foreground font-mono">build-application --name my-app --services '["pgsql","redis"]' --frontend vue --php 8.5</pre>
+                    <Link :href="`/${locale}/application`" class="text-xs text-muted-foreground underline underline-offset-4 hover:text-foreground">
+                        {{ t('nav.build_application') }}
+                    </Link>
                 </div>
                 <div class="rounded-lg border border-border p-4">
                     <h3 class="mb-1 font-semibold">build-package</h3>
                     <p class="mb-2 text-sm text-muted-foreground">
                         {{ t('mcp.tool_package_desc') }}
                     </p>
-                    <pre class="text-xs text-foreground font-mono">build-package --name my-package --features '["config","routes"]' --author_name "Your Name"</pre>
+                    <pre class="mb-3 text-xs text-foreground font-mono">build-package --name my-package --features '["config","routes"]' --author_name "Your Name"</pre>
+                    <Link :href="`/${locale}/package`" class="text-xs text-muted-foreground underline underline-offset-4 hover:text-foreground">
+                        {{ t('nav.build_package') }}
+                    </Link>
                 </div>
             </div>
         </section>

@@ -10,6 +10,15 @@ const { t, tm } = useI18n();
 const locale = computed(() => usePage().props.locale as string);
 const origin = typeof window !== 'undefined' ? window.location.origin : '';
 const sectionCount = computed(() => tm('terms.sections').length);
+
+const breadcrumbJsonLd = computed(() => JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Charter for Laravel', item: origin },
+        { '@type': 'ListItem', position: 2, name: 'Terms of Service', item: `${origin}/${locale.value}/terms` },
+    ],
+}));
 </script>
 
 <template>
@@ -17,6 +26,7 @@ const sectionCount = computed(() => tm('terms.sections').length);
         <title>{{ t('terms.title') }} — {{ t('header.app_name') }}</title>
         <meta name="description" :content="t('terms.meta_description')">
         <link rel="canonical" :href="`${origin}/${locale}/terms`">
+        <component :is="'script'" type="application/ld+json" v-text="breadcrumbJsonLd" />
     </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">

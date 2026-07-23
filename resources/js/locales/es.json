@@ -9,7 +9,9 @@
         "privacy": "Privacidad",
         "terms": "Términos",
         "back_to_charter": "Volver a Charter",
-        "back_to_glossary": "Volver al Glosario"
+        "back_to_glossary": "Volver al Glosario",
+        "build_application": "Creador de Aplicaciones",
+        "build_package": "Creador de Paquetes"
     },
     "header": {
         "app_name": "Charter para Laravel"
@@ -17,7 +19,7 @@
     "hero": {
         "learn_link": "Aprende cómo funciona",
         "application": {
-            "title": "Crea una app de Laravel con Sail en un solo comando",
+            "title": "App de Laravel con Sail en un comando",
             "description": "Charter simplifica la creación de nuevas apps de Laravel: elige tus servicios y opciones visualmente, luego copia un único comando que configura tu proyecto con Laravel Sail desde el inicio.",
             "package_link": "¿Creando un paquete?",
             "how_it_works": {
@@ -31,7 +33,7 @@
             }
         },
         "package": {
-            "title": "Crea un paquete de Laravel en un solo comando",
+            "title": "Paquete de Laravel en un comando",
             "description": "Charter simplifica la creación de nuevos paquetes de Laravel: elige las características y metadatos, luego copia un único comando que configura tu paquete con Docker.",
             "docker_notice": "Docker solo se usa para la creación inicial. El desarrollo de paquetes no está soportado en Sail.",
             "application_link": "¿Creando una aplicación?",

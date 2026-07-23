@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 import AppearanceSwitcher from '@/components/AppearanceSwitcher.vue';
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
 import { Button } from '@/components/ui/button';
+import LogoIcon from '@/components/LogoIcon.vue';
 
 const { t } = useI18n();
 
@@ -33,8 +34,9 @@ onUnmounted(() => {
         <Link
             :href="`/${locale}/application`"
             prefetch
-            class="text-base font-bold tracking-tight hover:underline"
+            class="flex items-center gap-2 text-base font-bold tracking-tight hover:underline"
         >
+            <LogoIcon class="h-[1em] w-auto" />
             {{ t('header.app_name') }}
         </Link>
         <div class="flex items-center gap-3">

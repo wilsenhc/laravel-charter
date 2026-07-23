@@ -10,6 +10,15 @@ const { t } = useI18n();
 const locale = computed(() => usePage().props.locale as string);
 const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
+const breadcrumbJsonLd = computed(() => JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Charter for Laravel', item: origin },
+        { '@type': 'ListItem', position: 2, name: 'Glossary', item: `${origin}/${locale.value}/glossary` },
+    ],
+}));
+
 const props = defineProps<{
     terms: { slug: string; category: string; title: string; summary: string }[];
 }>();
@@ -46,6 +55,7 @@ const grouped = computed(() => {
         <title>{{ t('glossary.page_title') }} — {{ $t('header.app_name') }}</title>
         <meta name="description" :content="t('glossary.meta_description')">
         <link rel="canonical" :href="`${origin}/${locale}/glossary`">
+        <component :is="'script'" type="application/ld+json" v-text="breadcrumbJsonLd" />
     </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">

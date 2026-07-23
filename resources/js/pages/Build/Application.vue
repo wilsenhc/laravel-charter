@@ -43,6 +43,16 @@ const props = defineProps<{
 }>();
 
 const locale = computed(() => usePage().props.locale as string);
+const origin = typeof window !== 'undefined' ? window.location.origin : '';
+
+const breadcrumbJsonLd = computed(() => JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Charter for Laravel', item: origin },
+        { '@type': 'ListItem', position: 2, name: 'Application Builder', item: `${origin}/${locale.value}/application` },
+    ],
+}));
 
 const isLocal = import.meta.env.DEV;
 
@@ -213,6 +223,7 @@ const faqItems = computed(() => {
         <title>{{ t('hero.application.title') }} — {{ t('header.app_name') }}</title>
         <meta name="description" :content="t('hero.application.description')">
         <link rel="canonical" :href="`${props.url}/${locale}/application`">
+        <component :is="'script'" type="application/ld+json" v-text="breadcrumbJsonLd" />
     </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
