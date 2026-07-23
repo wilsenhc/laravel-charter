@@ -4,12 +4,13 @@ import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppearanceSwitcher from '@/components/AppearanceSwitcher.vue';
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
-import { Button } from '@/components/ui/button';
 import LogoIcon from '@/components/LogoIcon.vue';
+import { Button } from '@/components/ui/button';
 
 const { t } = useI18n();
+const page = usePage();
 
-const locale = computed(() => usePage().props.locale as string);
+const locale = computed(() => page.props.locale as string);
 
 const isScrolled = ref(false);
 
@@ -40,12 +41,7 @@ onUnmounted(() => {
             {{ t('header.app_name') }}
         </Link>
         <div class="flex items-center gap-3">
-            <Button
-                variant="outline"
-                size="sm"
-                as="a"
-                :href="`/${locale}/mcp`"
-            >
+            <Button variant="outline" size="sm" as="a" :href="`/${locale}/mcp`">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -57,8 +53,12 @@ onUnmounted(() => {
                     class="size-3.5"
                     aria-hidden="true"
                 >
-                    <path d="M12 3l1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5z" />
-                    <path d="M18 14l.8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8z" />
+                    <path
+                        d="M12 3l1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5z"
+                    />
+                    <path
+                        d="M18 14l.8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8z"
+                    />
                 </svg>
                 {{ t('nav.mcp') }}
             </Button>

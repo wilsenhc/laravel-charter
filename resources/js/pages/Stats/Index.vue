@@ -8,18 +8,31 @@ import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
 
 const { t } = useI18n();
+const page = usePage();
 
-const locale = computed(() => usePage().props.locale as string);
+const locale = computed(() => page.props.locale as string);
 const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
-const breadcrumbJsonLd = computed(() => JSON.stringify({
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Charter for Laravel', item: origin },
-        { '@type': 'ListItem', position: 2, name: 'Usage Statistics', item: `${origin}/${locale.value}/stats` },
-    ],
-}));
+const breadcrumbJsonLd = computed(() =>
+    JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Charter for Laravel',
+                item: origin,
+            },
+            {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Usage Statistics',
+                item: `${origin}/${locale.value}/stats`,
+            },
+        ],
+    }),
+);
 
 const props = defineProps<{
     phpVersions: Record<string, number>;
@@ -70,7 +83,7 @@ watch(
         from.value = filters.from ?? '';
         to.value = filters.to ?? '';
     },
-    { immediate: true },
+    { immediate: false },
 );
 
 const BarChart = shallowRef<Component | null>(null);
@@ -306,10 +319,11 @@ onMounted(async () => {
         Chart: ChartJS,
         CategoryScale,
         LinearScale,
+        BarController,
         BarElement,
         PointElement,
         RadialLinearScale,
-        ArcElement,
+        RadarController,
         LineElement,
         Title,
         Tooltip,
@@ -321,10 +335,11 @@ onMounted(async () => {
     ChartJS.register(
         CategoryScale,
         LinearScale,
+        BarController,
         BarElement,
         PointElement,
         RadialLinearScale,
-        ArcElement,
+        RadarController,
         LineElement,
         Title,
         Tooltip,
@@ -341,9 +356,11 @@ onMounted(async () => {
 <template>
     <Head>
         <title>{{ t('stats.title') }} — {{ t('header.app_name') }}</title>
-        <meta name="description" :content="t('stats.description')">
-        <link rel="canonical" :href="`${origin}/${locale}/stats`">
-        <component :is="'script'" type="application/ld+json" v-text="breadcrumbJsonLd" />
+        <meta name="description" :content="t('stats.description')" />
+        <link rel="canonical" :href="`${origin}/${locale}/stats`" />
+        <component :is="'script'" type="application/ld+json">{{
+            breadcrumbJsonLd
+        }}</component>
     </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
@@ -442,28 +459,42 @@ onMounted(async () => {
                 <p class="text-xs text-muted-foreground">
                     {{ t('stats.total_builds') }}
                 </p>
-                <p class="mt-1 text-3xl font-bold tracking-tight">{{ total }}</p>
+                <p class="mt-1 text-3xl font-bold tracking-tight">
+                    {{ total }}
+                </p>
             </div>
             <div class="rounded-sm border border-border p-4 text-center">
                 <p class="text-xs text-muted-foreground">
                     {{ t('stats.total_apps') }}
                 </p>
-                <p class="mt-1 text-3xl font-bold tracking-tight">{{ totalApps }}</p>
+                <p class="mt-1 text-3xl font-bold tracking-tight">
+                    {{ totalApps }}
+                </p>
                 <p class="mt-1 text-xs text-muted-foreground">
-                    <span class="text-foreground">{{ totalApps - appMcpCount }}</span> {{ t('stats.web') }}
+                    <span class="text-foreground">{{
+                        totalApps - appMcpCount
+                    }}</span>
+                    {{ t('stats.web') }}
                     &middot;
-                    <span class="text-foreground">{{ appMcpCount }}</span> {{ t('stats.mcp') }}
+                    <span class="text-foreground">{{ appMcpCount }}</span>
+                    {{ t('stats.mcp') }}
                 </p>
             </div>
             <div class="rounded-sm border border-border p-4 text-center">
                 <p class="text-xs text-muted-foreground">
                     {{ t('stats.total_packages') }}
                 </p>
-                <p class="mt-1 text-3xl font-bold tracking-tight">{{ totalPackages }}</p>
+                <p class="mt-1 text-3xl font-bold tracking-tight">
+                    {{ totalPackages }}
+                </p>
                 <p class="mt-1 text-xs text-muted-foreground">
-                    <span class="text-foreground">{{ totalPackages - packageMcpCount }}</span> {{ t('stats.web') }}
+                    <span class="text-foreground">{{
+                        totalPackages - packageMcpCount
+                    }}</span>
+                    {{ t('stats.web') }}
                     &middot;
-                    <span class="text-foreground">{{ packageMcpCount }}</span> {{ t('stats.mcp') }}
+                    <span class="text-foreground">{{ packageMcpCount }}</span>
+                    {{ t('stats.mcp') }}
                 </p>
             </div>
         </div>

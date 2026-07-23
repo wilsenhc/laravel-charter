@@ -2,10 +2,7 @@
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import {
-    availablePackageFeatures,
-    availablePhpVersions,
-} from '@/build';
+import { availablePackageFeatures, availablePhpVersions } from '@/build';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
 import CodeBlock from '@/components/CodeBlock.vue';
@@ -22,22 +19,35 @@ import {
 } from '@/components/ui/select';
 
 const { t } = useI18n();
+const page = usePage();
 
 const props = defineProps<{
     url: string;
 }>();
 
-const locale = computed(() => usePage().props.locale as string);
+const locale = computed(() => page.props.locale as string);
 const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
-const breadcrumbJsonLd = computed(() => JSON.stringify({
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Charter for Laravel', item: origin },
-        { '@type': 'ListItem', position: 2, name: 'Package Builder', item: `${origin}/${locale.value}/package` },
-    ],
-}));
+const breadcrumbJsonLd = computed(() =>
+    JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Charter for Laravel',
+                item: origin,
+            },
+            {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Package Builder',
+                item: `${origin}/${locale.value}/package`,
+            },
+        ],
+    }),
+);
 
 const isLocal = import.meta.env.DEV;
 
@@ -53,9 +63,6 @@ const packageNameHuman = ref('');
 const packageDescription = ref('');
 const vendorNamespace = ref('');
 const className = ref('');
-
-const features = ref([...availablePackageFeatures]);
-const phpVersions = ref([...availablePhpVersions]);
 
 const toggleFeature = (feature: string) => {
     if (selectedFeatures.value.includes(feature)) {
@@ -109,39 +116,48 @@ const generatedUrl = computed(() => {
     const baseUrl = `${props.url}/package/build`;
     const nameParam = `?name=${encodeURIComponent(packageName.value)}`;
     const php = `&php=${selectedPhpVersion.value}`;
-    const features = selectedFeatures.value.length > 0
-        ? `&features=${selectedFeatures.value.join(',')}`
-        : '';
+    const features =
+        selectedFeatures.value.length > 0
+            ? `&features=${selectedFeatures.value.join(',')}`
+            : '';
 
     const params: string[] = [];
 
     if (authorName.value) {
-params.push(`author_name=${encodeURIComponent(authorName.value)}`);
-}
+        params.push(`author_name=${encodeURIComponent(authorName.value)}`);
+    }
 
     if (authorEmail.value) {
-params.push(`author_email=${encodeURIComponent(authorEmail.value)}`);
-}
+        params.push(`author_email=${encodeURIComponent(authorEmail.value)}`);
+    }
 
     if (composerPackageName.value) {
-params.push(`package_name=${encodeURIComponent(composerPackageName.value)}`);
-}
+        params.push(
+            `package_name=${encodeURIComponent(composerPackageName.value)}`,
+        );
+    }
 
     if (packageNameHuman.value) {
-params.push(`package_name_human=${encodeURIComponent(packageNameHuman.value)}`);
-}
+        params.push(
+            `package_name_human=${encodeURIComponent(packageNameHuman.value)}`,
+        );
+    }
 
     if (packageDescription.value) {
-params.push(`package_description=${encodeURIComponent(packageDescription.value)}`);
-}
+        params.push(
+            `package_description=${encodeURIComponent(packageDescription.value)}`,
+        );
+    }
 
     if (vendorNamespace.value) {
-params.push(`vendor_namespace=${encodeURIComponent(vendorNamespace.value)}`);
-}
+        params.push(
+            `vendor_namespace=${encodeURIComponent(vendorNamespace.value)}`,
+        );
+    }
 
     if (className.value) {
-params.push(`class_name=${encodeURIComponent(className.value)}`);
-}
+        params.push(`class_name=${encodeURIComponent(className.value)}`);
+    }
 
     const metadata = params.length > 0 ? `&${params.join('&')}` : '';
 
@@ -153,10 +169,14 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
 
 <template>
     <Head>
-        <title>{{ t('hero.package.title') }} — {{ t('header.app_name') }}</title>
-        <meta name="description" :content="t('hero.package.description')">
-        <link rel="canonical" :href="`${props.url}/${locale}/package`">
-        <component :is="'script'" type="application/ld+json" v-text="breadcrumbJsonLd" />
+        <title>
+            {{ t('hero.package.title') }} — {{ t('header.app_name') }}
+        </title>
+        <meta name="description" :content="t('hero.package.description')" />
+        <link rel="canonical" :href="`${props.url}/${locale}/package`" />
+        <component :is="'script'" type="application/ld+json">{{
+            breadcrumbJsonLd
+        }}</component>
     </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
@@ -213,7 +233,7 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem
-                                    v-for="version in phpVersions"
+                                    v-for="version in availablePhpVersions"
                                     :key="version"
                                     :value="version"
                                 >
@@ -228,7 +248,7 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                     <FieldLabel>{{ t('package_form.description') }}</FieldLabel>
                     <div class="flex flex-wrap gap-2">
                         <Badge
-                            v-for="feature in features"
+                            v-for="feature in availablePackageFeatures"
                             :key="feature"
                             :variant="
                                 selectedFeatures.includes(feature)
@@ -296,7 +316,11 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                         <FieldLabel for="author-email">{{
                             t('package_form.author_email')
                         }}</FieldLabel>
-                        <Input id="author-email" v-model="authorEmail" type="email" />
+                        <Input
+                            id="author-email"
+                            v-model="authorEmail"
+                            type="email"
+                        />
                     </Field>
 
                     <Field :data-invalid="!!composerPackageNameError">

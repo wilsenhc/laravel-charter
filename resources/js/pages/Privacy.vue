@@ -6,27 +6,42 @@ import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
 
 const { t, tm } = useI18n();
+const page = usePage();
 
-const locale = computed(() => usePage().props.locale as string);
+const locale = computed(() => page.props.locale as string);
 const origin = typeof window !== 'undefined' ? window.location.origin : '';
 const sectionCount = computed(() => tm('privacy.sections').length);
 
-const breadcrumbJsonLd = computed(() => JSON.stringify({
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Charter for Laravel', item: origin },
-        { '@type': 'ListItem', position: 2, name: 'Privacy Policy', item: `${origin}/${locale.value}/privacy` },
-    ],
-}));
+const breadcrumbJsonLd = computed(() =>
+    JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Charter for Laravel',
+                item: origin,
+            },
+            {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Privacy Policy',
+                item: `${origin}/${locale.value}/privacy`,
+            },
+        ],
+    }),
+);
 </script>
 
 <template>
     <Head>
         <title>{{ t('privacy.title') }} — {{ t('header.app_name') }}</title>
-        <meta name="description" :content="t('privacy.meta_description')">
-        <link rel="canonical" :href="`${origin}/${locale}/privacy`">
-        <component :is="'script'" type="application/ld+json" v-text="breadcrumbJsonLd" />
+        <meta name="description" :content="t('privacy.meta_description')" />
+        <link rel="canonical" :href="`${origin}/${locale}/privacy`" />
+        <component :is="'script'" type="application/ld+json">{{
+            breadcrumbJsonLd
+        }}</component>
     </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">

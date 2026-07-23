@@ -37,28 +37,41 @@ import {
 import { Switch } from '@/components/ui/switch';
 
 const { t } = useI18n();
+const page = usePage();
 
 const props = defineProps<{
     url: string;
 }>();
 
-const locale = computed(() => usePage().props.locale as string);
+const locale = computed(() => page.props.locale as string);
 const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
-const breadcrumbJsonLd = computed(() => JSON.stringify({
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Charter for Laravel', item: origin },
-        { '@type': 'ListItem', position: 2, name: 'Application Builder', item: `${origin}/${locale.value}/application` },
-    ],
-}));
+const breadcrumbJsonLd = computed(() =>
+    JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Charter for Laravel',
+                item: origin,
+            },
+            {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Application Builder',
+                item: `${origin}/${locale.value}/application`,
+            },
+        ],
+    }),
+);
 
 const isLocal = import.meta.env.DEV;
 
 const appName = ref('new-laravel');
 const appNameError = ref('');
-const selectedServices = ref([]);
+const selectedServices = ref<string[]>([]);
 const selectedStarterKit = ref('react');
 const customStarterKitUrl = ref('');
 const customStarterKitUrlError = ref('');
@@ -73,14 +86,6 @@ const withLivewireClassComponents = ref(false);
 const selectedPhpVersion = ref('8.5');
 const selectedDatabase = ref('none');
 const hasManuallyChangedDatabase = ref(false);
-
-const services = ref([...availableServices]);
-const starterKit = ref([...availableStarterKits]);
-const javascriptRuntime = ref([...availableJavascriptRuntimes]);
-const authProvider = ref([...availableAuthProviders]);
-const testingFramework = ref([...availableTestingFrameworks]);
-const phpVersions = ref([...availablePhpVersions]);
-const databaseDrivers = ref([...availableDatabaseDrivers]);
 
 const toggleService = (service: string) => {
     if (selectedServices.value.includes(service)) {
@@ -220,10 +225,14 @@ const faqItems = computed(() => {
 
 <template>
     <Head>
-        <title>{{ t('hero.application.title') }} — {{ t('header.app_name') }}</title>
-        <meta name="description" :content="t('hero.application.description')">
-        <link rel="canonical" :href="`${props.url}/${locale}/application`">
-        <component :is="'script'" type="application/ld+json" v-text="breadcrumbJsonLd" />
+        <title>
+            {{ t('hero.application.title') }} — {{ t('header.app_name') }}
+        </title>
+        <meta name="description" :content="t('hero.application.description')" />
+        <link rel="canonical" :href="`${props.url}/${locale}/application`" />
+        <component :is="'script'" type="application/ld+json">{{
+            breadcrumbJsonLd
+        }}</component>
     </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
@@ -280,7 +289,7 @@ const faqItems = computed(() => {
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem
-                                    v-for="version in phpVersions"
+                                    v-for="version in availablePhpVersions"
                                     :key="version"
                                     :value="version"
                                 >
@@ -294,7 +303,7 @@ const faqItems = computed(() => {
                     <FieldLabel>{{ t('form.services') }}</FieldLabel>
                     <div class="flex flex-wrap gap-2">
                         <Badge
-                            v-for="service in services"
+                            v-for="service in availableServices"
                             :key="service"
                             :variant="
                                 selectedServices.includes(service)
@@ -347,7 +356,7 @@ const faqItems = computed(() => {
                                 {{ t('form.database_none') }}
                             </SelectItem>
                             <SelectItem
-                                v-for="driver in databaseDrivers"
+                                v-for="driver in availableDatabaseDrivers"
                                 :key="driver"
                                 :value="driver"
                             >
@@ -398,7 +407,7 @@ const faqItems = computed(() => {
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem
-                                    v-for="kit in starterKit"
+                                    v-for="kit in availableStarterKits"
                                     :key="kit"
                                     :value="kit"
                                 >
@@ -440,7 +449,7 @@ const faqItems = computed(() => {
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem
-                                    v-for="runtime in javascriptRuntime"
+                                    v-for="runtime in availableJavascriptRuntimes"
                                     :key="runtime"
                                     :value="runtime"
                                 >
@@ -464,7 +473,7 @@ const faqItems = computed(() => {
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem
-                                    v-for="framework in testingFramework"
+                                    v-for="framework in availableTestingFrameworks"
                                     :key="framework"
                                     :value="framework"
                                 >
@@ -490,7 +499,7 @@ const faqItems = computed(() => {
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem
-                                    v-for="provider in authProvider"
+                                    v-for="provider in availableAuthProviders"
                                     :key="provider"
                                     :value="provider"
                                 >
