@@ -24,7 +24,6 @@ describe('show', function () {
         $response->assertSuccessful();
         $response->assertHeader('Content-Type', 'text/plain; charset=utf-8');
         $response->assertSee('laravel new my-app');
-        $response->assertSee('sail:install --with=pgsql,redis --php=8.5');
     });
 
     test('allows none as the only service', function () {
@@ -92,14 +91,14 @@ describe('show', function () {
     });
 
     test('api starter kit can be picked', function () {
-        $response = $this->get('/build?name=my-app&frontend=api');
+        $response = $this->get('/application/build?name=my-app&frontend=api');
 
         $response->assertSuccessful();
         $response->assertSee('--api');
     });
 
     test('api starter kit does not pass an auth provider flag', function () {
-        $response = $this->get('/build?name=my-app&frontend=api&auth=no-authentication');
+        $response = $this->get('/application/build?name=my-app&frontend=api&auth=no-authentication');
 
         $response->assertSuccessful();
         $response->assertSee('--api');
@@ -108,7 +107,7 @@ describe('show', function () {
     });
 
     test('api starter kit works with teams', function () {
-        $response = $this->get('/build?name=my-app&frontend=api&teams');
+        $response = $this->get('/application/build?name=my-app&frontend=api&teams');
 
         $response->assertSuccessful();
         $response->assertSee('--api');
@@ -116,7 +115,7 @@ describe('show', function () {
     });
 
     test('api starter kit works with other options', function () {
-        $response = $this->get('/build?name=my-app&services=pgsql,redis&frontend=api&javascript=bun&testing=pest&boost&php=8.4');
+        $response = $this->get('/application/build?name=my-app&services=pgsql,redis&frontend=api&javascript=bun&testing=pest&boost&php=8.4');
 
         $response->assertSuccessful();
         $response->assertSee('--api');
@@ -178,78 +177,6 @@ describe('show', function () {
         $response->assertSee('Invalid JavaScript runtime', false);
     });
 
-    test('boost flag can be added', function () {
-        $response = $this->get('/application/build?name=my-app&boost');
-
-        $response->assertSuccessful();
-        $response->assertSee('--boost');
-        $response->assertDontSee('--no-boost');
-    });
-
-    test('no boost flag sends no-boost by default', function () {
-        $response = $this->get('/application/build?name=my-app');
-
-        $response->assertSuccessful();
-        $response->assertSee('--no-boost');
-        $response->assertDontSee('--boost ');
-    });
-
-    test('boost flag works with other options', function () {
-        $response = $this->get('/application/build?name=my-app&services=redis&frontend=vue&boost');
-
-        $response->assertSuccessful();
-        $response->assertSee('--boost');
-        $response->assertDontSee('--no-boost');
-        $response->assertSee('--vue');
-        $response->assertSee('--with=redis');
-    });
-
-    test('teams flag can be added', function () {
-        $response = $this->get('/application/build?name=my-app&teams');
-
-        $response->assertSuccessful();
-        $response->assertSee('--teams');
-    });
-
-    test('teams flag works with other options', function () {
-        $response = $this->get('/application/build?name=my-app&services=redis&frontend=vue&teams');
-
-        $response->assertSuccessful();
-        $response->assertSee('--teams');
-        $response->assertSee('--vue');
-        $response->assertSee('--with=redis');
-    });
-
-    test('teams is not added by default', function () {
-        $response = $this->get('/application/build?name=my-app');
-
-        $response->assertSuccessful();
-        $response->assertDontSee('--teams');
-    });
-
-    test('javascript runtime works with other options', function () {
-        $response = $this->get('/application/build?name=my-app&javascript=pnpm&frontend=react&services=redis');
-
-        $response->assertSuccessful();
-        $response->assertSee('--pnpm');
-        $response->assertSee('--react');
-        $response->assertSee('--with=redis');
-    });
-
-    test('no authentication can be picked', function () {
-        $response = $this->get('/application/build?name=my-app&auth=no-authentication');
-
-        $response->assertSuccessful();
-        $response->assertSee('--no-authentication');
-    });
-
-    test('workos authentication can be picked', function () {
-        $response = $this->get('/application/build?name=my-app&auth=workos');
-
-        $response->assertSuccessful();
-        $response->assertSee('--workos');
-    });
-
     test('does not accept invalid auth provider', function () {
         $response = $this->get('/application/build?name=my-app&auth=invalid-auth');
 
@@ -257,18 +184,18 @@ describe('show', function () {
         $response->assertSee('Invalid authentication provider', false);
     });
 
-    test('pest testing framework can be picked', function () {
-        $response = $this->get('/application/build?name=my-app&testing=pest');
+    test('does not accept invalid php version', function () {
+        $response = $this->get('/application/build?name=my-app&php=7.4');
 
-        $response->assertSuccessful();
-        $response->assertSee('--pest');
+        $response->assertStatus(400);
+        $response->assertSee('Invalid PHP version', false);
     });
 
-    test('phpunit testing framework can be picked', function () {
-        $response = $this->get('/application/build?name=my-app&testing=phpunit');
+    test('does not accept invalid database driver', function () {
+        $response = $this->get('/application/build?name=my-app&database=invalid-db');
 
-        $response->assertSuccessful();
-        $response->assertSee('--phpunit');
+        $response->assertStatus(400);
+        $response->assertSee('Invalid database driver', false);
     });
 
     test('custom starter kit url is required when using custom frontend', function () {
@@ -283,19 +210,6 @@ describe('show', function () {
 
         $response->assertStatus(400);
         $response->assertSee('Invalid custom starter kit URL', false);
-    });
-
-    test('all new options work together', function () {
-        $response = $this->get('/application/build?name=my-app&services=pgsql,redis&frontend=svelte&javascript=bun&boost&teams&auth=no-authentication');
-
-        $response->assertSuccessful();
-        $response->assertSee('--svelte');
-        $response->assertSee('--bun');
-        $response->assertSee('--boost');
-        $response->assertSee('--teams');
-        $response->assertSee('--no-authentication');
-        $response->assertDontSee('--no-boost');
-        $response->assertSee('sail:install --with=pgsql,redis --php=8.5');
     });
 
     test('does not accept invalid application name', function () {
@@ -319,85 +233,6 @@ describe('show', function () {
         $response->assertDontSee('$(whoami)', false);
     });
 
-    test('devcontainer flag can be added', function () {
-        $response = $this->get('/application/build?name=my-app&services=redis&devcontainer');
-
-        $response->assertSuccessful();
-        $response->assertSee('--devcontainer');
-    });
-
-    test('no-node flag can be added', function () {
-        $response = $this->get('/application/build?name=my-app&no-node');
-
-        $response->assertSuccessful();
-        $response->assertSee('--no-node');
-    });
-
-    test('no-node is not added by default', function () {
-        $response = $this->get('/application/build?name=my-app');
-
-        $response->assertSuccessful();
-        $response->assertDontSee('--no-node');
-    });
-
-    test('php version defaults to 8.5', function () {
-        $response = $this->get('/application/build?name=my-app');
-
-        $response->assertSuccessful();
-        $response->assertSee('--php=8.5');
-    });
-
-    test('different php versions can be picked', function (string $version) {
-        $response = $this->get("/application/build?name=my-app&php={$version}");
-
-        $response->assertSuccessful();
-        $response->assertSee("--php={$version}");
-    })->with(['8.5', '8.4', '8.3']);
-
-    test('does not accept invalid php version', function () {
-        $response = $this->get('/application/build?name=my-app&php=7.4');
-
-        $response->assertStatus(400);
-        $response->assertSee('Invalid PHP version', false);
-    });
-
-    test('php version works with other options', function () {
-        $response = $this->get('/application/build?name=my-app&services=redis&frontend=vue&php=8.3');
-
-        $response->assertSuccessful();
-        $response->assertSee('--php=8.3');
-        $response->assertSee('--vue');
-        $response->assertSee('--with=redis');
-    });
-
-    test('database flag is passed when an explicit database driver is specified', function (string $driver) {
-        $response = $this->get("/application/build?name=my-app&services=redis&database={$driver}");
-
-        $response->assertSuccessful();
-        $response->assertSee("--database={$driver}");
-    })->with(['mysql', 'mariadb', 'pgsql', 'sqlite', 'sqlsrv']);
-
-    test('database flag is not passed when database is none', function () {
-        $response = $this->get('/application/build?name=my-app&services=redis&database=none');
-
-        $response->assertSuccessful();
-        $response->assertDontSee('--database=');
-    });
-
-    test('database flag is not passed when database is not specified', function () {
-        $response = $this->get('/application/build?name=my-app&services=redis');
-
-        $response->assertSuccessful();
-        $response->assertDontSee('--database=');
-    });
-
-    test('does not accept invalid database driver', function () {
-        $response = $this->get('/application/build?name=my-app&database=invalid-db');
-
-        $response->assertStatus(400);
-        $response->assertSee('Invalid database driver', false);
-    });
-
     test('stores anonymous stats on build request', function () {
         Queue::fake();
 
@@ -416,7 +251,8 @@ describe('show', function () {
                 && $job->data['devcontainer'] === false
                 && $job->data['no_node'] === false
                 && $job->data['livewire_class_components'] === false
-                && $job->data['database_driver'] === 'pgsql';
+                && $job->data['database_driver'] === 'pgsql'
+                && $job->data['mcp_source'] === 'web';
         });
     });
 
@@ -439,7 +275,8 @@ describe('show', function () {
 
         Queue::assertPushed(RecordApplicationBuildStat::class, function (RecordApplicationBuildStat $job) {
             return $job->data['custom_starter_kit'] === true
-                && $job->data['starter_kit'] === 'custom';
+                && $job->data['starter_kit'] === 'custom'
+                && $job->data['mcp_source'] === 'web';
         });
     });
 

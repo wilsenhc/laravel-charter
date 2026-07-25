@@ -27,6 +27,7 @@ class ApplicationStatFactory extends Factory
             'no_node' => false,
             'livewire_class_components' => false,
             'database_driver' => null,
+            'mcp_source' => 'web',
         ];
     }
 }

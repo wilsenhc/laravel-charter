@@ -86,6 +86,13 @@ class StatsController extends Controller
 
         $totalApps = $appQuery->count();
 
+        $appMcpSources = (clone $appQuery)
+            ->where('mcp_source', '!=', 'web')
+            ->selectRaw('mcp_source, count(*) as count')
+            ->groupBy('mcp_source')
+            ->orderByDesc('count')
+            ->pluck('count', 'mcp_source');
+
         // Package stats...
         $packagePhpVersions = (clone $packageQuery)
             ->selectRaw('php_version, count(*) as count')
@@ -107,6 +114,13 @@ class StatsController extends Controller
 
         $totalPackages = $packageQuery->count();
 
+        $packageMcpSources = (clone $packageQuery)
+            ->where('mcp_source', '!=', 'web')
+            ->selectRaw('mcp_source, count(*) as count')
+            ->groupBy('mcp_source')
+            ->orderByDesc('count')
+            ->pluck('count', 'mcp_source');
+
         return Inertia::render('Stats/Index', [
             'phpVersions' => $phpVersions,
             'services' => $services,
@@ -117,7 +131,9 @@ class StatsController extends Controller
             'databaseDrivers' => $databaseDrivers,
             'booleanOptions' => $booleanOptions,
             'totalApps' => $totalApps,
+            'appMcpSources' => $appMcpSources,
             'totalPackages' => $totalPackages,
+            'packageMcpSources' => $packageMcpSources,
             'total' => $totalApps + $totalPackages,
             'packagePhpVersions' => $packagePhpVersions,
             'packageFeatureOptions' => $packageFeatureOptions,

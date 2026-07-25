@@ -5,8 +5,9 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
+const page = usePage();
 
-const locale = computed(() => usePage().props.locale as string);
+const locale = computed(() => page.props.locale as string);
 </script>
 
 <template>
@@ -53,6 +54,14 @@ const locale = computed(() => usePage().props.locale as string);
             </Link>
             <span class="text-border">|</span>
             <Link
+                :href="`/${locale}/mcp`"
+                prefetch
+                class="transition-colors hover:text-foreground"
+            >
+                {{ t('nav.mcp_footer') }}
+            </Link>
+            <span class="text-border">|</span>
+            <Link
                 :href="`/${locale}/privacy`"
                 prefetch
                 class="transition-colors hover:text-foreground"
@@ -72,7 +81,22 @@ const locale = computed(() => usePage().props.locale as string);
             {{ t('footer.disclaimer') }}
         </p>
         <p>
-            {{ t('footer.credit_prefix') }} <a href="https://github.com/wilsenhc" target="_blank" rel="noopener noreferrer" class="underline transition-colors hover:text-foreground">@wilsenhc</a> {{ t('footer.credit_suffix') }} <a href="https://github.com/wilsenhc/laravel-charter" target="_blank" rel="noopener noreferrer" class="underline transition-colors hover:text-foreground">GitHub</a>
+            {{ t('footer.credit_prefix') }}
+            <a
+                href="https://github.com/wilsenhc"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="underline transition-colors hover:text-foreground"
+                >@wilsenhc</a
+            >
+            {{ t('footer.credit_suffix') }}
+            <a
+                href="https://github.com/wilsenhc/laravel-charter"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="underline transition-colors hover:text-foreground"
+                >GitHub</a
+            >
         </p>
     </footer>
 </template>

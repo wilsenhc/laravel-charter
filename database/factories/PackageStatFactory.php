@@ -23,6 +23,7 @@ class PackageStatFactory extends Factory
             'commands' => false,
             'facade' => false,
             'boost_skill' => false,
+            'mcp_source' => 'web',
         ];
     }
 }

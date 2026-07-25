@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="robots" content="index, follow">
 
         <script>
             (function () {
@@ -22,6 +23,7 @@
         <meta property="og:description" content="{{ __('meta.og_description') }}">
         <meta property="og:url" content="{{ url()->current() }}">
         <meta property="og:type" content="website">
+        <link rel="icon" href="{{ url('/favicon.svg') }}" type="image/svg+xml">
         <meta property="og:image" content="{{ url('/social-preview.png') }}">
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">

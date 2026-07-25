@@ -57,6 +57,9 @@ class StaticPageController extends Controller
             $sitemap->add($url);
         }
 
-        return response($sitemap->render(), 200, ['Content-Type' => 'application/xml']);
+        return response($sitemap->render(), 200, [
+            'Content-Type' => 'application/xml',
+            'X-Content-Type-Options' => 'nosniff',
+        ]);
     }
 }
