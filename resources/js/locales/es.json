@@ -1,13 +1,17 @@
 {
     "nav": {
         "github": "GitHub",
+        "mcp": "MCP",
         "language": "Idioma",
         "sponsor": "Patrocinar",
         "stats": "Estadísticas",
+        "mcp_footer": "MCP",
         "privacy": "Privacidad",
         "terms": "Términos",
         "back_to_charter": "Volver a Charter",
-        "back_to_glossary": "Volver al Glosario"
+        "back_to_glossary": "Volver al Glosario",
+        "build_application": "Creador de Aplicaciones",
+        "build_package": "Creador de Paquetes"
     },
     "header": {
         "app_name": "Charter para Laravel"
@@ -15,7 +19,7 @@
     "hero": {
         "learn_link": "Aprende cómo funciona",
         "application": {
-            "title": "Crea una app de Laravel con Sail en un solo comando",
+            "title": "App de Laravel con Sail en un comando",
             "description": "Charter simplifica la creación de nuevas apps de Laravel: elige tus servicios y opciones visualmente, luego copia un único comando que configura tu proyecto con Laravel Sail desde el inicio.",
             "package_link": "¿Creando un paquete?",
             "how_it_works": {
@@ -29,7 +33,7 @@
             }
         },
         "package": {
-            "title": "Crea un paquete de Laravel en un solo comando",
+            "title": "Paquete de Laravel en un comando",
             "description": "Charter simplifica la creación de nuevos paquetes de Laravel: elige las características y metadatos, luego copia un único comando que configura tu paquete con Docker.",
             "docker_notice": "Docker solo se usa para la creación inicial. El desarrollo de paquetes no está soportado en Sail.",
             "application_link": "¿Creando una aplicación?",
@@ -201,7 +205,9 @@
         "option_devcontainer": "Devcontainer",
         "option_skip_node": "Omitir Node.js",
         "option_lw_class_components": "LW Class Components",
-        "option_custom_kit": "Kit Personalizado"
+        "option_custom_kit": "Kit Personalizado",
+        "mcp": "MCP",
+        "web": "Web"
     },
     "privacy": {
         "title": "Política de privacidad",
@@ -288,6 +294,28 @@
         "cta_description": "Elige tus servicios, starter kit y opciones visualmente, luego copia un solo comando para crear tu proyecto con Laravel Sail.",
         "cta_button": "Crear tu app",
         "related_title": "Términos relacionados"
+    },
+    "mcp": {
+        "title": "Model Context Protocol (MCP)",
+        "meta_description": "Usa Charter para Laravel a través del Model Context Protocol (MCP). Conecta tu asistente de codificación AI para crear aplicaciones y paquetes de Laravel directamente.",
+        "description": "Charter para Laravel expone un servidor MCP para que tu asistente de codificación AI pueda crear aplicaciones y paquetes de Laravel bajo demanda.",
+        "available_tools": "Herramientas disponibles",
+        "configuration": "Configuración",
+        "configuration_description": "Añade la siguiente configuración a tu cliente MCP para conectarte al servidor de Charter para Laravel.",
+        "how_to_use": "Cómo usar",
+        "how_to_use_prefix": "Una vez configurado, tu asistente AI puede crear un nuevo proyecto Laravel llamando a la herramienta",
+        "how_to_use_or": "o",
+        "how_to_use_suffix": "La herramienta devuelve un script bash que el asistente puede explicar o ayudarte a ejecutar paso a paso.",
+        "tool_application_desc": "Genera un script bash que crea una nueva aplicación Laravel con Sail. Acepta nombre del proyecto, versión de PHP, servicios Docker, starter kit, autenticación, framework de testing, runtime de JavaScript, controlador de base de datos y opciones adicionales.",
+        "tool_package_desc": "Genera un script bash que prepara un nuevo paquete Laravel. Acepta nombre del paquete, versión de PHP, características (config, routes, views, etc.) y metadatos (autor, namespace del vendor, nombre de clase).",
+        "tab_claude": "Claude Code",
+        "tab_cursor": "Cursor",
+        "tab_codex": "Codex",
+        "tab_opencode": "OpenCode",
+        "client_claude": "Añade a tu",
+        "client_cursor": "Añade a la configuración MCP de Cursor:",
+        "client_codex": "Añade a la configuración de Codex:",
+        "client_opencode": "Añade a tu"
     },
     "comparison": {
         "back_to_comparisons": "Volver a Comparativas",

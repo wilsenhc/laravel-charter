@@ -7,9 +7,37 @@ import AppHeader from '@/components/AppHeader.vue';
 import { buttonVariants } from '@/components/ui/button';
 
 const { t } = useI18n();
+const page = usePage();
 
-const locale = computed(() => usePage().props.locale as string);
+const locale = computed(() => page.props.locale as string);
 const origin = typeof window !== 'undefined' ? window.location.origin : '';
+
+const breadcrumbJsonLd = computed(() =>
+    JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Charter for Laravel',
+                item: origin,
+            },
+            {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Glossary',
+                item: `${origin}/${locale.value}/glossary`,
+            },
+            {
+                '@type': 'ListItem',
+                position: 3,
+                name: entry.translations.page_title,
+                item: `${origin}/${locale.value}/compare/${comparison}`,
+            },
+        ],
+    }),
+);
 
 defineProps<{
     comparison: string;
@@ -44,9 +72,20 @@ const aspects = [
 
 <template>
     <Head>
-        <title>{{ entry.translations.page_title }} — {{ $t('header.app_name') }}</title>
-        <meta name="description" :content="entry.translations.meta_description">
-        <link rel="canonical" :href="`${origin}/${locale}/compare/${comparison}`">
+        <title>
+            {{ entry.translations.page_title }} — {{ $t('header.app_name') }}
+        </title>
+        <meta
+            name="description"
+            :content="entry.translations.meta_description"
+        />
+        <link
+            rel="canonical"
+            :href="`${origin}/${locale}/compare/${comparison}`"
+        />
+        <component :is="'script'" type="application/ld+json">{{
+            breadcrumbJsonLd
+        }}</component>
     </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
@@ -59,7 +98,9 @@ const aspects = [
                 &larr; {{ t('comparison.back_to_comparisons') }}
             </Link>
 
-            <span class="mb-2 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+            <span
+                class="mb-2 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary"
+            >
                 {{ entry.category }}
             </span>
         </div>
@@ -71,7 +112,11 @@ const aspects = [
             {{ entry.translations.meta_description }}
         </p>
 
-        <div v-for="aspect in aspects" :key="aspect" class="mb-6 rounded-lg border border-border bg-card p-5">
+        <div
+            v-for="aspect in aspects"
+            :key="aspect"
+            class="mb-6 rounded-lg border border-border bg-card p-5"
+        >
             <h2 class="mb-3 text-base font-semibold">
                 {{ t(`comparison.aspects.${aspect}`) }}
             </h2>
@@ -111,7 +156,11 @@ const aspects = [
             <p class="mb-4 text-sm text-muted-foreground">
                 {{ t('glossary.cta_description') }}
             </p>
-            <Link prefetch :href="`/${locale}/application`" :class="buttonVariants()">
+            <Link
+                prefetch
+                :href="`/${locale}/application`"
+                :class="buttonVariants()"
+            >
                 {{ t('glossary.cta_button') }}
             </Link>
         </div>

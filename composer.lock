@@ -3741,22 +3741,23 @@
         },
         {
             "name": "spatie/crawler",
-            "version": "9.4.0",
+            "version": "9.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/crawler.git",
-                "reference": "795808bfbf162595421412803fdcd1b573f30ddc"
+                "reference": "13ac9ee30f5336d300048b964fa8d2af4453048e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/crawler/zipball/795808bfbf162595421412803fdcd1b573f30ddc",
-                "reference": "795808bfbf162595421412803fdcd1b573f30ddc",
+                "url": "https://api.github.com/repos/spatie/crawler/zipball/13ac9ee30f5336d300048b964fa8d2af4453048e",
+                "reference": "13ac9ee30f5336d300048b964fa8d2af4453048e",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/guzzle": "^7.3|^8.0",
-                "guzzlehttp/psr7": "^2.0|^3.0",
+                "guzzlehttp/guzzle": "^7.8.2 || ^8.0",
+                "guzzlehttp/psr7": "^2.6.3 || ^3.0",
                 "php": "^8.4",
+                "psr/http-client": "^1.0",
                 "spatie/robots-txt": "^2.0",
                 "symfony/css-selector": "^7.0|^8.0",
                 "symfony/dom-crawler": "^7.0|^8.0"
@@ -3804,7 +3805,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/crawler/issues",
-                "source": "https://github.com/spatie/crawler/tree/9.4.0"
+                "source": "https://github.com/spatie/crawler/tree/9.4.1"
             },
             "funding": [
                 {
@@ -3816,7 +3817,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-07-20T22:07:59+00:00"
+            "time": "2026-07-22T06:44:02+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",

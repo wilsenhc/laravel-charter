@@ -37,6 +37,8 @@ class ApplicationStatsSeeder extends Seeder
             $livewireClassComponents = $starterKit === 'livewire' ? $this->randomBool(40) : false;
             $customStarterKit = $starterKit === 'custom';
 
+            $mcpSource = $this->randomBool(30) ? 'mcp' : 'web';
+
             $daysAgo = fake()->numberBetween(0, 180);
             $createdAt = now()->subDays($daysAgo)->subHours(fake()->numberBetween(0, 23));
 
@@ -52,6 +54,7 @@ class ApplicationStatsSeeder extends Seeder
                 'devcontainer' => $devcontainer,
                 'no_node' => $noNode,
                 'livewire_class_components' => $livewireClassComponents,
+                'mcp_source' => $mcpSource,
                 'created_at' => $createdAt,
                 'updated_at' => $createdAt,
             ];

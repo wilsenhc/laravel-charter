@@ -30,6 +30,7 @@ class ApplicationStat extends Model
         'no_node',
         'livewire_class_components',
         'database_driver',
+        'mcp_source',
     ];
 
     protected function casts(): array

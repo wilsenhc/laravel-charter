@@ -7,6 +7,7 @@ use App\Http\Controllers\ComparisonController;
 use App\Http\Controllers\GlossaryController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\McpController;
 use App\Http\Controllers\StaticPageController;
 use App\Http\Controllers\StatsController;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,7 @@ Route::prefix('{locale}')
         Route::get('/glossary', [GlossaryController::class, 'index'])->name('glossary.index');
         Route::get('/glossary/{term}', [GlossaryController::class, 'show'])->name('glossary.show');
         Route::get('/compare/{comparison}', [ComparisonController::class, 'show'])->name('comparison.show');
+        Route::get('/mcp', [McpController::class, 'index'])->name('mcp.index');
     });
 
 Route::get('/', [HomepageController::class, 'index']);
@@ -35,6 +37,7 @@ Route::get('/terms', [StaticPageController::class, 'terms']);
 Route::get('/glossary', [GlossaryController::class, 'index']);
 Route::get('/glossary/{term}', [GlossaryController::class, 'show']);
 Route::get('/compare/{comparison}', [ComparisonController::class, 'show']);
+Route::get('/mcp', [McpController::class, 'index']);
 
 Route::get('/sitemap.xml', [StaticPageController::class, 'sitemap'])->name('sitemap');
 Route::post('/locale', [LocaleController::class, 'update'])->name('locale.update');
