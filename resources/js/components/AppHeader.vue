@@ -51,36 +51,33 @@ onUnmounted(() => {
             {{ t('header.app_name') }}
         </Link>
         <div class="flex items-center gap-3">
-            <div class="hidden items-center gap-3 sm:flex">
-                <Button
-                    variant="outline"
-                    size="sm"
-                    as="a"
-                    :href="`/${locale}/mcp`"
+            <Button
+                variant="outline"
+                size="sm"
+                as="a"
+                :href="`/${locale}/mcp`"
+                class="hidden sm:inline-flex"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="size-3.5"
+                    aria-hidden="true"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="size-3.5"
-                        aria-hidden="true"
-                    >
-                        <path
-                            d="M12 3l1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5z"
-                        />
-                        <path
-                            d="M18 14l.8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8z"
-                        />
-                    </svg>
-                    {{ t('nav.mcp') }}
-                </Button>
-                <LanguageSwitcher />
-                <AppearanceSwitcher />
-            </div>
+                    <path
+                        d="M12 3l1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5z"
+                    />
+                    <path
+                        d="M18 14l.8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8z"
+                    />
+                </svg>
+                {{ t('nav.mcp') }}
+            </Button>
             <Button
                 variant="outline"
                 size="sm"
@@ -102,6 +99,10 @@ onUnmounted(() => {
                 </svg>
                 <span class="hidden sm:inline">{{ t('nav.github') }}</span>
             </Button>
+            <div class="hidden items-center gap-3 sm:flex">
+                <LanguageSwitcher />
+                <AppearanceSwitcher />
+            </div>
             <Sheet>
                 <SheetTrigger as-child>
                     <Button
