@@ -28,3 +28,13 @@ it('renders the application page', function () {
         ->assertSuccessful()
         ->assertSee('component":"Build', false);
 });
+
+it('emits PWA meta tags and manifest link', function () {
+    $content = get(route('build.application.index', ['locale' => 'en']))
+        ->assertSuccessful()
+        ->getContent();
+
+    expect($content)->toMatch('/<link rel="manifest" href="[^"]+manifest\.webmanifest"[^>]*>/')
+        ->and($content)->toMatch('/<meta name="theme-color" content="#171717">/')
+        ->and($content)->toMatch('/<link rel="apple-touch-icon" href="[^"]+apple-touch-icon-180x180\.png"[^>]*>/');
+});

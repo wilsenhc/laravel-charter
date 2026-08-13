@@ -32,6 +32,12 @@ createInertiaApp({
 
         if (typeof window !== 'undefined') {
             app.mount(el);
+
+            if (import.meta.env.PROD) {
+                import('./pwa').catch((error) => {
+                    console.error('Failed to register service worker:', error);
+                });
+            }
         }
 
         return app;
