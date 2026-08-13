@@ -6,6 +6,7 @@ ARG WWWGROUP
 ARG NODE_VERSION=24
 ARG MYSQL_CLIENT="mysql-client"
 ARG POSTGRES_VERSION=18
+ARG PHP_EXTENSIONS=""
 
 WORKDIR /var/www/html
 
@@ -56,6 +57,8 @@ RUN apt-get update && apt-get upgrade -y \
         php8.5-imagick \
         php8.5-xdebug \
     && curl -sLS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer \
+    && COMPOSER_HOME=/usr/local/share/composer composer global require cpx/cpx:^2.0 \
+    && ln -s /usr/local/share/composer/vendor/bin/cpx /usr/local/bin/cpx \
     && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
     && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_VERSION.x nodistro main" > /etc/apt/sources.list.d/nodesource.list \
     && apt-get update \
@@ -72,6 +75,14 @@ RUN apt-get update && apt-get upgrade -y \
     && apt-get -y autoremove \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN if [ -n "$PHP_EXTENSIONS" ]; then \
+    apt-get update \
+    && apt-get install -y $(for ext in $PHP_EXTENSIONS; do echo "php8.5-$ext"; done) \
+    && apt-get -y autoremove \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*; \
+fi
 
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.5
 

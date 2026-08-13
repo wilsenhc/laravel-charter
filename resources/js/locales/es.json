@@ -11,7 +11,9 @@
         "back_to_charter": "Volver a Charter",
         "back_to_glossary": "Volver al Glosario",
         "build_application": "Creador de Aplicaciones",
-        "build_package": "Creador de Paquetes"
+        "build_package": "Creador de Paquetes",
+        "menu": "Menu",
+        "menu_description": "Abrir el menú de navegación del sitio"
     },
     "header": {
         "app_name": "Charter para Laravel"
@@ -95,7 +97,6 @@
         "database_driver_label": "¿Qué hace el controlador de base de datos?",
         "database_driver": "Define la conexión de base de datos en tu archivo .env. SQLite funciona sin servicios Docker; otros controladores requieren el servicio correspondiente activado arriba."
     },
-
     "package_form": {
         "title": "Nombre del paquete",
         "description": "Características",

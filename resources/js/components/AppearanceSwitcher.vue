@@ -12,6 +12,10 @@ import {
 
 const { t } = useI18n();
 
+withDefaults(defineProps<{ withLabel?: boolean }>(), {
+    withLabel: false,
+});
+
 const { store } = useColorMode({
     storageKey: 'vueuse-color-scheme',
     attribute: 'class',
@@ -40,12 +44,31 @@ const activeIcon = computed(() => {
 
     return match?.icon ?? MonitorIcon;
 });
+
+const activeLabel = computed(() => {
+    if (!mounted.value) {
+        return t('appearance.system');
+    }
+
+    const match = options.value.find((o) => o.value === store.value);
+
+    return match?.label ?? t('appearance.system');
+});
 </script>
 
 <template>
     <Select v-model="store">
-        <SelectTrigger size="sm" :aria-label="t('appearance.label')">
+        <SelectTrigger
+            size="sm"
+            :aria-label="t('appearance.label')"
+            :class="
+                withLabel
+                    ? 'w-full border-transparent bg-transparent hover:bg-muted data-[size=sm]:h-9 data-[size=sm]:rounded-[min(var(--radius-md),12px)] dark:bg-transparent dark:hover:bg-muted/50'
+                    : ''
+            "
+        >
             <component :is="activeIcon" class="size-4" />
+            <span v-if="withLabel">{{ activeLabel }}</span>
         </SelectTrigger>
         <SelectContent align="end" :side-offset="4">
             <SelectItem

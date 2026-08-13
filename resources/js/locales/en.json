@@ -11,7 +11,9 @@
         "back_to_charter": "Back to Charter",
         "back_to_glossary": "Back to Glossary",
         "build_application": "Application Builder",
-        "build_package": "Package Builder"
+        "build_package": "Package Builder",
+        "menu": "Menu",
+        "menu_description": "Open the site navigation menu"
     },
     "header": {
         "app_name": "Charter for Laravel"

@@ -2,6 +2,9 @@
 /bootstrap/ssr
 /node_modules
 /public/build
+/public/manifest.webmanifest
+/public/sw.js
+/public/workbox-*.js
 /public/fonts-manifest.dev.json
 /public/hot
 /public/storage

@@ -13,6 +13,10 @@ import type { LocaleOption } from '@/types';
 const { locale, t } = useI18n();
 const page = usePage<{ locales: LocaleOption[] }>();
 
+withDefaults(defineProps<{ withLabel?: boolean }>(), {
+    withLabel: false,
+});
+
 function switchLanguage(code: string) {
     if (code === locale.value) {
         return;
@@ -48,8 +52,17 @@ function switchLanguage(code: string) {
 
 <template>
     <Select :model-value="locale" @update:model-value="switchLanguage">
-        <SelectTrigger size="sm" :aria-label="t('nav.language')">
+        <SelectTrigger
+            size="sm"
+            :aria-label="t('nav.language')"
+            :class="
+                withLabel
+                    ? 'w-full border-transparent bg-transparent hover:bg-muted data-[size=sm]:h-9 data-[size=sm]:rounded-[min(var(--radius-md),12px)] dark:bg-transparent dark:hover:bg-muted/50'
+                    : ''
+            "
+        >
             <LanguagesIcon class="size-4" />
+            <span v-if="withLabel">{{ t('nav.language') }}</span>
         </SelectTrigger>
         <SelectContent align="end" :side-offset="4">
             <SelectItem

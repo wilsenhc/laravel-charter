@@ -102,12 +102,13 @@ echo ""
 
 if $SUDO -n true 2>/dev/null; then
     $SUDO chown -R $USER: .
-    echo -e "${BOLD}Get started with:${NC} cd {!! $name !!} && ./vendor/bin/sail up && ./vendor/bin/sail {!! $installCmd !!} && ./vendor/bin/sail {!! $devCmd !!}"
 else
     echo -e "${BOLD}Please provide your password so we can make some final adjustments to your application's permissions.${NC}"
     echo ""
     $SUDO chown -R $USER: .
-    echo ""
-    echo -e "${BOLD}Thank you! We hope you build something incredible."
-    echo -e "Dive in with:${NC} cd {!! $name !!} && ./vendor/bin/sail up && ./vendor/bin/sail {!! $installCmd !!} && ./vendor/bin/sail {!! $devCmd !!}"
 fi
+
+echo ""
+echo -e "${LIGHT_CYAN}Thank you! We hope you build something incredible."
+echo ""
+echo -e "${LIGHT_CYAN}Get started with:${NC} cd {!! $name !!} && ./vendor/bin/sail up -d && ./vendor/bin/sail {!! $installCmd !!} && ./vendor/bin/sail {!! $devCmd !!}"
