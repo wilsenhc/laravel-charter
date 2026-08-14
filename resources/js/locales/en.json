@@ -13,13 +13,15 @@
         "build_application": "Application Builder",
         "build_package": "Package Builder",
         "menu": "Menu",
-        "menu_description": "Open the site navigation menu"
+        "menu_description": "Open the site navigation menu",
+        "install": "Install app"
     },
     "header": {
         "app_name": "Charter for Laravel"
     },
     "hero": {
         "learn_link": "Learn how it works",
+        "mcp_link": "Looking for MCP?",
         "application": {
             "title": "Laravel Sail app in one command",
             "description": "Charter simplifies creating new Laravel apps: pick your services and options visually, then copy a single CLI command that scaffolds your project with Laravel Sail from the start.",
