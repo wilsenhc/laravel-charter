@@ -16,6 +16,7 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet';
+import UpdateToast from '@/components/UpdateToast.vue';
 
 const { t } = useI18n();
 const page = usePage();
@@ -109,4 +110,5 @@ onUnmounted(() => {
             </Sheet>
         </div>
     </header>
+    <UpdateToast />
 </template>

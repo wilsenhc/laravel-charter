@@ -330,5 +330,11 @@
             "ecosystem": "Ecosistema",
             "learning_curve": "Curva de aprendizaje"
         }
+    },
+    "pwa": {
+        "update_available_title": "Actualización disponible",
+        "update_available_description": "Hay una nueva versión de la app lista. Recarga para obtener las últimas novedades y correcciones.",
+        "update_reload": "Recargar",
+        "update_dismiss": "Descartar"
     }
 }

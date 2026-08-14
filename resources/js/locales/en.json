@@ -330,5 +330,11 @@
             "ecosystem": "Ecosystem",
             "learning_curve": "Learning Curve"
         }
+    },
+    "pwa": {
+        "update_available_title": "Update available",
+        "update_available_description": "A new version of the app is ready. Reload to get the latest features and fixes.",
+        "update_reload": "Reload",
+        "update_dismiss": "Dismiss"
     }
 }
