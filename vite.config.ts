@@ -84,6 +84,7 @@ export default defineConfig({
             },
             workbox: {
                 globPatterns: ['build/**/*.{js,css,woff,woff2,ttf,eot}'],
+                navigateFallback: null,
                 maximumFileSizeToCacheInBytes: 4000000,
                 additionalManifestEntries: [
                     { url: '/favicon.svg', revision: `charter-${Date.now()}` },
