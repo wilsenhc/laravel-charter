@@ -14,7 +14,7 @@
     },
     "devDependencies": {
         "@eslint/js": "^9.39.5",
-        "@intlify/unplugin-vue-i18n": "^11.2.4",
+        "@intlify/unplugin-vue-i18n": "^11.2.5",
         "@laravel/vite-plugin-wayfinder": "^0.1.7",
         "@stylistic/eslint-plugin": "^5.10.0",
         "@types/node": "^22.20.1",

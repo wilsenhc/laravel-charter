@@ -19,6 +19,7 @@ withDefaults(defineProps<{ withLabel?: boolean }>(), {
 
 function switchLanguage(code: unknown) {
     const codeStr = code?.toString() ?? '';
+
     if (!code || codeStr === locale.value) {
         return;
     }
