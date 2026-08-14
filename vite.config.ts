@@ -39,6 +39,9 @@ export default defineConfig({
         VitePWA({
             registerType: 'autoUpdate',
             injectRegister: false,
+            strategies: 'injectManifest',
+            srcDir: 'resources/js',
+            filename: 'sw.ts',
             outDir: 'public',
             scope: '/',
             base: '/',
@@ -82,11 +85,11 @@ export default defineConfig({
                     },
                 ],
             },
-            workbox: {
+            injectManifest: {
                 globPatterns: ['build/**/*.{js,css,woff,woff2,ttf,eot}'],
-                navigateFallback: null,
                 maximumFileSizeToCacheInBytes: 4000000,
                 additionalManifestEntries: [
+                    { url: '/offline.html', revision: `charter-${Date.now()}` },
                     { url: '/favicon.svg', revision: `charter-${Date.now()}` },
                     { url: '/robots.txt', revision: `charter-${Date.now()}` },
                     {

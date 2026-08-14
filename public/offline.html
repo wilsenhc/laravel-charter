@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#171717">
+    <title>You're offline | Charter for Laravel</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #171717;
+            --fg: #fafafa;
+            --muted: #a3a3a3;
+            --accent: #f15a30;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--fg);
+            font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        main {
+            text-align: center;
+            max-width: 28rem;
+        }
+
+        .logo {
+            display: block;
+            width: 3.5rem;
+            height: 3.5rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.75rem;
+        }
+
+        button {
+            background: var(--accent);
+            color: #fff;
+            border: 0;
+            border-radius: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            font: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button:hover {
+            filter: brightness(1.1);
+        }
+
+        button:focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            .logo {
+                animation: fade 1.2s ease-in-out infinite alternate;
+            }
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0.5;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <svg class="logo" viewBox="115 108 282 290" role="img" aria-hidden="true">
+            <path fill="#f15a30" d="M142.57,322.09H226.2a1.43,1.43,0,0,0,1.43-1.44V169.32a1.43,1.43,0,0,0-2.69-.7L141.31,320A1.43,1.43,0,0,0,142.57,322.09Z"/>
+            <path fill="#f15a30" d="M250.2,316.43H383.72a2.14,2.14,0,0,0,1.76-3.35L251.85,119.9a2.13,2.13,0,0,0-3.88,1.21l.1,193.19A2.14,2.14,0,0,0,250.2,316.43Z"/>
+            <path fill="#f15a30" d="M126.69,349.91l23.87,37.5A12.09,12.09,0,0,0,160.78,393H329.14a9.94,9.94,0,0,0,8.68-5.1l28.06-50.34a3.24,3.24,0,0,0-3-4.81L129.46,344.55A3.49,3.49,0,0,0,126.69,349.91Z"/>
+        </svg>
+        <h1 data-i18n="title">You're offline</h1>
+        <p data-i18n="body">Check your connection and try again.</p>
+        <button type="button" id="retry" data-i18n="retry">Try again</button>
+    </main>
+    <script>
+        (function () {
+            var translations = {
+                en: { title: "You're offline", body: 'Check your connection and try again.', retry: 'Try again' },
+                es: { title: 'Estás sin conexión', body: 'Revisa tu conexión e inténtalo de nuevo.', retry: 'Reintentar' }
+            };
+
+            var locale = /(?:^|;\s*)locale=([a-z]{2})/.exec(document.cookie);
+            var copy = translations[locale && locale[1]] || translations.en;
+
+            document.documentElement.lang = copy === translations.en ? 'en' : 'es';
+            document.title = copy.title + ' | Charter for Laravel';
+            document.querySelectorAll('[data-i18n]').forEach(function (el) {
+                el.textContent = copy[el.getAttribute('data-i18n')];
+            });
+
+            document.getElementById('retry').addEventListener('click', function () {
+                location.reload();
+            });
+        })();
+    </script>
+</body>
+</html>
