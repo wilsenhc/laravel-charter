@@ -67,8 +67,10 @@ const activeLabel = computed(() => {
                     : ''
             "
         >
-            <component :is="activeIcon" class="size-4" />
-            <span v-if="withLabel">{{ activeLabel }}</span>
+            <span class="flex items-center gap-1.5">
+                <component :is="activeIcon" class="size-4" />
+                <span v-if="withLabel">{{ activeLabel }}</span>
+            </span>
         </SelectTrigger>
         <SelectContent align="end" :side-offset="4">
             <SelectItem

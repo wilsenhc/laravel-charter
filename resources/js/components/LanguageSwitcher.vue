@@ -61,8 +61,10 @@ function switchLanguage(code: string) {
                     : ''
             "
         >
-            <LanguagesIcon class="size-4" />
-            <span v-if="withLabel">{{ t('nav.language') }}</span>
+            <span class="flex items-center gap-1.5">
+                <LanguagesIcon class="size-4" />
+                <span v-if="withLabel">{{ t('nav.language') }}</span>
+            </span>
         </SelectTrigger>
         <SelectContent align="end" :side-offset="4">
             <SelectItem

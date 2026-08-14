@@ -13,13 +13,15 @@
         "build_application": "Creador de Aplicaciones",
         "build_package": "Creador de Paquetes",
         "menu": "Menu",
-        "menu_description": "Abrir el menú de navegación del sitio"
+        "menu_description": "Abrir el menú de navegación del sitio",
+        "install": "Instalar app"
     },
     "header": {
         "app_name": "Charter para Laravel"
     },
     "hero": {
         "learn_link": "Aprende cómo funciona",
+        "mcp_link": "¿Buscas MCP?",
         "application": {
             "title": "App de Laravel con Sail en un comando",
             "description": "Charter simplifica la creación de nuevas apps de Laravel: elige tus servicios y opciones visualmente, luego copia un único comando que configura tu proyecto con Laravel Sail desde el inicio.",
