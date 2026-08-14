@@ -4,5 +4,4 @@ Before planning or editing, find the row whose globs match the file's path and r
 
 | Applies to | Rule file |
 | --- | --- |
-| vite.config.ts | .ai/rules/general.md |
-| resources/js/pwa.ts, resources/js/** | .ai/rules/js.md |
+| vite.config.ts, resources/js/sw.ts, resources/js/app.ts, resources/js/pwa.ts, resources/js/composables/useInstallPrompt.ts, public/offline.html | .ai/rules/pwa.md |
