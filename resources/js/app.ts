@@ -22,15 +22,15 @@ createInertiaApp({
         const serverLocale = props.initialPage.props?.locale as
             string | undefined;
 
-        if (serverLocale) {
-            i18n.global.locale.value = serverLocale;
+        if (serverLocale && ['en', 'es'].includes(serverLocale)) {
+            i18n.global.locale.value = serverLocale as 'en' | 'es';
         }
 
         const app = createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(i18n);
 
-        if (typeof window !== 'undefined') {
+        if (typeof window !== 'undefined' && el instanceof HTMLElement) {
             app.mount(el);
 
             if (import.meta.env.DEV) {

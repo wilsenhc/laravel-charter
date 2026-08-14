@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import { Head, Link, usePage } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
 
-const { t, tm } = useI18n();
-const page = usePage();
+interface TermsPageProps {
+    locale: string;
+}
 
-const locale = computed(() => page.props.locale as string);
+const { t, tm } = useI18n();
+const props = defineProps<TermsPageProps>();
+
 const origin = typeof window !== 'undefined' ? window.location.origin : '';
 const sectionCount = computed(() => tm('terms.sections').length);
 
@@ -27,7 +30,7 @@ const breadcrumbJsonLd = computed(() =>
                 '@type': 'ListItem',
                 position: 2,
                 name: 'Terms of Service',
-                item: `${origin}/${locale.value}/terms`,
+                item: `${origin}/${props.locale}/terms`,
             },
         ],
     }),

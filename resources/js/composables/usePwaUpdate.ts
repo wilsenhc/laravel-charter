@@ -39,12 +39,17 @@ function reloadPage() {
     window.location.reload();
 }
 
+function dismissUpdate() {
+    updateAvailable.value = false;
+}
+
 initControllerChangeListener();
 
 export function usePwaUpdate() {
     return {
         updateAvailable: readonly(updateAvailable),
         reloadPage,
+        dismissUpdate,
     };
 }
 

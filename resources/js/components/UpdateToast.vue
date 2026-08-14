@@ -6,10 +6,10 @@ import { Button } from '@/components/ui/button';
 import { usePwaUpdate } from '@/composables/usePwaUpdate';
 
 const { t } = useI18n();
-const { updateAvailable, reloadPage } = usePwaUpdate();
+const { updateAvailable, reloadPage, dismissUpdate } = usePwaUpdate();
 
 function dismiss() {
-    updateAvailable.value = false;
+    dismissUpdate();
 }
 </script>
 
