@@ -4,12 +4,12 @@ import { MenuIcon } from '@lucide/vue';
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppearanceSwitcher from '@/components/AppearanceSwitcher.vue';
+import InstallButton from '@/components/InstallButton.vue';
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
 import LogoIcon from '@/components/LogoIcon.vue';
 import { Button } from '@/components/ui/button';
 import {
     Sheet,
-    SheetClose,
     SheetContent,
     SheetDescription,
     SheetHeader,
@@ -51,33 +51,7 @@ onUnmounted(() => {
             {{ t('header.app_name') }}
         </Link>
         <div class="flex items-center gap-3">
-            <Button
-                variant="outline"
-                size="sm"
-                as="a"
-                :href="`/${locale}/mcp`"
-                class="hidden sm:inline-flex"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="size-3.5"
-                    aria-hidden="true"
-                >
-                    <path
-                        d="M12 3l1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5z"
-                    />
-                    <path
-                        d="M18 14l.8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8z"
-                    />
-                </svg>
-                {{ t('nav.mcp') }}
-            </Button>
+            <InstallButton class="hidden sm:inline-flex" />
             <Button
                 variant="outline"
                 size="sm"
@@ -122,35 +96,12 @@ onUnmounted(() => {
                         </SheetDescription>
                     </SheetHeader>
                     <nav class="flex flex-col gap-2 px-4">
-                        <SheetClose as-child>
-                            <Button
-                                variant="ghost"
-                                size="lg"
-                                as="a"
-                                :href="`/${locale}/mcp`"
-                                class="w-full justify-start"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    class="size-4"
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        d="M12 3l1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5z"
-                                    />
-                                    <path
-                                        d="M18 14l.8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8z"
-                                    />
-                                </svg>
-                                {{ t('nav.mcp') }}
-                            </Button>
-                        </SheetClose>
+                        <InstallButton
+                            variant="ghost"
+                            size="lg"
+                            with-label
+                            class="w-full justify-start"
+                        />
                         <LanguageSwitcher with-label />
                         <AppearanceSwitcher with-label />
                     </nav>

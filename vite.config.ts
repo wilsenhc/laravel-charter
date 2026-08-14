@@ -84,11 +84,8 @@ export default defineConfig({
             },
             workbox: {
                 globPatterns: ['build/**/*.{js,css,woff,woff2,ttf,eot}'],
-                navigateFallback: '/',
-                navigateFallbackDenylist: [/^\/build/, /^\/\.htaccess/],
                 maximumFileSizeToCacheInBytes: 4000000,
                 additionalManifestEntries: [
-                    { url: '/', revision: `charter-${Date.now()}` },
                     { url: '/favicon.svg', revision: `charter-${Date.now()}` },
                     { url: '/robots.txt', revision: `charter-${Date.now()}` },
                     {
