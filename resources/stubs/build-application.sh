@@ -42,6 +42,7 @@ docker run --rm \
 @if($isCustomStarterKit)
         export PATH=/usr/local/node/bin:\$PATH && \
 @endif
+        install-php-extensions gd >/dev/null 2>&1 && \
         docker-php-serversideup-dep-install-debian git >/dev/null 2>&1 && \
         composer global require laravel/installer --no-interaction --no-progress && \
         php \$(composer config --global home)/vendor/bin/laravel new {!! $name !!} {!! $options !!} --no-interaction ; \
