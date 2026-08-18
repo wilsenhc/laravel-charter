@@ -4,11 +4,11 @@ BOLD='\033[1m'
 NC='\033[0m'
 
 echo ""
-echo -e "${LIGHT_CYAN}  ____ _   _    _    ____ _____ _____ ____  ${NC}"
-echo -e "${LIGHT_CYAN} / ___| | | |  / \  |  _ \_   _| ____|  _ \ ${NC}"
-echo -e "${LIGHT_CYAN}| |   | |_| | / _ \ | |_) || | |  _| | |_) |${NC}"
-echo -e "${LIGHT_CYAN}| |___|  _  |/ ___ \|  _ < | | | |___|  _ < ${NC}"
-echo -e "${LIGHT_CYAN} \____|_| |_/_/   \_\_| \_\|_| |_____|_| \_\${NC}"
+echo -e "${LIGHT_CYAN}  ____ _   _    _    ____ _____ _____ ____   ${NC}"
+echo -e "${LIGHT_CYAN} / ___| | | |  / \  |  _ \_   _| ____|  _ \  ${NC}"
+echo -e "${LIGHT_CYAN}| |   | |_| | / _ \ | |_) || | |  _| | |_) | ${NC}"
+echo -e "${LIGHT_CYAN}| |___|  _  |/ ___ \|  _ < | | | |___|  _ <  ${NC}"
+echo -e "${LIGHT_CYAN} \____|_| |_/_/   \_\_| \_\|_| |_____|_| \_\ ${NC}"
 echo ""
 
 docker info > /dev/null 2>&1
@@ -42,6 +42,7 @@ docker run --rm \
 @if($isCustomStarterKit)
         export PATH=/usr/local/node/bin:\$PATH && \
 @endif
+        install-php-extensions gd >/dev/null 2>&1 && \
         docker-php-serversideup-dep-install-debian git >/dev/null 2>&1 && \
         composer global require laravel/installer --no-interaction --no-progress && \
         php \$(composer config --global home)/vendor/bin/laravel new {!! $name !!} {!! $options !!} --no-interaction ; \
@@ -90,11 +91,11 @@ else
 fi
 
 echo ""
-echo -e "${LIGHT_CYAN}  ____ _   _    _    ____ _____ _____ ____  ${NC}"
-echo -e "${LIGHT_CYAN} / ___| | | |  / \  |  _ \_   _| ____|  _ \ ${NC}"
-echo -e "${LIGHT_CYAN}| |   | |_| | / _ \ | |_) || | |  _| | |_) |${NC}"
-echo -e "${LIGHT_CYAN}| |___|  _  |/ ___ \|  _ < | | | |___|  _ < ${NC}"
-echo -e "${LIGHT_CYAN} \____|_| |_/_/   \_\_| \_\|_| |_____|_| \_\${NC}"
+echo -e "${LIGHT_CYAN}  ____ _   _    _    ____ _____ _____ ____   ${NC}"
+echo -e "${LIGHT_CYAN} / ___| | | |  / \  |  _ \_   _| ____|  _ \  ${NC}"
+echo -e "${LIGHT_CYAN}| |   | |_| | / _ \ | |_) || | |  _| | |_) | ${NC}"
+echo -e "${LIGHT_CYAN}| |___|  _  |/ ___ \|  _ < | | | |___|  _ <  ${NC}"
+echo -e "${LIGHT_CYAN} \____|_| |_/_/   \_\_| \_\|_| |_____|_| \_\ ${NC}"
 echo ""
 echo -e "${CYAN}Enjoying Charter for Laravel? Consider supporting development:${NC}"
 echo -e "${BOLD}https://paypal.me/wilsenjhc${NC}"

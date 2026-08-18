@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link, usePage } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { availablePackageFeatures, availablePhpVersions } from '@/build';
@@ -18,14 +18,14 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 
-const { t } = useI18n();
-const page = usePage();
-
-const props = defineProps<{
+interface BuildPackagePageProps {
+    locale: string;
     url: string;
-}>();
+}
 
-const locale = computed(() => page.props.locale as string);
+const { t } = useI18n();
+const props = defineProps<BuildPackagePageProps>();
+
 const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
 const breadcrumbJsonLd = computed(() =>
@@ -43,7 +43,7 @@ const breadcrumbJsonLd = computed(() =>
                 '@type': 'ListItem',
                 position: 2,
                 name: 'Package Builder',
-                item: `${origin}/${locale.value}/package`,
+                item: `${origin}/${props.locale}/package`,
             },
         ],
     }),
@@ -173,7 +173,7 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
             {{ t('hero.package.title') }} — {{ t('header.app_name') }}
         </title>
         <meta name="description" :content="t('hero.package.description')" />
-        <link rel="canonical" :href="`${props.url}/${locale}/package`" />
+        <link rel="canonical" :href="`${url}/${locale}/package`" />
         <component :is="'script'" type="application/ld+json">{{
             breadcrumbJsonLd
         }}</component>

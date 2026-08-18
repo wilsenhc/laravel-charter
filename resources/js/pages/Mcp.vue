@@ -1,17 +1,20 @@
 <script setup lang="ts">
-import { Head, Link, usePage } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-const { t } = useI18n();
-const page = usePage();
+interface McpPageProps {
+    locale: string;
+    mcpUrl: string;
+}
 
-const locale = computed(() => page.props.locale as string);
+const { t } = useI18n();
+const props = defineProps<McpPageProps>();
+
 const origin = typeof window !== 'undefined' ? window.location.origin : '';
-const mcpUrl = computed(() => page.props.mcpUrl as string);
 
 const claudeConfig = computed(() =>
     JSON.stringify(
@@ -19,7 +22,7 @@ const claudeConfig = computed(() =>
             mcpServers: {
                 'charter-for-laravel': {
                     type: 'http',
-                    url: mcpUrl.value,
+                    url: props.mcpUrl,
                 },
             },
         },
@@ -34,7 +37,7 @@ const cursorConfig = computed(() =>
             mcpServers: {
                 'charter-for-laravel': {
                     type: 'http',
-                    url: mcpUrl.value,
+                    url: props.mcpUrl,
                 },
             },
         },
@@ -49,7 +52,7 @@ const codexConfig = computed(() =>
             mcpServers: {
                 'charter-for-laravel': {
                     type: 'http',
-                    url: mcpUrl.value,
+                    url: props.mcpUrl,
                 },
             },
         },
@@ -64,7 +67,7 @@ const opencodeConfig = computed(() =>
             mcp: {
                 'charter-for-laravel': {
                     type: 'http',
-                    url: mcpUrl.value,
+                    url: props.mcpUrl,
                     enabled: true,
                 },
             },
@@ -89,7 +92,7 @@ const breadcrumbJsonLd = computed(() =>
                 '@type': 'ListItem',
                 position: 2,
                 name: 'MCP',
-                item: `${origin}/${locale.value}/mcp`,
+                item: `${origin}/${props.locale}/mcp`,
             },
         ],
     }),

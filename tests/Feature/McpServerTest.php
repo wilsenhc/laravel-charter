@@ -158,6 +158,25 @@ describe('build-application tool', function () {
         $response->assertOk();
         $response->assertSee('laravel new my-app');
     });
+    test('installs the GD extension for all starter kits', function (array $data) {
+        Queue::fake();
+
+        $response = CharterServer::tool(BuildApplicationTool::class, [
+            'name' => 'my-app',
+            'services' => ['redis'],
+            ...$data,
+        ]);
+
+        $response->assertOk();
+        $response->assertSee('install-php-extensions gd');
+    })->with([
+        'none' => [[]],
+        'livewire' => [['frontend' => 'livewire']],
+        'vue' => [['frontend' => 'vue']],
+        'react' => [['frontend' => 'react']],
+        'svelte' => [['frontend' => 'svelte']],
+        'custom' => [['frontend' => 'custom', 'using' => 'https://example.com/kit']],
+    ]);
 
     describe('stats', function () {
         test('records stats with all options', function () {

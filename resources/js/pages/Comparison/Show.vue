@@ -1,45 +1,13 @@
 <script setup lang="ts">
-import { Head, Link, usePage } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
 import { buttonVariants } from '@/components/ui/button';
 
-const { t } = useI18n();
-const page = usePage();
-
-const locale = computed(() => page.props.locale as string);
-const origin = typeof window !== 'undefined' ? window.location.origin : '';
-
-const breadcrumbJsonLd = computed(() =>
-    JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-            {
-                '@type': 'ListItem',
-                position: 1,
-                name: 'Charter for Laravel',
-                item: origin,
-            },
-            {
-                '@type': 'ListItem',
-                position: 2,
-                name: 'Glossary',
-                item: `${origin}/${locale.value}/glossary`,
-            },
-            {
-                '@type': 'ListItem',
-                position: 3,
-                name: entry.translations.page_title,
-                item: `${origin}/${locale.value}/compare/${comparison}`,
-            },
-        ],
-    }),
-);
-
-defineProps<{
+interface ComparisonShowPageProps {
+    locale: string;
     comparison: string;
     entry: {
         first: string;
@@ -59,7 +27,39 @@ defineProps<{
         };
     };
     related: { slug: string; page_title: string; meta_description: string }[];
-}>();
+}
+
+const { t } = useI18n();
+const props = defineProps<ComparisonShowPageProps>();
+
+const origin = typeof window !== 'undefined' ? window.location.origin : '';
+
+const breadcrumbJsonLd = computed(() =>
+    JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Charter for Laravel',
+                item: origin,
+            },
+            {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Glossary',
+                item: `${origin}/${props.locale}/glossary`,
+            },
+            {
+                '@type': 'ListItem',
+                position: 3,
+                name: props.entry.translations.page_title,
+                item: `${origin}/${props.locale}/compare/${props.comparison}`,
+            },
+        ],
+    }),
+);
 
 const aspects = [
     'overview',
@@ -67,7 +67,9 @@ const aspects = [
     'ease_of_use',
     'ecosystem',
     'learning_curve',
-];
+] as const;
+
+type Aspect = (typeof aspects)[number];
 </script>
 
 <template>
@@ -126,7 +128,7 @@ const aspects = [
                         {{ entry.first_title }}
                     </h3>
                     <p class="text-sm leading-relaxed text-muted-foreground">
-                        {{ entry.translations[aspect].first }}
+                        {{ entry.translations[aspect as Aspect].first }}
                     </p>
                 </div>
                 <div>
@@ -134,7 +136,7 @@ const aspects = [
                         {{ entry.second_title }}
                     </h3>
                     <p class="text-sm leading-relaxed text-muted-foreground">
-                        {{ entry.translations[aspect].second }}
+                        {{ entry.translations[aspect as Aspect].second }}
                     </p>
                 </div>
             </div>

@@ -17,8 +17,10 @@ withDefaults(defineProps<{ withLabel?: boolean }>(), {
     withLabel: false,
 });
 
-function switchLanguage(code: string) {
-    if (code === locale.value) {
+function switchLanguage(code: unknown) {
+    const codeStr = code?.toString() ?? '';
+
+    if (!code || codeStr === locale.value) {
         return;
     }
 
@@ -42,7 +44,7 @@ function switchLanguage(code: string) {
     const localeInput = document.createElement('input');
     localeInput.type = 'hidden';
     localeInput.name = 'locale';
-    localeInput.value = code;
+    localeInput.value = codeStr;
 
     form.append(tokenInput, localeInput);
     document.body.appendChild(form);

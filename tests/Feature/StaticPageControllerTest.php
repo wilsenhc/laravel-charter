@@ -38,3 +38,11 @@ it('emits PWA meta tags and manifest link', function () {
         ->and($content)->toMatch('/<meta name="theme-color" content="#171717">/')
         ->and($content)->toMatch('/<link rel="apple-touch-icon" href="[^"]+apple-touch-icon-180x180\.png"[^>]*>/');
 });
+
+it('ships the PWA offline fallback page', function () {
+    $content = file_get_contents(public_path('offline.html'));
+
+    expect($content)->not->toBeFalse()
+        ->and($content)->toContain('offline')
+        ->and($content)->toContain('retry');
+});

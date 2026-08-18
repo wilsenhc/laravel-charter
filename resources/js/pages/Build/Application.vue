@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link, usePage } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import {
@@ -36,14 +36,14 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 
-const { t } = useI18n();
-const page = usePage();
-
-const props = defineProps<{
+interface BuildApplicationPageProps {
+    locale: string;
     url: string;
-}>();
+}
 
-const locale = computed(() => page.props.locale as string);
+const { t } = useI18n();
+const props = defineProps<BuildApplicationPageProps>();
+
 const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
 const breadcrumbJsonLd = computed(() =>
@@ -61,7 +61,7 @@ const breadcrumbJsonLd = computed(() =>
                 '@type': 'ListItem',
                 position: 2,
                 name: 'Application Builder',
-                item: `${origin}/${locale.value}/application`,
+                item: `${origin}/${props.locale}/application`,
             },
         ],
     }),
@@ -156,9 +156,9 @@ watch(selectedServices, (newServices) => {
     selectedDatabase.value = lastDbService ?? 'none';
 });
 
-const onDatabaseChange = (value: string) => {
+const onDatabaseChange = (value: unknown) => {
     hasManuallyChangedDatabase.value = true;
-    selectedDatabase.value = value;
+    selectedDatabase.value = value?.toString() ?? 'none';
 };
 
 const laravelStarterKits = ['livewire', 'vue', 'react', 'svelte', 'api'];
@@ -235,7 +235,7 @@ const faqItems = computed(() => {
             {{ t('hero.application.title') }} — {{ t('header.app_name') }}
         </title>
         <meta name="description" :content="t('hero.application.description')" />
-        <link rel="canonical" :href="`${props.url}/${locale}/application`" />
+        <link rel="canonical" :href="`${url}/${locale}/application`" />
         <component :is="'script'" type="application/ld+json">{{
             breadcrumbJsonLd
         }}</component>

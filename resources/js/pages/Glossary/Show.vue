@@ -1,15 +1,31 @@
 <script setup lang="ts">
-import { Head, Link, usePage } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
 import { buttonVariants } from '@/components/ui/button';
 
-const { t } = useI18n();
-const page = usePage();
+interface GlossaryShowPageProps {
+    locale: string;
+    term: string;
+    entry: {
+        category: string;
+        builder_params: Record<string, string[] | string>;
+        translations: {
+            title: string;
+            question: string;
+            summary: string;
+            definition: string;
+            sail_integration: string;
+        };
+    };
+    related: { slug: string; title: string; summary: string }[];
+}
 
-const locale = computed(() => page.props.locale as string);
+const { t } = useI18n();
+const props = defineProps<GlossaryShowPageProps>();
+
 const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
 const breadcrumbJsonLd = computed(() =>
@@ -27,33 +43,17 @@ const breadcrumbJsonLd = computed(() =>
                 '@type': 'ListItem',
                 position: 2,
                 name: 'Glossary',
-                item: `${origin}/${locale.value}/glossary`,
+                item: `${origin}/${props.locale}/glossary`,
             },
             {
                 '@type': 'ListItem',
                 position: 3,
-                name: entry.translations.title,
-                item: `${origin}/${locale.value}/glossary/${term}`,
+                name: props.entry.translations.title,
+                item: `${origin}/${props.locale}/glossary/${props.term}`,
             },
         ],
     }),
 );
-
-defineProps<{
-    term: string;
-    entry: {
-        category: string;
-        builder_params: Record<string, string[] | string>;
-        translations: {
-            title: string;
-            question: string;
-            summary: string;
-            definition: string;
-            sail_integration: string;
-        };
-    };
-    related: { slug: string; title: string; summary: string }[];
-}>();
 </script>
 
 <template>

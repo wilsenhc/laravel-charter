@@ -81,6 +81,25 @@ const locale = computed(() => page.props.locale as string);
             {{ t('footer.disclaimer') }}
         </p>
         <p>
+            {{ t('footer.acknowledgements_prefix') }}
+            <a
+                href="https://github.com/laravel/sail-server"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="underline transition-colors hover:text-foreground"
+                >laravel/sail-server</a
+            >
+            {{ t('footer.acknowledgements_and') }}
+            <a
+                href="https://github.com/rogerio-pereira/laravel-sailor"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="underline transition-colors hover:text-foreground"
+                >rogerio-pereira/laravel-sailor</a
+            >
+            {{ t('footer.acknowledgements_suffix') }}
+        </p>
+        <p>
             {{ t('footer.credit_prefix') }}
             <a
                 href="https://github.com/wilsenhc"

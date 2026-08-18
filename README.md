@@ -43,6 +43,15 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 If you discover a security vulnerability, please open an issue rather than posting publicly.
 
+## Acknowledgements
+
+This project is not a fork but builds upon the ideas and implementations of two projects:
+
+- [laravel/sail-server](https://github.com/laravel/sail-server) — the official Laravel Sail server package.
+- [rogerio-pereira/laravel-sailor](https://github.com/rogerio-pereira/laravel-sailor) — a community project for scaffolding Laravel Sail applications.
+
+We give credit where it's due and recognize the contributions of the original authors.
+
 ## Credits
 
 - [All Contributors](../../contributors)

@@ -1,14 +1,18 @@
 <script setup lang="ts">
-import { Head, Link, usePage } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
 
-const { t } = useI18n();
-const page = usePage();
+interface GlossaryIndexPageProps {
+    locale: string;
+    terms: { slug: string; category: string; title: string; summary: string }[];
+}
 
-const locale = computed(() => page.props.locale as string);
+const { t } = useI18n();
+const props = defineProps<GlossaryIndexPageProps>();
+
 const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
 const breadcrumbJsonLd = computed(() =>
@@ -26,15 +30,11 @@ const breadcrumbJsonLd = computed(() =>
                 '@type': 'ListItem',
                 position: 2,
                 name: 'Glossary',
-                item: `${origin}/${locale.value}/glossary`,
+                item: `${origin}/${props.locale}/glossary`,
             },
         ],
     }),
 );
-
-const props = defineProps<{
-    terms: { slug: string; category: string; title: string; summary: string }[];
-}>();
 
 const categoryOrder: Record<string, number> = {
     Concept: 0,
@@ -47,7 +47,7 @@ const categoryOrder: Record<string, number> = {
 };
 
 const grouped = computed(() => {
-    const groups: Record<string, { slug: string; category: string }[]> = {};
+    const groups: Record<string, { slug: string; category: string; title: string; summary: string }[]> = {};
 
     for (const term of props.terms) {
         if (!groups[term.category]) {
