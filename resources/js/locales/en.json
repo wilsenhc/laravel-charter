@@ -155,6 +155,9 @@
     },
     "footer": {
         "disclaimer": "This project is NOT affiliated with, endorsed by, or sponsored by Laravel or Laravel Holdings Inc.",
+        "acknowledgements_prefix": "Builds upon the ideas and implementations of",
+        "acknowledgements_and": "and",
+        "acknowledgements_suffix": "— credit to the original authors.",
         "credit_prefix": "Built by",
         "credit_suffix": "— open source on"
     },
