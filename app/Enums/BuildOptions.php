@@ -38,6 +38,7 @@ enum BuildOptions
             ],
             self::AvailableStarterKits => [
                 'none',
+                'api',
                 'livewire',
                 'vue',
                 'react',
