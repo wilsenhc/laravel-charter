@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Enums\Locale;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Inertia\Middleware;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -38,6 +39,12 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $appUrl = config('app.url');
+
+        if (str_starts_with($appUrl, 'https://')) {
+            URL::forceScheme('https');
+        }
+
         return [
             ...parent::share($request),
             'name' => config('app.name'),
@@ -47,6 +54,20 @@ class HandleInertiaRequests extends Middleware
             'locale' => app()->getLocale(),
             'locales' => Locale::supported(),
         ];
+    }
+
+    /**
+     * Force HTTPS URLs for Inertia page props.
+     */
+    public function urlResolver(): ?Closure
+    {
+        $appUrl = config('app.url');
+
+        if (str_starts_with($appUrl, 'https://')) {
+            return fn (Request $request) => str_replace('http://', 'https://', $request->fullUrl());
+        }
+
+        return null;
     }
 
     public function handle(Request $request, Closure $next): Response
