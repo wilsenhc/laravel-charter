@@ -6,6 +6,7 @@ paths:
   - resources/js/pwa.ts
   - resources/js/composables/useInstallPrompt.ts
   - public/offline.html
+  - composer.json
 ---
 
 # PWA
@@ -18,3 +19,6 @@ app.ts is both the client AND SSR entry — never import 'virtual:pwa-register' 
 
 ## Capture beforeinstallprompt at module scope
 Capture beforeinstallprompt at module scope (in useInstallPrompt.ts), not in a component's onMounted — the event can fire before the Vue app mounts, and it fires only once per page load. Guard module-level window usage with `typeof window !== 'undefined'` because app.ts is also the SSR entry. Share state via the useInstallPrompt composable.
+
+## llms.txt package is on the Guzzle 8 fork pin
+schaefersoft/laravel-llms-txt is pinned to dev-feature/guzzle-8-support from the wilsenhc fork (VCS repository "laravel-llms-txt-fork") because every upstream release requires Guzzle ^7 while this app uses Guzzle 8. When PR https://github.com/schaefersoft/laravel-llms-txt/pull/20 merges, unpin to a tagged release and remove the repository entry from composer.json.

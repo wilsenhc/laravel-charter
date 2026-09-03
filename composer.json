@@ -17,6 +17,7 @@
         "laravel/octane": "^2.19.1",
         "laravel/tinker": "^3.0.2",
         "laravel/wayfinder": "^0.1.21",
+        "schaefersoft/laravel-llms-txt": "dev-feature/guzzle-8-support",
         "spatie/laravel-sitemap": "^8.2"
     },
     "require-dev": {
@@ -135,5 +136,10 @@
             "type": "other"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "repositories": [{
+        "name": "laravel-llms-txt-fork",
+        "type": "vcs",
+        "url": "https://github.com/wilsenhc/laravel-llms-txt"
+    }]
 }
