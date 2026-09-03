@@ -52,6 +52,9 @@ it('generates the llms.txt document', function () {
         ->toContain('/mcp/charter')
         ->toContain('/application/build?')
         ->toContain('/package/build?')
+        ->toContain('services[] (mysql, mariadb, pgsql')
+        ->toContain('features (comma-separated: config, routes')
+        ->toContain('boolean flags: teams, no-node')
         ->toContain('Laravel Sail')
         ->toContain('MySQL vs MariaDB for Laravel');
 });
