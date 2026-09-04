@@ -244,13 +244,13 @@ function applyFilters() {
         params.to = to.value;
     }
 
-    router.get('/stats', params, { preserveState: true, replace: true });
+    router.get(`/${props.locale}/stats`, params, { preserveState: true, replace: true });
 }
 
 function clearFilters() {
     from.value = '';
     to.value = '';
-    router.get('/stats', {}, { preserveState: true, replace: true });
+    router.get(`/${props.locale}/stats`, {}, { preserveState: true, replace: true });
 }
 
 function setQuickRange(days: number | 'ytd') {
@@ -274,7 +274,7 @@ function setQuickRange(days: number | 'ytd') {
     from.value = dateFrom;
     to.value = dateTo;
     router.get(
-        '/stats',
+        `/${props.locale}/stats`,
         { from: dateFrom, to: dateTo },
         { preserveState: true, replace: true },
     );
