@@ -6,6 +6,7 @@ paths:
   - resources/js/pwa.ts
   - resources/js/composables/useInstallPrompt.ts
   - public/offline.html
+  - composer.json
 ---
 
 # PWA

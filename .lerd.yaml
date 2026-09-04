@@ -1,0 +1,18 @@
+domains:
+  - laravel-charter
+php_version: "8.5"
+framework: laravel
+framework_version: "13"
+secured: true
+services:
+  - mailpit
+  - postgres
+  - redis
+workers:
+  - queue
+  - schedule
+  - vite
+reload_workers:
+  - octane
+runtime: frankenphp
+runtime_worker: true

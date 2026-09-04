@@ -164,7 +164,10 @@ const generatedUrl = computed(() => {
     return `${baseUrl}${nameParam}${php}${features}${metadata}`;
 });
 
-const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
+const commands = computed(() => ({
+    curl: `curl -fsSL '${generatedUrl.value}' | bash`,
+    wget: `wget -qO- '${generatedUrl.value}' | bash`,
+}));
 </script>
 
 <template>
@@ -300,7 +303,7 @@ const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
                 </Field>
 
                 <div>
-                    <CodeBlock :code="command" />
+                    <CodeBlock :commands="commands" />
                     <p class="mt-2 text-xs text-muted-foreground">
                         {{ t('hero.package.docker_notice') }}
                     </p>

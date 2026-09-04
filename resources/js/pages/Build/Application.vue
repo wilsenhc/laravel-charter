@@ -212,7 +212,10 @@ const generatedUrl = computed(() => {
     return `${baseUrl}${nameParam}${serviceParams}${frontend}${javascript}${testing}${auth}${teams}${boost}${devcontainer}${noNode}${livewireClassComponents}${php}${database}${using}`;
 });
 
-const command = computed(() => `curl -s '${generatedUrl.value}' | bash`);
+const commands = computed(() => ({
+    curl: `curl -fsSL '${generatedUrl.value}' | bash`,
+    wget: `wget -qO- '${generatedUrl.value}' | bash`,
+}));
 
 const faqItems = computed(() => {
     const items = [];
@@ -397,7 +400,7 @@ const faqItems = computed(() => {
                 </Field>
 
                 <div>
-                    <CodeBlock :code="command" />
+                    <CodeBlock :commands="commands" />
                     <p
                         v-if="isLocal"
                         class="mt-2 text-xs text-muted-foreground"

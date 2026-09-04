@@ -12,7 +12,7 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-        <script>
+        <script nonce="{{ request()->attributes->get('csp-nonce') }}">
             (function () {
                 const stored = localStorage.getItem('vueuse-color-scheme') || 'auto';
                 const isDark = stored === 'dark' ||

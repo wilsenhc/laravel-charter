@@ -11,7 +11,7 @@ class McpController extends Controller
     public function index(Request $request): InertiaResponse
     {
         return Inertia::render('Mcp', [
-            'mcpUrl' => $request->root().'/mcp/charter',
+            'mcpUrl' => config('app.url').'/mcp/charter',
         ]);
     }
 }

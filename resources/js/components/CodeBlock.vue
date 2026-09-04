@@ -1,16 +1,25 @@
 <script setup lang="ts">
 import { CheckIcon, CopyIcon } from '@lucide/vue';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const { t } = useI18n();
 
-defineProps<{
-    code: string;
+const props = defineProps<{
+    commands: {
+        curl: string;
+        wget: string;
+    };
 }>();
 
-const codeEl = ref<HTMLElement | null>(null);
+const activeTool = ref<string>('curl');
+
+const activeCommand = computed(
+    () => props.commands[activeTool.value as 'curl' | 'wget'],
+);
+
 const copied = ref(false);
 
 function showCopiedFeedback() {
@@ -25,10 +34,12 @@ const copy = (text: string) => {
     showCopiedFeedback();
 };
 
-function selectAndCopy() {
-    if (codeEl.value) {
+function selectAndCopy(event: MouseEvent) {
+    const el = event.currentTarget as HTMLElement | null;
+
+    if (el) {
         const range = document.createRange();
-        range.selectNodeContents(codeEl.value);
+        range.selectNodeContents(el);
         const selection = window.getSelection();
 
         if (selection) {
@@ -44,28 +55,48 @@ function selectAndCopy() {
 
 <template>
     <div class="space-y-2">
-        <div class="flex items-center justify-between gap-2">
-            <span class="text-sm font-medium">{{
-                t('code_block.heading')
-            }}</span>
-            <Button
-                variant="outline"
-                size="sm"
-                class="gap-1.5"
-                :aria-label="
-                    copied ? t('code_block.copied') : t('code_block.aria_label')
-                "
-                @click="copy(code)"
+        <Tabs v-model="activeTool">
+            <div class="flex items-center justify-between gap-2">
+                <span class="text-sm font-medium">{{
+                    t('code_block.heading')
+                }}</span>
+                <div class="flex items-center gap-2">
+                    <TabsList>
+                        <TabsTrigger value="curl">curl</TabsTrigger>
+                        <TabsTrigger value="wget">wget</TabsTrigger>
+                    </TabsList>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        class="gap-1.5"
+                        :aria-label="
+                            copied
+                                ? t('code_block.copied')
+                                : t('code_block.aria_label')
+                        "
+                        @click="copy(activeCommand)"
+                    >
+                        <CheckIcon v-if="copied" class="size-3.5" />
+                        <CopyIcon v-else class="size-3.5" />
+                        {{
+                            copied
+                                ? t('code_block.copied')
+                                : t('code_block.copy')
+                        }}
+                    </Button>
+                </div>
+            </div>
+            <TabsContent
+                v-for="(command, tool) in commands"
+                :key="tool"
+                :value="tool"
             >
-                <CheckIcon v-if="copied" class="size-3.5" />
-                <CopyIcon v-else class="size-3.5" />
-                {{ copied ? t('code_block.copied') : t('code_block.copy') }}
-            </Button>
-        </div>
-        <pre
-            class="code-scroll cursor-pointer overflow-x-auto rounded-md border border-border bg-secondary p-3 text-sm leading-relaxed"
-            @click="selectAndCopy"
-        ><code ref="codeEl">{{ code }}</code></pre>
+                <pre
+                    class="code-scroll cursor-pointer overflow-x-auto rounded-md border border-border bg-secondary p-3 text-sm leading-relaxed"
+                    @click="selectAndCopy"
+                ><code>{{ command }}</code></pre>
+            </TabsContent>
+        </Tabs>
         <p class="text-xs text-muted-foreground">
             {{ t('code_block.hint') }}
         </p>

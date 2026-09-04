@@ -16,7 +16,7 @@ class BuildPackageController extends Controller
     public function index(Request $request): InertiaResponse
     {
         return Inertia::render('Build/Package', [
-            'url' => $request->root(),
+            'url' => config('app.url'),
         ]);
     }
 

@@ -47,7 +47,10 @@ const categoryOrder: Record<string, number> = {
 };
 
 const grouped = computed(() => {
-    const groups: Record<string, { slug: string; category: string; title: string; summary: string }[]> = {};
+    const groups: Record<
+        string,
+        { slug: string; category: string; title: string; summary: string }[]
+    > = {};
 
     for (const term of props.terms) {
         if (!groups[term.category]) {
