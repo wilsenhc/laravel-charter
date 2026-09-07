@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
@@ -12,7 +12,7 @@ interface PrivacyPageProps {
 const { t, tm } = useI18n();
 const props = defineProps<PrivacyPageProps>();
 
-const origin = typeof window !== 'undefined' ? window.location.origin : '';
+const origin = usePage<{ origin: string }>().props.origin;
 const sectionCount = computed(() => tm('privacy.sections').length);
 
 const breadcrumbJsonLd = computed(() =>

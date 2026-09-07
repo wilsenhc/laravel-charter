@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import { useColorMode } from '@vueuse/core';
 import { onMounted, ref, computed, shallowRef, watch } from 'vue';
 import type { Component } from 'vue';
@@ -50,7 +50,7 @@ interface StatsIndexPageProps {
 const { t } = useI18n();
 const props = defineProps<StatsIndexPageProps>();
 
-const origin = typeof window !== 'undefined' ? window.location.origin : '';
+const origin = usePage<{ origin: string }>().props.origin;
 
 const breadcrumbJsonLd = computed(() =>
     JSON.stringify({

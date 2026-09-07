@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { availablePackageFeatures, availablePhpVersions } from '@/build';
@@ -26,7 +26,7 @@ interface BuildPackagePageProps {
 const { t } = useI18n();
 const props = defineProps<BuildPackagePageProps>();
 
-const origin = typeof window !== 'undefined' ? window.location.origin : '';
+const origin = usePage<{ origin: string }>().props.origin;
 
 const breadcrumbJsonLd = computed(() =>
     JSON.stringify({
