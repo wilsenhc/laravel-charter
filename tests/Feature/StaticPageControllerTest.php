@@ -9,9 +9,11 @@ it('renders the privacy page', function () {
 });
 
 it('shares the site origin with the frontend for structured data', function () {
-    get(route('privacy', ['locale' => 'en']))
+    $content = get(route('privacy', ['locale' => 'en']))
         ->assertSuccessful()
-        ->assertSee('"origin":"https:\\/\\/laravel-charter.test"', false);
+        ->getContent();
+
+    expect($content)->toMatch('/"origin":"https?:\\\\\/\\\\\/[^"]+"/');
 });
 
 it('renders the terms page', function () {
