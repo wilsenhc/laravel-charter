@@ -3,8 +3,8 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vue-tsc --noEmit && php artisan generate:build-options && vite build && cp public/build/manifest.webmanifest public/manifest.webmanifest && vite build --ssr",
-        "build:ssr": "vue-tsc --noEmit && php artisan generate:build-options && vite build && cp public/build/manifest.webmanifest public/manifest.webmanifest && vite build --ssr",
+        "build": "php artisan generate:build-options && vue-tsc --noEmit && vite build && cp public/build/manifest.webmanifest public/manifest.webmanifest && vite build --ssr",
+        "build:ssr": "php artisan generate:build-options && vue-tsc --noEmit && vite build && cp public/build/manifest.webmanifest public/manifest.webmanifest && vite build --ssr",
         "dev": "php artisan generate:build-options && vite",
         "format": "prettier --write resources/",
         "format:check": "prettier --check resources/",
