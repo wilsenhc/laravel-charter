@@ -1,5 +1,4 @@
 const MCP_ENDPOINT = '/mcp/charter';
-const MCP_SOURCE_HEADER = 'X-Mcp-Source: webmcp';
 const CHARTER_TOOL_NAMES = ['build-application', 'build-package'];
 
 interface ModelContextTool {
