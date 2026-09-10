@@ -16,6 +16,7 @@ const i18n = createI18n({
 
 createInertiaApp({
     title: (title) => title ?? appName,
+    serverHead: true,
     progress: {
         color: '#4B5563',
     },

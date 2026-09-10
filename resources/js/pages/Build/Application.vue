@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Head, Link, usePage } from '@inertiajs/vue3';
-import { computed, ref, watch } from 'vue';
+import { Link } from '@inertiajs/vue3';
+import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import {
     availableAuthProviders,
@@ -42,30 +42,7 @@ interface BuildApplicationPageProps {
 }
 
 const { t } = useI18n();
-const props = defineProps<BuildApplicationPageProps>();
-
-const origin = usePage<{ origin: string }>().props.origin;
-
-const breadcrumbJsonLd = computed(() =>
-    JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-            {
-                '@type': 'ListItem',
-                position: 1,
-                name: 'Charter for Laravel',
-                item: origin,
-            },
-            {
-                '@type': 'ListItem',
-                position: 2,
-                name: 'Application Builder',
-                item: `${origin}/${props.locale}/application`,
-            },
-        ],
-    }),
-);
+defineProps<BuildApplicationPageProps>();
 
 const isLocal = import.meta.env.DEV;
 
@@ -227,16 +204,6 @@ const faqItems = computed(() => {
 </script>
 
 <template>
-    <Head>
-        <title>
-            {{ t('hero.application.title') }} — {{ t('header.app_name') }}
-        </title>
-        <meta name="description" :content="t('hero.application.description')" />
-        <link rel="canonical" :href="`${url}/${locale}/application`" />
-        <component :is="'script'" type="application/ld+json">{{
-            breadcrumbJsonLd
-        }}</component>
-    </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <section class="mb-8 space-y-3">

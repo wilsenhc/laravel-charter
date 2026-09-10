@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 import { useColorMode } from '@vueuse/core';
 import { onMounted, ref, computed, shallowRef, watch } from 'vue';
 import type { Component } from 'vue';
@@ -49,29 +49,6 @@ interface StatsIndexPageProps {
 
 const { t } = useI18n();
 const props = defineProps<StatsIndexPageProps>();
-
-const origin = usePage<{ origin: string }>().props.origin;
-
-const breadcrumbJsonLd = computed(() =>
-    JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-            {
-                '@type': 'ListItem',
-                position: 1,
-                name: 'Charter for Laravel',
-                item: origin,
-            },
-            {
-                '@type': 'ListItem',
-                position: 2,
-                name: 'Usage Statistics',
-                item: `${origin}/${props.locale}/stats`,
-            },
-        ],
-    }),
-);
 
 const from = ref(props.filters.from ?? '');
 const to = ref(props.filters.to ?? '');
@@ -354,14 +331,6 @@ onMounted(async () => {
 </script>
 
 <template>
-    <Head>
-        <title>{{ t('stats.title') }} — {{ t('header.app_name') }}</title>
-        <meta name="description" :content="t('stats.description')" />
-        <link rel="canonical" :href="`${origin}/${locale}/stats`" />
-        <component :is="'script'" type="application/ld+json">{{
-            breadcrumbJsonLd
-        }}</component>
-    </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <Link

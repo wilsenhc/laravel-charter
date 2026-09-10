@@ -7,6 +7,8 @@ use App\Models\GlossaryTerm;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Laravel\Head\Facades\Head;
+use Laravel\Head\Facades\Schema;
 
 class ComparisonController extends Controller
 {
@@ -28,6 +30,19 @@ class ComparisonController extends Controller
 
         $firstTerm = GlossaryTerm::where('slug', $comparison->first_term_slug)->first();
         $secondTerm = GlossaryTerm::where('slug', $comparison->second_term_slug)->first();
+
+        $page_title = $translations['page_title'] ?? $slug;
+        $meta_description = $translations['meta_description'] ?? '';
+
+        Head::title($page_title)
+            ->description($meta_description)
+            ->canonical('/'.$locale.'/compare/'.$slug);
+
+        Head::schema(Schema::breadcrumbs()->items([
+            __('meta.app_name') => url($locale),
+            __('glossary.page_title') => url($locale.'/glossary'),
+            $page_title => url($locale.'/compare/'.$slug),
+        ]));
 
         $relatedComparisons = Comparison::whereIn('slug', $comparison->related)
             ->get()

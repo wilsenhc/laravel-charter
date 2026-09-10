@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link, usePage } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
@@ -13,8 +13,6 @@ interface McpPageProps {
 
 const { t } = useI18n();
 const props = defineProps<McpPageProps>();
-
-const origin = usePage<{ origin: string }>().props.origin;
 
 const claudeConfig = computed(() =>
     JSON.stringify(
@@ -76,38 +74,9 @@ const opencodeConfig = computed(() =>
         4,
     ),
 );
-
-const breadcrumbJsonLd = computed(() =>
-    JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-            {
-                '@type': 'ListItem',
-                position: 1,
-                name: 'Charter for Laravel',
-                item: origin,
-            },
-            {
-                '@type': 'ListItem',
-                position: 2,
-                name: 'MCP',
-                item: `${origin}/${props.locale}/mcp`,
-            },
-        ],
-    }),
-);
 </script>
 
 <template>
-    <Head>
-        <title>{{ t('mcp.title') }} — {{ t('header.app_name') }}</title>
-        <meta :content="t('mcp.meta_description')" name="description" />
-        <link rel="canonical" :href="`${origin}/${locale}/mcp`" />
-        <component :is="'script'" type="application/ld+json">{{
-            breadcrumbJsonLd
-        }}</component>
-    </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <Link
