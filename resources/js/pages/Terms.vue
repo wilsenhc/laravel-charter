@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
@@ -10,42 +10,12 @@ interface TermsPageProps {
 }
 
 const { t, tm } = useI18n();
-const props = defineProps<TermsPageProps>();
+defineProps<TermsPageProps>();
 
-const origin = typeof window !== 'undefined' ? window.location.origin : '';
 const sectionCount = computed(() => tm('terms.sections').length);
-
-const breadcrumbJsonLd = computed(() =>
-    JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-            {
-                '@type': 'ListItem',
-                position: 1,
-                name: 'Charter for Laravel',
-                item: origin,
-            },
-            {
-                '@type': 'ListItem',
-                position: 2,
-                name: 'Terms of Service',
-                item: `${origin}/${props.locale}/terms`,
-            },
-        ],
-    }),
-);
 </script>
 
 <template>
-    <Head>
-        <title>{{ t('terms.title') }} — {{ t('header.app_name') }}</title>
-        <meta name="description" :content="t('terms.meta_description')" />
-        <link rel="canonical" :href="`${origin}/${locale}/terms`" />
-        <component :is="'script'" type="application/ld+json">{{
-            breadcrumbJsonLd
-        }}</component>
-    </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <Link

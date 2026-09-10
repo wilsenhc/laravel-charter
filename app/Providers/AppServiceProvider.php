@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Laravel\Head\Enums\ImageType;
+use Laravel\Head\Enums\OgType;
+use Laravel\Head\Enums\TwitterCard;
+use Laravel\Head\Facades\Head;
+use Laravel\Head\HeadBuilder;
 use SchaeferSoft\LaravelLlmsTxt\Entry;
 use SchaeferSoft\LaravelLlmsTxt\LlmsTxt;
 use SchaeferSoft\LaravelLlmsTxt\Section;
@@ -32,6 +37,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureDefaults();
         $this->configureLlmsTxt();
+        $this->configureHead();
     }
 
     /**
@@ -134,6 +140,47 @@ class AppServiceProvider extends ServiceProvider
             route('build.package.show', ['name' => 'blog-package', 'features' => 'config,routes']),
             implode(', ', BuildOptions::AvailablePackageFeatures->values()),
             implode(', ', BuildOptions::AvailablePhpVersions->values()),
+        );
+    }
+
+    /**
+     * Configure Laravel Head metadata defaults, globals, and error pages.
+     */
+    protected function configureHead(): void
+    {
+        Head::defaults(fn (HeadBuilder $head) => $head
+            ->title(__('meta.app_name'), suffix: ' — '.__('meta.app_name'))
+            ->description(__('meta.description'))
+            ->canonical()
+            ->og(
+                type: OgType::Website,
+                siteName: __('meta.app_name'),
+                title: __('meta.og_title'),
+                description: __('meta.og_description'),
+                image: url('/social-preview.png'),
+            )
+            ->twitter(
+                card: TwitterCard::SummaryWithLargeImage,
+                title: __('meta.twitter_title'),
+                description: __('meta.twitter_description'),
+            )
+            ->searchableByRobots()
+        );
+
+        Head::inertiaGlobals(fn (HeadBuilder $head) => $head
+            ->viewport('width=device-width, initial-scale=1, viewport-fit=cover')
+            ->themeColor('#171717')
+            ->colorScheme('light dark')
+            ->favicon('/favicon.svg', type: ImageType::Svg)
+            ->appleTouchIcon('/apple-touch-icon-180x180.png', sizes: '180x180')
+            ->manifest('/manifest.webmanifest')
+            ->webAppCapable()
+            ->appleWebAppStatusBarStyle('black-translucent')
+        );
+
+        Head::errors(fn ($errors) => $errors
+            ->defaults(robots: 'noindex, follow')
+            ->status(404, title: 'Page Not Found', description: 'The page you are looking for could not be found.')
         );
     }
 }

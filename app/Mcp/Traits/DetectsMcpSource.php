@@ -6,6 +6,10 @@ trait DetectsMcpSource
 {
     private function detectMcpSource(): string
     {
+        if ($source = request()->header('X-Mcp-Source')) {
+            return $source;
+        }
+
         $agent = strtolower(request()->userAgent() ?? '');
 
         return match (true) {

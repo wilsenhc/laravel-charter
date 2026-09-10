@@ -53,6 +53,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'locale' => app()->getLocale(),
             'locales' => Locale::supported(),
+            'origin' => $request->getSchemeAndHttpHost(),
         ];
     }
 

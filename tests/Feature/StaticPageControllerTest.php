@@ -8,6 +8,14 @@ it('renders the privacy page', function () {
         ->assertSee('component":"Privacy"', false);
 });
 
+it('shares the site origin with the frontend for structured data', function () {
+    $content = get(route('privacy', ['locale' => 'en']))
+        ->assertSuccessful()
+        ->getContent();
+
+    expect($content)->toMatch('/"origin":"https?:\\\\\/\\\\\/[^"]+"/');
+});
+
 it('renders the terms page', function () {
     get(route('terms', ['locale' => 'en']))
         ->assertSuccessful()

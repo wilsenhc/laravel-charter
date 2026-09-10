@@ -10,11 +10,24 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
+use Laravel\Head\Facades\Head;
+use Laravel\Head\Facades\Schema;
 
 class BuildPackageController extends Controller
 {
     public function index(Request $request): InertiaResponse
     {
+        $locale = app()->getLocale();
+
+        Head::title(__('build.package.title'))
+            ->description(__('build.package.meta_description'))
+            ->canonical('/'.$locale.'/package');
+
+        Head::schema(Schema::breadcrumbs()->items([
+            __('meta.app_name') => url($locale),
+            __('build.package.title') => url($locale.'/package'),
+        ]));
+
         return Inertia::render('Build/Package', [
             'url' => config('app.url'),
         ]);

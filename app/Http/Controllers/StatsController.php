@@ -8,11 +8,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
+use Laravel\Head\Facades\Head;
+use Laravel\Head\Facades\Schema;
 
 class StatsController extends Controller
 {
     public function index(Request $request): InertiaResponse
     {
+        $locale = app()->getLocale();
+
+        Head::title(__('stats.title'))
+            ->description(__('stats.meta_description'))
+            ->canonical('/'.$locale.'/stats');
+
+        Head::schema(Schema::breadcrumbs()->items([
+            __('meta.app_name') => url($locale),
+            __('stats.title') => url($locale.'/stats'),
+        ]));
         $appQuery = ApplicationStat::query();
         $packageQuery = PackageStat::query();
 

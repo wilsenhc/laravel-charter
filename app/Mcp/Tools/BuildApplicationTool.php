@@ -10,9 +10,11 @@ use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
+use Laravel\Mcp\Server\Attributes\Name;
 use Laravel\Mcp\Server\Tool;
 use Laravel\Mcp\Server\Tools\Annotations\IsReadOnly;
 
+#[Name('build-application')]
 #[Description('Generates a bash script that scaffolds a new Laravel application with Laravel Sail. Accepts project name, PHP version, Docker services, starter kit, authentication, testing framework, JavaScript runtime, database driver, and feature flags like teams, Boost, devcontainer, and no-node. Returns a ready-to-run script.')]
 #[IsReadOnly]
 class BuildApplicationTool extends Tool

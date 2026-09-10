@@ -321,7 +321,13 @@
         "client_claude": "Add to your",
         "client_cursor": "Add to your Cursor MCP configuration:",
         "client_codex": "Add to your Codex configuration:",
-        "client_opencode": "Add to your"
+        "client_opencode": "Add to your",
+        "webmcp_heading": "WebMCP (Browser Agents)",
+        "webmcp_description": "Charter also registers the same two tools with the WebMCP browser API. Browser-based AI agents can discover and call build-application and build-package on any page of this site — no configuration needed.",
+        "webmcp_tools_heading": "Zero configuration",
+        "webmcp_tools_body": "The tools register automatically on every page load. An agent can list them with getTools() and invoke them the same way it would any other tool.",
+        "webmcp_support_heading": "Browser support",
+        "webmcp_support_body": "WebMCP is currently an experimental Chrome feature, enabled via origin trial on this site. For local development, enable the following flag in Chrome:"
     },
     "comparison": {
         "back_to_comparisons": "Back to Comparisons",

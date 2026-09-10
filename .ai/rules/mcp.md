@@ -1,0 +1,12 @@
+---
+paths:
+  - 'app/Mcp/**'
+---
+
+# Mcp
+
+## Always pin MCP tool names with #[Name]
+Laravel\\Mcp tool names fall back to Str::kebab(class_basename), so BuildApplicationTool would expose as "build-application-tool". WebMCP registration in resources/js/lib/webmcp.ts and all docs reference "build-application"/"build-package", so every new tool MUST carry #[Name('kebab-name')] to keep protocol names matching the docs.
+
+## Serve all tools in one tools/list page
+Client MCP SDKs commonly don't follow the cursor from tools/list. laravel/mcp defaults defaultPaginationLength to 15, so any server with 16+ tools silently hides them from such clients. CharterServer pins public int $defaultPaginationLength = 50 to serve the whole catalog in one page. Keep that property whenever tools grow; don't remove it.

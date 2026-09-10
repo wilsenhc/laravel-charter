@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
@@ -13,8 +13,6 @@ interface McpPageProps {
 
 const { t } = useI18n();
 const props = defineProps<McpPageProps>();
-
-const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
 const claudeConfig = computed(() =>
     JSON.stringify(
@@ -76,38 +74,9 @@ const opencodeConfig = computed(() =>
         4,
     ),
 );
-
-const breadcrumbJsonLd = computed(() =>
-    JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-            {
-                '@type': 'ListItem',
-                position: 1,
-                name: 'Charter for Laravel',
-                item: origin,
-            },
-            {
-                '@type': 'ListItem',
-                position: 2,
-                name: 'MCP',
-                item: `${origin}/${props.locale}/mcp`,
-            },
-        ],
-    }),
-);
 </script>
 
 <template>
-    <Head>
-        <title>{{ t('mcp.title') }} — {{ t('header.app_name') }}</title>
-        <meta :content="t('mcp.meta_description')" name="description" />
-        <link rel="canonical" :href="`${origin}/${locale}/mcp`" />
-        <component :is="'script'" type="application/ld+json">{{
-            breadcrumbJsonLd
-        }}</component>
-    </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <Link
@@ -229,6 +198,29 @@ build-package --name my-package --features '["config","routes"]' --author_name "
                     ><code>{{ opencodeConfig }}</code></pre>
                 </TabsContent>
             </Tabs>
+        </section>
+
+        <section class="mb-10">
+            <h2 class="mb-3 text-xl font-semibold tracking-tight">
+                {{ t('mcp.webmcp_heading') }}
+            </h2>
+            <p class="mb-4 text-sm text-muted-foreground">
+                {{ t('mcp.webmcp_description') }}
+            </p>
+            <div class="rounded-lg border border-border p-4">
+                <h3 class="mb-1 font-semibold">{{ t('mcp.webmcp_tools_heading') }}</h3>
+                <p class="mb-2 text-sm text-muted-foreground">
+                    {{ t('mcp.webmcp_tools_body') }}
+                </p>
+                <h3 class="mb-1 mt-4 font-semibold">{{ t('mcp.webmcp_support_heading') }}</h3>
+                <p class="mb-2 text-sm text-muted-foreground">
+                    {{ t('mcp.webmcp_support_body') }}
+                    <code
+                        class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+                        >chrome://flags/#enable-webmcp-testing</code
+                    >
+                </p>
+            </div>
         </section>
 
         <section>

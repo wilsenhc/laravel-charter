@@ -8,6 +8,8 @@ use App\Models\GlossaryTerm;
 use Illuminate\Http\Response;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
+use Laravel\Head\Facades\Head;
+use Laravel\Head\Facades\Schema;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 
@@ -15,11 +17,33 @@ class StaticPageController extends Controller
 {
     public function privacy(): InertiaResponse
     {
+        $locale = app()->getLocale();
+
+        Head::title(__('privacy.title'))
+            ->description(__('privacy.meta_description'))
+            ->canonical('/'.$locale.'/privacy');
+
+        Head::schema(Schema::breadcrumbs()->items([
+            __('meta.app_name') => url($locale),
+            __('privacy.title') => url($locale.'/privacy'),
+        ]));
+
         return Inertia::render('Privacy');
     }
 
     public function terms(): InertiaResponse
     {
+        $locale = app()->getLocale();
+
+        Head::title(__('terms.title'))
+            ->description(__('terms.meta_description'))
+            ->canonical('/'.$locale.'/terms');
+
+        Head::schema(Schema::breadcrumbs()->items([
+            __('meta.app_name') => url($locale),
+            __('terms.title') => url($locale.'/terms'),
+        ]));
+
         return Inertia::render('Terms');
     }
 

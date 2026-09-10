@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { Link } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
 import AppFooter from '@/components/AppFooter.vue';
 import AppHeader from '@/components/AppHeader.vue';
@@ -30,36 +29,7 @@ interface ComparisonShowPageProps {
 }
 
 const { t } = useI18n();
-const props = defineProps<ComparisonShowPageProps>();
-
-const origin = typeof window !== 'undefined' ? window.location.origin : '';
-
-const breadcrumbJsonLd = computed(() =>
-    JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-            {
-                '@type': 'ListItem',
-                position: 1,
-                name: 'Charter for Laravel',
-                item: origin,
-            },
-            {
-                '@type': 'ListItem',
-                position: 2,
-                name: 'Glossary',
-                item: `${origin}/${props.locale}/glossary`,
-            },
-            {
-                '@type': 'ListItem',
-                position: 3,
-                name: props.entry.translations.page_title,
-                item: `${origin}/${props.locale}/compare/${props.comparison}`,
-            },
-        ],
-    }),
-);
+defineProps<ComparisonShowPageProps>();
 
 const aspects = [
     'overview',
@@ -73,22 +43,6 @@ type Aspect = (typeof aspects)[number];
 </script>
 
 <template>
-    <Head>
-        <title>
-            {{ entry.translations.page_title }} — {{ $t('header.app_name') }}
-        </title>
-        <meta
-            name="description"
-            :content="entry.translations.meta_description"
-        />
-        <link
-            rel="canonical"
-            :href="`${origin}/${locale}/compare/${comparison}`"
-        />
-        <component :is="'script'" type="application/ld+json">{{
-            breadcrumbJsonLd
-        }}</component>
-    </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <div class="flex flex-col items-start">

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { availablePackageFeatures, availablePhpVersions } from '@/build';
@@ -25,29 +25,6 @@ interface BuildPackagePageProps {
 
 const { t } = useI18n();
 const props = defineProps<BuildPackagePageProps>();
-
-const origin = typeof window !== 'undefined' ? window.location.origin : '';
-
-const breadcrumbJsonLd = computed(() =>
-    JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-            {
-                '@type': 'ListItem',
-                position: 1,
-                name: 'Charter for Laravel',
-                item: origin,
-            },
-            {
-                '@type': 'ListItem',
-                position: 2,
-                name: 'Package Builder',
-                item: `${origin}/${props.locale}/package`,
-            },
-        ],
-    }),
-);
 
 const isLocal = import.meta.env.DEV;
 
@@ -171,16 +148,6 @@ const commands = computed(() => ({
 </script>
 
 <template>
-    <Head>
-        <title>
-            {{ t('hero.package.title') }} — {{ t('header.app_name') }}
-        </title>
-        <meta name="description" :content="t('hero.package.description')" />
-        <link rel="canonical" :href="`${url}/${locale}/package`" />
-        <component :is="'script'" type="application/ld+json">{{
-            breadcrumbJsonLd
-        }}</component>
-    </Head>
     <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <section class="mb-8 space-y-3">

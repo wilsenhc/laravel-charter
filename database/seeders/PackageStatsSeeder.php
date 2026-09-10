@@ -14,7 +14,10 @@ class PackageStatsSeeder extends Seeder
         for ($i = 0; $i < 100; $i++) {
             $phpVersion = $this->weighted(['8.5', '8.4', '8.3'], [50, 35, 15]);
 
-            $mcpSource = $this->randomBool(30) ? 'mcp' : 'web';
+            $mcpSource = $this->randomBool(30) ? $this->weighted(
+                ['claude', 'cursor', 'codex', 'opencode', 'webmcp'],
+                [30, 25, 20, 15, 10],
+            ) : 'web';
 
             $daysAgo = fake()->numberBetween(0, 180);
             $createdAt = now()->subDays($daysAgo)->subHours(fake()->numberBetween(0, 23));
@@ -46,7 +49,7 @@ class PackageStatsSeeder extends Seeder
     private function weighted(array $options, array $weights): string
     {
         $total = array_sum($weights);
-        $random = fake()->randomDigit() / 10 * $total;
+        $random = fake()->numberBetween(0, $total);
         $cumulative = 0;
 
         foreach (array_combine($options, $weights) as $option => $weight) {
