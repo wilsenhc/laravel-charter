@@ -231,6 +231,29 @@ build-package --name my-package --features '["config","routes"]' --author_name "
             </Tabs>
         </section>
 
+        <section class="mb-10">
+            <h2 class="mb-3 text-xl font-semibold tracking-tight">
+                {{ t('mcp.webmcp_heading') }}
+            </h2>
+            <p class="mb-4 text-sm text-muted-foreground">
+                {{ t('mcp.webmcp_description') }}
+            </p>
+            <div class="rounded-lg border border-border p-4">
+                <h3 class="mb-1 font-semibold">{{ t('mcp.webmcp_tools_heading') }}</h3>
+                <p class="mb-2 text-sm text-muted-foreground">
+                    {{ t('mcp.webmcp_tools_body') }}
+                </p>
+                <h3 class="mb-1 mt-4 font-semibold">{{ t('mcp.webmcp_support_heading') }}</h3>
+                <p class="mb-2 text-sm text-muted-foreground">
+                    {{ t('mcp.webmcp_support_body') }}
+                    <code
+                        class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+                        >chrome://flags/#enable-webmcp-testing</code
+                    >
+                </p>
+            </div>
+        </section>
+
         <section>
             <h2 class="mb-3 text-xl font-semibold tracking-tight">
                 {{ t('mcp.how_to_use') }}

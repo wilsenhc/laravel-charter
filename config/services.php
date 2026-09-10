@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'webmcp' => [
+        'origin_trial_token' => env('WEBMCP_ORIGIN_TRIAL_TOKEN'),
+    ],
+
 ];

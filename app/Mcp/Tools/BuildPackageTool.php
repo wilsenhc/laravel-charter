@@ -10,9 +10,11 @@ use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
+use Laravel\Mcp\Server\Attributes\Name;
 use Laravel\Mcp\Server\Tool;
 use Laravel\Mcp\Server\Tools\Annotations\IsReadOnly;
 
+#[Name('build-package')]
 #[Description('Generates a bash script that scaffolds a new Laravel package. Accepts the package name, PHP version, features (config, routes, views, translations, migrations, assets, commands, facade, boost-skill), and optional metadata (author name/email, vendor namespace, class name, etc.). Returns a ready-to-run shell script.')]
 #[IsReadOnly]
 class BuildPackageTool extends Tool

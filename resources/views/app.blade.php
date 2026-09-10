@@ -12,6 +12,10 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
+        @if (config('services.webmcp.origin_trial_token'))
+            <meta http-equiv="origin-trial" content="{{ config('services.webmcp.origin_trial_token') }}">
+        @endif
+
         <script nonce="{{ request()->attributes->get('csp-nonce') }}">
             (function () {
                 const stored = localStorage.getItem('vueuse-color-scheme') || 'auto';
