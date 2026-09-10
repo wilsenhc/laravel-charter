@@ -44,6 +44,9 @@ jobs:
       - name: Lint Frontend
         run: bun run lint
 
+      - name: Type Check Frontend
+        run: bun run types:check
+
       # - name: Commit Changes
       #   uses: stefanzweifel/git-auto-commit-action@v7
       #   with:

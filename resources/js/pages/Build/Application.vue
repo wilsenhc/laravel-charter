@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import {
     availableAuthProviders,
@@ -42,7 +42,7 @@ interface BuildApplicationPageProps {
 }
 
 const { t } = useI18n();
-defineProps<BuildApplicationPageProps>();
+const props = defineProps<BuildApplicationPageProps>();
 
 const isLocal = import.meta.env.DEV;
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { availablePackageFeatures, availablePhpVersions } from '@/build';
 import AppFooter from '@/components/AppFooter.vue';
@@ -24,7 +24,7 @@ interface BuildPackagePageProps {
 }
 
 const { t } = useI18n();
-defineProps<BuildPackagePageProps>();
+const props = defineProps<BuildPackagePageProps>();
 
 const isLocal = import.meta.env.DEV;
 
