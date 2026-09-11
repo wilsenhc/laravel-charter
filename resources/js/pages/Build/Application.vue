@@ -11,8 +11,6 @@ import {
     availableStarterKits,
     availableTestingFrameworks,
 } from '@/build';
-import AppFooter from '@/components/AppFooter.vue';
-import AppHeader from '@/components/AppHeader.vue';
 import CodeBlock from '@/components/CodeBlock.vue';
 import InfoTooltip from '@/components/InfoTooltip.vue';
 import {
@@ -204,7 +202,6 @@ const faqItems = computed(() => {
 </script>
 
 <template>
-    <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <section class="mb-8 space-y-3">
             <h1 class="text-2xl font-bold tracking-tight">
@@ -690,7 +687,5 @@ const faqItems = computed(() => {
                 </AccordionItem>
             </Accordion>
         </section>
-
-        <AppFooter />
     </main>
 </template>

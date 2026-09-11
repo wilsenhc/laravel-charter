@@ -61,7 +61,7 @@
     --card-foreground: #171717;
     --popover: #fdfcfc;
     --popover-foreground: #171717;
-    --primary: #171717;
+    --primary: #f15a30;
     --primary-foreground: #ffffff;
     --secondary: #f1eeee;
     --secondary-foreground: #171717;
@@ -97,8 +97,8 @@
     --card-foreground: #ffffff;
     --popover: #222222;
     --popover-foreground: #ffffff;
-    --primary: #ffffff;
-    --primary-foreground: #171717;
+    --primary: #f15a30;
+    --primary-foreground: #ffffff;
     --secondary: #222222;
     --secondary-foreground: #ffffff;
     --muted: #222222;
@@ -170,6 +170,66 @@
         to {
             opacity: 1;
             transform: translateY(0);
+        }
+    }
+
+    .animated-gradient {
+        position: fixed;
+        inset: -50%;
+        z-index: -10;
+        pointer-events: none;
+        background:
+            radial-gradient(
+                42% 40% at 22% 28%,
+                rgba(243, 224, 220, 0.55),
+                rgba(253, 252, 252, 0) 70%
+            ),
+            radial-gradient(
+                40% 42% at 78% 20%,
+                rgba(240, 236, 222, 0.5),
+                rgba(253, 252, 252, 0) 70%
+            ),
+            radial-gradient(
+                50% 45% at 50% 85%,
+                rgba(238, 228, 234, 0.45),
+                rgba(253, 252, 252, 0) 75%
+            ),
+            var(--background);
+        animation: gradientDrift 48s ease-in-out infinite alternate;
+    }
+
+    .dark .animated-gradient {
+        background:
+            radial-gradient(
+                42% 40% at 22% 28%,
+                rgba(82, 52, 46, 0.6),
+                rgba(23, 23, 23, 0) 70%
+            ),
+            radial-gradient(
+                40% 42% at 78% 20%,
+                rgba(70, 62, 42, 0.55),
+                rgba(23, 23, 23, 0) 70%
+            ),
+            radial-gradient(
+                50% 45% at 50% 85%,
+                rgba(64, 46, 60, 0.5),
+                rgba(23, 23, 23, 0) 75%
+            ),
+            var(--background);
+    }
+
+    @keyframes gradientDrift {
+        from {
+            transform: translate3d(-6%, -4%, 0);
+        }
+        to {
+            transform: translate3d(6%, 5%, 0);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .animated-gradient {
+            animation: none;
         }
     }
 }

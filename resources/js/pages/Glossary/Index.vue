@@ -2,8 +2,6 @@
 import { Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import AppFooter from '@/components/AppFooter.vue';
-import AppHeader from '@/components/AppHeader.vue';
 
 interface GlossaryIndexPageProps {
     locale: string;
@@ -44,7 +42,6 @@ const grouped = computed(() => {
 </script>
 
 <template>
-    <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <h1 class="mb-2 text-2xl font-bold tracking-tight">
             {{ t('glossary.page_title') }}
@@ -73,5 +70,4 @@ const grouped = computed(() => {
             </div>
         </div>
     </main>
-    <AppFooter />
 </template>

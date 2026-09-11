@@ -4,8 +4,6 @@ import { useColorMode } from '@vueuse/core';
 import { onMounted, ref, computed, shallowRef, watch } from 'vue';
 import type { Component } from 'vue';
 import { useI18n } from 'vue-i18n';
-import AppFooter from '@/components/AppFooter.vue';
-import AppHeader from '@/components/AppHeader.vue';
 
 interface StatsIndexPageProps {
     locale: string;
@@ -221,13 +219,20 @@ function applyFilters() {
         params.to = to.value;
     }
 
-    router.get(`/${props.locale}/stats`, params, { preserveState: true, replace: true });
+    router.get(`/${props.locale}/stats`, params, {
+        preserveState: true,
+        replace: true,
+    });
 }
 
 function clearFilters() {
     from.value = '';
     to.value = '';
-    router.get(`/${props.locale}/stats`, {}, { preserveState: true, replace: true });
+    router.get(
+        `/${props.locale}/stats`,
+        {},
+        { preserveState: true, replace: true },
+    );
 }
 
 function setQuickRange(days: number | 'ytd') {
@@ -331,7 +336,6 @@ onMounted(async () => {
 </script>
 
 <template>
-    <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <Link
             :href="`/${locale}/application`"
@@ -700,7 +704,5 @@ onMounted(async () => {
         >
             {{ t('stats.loading') }}
         </div>
-
-        <AppFooter />
     </main>
 </template>

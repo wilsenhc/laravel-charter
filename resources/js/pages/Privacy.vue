@@ -2,8 +2,6 @@
 import { Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import AppFooter from '@/components/AppFooter.vue';
-import AppHeader from '@/components/AppHeader.vue';
 
 interface PrivacyPageProps {
     locale: string;
@@ -16,7 +14,6 @@ const sectionCount = computed(() => tm('privacy.sections').length);
 </script>
 
 <template>
-    <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <Link
             :href="`/${locale}/application`"
@@ -66,7 +63,5 @@ const sectionCount = computed(() => tm('privacy.sections').length);
                 </template>
             </div>
         </section>
-
-        <AppFooter />
     </main>
 </template>
