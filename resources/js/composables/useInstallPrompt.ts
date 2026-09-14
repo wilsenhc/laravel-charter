@@ -1,17 +1,24 @@
-import { readonly, ref } from 'vue';
+import { onMounted, readonly, ref } from 'vue';
 
 interface BeforeInstallPromptEvent extends Event {
     prompt: () => Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
-const canInstall = ref(false);
+const canInstall = ref(true);
 let installPrompt: BeforeInstallPromptEvent | null = null;
+let dismissTimer: ReturnType<typeof setTimeout> | null = null;
 
 function handleBeforeInstallPrompt(event: Event) {
     const promptEvent = event as BeforeInstallPromptEvent;
 
     promptEvent.preventDefault();
     installPrompt = promptEvent;
+
+    if (dismissTimer !== null) {
+        clearTimeout(dismissTimer);
+        dismissTimer = null;
+    }
+
     canInstall.value = true;
 }
 
@@ -36,9 +43,19 @@ async function install() {
 if (typeof window !== 'undefined') {
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
+
+    dismissTimer = setTimeout(() => {
+        canInstall.value = false;
+    }, 5000);
 }
 
 export function useInstallPrompt() {
+    onMounted(() => {
+        if (!('onbeforeinstallprompt' in window)) {
+            canInstall.value = false;
+        }
+    });
+
     return {
         canInstall: readonly(canInstall),
         install,
