@@ -11,10 +11,10 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
-        "inertiajs/inertia-laravel": "^3.3.3",
+        "inertiajs/inertia-laravel": "^3.3.4",
         "laravel/framework": "^13.31.0",
         "laravel/head": "^0.2.2",
-        "laravel/mcp": "^0.9.5",
+        "laravel/mcp": "^1.0.0",
         "laravel/octane": "^2.19.1",
         "laravel/tinker": "^3.0.2",
         "laravel/wayfinder": "^0.1.21",
@@ -24,8 +24,8 @@
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.7",
         "fakerphp/faker": "^1.24.1",
-        "larastan/larastan": "^3.12",
-        "laravel/boost": "^2.8.1",
+        "larastan/larastan": "^3.12.1",
+        "laravel/boost": "^2.9.0",
         "laravel/installer": ">=5.32.0",
         "laravel/pail": "^1.2.7",
         "laravel/pao": "^1.1.5",
