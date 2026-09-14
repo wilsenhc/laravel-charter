@@ -22,16 +22,33 @@ const { canInstall, install } = useInstallPrompt();
 </script>
 
 <template>
-    <Button
-        v-if="canInstall"
-        :variant="variant"
-        :size="size"
-        @click="install"
-        :aria-label="withLabel ? undefined : t('nav.install')"
+    <Transition
+        enter-active-class="overflow-hidden transition-[max-width,margin-left,opacity] duration-300 ease-out"
+        enter-from-class="-ml-3 max-w-0 opacity-0"
+        enter-to-class="max-w-40 opacity-100"
+        leave-active-class="overflow-hidden transition-[max-width,margin-left,opacity] duration-200 ease-in"
+        leave-from-class="max-w-40 opacity-100"
+        leave-to-class="-ml-3 max-w-0 opacity-0"
     >
-        <DownloadIcon class="size-4" aria-hidden="true" />
-        <span :class="withLabel ? '' : 'hidden sm:inline'">{{
-            t('nav.install')
-        }}</span>
-    </Button>
+        <Button
+            v-if="canInstall"
+            :variant="variant"
+            :size="size"
+            @click="install"
+            :aria-label="withLabel ? undefined : t('nav.install')"
+        >
+            <DownloadIcon class="size-4" aria-hidden="true" />
+            <span :class="withLabel ? '' : 'hidden sm:inline'">{{
+                t('nav.install')
+            }}</span>
+        </Button>
+    </Transition>
 </template>
+
+<style scoped>
+@media (display-mode: standalone) {
+    button {
+        display: none;
+    }
+}
+</style>

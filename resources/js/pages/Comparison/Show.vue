@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
-import AppFooter from '@/components/AppFooter.vue';
-import AppHeader from '@/components/AppHeader.vue';
 import { buttonVariants } from '@/components/ui/button';
 
 interface ComparisonShowPageProps {
@@ -43,7 +41,6 @@ type Aspect = (typeof aspects)[number];
 </script>
 
 <template>
-    <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <div class="flex flex-col items-start">
             <Link
@@ -121,5 +118,4 @@ type Aspect = (typeof aspects)[number];
             </Link>
         </div>
     </main>
-    <AppFooter />
 </template>

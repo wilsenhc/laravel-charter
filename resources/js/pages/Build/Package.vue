@@ -3,8 +3,6 @@ import { Link } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { availablePackageFeatures, availablePhpVersions } from '@/build';
-import AppFooter from '@/components/AppFooter.vue';
-import AppHeader from '@/components/AppHeader.vue';
 import CodeBlock from '@/components/CodeBlock.vue';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -148,7 +146,6 @@ const commands = computed(() => ({
 </script>
 
 <template>
-    <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <section class="mb-8 space-y-3">
             <h1 class="text-2xl font-bold tracking-tight">
@@ -403,7 +400,5 @@ const commands = computed(() => ({
                 </div>
             </div>
         </section>
-
-        <AppFooter />
     </main>
 </template>

@@ -2,8 +2,6 @@
 import { Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import AppFooter from '@/components/AppFooter.vue';
-import AppHeader from '@/components/AppHeader.vue';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface McpPageProps {
@@ -77,7 +75,6 @@ const opencodeConfig = computed(() =>
 </script>
 
 <template>
-    <AppHeader />
     <main class="mx-auto w-full max-w-4xl px-5 py-7">
         <Link
             :href="`/${locale}/application`"
@@ -208,15 +205,18 @@ build-package --name my-package --features '["config","routes"]' --author_name "
                 {{ t('mcp.webmcp_description') }}
             </p>
             <div class="rounded-lg border border-border p-4">
-                <h3 class="mb-1 font-semibold">{{ t('mcp.webmcp_tools_heading') }}</h3>
+                <h3 class="mb-1 font-semibold">
+                    {{ t('mcp.webmcp_tools_heading') }}
+                </h3>
                 <p class="mb-2 text-sm text-muted-foreground">
                     {{ t('mcp.webmcp_tools_body') }}
                 </p>
-                <h3 class="mb-1 mt-4 font-semibold">{{ t('mcp.webmcp_support_heading') }}</h3>
+                <h3 class="mt-4 mb-1 font-semibold">
+                    {{ t('mcp.webmcp_support_heading') }}
+                </h3>
                 <p class="mb-2 text-sm text-muted-foreground">
                     {{ t('mcp.webmcp_support_body') }}
-                    <code
-                        class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+                    <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
                         >chrome://flags/#enable-webmcp-testing</code
                     >
                 </p>
@@ -240,5 +240,4 @@ build-package --name my-package --features '["config","routes"]' --author_name "
             </p>
         </section>
     </main>
-    <AppFooter />
 </template>

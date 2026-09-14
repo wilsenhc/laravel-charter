@@ -4,7 +4,7 @@ use App\Jobs\RecordApplicationBuildStat;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Testing\TestResponse;
 
-function webmcp_initialize(string $sessionId = ''): TestResponse
+function webmcp_initialize(): TestResponse
 {
     return test()->postJson('/mcp/charter', [
         'jsonrpc' => '2.0',
@@ -15,49 +15,42 @@ function webmcp_initialize(string $sessionId = ''): TestResponse
             'capabilities' => (object) [],
             'clientInfo' => ['name' => 'webmcp-test', 'version' => '1.0.0'],
         ],
-    ], $sessionId !== '' ? ['Mcp-Session-Id' => $sessionId] : []);
+    ]);
 }
 
-function webmcp_notification_initialized(string $sessionId): TestResponse
+function webmcp_notification_initialized(): TestResponse
 {
     return test()->postJson('/mcp/charter', [
         'jsonrpc' => '2.0',
         'method' => 'notifications/initialized',
         'params' => (object) [],
-    ], ['Mcp-Session-Id' => $sessionId]);
+    ]);
 }
 
-function webmcp_rpc(string $sessionId, string $method, string $id, array $params = [], array $headers = []): TestResponse
+function webmcp_rpc(string $method, string $id, array $params = [], array $headers = []): TestResponse
 {
     return test()->postJson('/mcp/charter', [
         'jsonrpc' => '2.0',
         'id' => $id,
         'method' => $method,
         'params' => $params,
-    ], ['Mcp-Session-Id' => $sessionId, ...$headers]);
+    ], $headers);
 }
 
-function webmcp_session(string $id = 'init-1'): string
+function webmcp_handshake(): void
 {
     $response = webmcp_initialize();
 
-    test()->expect($response->status())->toBe(200);
+    test()->expect($response->status())->toBe(200)
+        ->and($response->json('result.protocolVersion'))->toBe('2025-06-18');
 
-    $sessionId = $response->headers->get('Mcp-Session-Id');
-
-    test()->expect($sessionId)->not->toBeNull();
-
-    $initialized = webmcp_notification_initialized($sessionId);
-
-    test()->expect($initialized->status())->toBe(202);
-
-    return $sessionId;
+    test()->expect(webmcp_notification_initialized()->status())->toBe(202);
 }
 
 it('serves the full JSON-RPC handshake with both Charter tools', function () {
-    $sessionId = webmcp_session();
+    webmcp_handshake();
 
-    $response = webmcp_rpc($sessionId, 'tools/list', 'list-1');
+    $response = webmcp_rpc('tools/list', 'list-1');
 
     $response->assertOk();
 
@@ -75,9 +68,9 @@ it('serves the full JSON-RPC handshake with both Charter tools', function () {
 it('returns the generated script from tools/call', function () {
     Queue::fake();
 
-    $sessionId = webmcp_session();
+    webmcp_handshake();
 
-    $response = webmcp_rpc($sessionId, 'tools/call', 'call-1', [
+    $response = webmcp_rpc('tools/call', 'call-1', [
         'name' => 'build-application',
         'arguments' => ['name' => 'my-app', 'services' => ['redis']],
     ]);
@@ -92,9 +85,9 @@ it('returns the generated script from tools/call', function () {
 it('records WebMCP builds via the X-Mcp-Source header', function () {
     Queue::fake();
 
-    $sessionId = webmcp_session();
+    webmcp_handshake();
 
-    $response = webmcp_rpc($sessionId, 'tools/call', 'call-2', [
+    $response = webmcp_rpc('tools/call', 'call-2', [
         'name' => 'build-application',
         'arguments' => ['name' => 'my-app', 'services' => ['redis']],
     ], ['X-Mcp-Source' => 'webmcp']);

@@ -1,6 +1,7 @@
 import { createInertiaApp } from '@inertiajs/vue3';
 import { createApp, h } from 'vue';
 import { createI18n } from 'vue-i18n';
+import AppLayout from './layouts/AppLayout.vue';
 import en from './locales/en.json';
 import es from './locales/es.json';
 import './lib/webmcp';
@@ -20,6 +21,7 @@ createInertiaApp({
     progress: {
         color: '#4B5563',
     },
+    layout: () => AppLayout,
     setup({ el, App, props, plugin }) {
         const serverLocale = props.initialPage.props?.locale as
             string | undefined;

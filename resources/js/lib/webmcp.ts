@@ -50,7 +50,9 @@ async function initializeSession(): Promise<void> {
         sessionId = response.headers.get('Mcp-Session-Id');
 
         if (!response.ok) {
-            throw new Error(`MCP initialize failed with status ${response.status}`);
+            throw new Error(
+                `MCP initialize failed with status ${response.status}`,
+            );
         }
 
         const message = await response.json();
@@ -73,7 +75,11 @@ async function initializeSession(): Promise<void> {
     return initialization;
 }
 
-async function rpc(method: string, params: Record<string, unknown> = {}, signal?: AbortSignal): Promise<JsonRpcResult> {
+async function rpc(
+    method: string,
+    params: Record<string, unknown> = {},
+    signal?: AbortSignal,
+): Promise<JsonRpcResult> {
     await initializeSession();
 
     const response = await fetch(MCP_ENDPOINT, {
@@ -91,7 +97,9 @@ async function rpc(method: string, params: Record<string, unknown> = {}, signal?
     const message = await response.json();
 
     if (message.error) {
-        throw new Error(message.error.message ?? `MCP request [${method}] failed`);
+        throw new Error(
+            message.error.message ?? `MCP request [${method}] failed`,
+        );
     }
 
     return message.result;
@@ -107,7 +115,9 @@ async function registerTools(): Promise<void> {
 
         const { tools } = await rpc('tools/list');
 
-        const modelContext = (document as Document & { modelContext: ModelContext }).modelContext;
+        const modelContext = (
+            document as Document & { modelContext: ModelContext }
+        ).modelContext;
 
         for (const tool of tools) {
             if (!CHARTER_TOOL_NAMES.includes(tool.name)) {
@@ -117,13 +127,23 @@ async function registerTools(): Promise<void> {
             await modelContext.registerTool({
                 name: tool.name,
                 description: tool.description ?? '',
-                inputSchema: tool.inputSchema ?? { type: 'object', properties: {} },
+                inputSchema: tool.inputSchema ?? {
+                    type: 'object',
+                    properties: {},
+                },
                 annotations: { readOnlyHint: true },
                 execute: async (args, { signal }) => {
-                    const result = await rpc('tools/call', { name: tool.name, arguments: args }, signal);
+                    const result = await rpc(
+                        'tools/call',
+                        { name: tool.name, arguments: args },
+                        signal,
+                    );
 
                     if (result.isError) {
-                        throw new Error(contentText(result.content) || `Tool [${tool.name}] failed`);
+                        throw new Error(
+                            contentText(result.content) ||
+                                `Tool [${tool.name}] failed`,
+                        );
                     }
 
                     return contentText(result.content);
