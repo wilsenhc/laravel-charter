@@ -2,9 +2,9 @@
 
 namespace App\Mcp\Tools;
 
-use App\Actions\BuildApplicationScript;
+use App\Actions\BuildApplicationScriptAction;
 use App\Enums\BuildOptions;
-use App\Jobs\RecordApplicationBuildStat;
+use App\Jobs\RecordApplicationBuildStatJob;
 use App\Mcp\Traits\DetectsMcpSource;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Mcp\Request;
@@ -21,18 +21,18 @@ class BuildApplicationTool extends Tool
 {
     use DetectsMcpSource;
 
-    public function handle(Request $request, BuildApplicationScript $buildScript): Response
+    public function handle(Request $request, BuildApplicationScriptAction $buildScript): Response
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'alpha_dash'],
             'services' => ['required', 'array'],
-            'services.*' => ['string', 'in:'.implode(',', [...BuildOptions::AvailableServices->values(), 'none'])],
-            'frontend' => ['nullable', 'string', 'in:'.implode(',', BuildOptions::AvailableStarterKits->values())],
-            'auth' => ['nullable', 'string', 'in:'.implode(',', BuildOptions::AvailableAuthProviders->values())],
-            'testing' => ['nullable', 'string', 'in:'.implode(',', BuildOptions::AvailableTestingFrameworks->values())],
-            'javascript' => ['nullable', 'string', 'in:'.implode(',', BuildOptions::AvailableJavascriptRuntimes->values())],
-            'php' => ['nullable', 'string', 'in:'.implode(',', BuildOptions::AvailablePhpVersions->values())],
-            'database' => ['nullable', 'string', 'in:'.implode(',', [...BuildOptions::AvailableDatabaseDrivers->values(), 'none'])],
+            'services.*' => ['string', 'in:'.implode(',', [...BuildOptions::AVAILABLE_SERVICES->values(), 'none'])],
+            'frontend' => ['nullable', 'string', 'in:'.implode(',', BuildOptions::AVAILABLE_STARTER_KITS->values())],
+            'auth' => ['nullable', 'string', 'in:'.implode(',', BuildOptions::AVAILABLE_AUTH_PROVIDERS->values())],
+            'testing' => ['nullable', 'string', 'in:'.implode(',', BuildOptions::AVAILABLE_TESTING_FRAMEWORKS->values())],
+            'javascript' => ['nullable', 'string', 'in:'.implode(',', BuildOptions::AVAILABLE_JAVASCRIPT_RUNTIMES->values())],
+            'php' => ['nullable', 'string', 'in:'.implode(',', BuildOptions::AVAILABLE_PHP_VERSIONS->values())],
+            'database' => ['nullable', 'string', 'in:'.implode(',', [...BuildOptions::AVAILABLE_DATABASE_DRIVERS->values(), 'none'])],
             'teams' => ['nullable', 'boolean'],
             'boost' => ['nullable', 'boolean'],
             'no-node' => ['nullable', 'boolean'],
@@ -43,13 +43,13 @@ class BuildApplicationTool extends Tool
             'name.required' => 'An application name is required (alpha_dash characters only).',
             'name.alpha_dash' => 'The application name may only contain letters, numbers, dashes, and underscores.',
             'services.required' => 'At least one service must be specified.',
-            'services.*.in' => 'Invalid service name. Supported services are: '.implode(', ', BuildOptions::AvailableServices->values()).' or "none".',
-            'frontend.in' => 'Invalid starter kit. Supported kits are: '.implode(', ', BuildOptions::AvailableStarterKits->values()).'.',
-            'auth.in' => 'Invalid auth provider. Supported providers are: '.implode(', ', BuildOptions::AvailableAuthProviders->values()).'.',
-            'testing.in' => 'Invalid testing framework. Supported frameworks are: '.implode(', ', BuildOptions::AvailableTestingFrameworks->values()).'.',
-            'javascript.in' => 'Invalid JavaScript runtime. Supported runtimes are: '.implode(', ', BuildOptions::AvailableJavascriptRuntimes->values()).'.',
-            'php.in' => 'Invalid PHP version. Supported versions are: '.implode(', ', BuildOptions::AvailablePhpVersions->values()).'.',
-            'database.in' => 'Invalid database driver. Supported drivers are: '.implode(', ', BuildOptions::AvailableDatabaseDrivers->values()).' or "none".',
+            'services.*.in' => 'Invalid service name. Supported services are: '.implode(', ', BuildOptions::AVAILABLE_SERVICES->values()).' or "none".',
+            'frontend.in' => 'Invalid starter kit. Supported kits are: '.implode(', ', BuildOptions::AVAILABLE_STARTER_KITS->values()).'.',
+            'auth.in' => 'Invalid auth provider. Supported providers are: '.implode(', ', BuildOptions::AVAILABLE_AUTH_PROVIDERS->values()).'.',
+            'testing.in' => 'Invalid testing framework. Supported frameworks are: '.implode(', ', BuildOptions::AVAILABLE_TESTING_FRAMEWORKS->values()).'.',
+            'javascript.in' => 'Invalid JavaScript runtime. Supported runtimes are: '.implode(', ', BuildOptions::AVAILABLE_JAVASCRIPT_RUNTIMES->values()).'.',
+            'php.in' => 'Invalid PHP version. Supported versions are: '.implode(', ', BuildOptions::AVAILABLE_PHP_VERSIONS->values()).'.',
+            'database.in' => 'Invalid database driver. Supported drivers are: '.implode(', ', BuildOptions::AVAILABLE_DATABASE_DRIVERS->values()).' or "none".',
         ]);
 
         $data = $validated;
@@ -61,9 +61,9 @@ class BuildApplicationTool extends Tool
         $mcpSource = $this->detectMcpSource();
         $data['mcp_source'] = $mcpSource;
 
-        $script = $buildScript->handle($data);
+        $script = $buildScript($data);
 
-        RecordApplicationBuildStat::dispatch(
+        RecordApplicationBuildStatJob::dispatch(
             data: [
                 'php_version' => $data['php'] ?? '8.5',
                 'starter_kit' => $data['frontend'] ?? 'none',
@@ -94,30 +94,30 @@ class BuildApplicationTool extends Tool
             'services' => $schema->array()
                 ->items($schema->string()->description('A Docker service name.'))
                 ->description('Docker services to include (e.g. mysql, pgsql, redis, meilisearch, mailpit, selenium, etc.).')
-                ->enum([BuildOptions::AvailableServices->values()])
+                ->enum([BuildOptions::AVAILABLE_SERVICES->values()])
                 ->default([]),
             'frontend' => $schema->string()
                 ->description('The starter kit to use.')
-                ->enum(BuildOptions::AvailableStarterKits->values())
+                ->enum(BuildOptions::AVAILABLE_STARTER_KITS->values())
                 ->default('none'),
             'auth' => $schema->string()
                 ->description('The authentication provider.')
-                ->enum(BuildOptions::AvailableAuthProviders->values())
+                ->enum(BuildOptions::AVAILABLE_AUTH_PROVIDERS->values())
                 ->default('laravel'),
             'testing' => $schema->string()
                 ->description('The testing framework.')
-                ->enum(BuildOptions::AvailableTestingFrameworks->values())
+                ->enum(BuildOptions::AVAILABLE_TESTING_FRAMEWORKS->values())
                 ->default('pest'),
             'javascript' => $schema->string()
                 ->description('The JavaScript runtime / package manager.')
-                ->enum(BuildOptions::AvailableJavascriptRuntimes->values()),
+                ->enum(BuildOptions::AVAILABLE_JAVASCRIPT_RUNTIMES->values()),
             'php' => $schema->string()
                 ->description('The PHP version for Sail.')
-                ->enum(BuildOptions::AvailablePhpVersions->values())
+                ->enum(BuildOptions::AVAILABLE_PHP_VERSIONS->values())
                 ->default('8.5'),
             'database' => $schema->string()
                 ->description('The default database driver.')
-                ->enum([...BuildOptions::AvailableDatabaseDrivers->values(), 'none'])
+                ->enum([...BuildOptions::AVAILABLE_DATABASE_DRIVERS->values(), 'none'])
                 ->default('none'),
             'teams' => $schema->boolean()
                 ->description('Include Laravel teams support.')

@@ -6,7 +6,7 @@ use App\Enums\BuildOptions;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
-class GenerateBuildOptions extends Command
+class GenerateBuildOptionsCommand extends Command
 {
     protected $signature = 'generate:build-options {--output=resources/js/build}';
 

@@ -4,12 +4,12 @@ namespace App\Actions;
 
 use Illuminate\Support\Facades\Blade;
 
-class BuildApplicationScript
+class BuildApplicationScriptAction
 {
     /**
      * @param  array<string, mixed>  $data
      */
-    public function handle(array $data): string
+    public function __invoke(array $data): string
     {
         $name = $data['name'];
         $servicesArray = $data['services'];

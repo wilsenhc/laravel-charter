@@ -1,10 +1,10 @@
 <?php
 
-use App\Jobs\RecordApplicationBuildStat;
+use App\Jobs\RecordApplicationBuildStatJob;
 use App\Models\ApplicationStat;
 
 test('stores stat record with services', function () {
-    $job = new RecordApplicationBuildStat(
+    $job = new RecordApplicationBuildStatJob(
         data: [
             'php_version' => '8.5',
             'starter_kit' => 'react',
@@ -43,7 +43,7 @@ test('stores stat record with services', function () {
 });
 
 test('stores stat record with none services', function () {
-    $job = new RecordApplicationBuildStat(
+    $job = new RecordApplicationBuildStatJob(
         data: ['php_version' => '8.5', 'starter_kit' => 'none', 'testing_framework' => 'pest'],
         services: ['none'],
     );
@@ -59,14 +59,14 @@ test('stores stat record with none services', function () {
 test('does not create duplicate stat within dedup window', function () {
     $data = ['php_version' => '8.5', 'starter_kit' => 'none', 'testing_framework' => 'pest'];
 
-    $job1 = new RecordApplicationBuildStat(
+    $job1 = new RecordApplicationBuildStatJob(
         data: $data,
         services: ['none'],
     );
 
     $job1->handle();
 
-    $job2 = new RecordApplicationBuildStat(
+    $job2 = new RecordApplicationBuildStatJob(
         data: $data,
         services: ['none'],
     );

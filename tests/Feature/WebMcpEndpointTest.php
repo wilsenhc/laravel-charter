@@ -1,6 +1,6 @@
 <?php
 
-use App\Jobs\RecordApplicationBuildStat;
+use App\Jobs\RecordApplicationBuildStatJob;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Testing\TestResponse;
 
@@ -94,5 +94,5 @@ it('records WebMCP builds via the X-Mcp-Source header', function () {
 
     $response->assertOk();
 
-    Queue::assertPushed(RecordApplicationBuildStat::class, fn (RecordApplicationBuildStat $job): bool => $job->data['mcp_source'] === 'webmcp');
+    Queue::assertPushed(RecordApplicationBuildStatJob::class, fn (RecordApplicationBuildStatJob $job): bool => $job->data['mcp_source'] === 'webmcp');
 });

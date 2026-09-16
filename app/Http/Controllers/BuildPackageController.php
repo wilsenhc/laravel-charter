@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\BuildPackageScript;
+use App\Actions\BuildPackageScriptAction;
 use App\Http\Requests\BuildPackageRequest;
-use App\Jobs\RecordPackageBuildStat;
+use App\Jobs\RecordPackageBuildStatJob;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -33,11 +33,11 @@ class BuildPackageController extends Controller
         ]);
     }
 
-    public function show(BuildPackageRequest $request, BuildPackageScript $buildScript): Response
+    public function show(BuildPackageRequest $request, BuildPackageScriptAction $buildScript): Response
     {
         $validated = $request->validated();
 
-        $script = $buildScript->handle($validated);
+        $script = $buildScript($validated);
 
         if (! Str::contains($request->userAgent() ?? '', 'Mozilla')) {
             $features = $request->validated('features', []);
@@ -46,7 +46,7 @@ class BuildPackageController extends Controller
                 array_fill(0, count($features), true),
             );
 
-            RecordPackageBuildStat::dispatch([
+            RecordPackageBuildStatJob::dispatch([
                 'php_version' => $validated['php'],
                 'config' => $featureData['config'] ?? false,
                 'routes' => $featureData['routes'] ?? false,

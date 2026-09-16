@@ -119,13 +119,13 @@ class AppServiceProvider extends ServiceProvider
         return sprintf(
             "Returns a text/plain bash script. Example: curl -fsSL '%s' | bash. Parameters: name (required, alpha_dash); services[] (%s); frontend (%s, default none); auth (%s, default laravel); testing (%s, default pest); php (%s, default 8.5); database (%s, default none); javascript (%s); using (URL of a custom starter kit); boolean flags: teams, no-node, livewire-class-components, boost, devcontainer.",
             route('build.application.show', ['name' => 'blog', 'services' => ['mysql', 'redis']]),
-            implode(', ', BuildOptions::AvailableServices->values()),
-            implode(', ', BuildOptions::AvailableStarterKits->values()),
-            implode(', ', BuildOptions::AvailableAuthProviders->values()),
-            implode(', ', BuildOptions::AvailableTestingFrameworks->values()),
-            implode(', ', BuildOptions::AvailablePhpVersions->values()),
-            implode(', ', BuildOptions::AvailableDatabaseDrivers->values()),
-            implode(', ', BuildOptions::AvailableJavascriptRuntimes->values()),
+            implode(', ', BuildOptions::AVAILABLE_SERVICES->values()),
+            implode(', ', BuildOptions::AVAILABLE_STARTER_KITS->values()),
+            implode(', ', BuildOptions::AVAILABLE_AUTH_PROVIDERS->values()),
+            implode(', ', BuildOptions::AVAILABLE_TESTING_FRAMEWORKS->values()),
+            implode(', ', BuildOptions::AVAILABLE_PHP_VERSIONS->values()),
+            implode(', ', BuildOptions::AVAILABLE_DATABASE_DRIVERS->values()),
+            implode(', ', BuildOptions::AVAILABLE_JAVASCRIPT_RUNTIMES->values()),
         );
     }
 
@@ -138,8 +138,8 @@ class AppServiceProvider extends ServiceProvider
         return sprintf(
             "Returns a text/plain bash script. Example: curl -fsSL '%s' | bash. Parameters: name (required, alpha_dash); features (comma-separated: %s); php (%s, default 8.5); package_name (vendor/package format); package_name_human; package_description; author_name; author_email; vendor_namespace (alpha_dash); class_name (alpha_dash).",
             route('build.package.show', ['name' => 'blog-package', 'features' => 'config,routes']),
-            implode(', ', BuildOptions::AvailablePackageFeatures->values()),
-            implode(', ', BuildOptions::AvailablePhpVersions->values()),
+            implode(', ', BuildOptions::AVAILABLE_PACKAGE_FEATURES->values()),
+            implode(', ', BuildOptions::AVAILABLE_PHP_VERSIONS->values()),
         );
     }
 

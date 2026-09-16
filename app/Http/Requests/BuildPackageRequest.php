@@ -32,9 +32,9 @@ class BuildPackageRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'alpha_dash'],
-            'php' => ['string', Rule::in(BuildOptions::AvailablePhpVersions->values())],
+            'php' => ['string', Rule::in(BuildOptions::AVAILABLE_PHP_VERSIONS->values())],
             'features' => ['array'],
-            'features.*' => ['string', Rule::in(BuildOptions::AvailablePackageFeatures->values())],
+            'features.*' => ['string', Rule::in(BuildOptions::AVAILABLE_PACKAGE_FEATURES->values())],
             'author_name' => ['nullable', 'string', 'max:255'],
             'author_email' => ['nullable', 'email', 'max:255'],
             'package_name' => ['nullable', 'string', 'max:255', 'regex:/^[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+$/'],
@@ -59,11 +59,11 @@ class BuildPackageRequest extends FormRequest
         }
 
         if ($hasError('php')) {
-            $messages[] = 'Invalid PHP version. Please provide one supported version ('.implode(', ', BuildOptions::AvailablePhpVersions->values()).').';
+            $messages[] = 'Invalid PHP version. Please provide one supported version ('.implode(', ', BuildOptions::AVAILABLE_PHP_VERSIONS->values()).').';
         }
 
         if ($hasError('features')) {
-            $messages[] = 'Invalid feature. Please provide one or more of the supported features ('.implode(', ', BuildOptions::AvailablePackageFeatures->values()).').';
+            $messages[] = 'Invalid feature. Please provide one or more of the supported features ('.implode(', ', BuildOptions::AVAILABLE_PACKAGE_FEATURES->values()).').';
         }
 
         if ($hasError('package_name')) {

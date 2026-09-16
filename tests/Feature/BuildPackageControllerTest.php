@@ -1,6 +1,6 @@
 <?php
 
-use App\Jobs\RecordPackageBuildStat;
+use App\Jobs\RecordPackageBuildStatJob;
 use Illuminate\Support\Facades\Queue;
 use Inertia\Testing\AssertableInertia as Assert;
 
@@ -74,7 +74,7 @@ describe('show', function () {
         $this->withHeader('User-Agent', 'curl/8.5')
             ->get('/package/build?name=my-package&features=config,routes&php=8.5');
 
-        Queue::assertPushed(RecordPackageBuildStat::class, function (RecordPackageBuildStat $job) {
+        Queue::assertPushed(RecordPackageBuildStatJob::class, function (RecordPackageBuildStatJob $job) {
             return $job->data['php_version'] === '8.5'
                 && $job->data['config'] === true
                 && $job->data['routes'] === true
@@ -90,7 +90,7 @@ describe('show', function () {
         $this->withHeader('User-Agent', 'curl/8.5')
             ->get('/package/build?name=my-package&php=8.4');
 
-        Queue::assertPushed(RecordPackageBuildStat::class, function (RecordPackageBuildStat $job) {
+        Queue::assertPushed(RecordPackageBuildStatJob::class, function (RecordPackageBuildStatJob $job) {
             return $job->data['php_version'] === '8.4'
                 && $job->data['config'] === false
                 && $job->data['routes'] === false
@@ -106,7 +106,7 @@ describe('show', function () {
             $this->withHeader('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/134.0.0.0 Safari/537.36')
                 ->get('/package/build?name=my-package');
 
-            Queue::assertNotPushed(RecordPackageBuildStat::class);
+            Queue::assertNotPushed(RecordPackageBuildStatJob::class);
         });
 
         test('does not dispatch job for browser-based crawler requests', function () {
@@ -115,7 +115,7 @@ describe('show', function () {
             $this->withHeader('User-Agent', 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)')
                 ->get('/package/build?name=my-package');
 
-            Queue::assertNotPushed(RecordPackageBuildStat::class);
+            Queue::assertNotPushed(RecordPackageBuildStatJob::class);
         });
 
         test('dispatches job for curl requests', function () {
@@ -124,7 +124,7 @@ describe('show', function () {
             $this->withHeader('User-Agent', 'curl/8.5.0')
                 ->get('/package/build?name=my-package');
 
-            Queue::assertPushed(RecordPackageBuildStat::class);
+            Queue::assertPushed(RecordPackageBuildStatJob::class);
         });
 
         test('dispatches job for empty user agent header', function () {
@@ -133,7 +133,7 @@ describe('show', function () {
             $this->withHeader('User-Agent', '')
                 ->get('/package/build?name=my-package');
 
-            Queue::assertPushed(RecordPackageBuildStat::class);
+            Queue::assertPushed(RecordPackageBuildStatJob::class);
         });
     });
 });

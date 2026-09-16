@@ -4,12 +4,12 @@ namespace App\Actions;
 
 use Illuminate\Support\Facades\Blade;
 
-class BuildPackageScript
+class BuildPackageScriptAction
 {
     /**
      * @param  array<string, mixed>  $data
      */
-    public function handle(array $data): string
+    public function __invoke(array $data): string
     {
         $name = $data['name'];
         $php = $data['php'] ?? '8.5';
