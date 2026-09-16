@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\BuildApplicationScript;
+use App\Actions\BuildApplicationScriptAction;
 use App\Http\Requests\BuildShowRequest;
-use App\Jobs\RecordApplicationBuildStat;
+use App\Jobs\RecordApplicationBuildStatJob;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -33,7 +33,7 @@ class BuildApplicationController extends Controller
         ]);
     }
 
-    public function show(BuildShowRequest $request, BuildApplicationScript $buildScript): Response
+    public function show(BuildShowRequest $request, BuildApplicationScriptAction $buildScript): Response
     {
         $validated = $request->validated();
 
@@ -54,10 +54,10 @@ class BuildApplicationController extends Controller
             'devcontainer' => $request->has('devcontainer'),
         ];
 
-        $script = $buildScript->handle($data);
+        $script = $buildScript($data);
 
         if (! Str::contains($request->userAgent() ?? '', 'Mozilla')) {
-            RecordApplicationBuildStat::dispatch(
+            RecordApplicationBuildStatJob::dispatch(
                 data: [
                     'php_version' => $data['php'],
                     'starter_kit' => $data['frontend'],

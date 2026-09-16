@@ -1,7 +1,7 @@
 <?php
 
-use App\Jobs\RecordApplicationBuildStat;
-use App\Jobs\RecordPackageBuildStat;
+use App\Jobs\RecordApplicationBuildStatJob;
+use App\Jobs\RecordPackageBuildStatJob;
 use App\Mcp\Servers\CharterServer;
 use App\Mcp\Tools\BuildApplicationTool;
 use App\Mcp\Tools\BuildPackageTool;
@@ -197,7 +197,7 @@ describe('build-application tool', function () {
                 'no-node' => true,
             ]);
 
-            Queue::assertPushed(RecordApplicationBuildStat::class, function (RecordApplicationBuildStat $job) {
+            Queue::assertPushed(RecordApplicationBuildStatJob::class, function (RecordApplicationBuildStatJob $job) {
                 return $job->data['php_version'] === '8.5'
                     && $job->data['starter_kit'] === 'react'
                     && $job->data['custom_starter_kit'] === false
@@ -223,7 +223,7 @@ describe('build-application tool', function () {
                 'services' => ['none'],
             ]);
 
-            Queue::assertPushed(RecordApplicationBuildStat::class, function (RecordApplicationBuildStat $job) {
+            Queue::assertPushed(RecordApplicationBuildStatJob::class, function (RecordApplicationBuildStatJob $job) {
                 return $job->data['php_version'] === '8.5'
                     && $job->data['starter_kit'] === 'none'
                     && $job->data['custom_starter_kit'] === false
@@ -251,7 +251,7 @@ describe('build-application tool', function () {
                 'using' => 'https://example.com/kit',
             ]);
 
-            Queue::assertPushed(RecordApplicationBuildStat::class, function (RecordApplicationBuildStat $job) {
+            Queue::assertPushed(RecordApplicationBuildStatJob::class, function (RecordApplicationBuildStatJob $job) {
                 return $job->data['custom_starter_kit'] === true
                     && $job->data['starter_kit'] === 'custom'
                     && $job->data['mcp_source'] === 'mcp';
@@ -363,7 +363,7 @@ describe('build-package tool', function () {
                 'php' => '8.5',
             ]);
 
-            Queue::assertPushed(RecordPackageBuildStat::class, function (RecordPackageBuildStat $job) {
+            Queue::assertPushed(RecordPackageBuildStatJob::class, function (RecordPackageBuildStatJob $job) {
                 return $job->data['php_version'] === '8.5'
                     && $job->data['config'] === true
                     && $job->data['routes'] === true
@@ -385,7 +385,7 @@ describe('build-package tool', function () {
                 'name' => 'my-package',
             ]);
 
-            Queue::assertPushed(RecordPackageBuildStat::class, function (RecordPackageBuildStat $job) {
+            Queue::assertPushed(RecordPackageBuildStatJob::class, function (RecordPackageBuildStatJob $job) {
                 return $job->data['php_version'] === '8.5'
                     && $job->data['config'] === false
                     && $job->data['routes'] === false

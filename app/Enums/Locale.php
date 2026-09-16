@@ -4,20 +4,20 @@ namespace App\Enums;
 
 enum Locale: string
 {
-    case English = 'en';
-    case Spanish = 'es';
+    case ENGLISH = 'en';
+    case SPANISH = 'es';
 
     public function label(): string
     {
         return match ($this) {
-            self::English => 'English',
-            self::Spanish => 'Español',
+            self::ENGLISH => 'English',
+            self::SPANISH => 'Español',
         };
     }
 
     public static function default(): self
     {
-        return self::English;
+        return self::ENGLISH;
     }
 
     /**

@@ -1,9 +1,9 @@
 <?php
 
-use App\Actions\BuildPackageScript;
+use App\Actions\BuildPackageScriptAction;
 
 test('generates a build script for minimal input', function () {
-    $script = app(BuildPackageScript::class)->handle([
+    $script = app(BuildPackageScriptAction::class)([
         'name' => 'my-package',
     ]);
 
@@ -14,7 +14,7 @@ test('generates a build script for minimal input', function () {
 });
 
 test('includes all feature flags when all features provided', function () {
-    $script = app(BuildPackageScript::class)->handle([
+    $script = app(BuildPackageScriptAction::class)([
         'name' => 'my-package',
         'features' => ['config', 'routes', 'views', 'translations', 'migrations', 'assets', 'commands', 'facade', 'boost-skill'],
     ]);
@@ -32,7 +32,7 @@ test('includes all feature flags when all features provided', function () {
 });
 
 test('no features are added by default', function () {
-    $script = app(BuildPackageScript::class)->handle([
+    $script = app(BuildPackageScriptAction::class)([
         'name' => 'my-package',
     ]);
 
@@ -43,7 +43,7 @@ test('no features are added by default', function () {
 });
 
 test('single feature can be included', function () {
-    $script = app(BuildPackageScript::class)->handle([
+    $script = app(BuildPackageScriptAction::class)([
         'name' => 'my-package',
         'features' => ['views'],
     ]);
@@ -52,7 +52,7 @@ test('single feature can be included', function () {
 });
 
 test('includes all metadata fields', function () {
-    $script = app(BuildPackageScript::class)->handle([
+    $script = app(BuildPackageScriptAction::class)([
         'name' => 'my-package',
         'author_name' => 'John Doe',
         'author_email' => 'john@example.com',
@@ -74,7 +74,7 @@ test('includes all metadata fields', function () {
 });
 
 test('metadata fields are omitted by default', function () {
-    $script = app(BuildPackageScript::class)->handle([
+    $script = app(BuildPackageScriptAction::class)([
         'name' => 'my-package',
     ]);
 
@@ -86,7 +86,7 @@ test('metadata fields are omitted by default', function () {
 });
 
 test('php versions produce correct cli image', function (string $php) {
-    $script = app(BuildPackageScript::class)->handle([
+    $script = app(BuildPackageScriptAction::class)([
         'name' => 'my-package',
         'php' => $php,
     ]);
@@ -95,7 +95,7 @@ test('php versions produce correct cli image', function (string $php) {
 })->with(['8.5', '8.4', '8.3']);
 
 test('all options work together', function () {
-    $script = app(BuildPackageScript::class)->handle([
+    $script = app(BuildPackageScriptAction::class)([
         'name' => 'my-package',
         'features' => ['config', 'routes', 'views'],
         'author_name' => 'John',

@@ -2,9 +2,9 @@
 
 namespace App\Mcp\Tools;
 
-use App\Actions\BuildPackageScript;
+use App\Actions\BuildPackageScriptAction;
 use App\Enums\BuildOptions;
-use App\Jobs\RecordPackageBuildStat;
+use App\Jobs\RecordPackageBuildStatJob;
 use App\Mcp\Traits\DetectsMcpSource;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Mcp\Request;
@@ -21,13 +21,13 @@ class BuildPackageTool extends Tool
 {
     use DetectsMcpSource;
 
-    public function handle(Request $request, BuildPackageScript $buildScript): Response
+    public function handle(Request $request, BuildPackageScriptAction $buildScript): Response
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'alpha_dash'],
-            'php' => ['nullable', 'string', 'in:'.implode(',', BuildOptions::AvailablePhpVersions->values())],
+            'php' => ['nullable', 'string', 'in:'.implode(',', BuildOptions::AVAILABLE_PHP_VERSIONS->values())],
             'features' => ['nullable', 'array'],
-            'features.*' => ['string', 'in:'.implode(',', BuildOptions::AvailablePackageFeatures->values())],
+            'features.*' => ['string', 'in:'.implode(',', BuildOptions::AVAILABLE_PACKAGE_FEATURES->values())],
             'author_name' => ['nullable', 'string', 'max:255'],
             'author_email' => ['nullable', 'email', 'max:255'],
             'package_name' => ['nullable', 'string', 'max:255', 'regex:/^[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+$/'],
@@ -38,15 +38,15 @@ class BuildPackageTool extends Tool
         ], [
             'name.required' => 'A package name is required (alpha_dash characters only).',
             'name.alpha_dash' => 'The package name may only contain letters, numbers, dashes, and underscores.',
-            'php.in' => 'Invalid PHP version. Supported versions are: '.implode(', ', BuildOptions::AvailablePhpVersions->values()).'.',
-            'features.*.in' => 'Invalid feature. Supported features are: '.implode(', ', BuildOptions::AvailablePackageFeatures->values()).'.',
+            'php.in' => 'Invalid PHP version. Supported versions are: '.implode(', ', BuildOptions::AVAILABLE_PHP_VERSIONS->values()).'.',
+            'features.*.in' => 'Invalid feature. Supported features are: '.implode(', ', BuildOptions::AVAILABLE_PACKAGE_FEATURES->values()).'.',
             'package_name.regex' => 'Package name must be in the format vendor/package.',
         ]);
 
         $mcpSource = $this->detectMcpSource();
         $validated['mcp_source'] = $mcpSource;
 
-        $script = $buildScript->handle($validated);
+        $script = $buildScript($validated);
 
         $features = $validated['features'] ?? [];
         $featureData = array_combine(
@@ -54,7 +54,7 @@ class BuildPackageTool extends Tool
             array_fill(0, count($features), true),
         );
 
-        RecordPackageBuildStat::dispatch([
+        RecordPackageBuildStatJob::dispatch([
             'php_version' => $validated['php'] ?? '8.5',
             'config' => $featureData['config'] ?? false,
             'routes' => $featureData['routes'] ?? false,
@@ -79,12 +79,12 @@ class BuildPackageTool extends Tool
                 ->required(),
             'php' => $schema->string()
                 ->description('The PHP version for the package scaffolding container.')
-                ->enum(BuildOptions::AvailablePhpVersions->values())
+                ->enum(BuildOptions::AVAILABLE_PHP_VERSIONS->values())
                 ->default('8.5'),
             'features' => $schema->array()
                 ->items($schema->string()->description('A package feature name.'))
                 ->description('Package features to include (config, routes, views, translations, migrations, assets, commands, facade, boost-skill).')
-                ->enum([BuildOptions::AvailablePackageFeatures->values()])
+                ->enum([BuildOptions::AVAILABLE_PACKAGE_FEATURES->values()])
                 ->default([]),
             'author_name' => $schema->string()
                 ->description('The author name for composer.json.'),

@@ -1,9 +1,9 @@
 <?php
 
-use App\Actions\BuildApplicationScript;
+use App\Actions\BuildApplicationScriptAction;
 
 test('generates a build script for minimal input', function () {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['pgsql', 'redis'],
     ]);
@@ -16,7 +16,7 @@ test('generates a build script for minimal input', function () {
 });
 
 test('includes all flags when all options provided', function () {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['pgsql', 'redis'],
         'frontend' => 'vue',
@@ -43,7 +43,7 @@ test('includes all flags when all options provided', function () {
 });
 
 test('defaults to no-boost', function () {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
     ]);
@@ -54,7 +54,7 @@ test('defaults to no-boost', function () {
 });
 
 test('custom starter kit includes node volume', function () {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
         'frontend' => 'custom',
@@ -70,7 +70,7 @@ test('custom starter kit includes node volume', function () {
 });
 
 test('standard starter kit does not include node volume', function () {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
         'frontend' => 'vue',
@@ -82,7 +82,7 @@ test('standard starter kit does not include node volume', function () {
 });
 
 test('default build does not include node volume', function () {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
     ]);
@@ -93,7 +93,7 @@ test('default build does not include node volume', function () {
 });
 
 test('livewire with class components adds both flags', function () {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
         'frontend' => 'livewire',
@@ -104,7 +104,7 @@ test('livewire with class components adds both flags', function () {
 });
 
 test('livewire without class components does not add modifier', function () {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
         'frontend' => 'livewire',
@@ -116,13 +116,13 @@ test('livewire without class components does not add modifier', function () {
 });
 
 test('no-node flag only appears when specified', function () {
-    $with = app(BuildApplicationScript::class)->handle([
+    $with = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
         'no-node' => true,
     ]);
 
-    $without = app(BuildApplicationScript::class)->handle([
+    $without = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
     ]);
@@ -132,7 +132,7 @@ test('no-node flag only appears when specified', function () {
 });
 
 test('database flag is omitted when none', function () {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
         'database' => 'none',
@@ -142,7 +142,7 @@ test('database flag is omitted when none', function () {
 });
 
 test('database flag is omitted by default', function () {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
     ]);
@@ -151,7 +151,7 @@ test('database flag is omitted by default', function () {
 });
 
 test('database flag is added when specified', function (string $driver) {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
         'database' => $driver,
@@ -161,7 +161,7 @@ test('database flag is added when specified', function (string $driver) {
 })->with(['mysql', 'mariadb', 'pgsql', 'sqlite', 'sqlsrv']);
 
 test('teams flag is added when true', function () {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
         'teams' => true,
@@ -171,7 +171,7 @@ test('teams flag is added when true', function () {
 });
 
 test('teams flag is omitted by default', function () {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
     ]);
@@ -180,7 +180,7 @@ test('teams flag is omitted by default', function () {
 });
 
 test('auth flags are added correctly', function (string $auth, string $flag) {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
         'auth' => $auth,
@@ -193,7 +193,7 @@ test('auth flags are added correctly', function (string $auth, string $flag) {
 ]);
 
 test('testing flags are added correctly', function (string $testing) {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
         'testing' => $testing,
@@ -203,7 +203,7 @@ test('testing flags are added correctly', function (string $testing) {
 })->with(['pest', 'phpunit']);
 
 test('devcontainer flag is added when specified', function () {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
         'devcontainer' => true,
@@ -213,7 +213,7 @@ test('devcontainer flag is added when specified', function () {
 });
 
 test('none as only service uses --with=none', function () {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['none'],
     ]);
@@ -222,7 +222,7 @@ test('none as only service uses --with=none', function () {
 });
 
 test('frontend=none produces no frontend flag', function () {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
         'frontend' => 'none',
@@ -234,7 +234,7 @@ test('frontend=none produces no frontend flag', function () {
 });
 
 test('custom starter kit uses --using flag', function () {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
         'frontend' => 'custom',
@@ -245,7 +245,7 @@ test('custom starter kit uses --using flag', function () {
 });
 
 test('starter kits produce correct flags', function (string $kit, string $flag) {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
         'frontend' => $kit,
@@ -260,7 +260,7 @@ test('starter kits produce correct flags', function (string $kit, string $flag) 
 ]);
 
 test('javascript runtime sets correct install and dev commands', function (string $runtime, string $installCmd, string $devCmd) {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
         'javascript' => $runtime,
@@ -277,7 +277,7 @@ test('javascript runtime sets correct install and dev commands', function (strin
 ]);
 
 test('javascript runtime defaults to npm when not set', function () {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
     ]);
@@ -288,7 +288,7 @@ test('javascript runtime defaults to npm when not set', function () {
 });
 
 test('php versions produce correct flag', function (string $php) {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
         'php' => $php,
@@ -298,7 +298,7 @@ test('php versions produce correct flag', function (string $php) {
 })->with(['8.5', '8.4', '8.3']);
 
 test('all options work together', function () {
-    $script = app(BuildApplicationScript::class)->handle([
+    $script = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['pgsql', 'redis'],
         'frontend' => 'svelte',

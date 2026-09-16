@@ -42,12 +42,12 @@ class BuildShowRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'alpha_dash'],
             'services' => ['required', 'array'],
-            'services.*' => ['string', Rule::in([...BuildOptions::AvailableServices->values(), 'none'])],
-            'frontend' => ['string', Rule::in(BuildOptions::AvailableStarterKits->values())],
-            'auth' => ['nullable', 'string', Rule::in(BuildOptions::AvailableAuthProviders->values())],
-            'testing' => ['string', Rule::in(BuildOptions::AvailableTestingFrameworks->values())],
-            'javascript' => ['nullable', 'string', Rule::in(BuildOptions::AvailableJavascriptRuntimes->values())],
-            'php' => ['string', Rule::in(BuildOptions::AvailablePhpVersions->values())],
+            'services.*' => ['string', Rule::in([...BuildOptions::AVAILABLE_SERVICES->values(), 'none'])],
+            'frontend' => ['string', Rule::in(BuildOptions::AVAILABLE_STARTER_KITS->values())],
+            'auth' => ['nullable', 'string', Rule::in(BuildOptions::AVAILABLE_AUTH_PROVIDERS->values())],
+            'testing' => ['string', Rule::in(BuildOptions::AVAILABLE_TESTING_FRAMEWORKS->values())],
+            'javascript' => ['nullable', 'string', Rule::in(BuildOptions::AVAILABLE_JAVASCRIPT_RUNTIMES->values())],
+            'php' => ['string', Rule::in(BuildOptions::AVAILABLE_PHP_VERSIONS->values())],
             'using' => Rule::when(
                 $this->query('frontend', 'none') === 'custom',
                 ['required', 'string', 'url'],
@@ -56,7 +56,7 @@ class BuildShowRequest extends FormRequest
             'teams' => ['boolean'],
             'no-node' => ['boolean'],
             'livewire-class-components' => ['boolean'],
-            'database' => ['string', Rule::in([...BuildOptions::AvailableDatabaseDrivers->values(), 'none'])],
+            'database' => ['string', Rule::in([...BuildOptions::AVAILABLE_DATABASE_DRIVERS->values(), 'none'])],
         ];
     }
 
@@ -93,31 +93,31 @@ class BuildShowRequest extends FormRequest
         }
 
         if ($hasError('services')) {
-            $messages[] = 'Invalid service name. Please provide one or more of the supported services ('.implode(', ', BuildOptions::AvailableServices->values()).') or "none".';
+            $messages[] = 'Invalid service name. Please provide one or more of the supported services ('.implode(', ', BuildOptions::AVAILABLE_SERVICES->values()).') or "none".';
         }
 
         if ($hasError('frontend')) {
-            $messages[] = 'Invalid starter kit. Please provide one supported starter kit ('.implode(', ', BuildOptions::AvailableStarterKits->values()).') or leave it empty.';
+            $messages[] = 'Invalid starter kit. Please provide one supported starter kit ('.implode(', ', BuildOptions::AVAILABLE_STARTER_KITS->values()).') or leave it empty.';
         }
 
         if ($hasError('auth')) {
-            $messages[] = 'Invalid authentication provider. Please provide one supported provider ('.implode(', ', BuildOptions::AvailableAuthProviders->values()).') or leave it empty.';
+            $messages[] = 'Invalid authentication provider. Please provide one supported provider ('.implode(', ', BuildOptions::AVAILABLE_AUTH_PROVIDERS->values()).') or leave it empty.';
         }
 
         if ($hasError('testing')) {
-            $messages[] = 'Invalid testing framework. Please provide one supported testing framework ('.implode(', ', BuildOptions::AvailableTestingFrameworks->values()).') or leave it empty (it will use pest).';
+            $messages[] = 'Invalid testing framework. Please provide one supported testing framework ('.implode(', ', BuildOptions::AVAILABLE_TESTING_FRAMEWORKS->values()).') or leave it empty (it will use pest).';
         }
 
         if ($hasError('javascript')) {
-            $messages[] = 'Invalid JavaScript runtime. Please provide one supported runtime ('.implode(', ', BuildOptions::AvailableJavascriptRuntimes->values()).') or leave it empty.';
+            $messages[] = 'Invalid JavaScript runtime. Please provide one supported runtime ('.implode(', ', BuildOptions::AVAILABLE_JAVASCRIPT_RUNTIMES->values()).') or leave it empty.';
         }
 
         if ($hasError('php')) {
-            $messages[] = 'Invalid PHP version. Please provide one supported version ('.implode(', ', BuildOptions::AvailablePhpVersions->values()).').';
+            $messages[] = 'Invalid PHP version. Please provide one supported version ('.implode(', ', BuildOptions::AVAILABLE_PHP_VERSIONS->values()).').';
         }
 
         if ($hasError('database')) {
-            $messages[] = 'Invalid database driver. Please provide one supported driver ('.implode(', ', BuildOptions::AvailableDatabaseDrivers->values()).') or "none".';
+            $messages[] = 'Invalid database driver. Please provide one supported driver ('.implode(', ', BuildOptions::AVAILABLE_DATABASE_DRIVERS->values()).') or "none".';
         }
 
         if ($hasError('using')) {

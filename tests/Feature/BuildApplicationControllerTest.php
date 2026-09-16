@@ -1,6 +1,6 @@
 <?php
 
-use App\Jobs\RecordApplicationBuildStat;
+use App\Jobs\RecordApplicationBuildStatJob;
 use Illuminate\Support\Facades\Queue;
 use Inertia\Testing\AssertableInertia as Assert;
 
@@ -116,7 +116,7 @@ describe('show', function () {
         $this->withHeader('User-Agent', 'curl/8.5')
             ->get('/application/build?name=my-app&services=redis,pgsql&frontend=react&javascript=bun&auth=laravel&testing=pest&php=8.5&boost&database=pgsql');
 
-        Queue::assertPushed(RecordApplicationBuildStat::class, function (RecordApplicationBuildStat $job) {
+        Queue::assertPushed(RecordApplicationBuildStatJob::class, function (RecordApplicationBuildStatJob $job) {
             return $job->data['php_version'] === '8.5'
                 && $job->data['starter_kit'] === 'react'
                 && $job->data['custom_starter_kit'] === false
@@ -139,7 +139,7 @@ describe('show', function () {
         $this->withHeader('User-Agent', 'curl/8.5')
             ->get('/application/build?name=my-app&services=redis,pgsql');
 
-        Queue::assertPushed(RecordApplicationBuildStat::class, function (RecordApplicationBuildStat $job) {
+        Queue::assertPushed(RecordApplicationBuildStatJob::class, function (RecordApplicationBuildStatJob $job) {
             return $job->services === ['redis', 'pgsql'];
         });
     });
@@ -150,7 +150,7 @@ describe('show', function () {
         $this->withHeader('User-Agent', 'curl/8.5')
             ->get('/application/build?name=my-secret-app&services=redis&frontend=custom&using=https://example.com/kit');
 
-        Queue::assertPushed(RecordApplicationBuildStat::class, function (RecordApplicationBuildStat $job) {
+        Queue::assertPushed(RecordApplicationBuildStatJob::class, function (RecordApplicationBuildStatJob $job) {
             return $job->data['custom_starter_kit'] === true
                 && $job->data['starter_kit'] === 'custom'
                 && $job->data['mcp_source'] === 'web';
@@ -163,7 +163,7 @@ describe('show', function () {
         $this->withHeader('User-Agent', 'curl/8.5')
             ->get('/application/build?name=my-app&services=none');
 
-        Queue::assertPushed(RecordApplicationBuildStat::class, function (RecordApplicationBuildStat $job) {
+        Queue::assertPushed(RecordApplicationBuildStatJob::class, function (RecordApplicationBuildStatJob $job) {
             return $job->services === ['none'];
         });
     });
@@ -175,7 +175,7 @@ describe('show', function () {
             $this->withHeader('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/134.0.0.0 Safari/537.36')
                 ->get('/application/build?name=my-app');
 
-            Queue::assertNotPushed(RecordApplicationBuildStat::class);
+            Queue::assertNotPushed(RecordApplicationBuildStatJob::class);
         });
 
         test('does not dispatch job for browser-based crawler requests', function () {
@@ -184,7 +184,7 @@ describe('show', function () {
             $this->withHeader('User-Agent', 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)')
                 ->get('/application/build?name=my-app');
 
-            Queue::assertNotPushed(RecordApplicationBuildStat::class);
+            Queue::assertNotPushed(RecordApplicationBuildStatJob::class);
         });
 
         test('dispatches job for curl requests', function () {
@@ -193,7 +193,7 @@ describe('show', function () {
             $this->withHeader('User-Agent', 'curl/8.5.0')
                 ->get('/application/build?name=my-app');
 
-            Queue::assertPushed(RecordApplicationBuildStat::class);
+            Queue::assertPushed(RecordApplicationBuildStatJob::class);
         });
 
         test('dispatches job for empty user agent header', function () {
@@ -202,7 +202,7 @@ describe('show', function () {
             $this->withHeader('User-Agent', '')
                 ->get('/application/build?name=my-app');
 
-            Queue::assertPushed(RecordApplicationBuildStat::class);
+            Queue::assertPushed(RecordApplicationBuildStatJob::class);
         });
     });
 });
