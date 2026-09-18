@@ -469,36 +469,6 @@
     }
   },
   {
-    "slug": "minio",
-    "category": "Service",
-    "builder_params": {
-      "services": [
-        "minio"
-      ]
-    },
-    "related": [
-      "mysql",
-      "pgsql",
-      "mailpit"
-    ],
-    "translations": {
-      "en": {
-        "title": "MinIO",
-        "question": "What is MinIO?",
-        "summary": "MinIO is an S3-compatible object storage server used for local file storage development.",
-        "definition": "MinIO is a high-performance, S3-compatible object storage server. It provides the same API as Amazon S3, allowing Laravel applications to use the s3 disk driver during development with local storage. MinIO supports bucketing, versioning, lifecycle policies, and encryption, making it ideal for testing file uploads, avatars, and media handling before deploying to AWS.",
-        "sail_integration": "Charter toggles the --minio flag. Sail runs MinIO in a Docker container on port 9000 with the S3-compatible API. Laravel's filesystem config can use it as the s3 disk for local development."
-      },
-      "es": {
-        "title": "MinIO",
-        "question": "¿Qué es MinIO?",
-        "summary": "MinIO es un servidor de almacenamiento de objetos compatible con S3 para desarrollo local.",
-        "definition": "MinIO es un servidor de almacenamiento de objetos de alto rendimiento compatible con Amazon S3. Proporciona la misma API que S3, permitiendo a Laravel usar el driver s3 durante el desarrollo con almacenamiento local. Soporta buckets, versionado y cifrado.",
-        "sail_integration": "Charter activa la bandera --minio. Sail ejecuta MinIO en el puerto 9000 con la API S3. Laravel puede usarlo como disco s3 para desarrollo local."
-      }
-    }
-  },
-  {
     "slug": "mailpit",
     "category": "Service",
     "builder_params": {
@@ -508,7 +478,6 @@
     },
     "related": [
       "selenium",
-      "minio",
       "redis"
     ],
     "translations": {

@@ -29,7 +29,6 @@ enum BuildOptions
                 'memcached',
                 'meilisearch',
                 'typesense',
-                'minio',
                 'rustfs',
                 'mailpit',
                 'rabbitmq',
