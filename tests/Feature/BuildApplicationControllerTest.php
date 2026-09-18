@@ -47,6 +47,129 @@ describe('show', function () {
         $response->assertSee('Invalid service name', false);
     });
 
+    test('livewire starter kit can be picked', function () {
+        $response = $this->get('/application/build?name=my-app&frontend=livewire');
+
+        $response->assertSuccessful();
+        $response->assertSee('--livewire');
+    });
+
+    test('livewire class components modifier can be added', function () {
+        $response = $this->get('/application/build?name=my-app&frontend=livewire&livewire-class-components');
+
+        $response->assertSuccessful();
+        $response->assertSee('--livewire --livewire-class-components');
+    });
+
+    test('livewire without class components does not add the modifier', function () {
+        $response = $this->get('/application/build?name=my-app&frontend=livewire');
+
+        $response->assertSuccessful();
+        $response->assertSee('--livewire');
+        $response->assertDontSee('--livewire-class-components');
+    });
+
+    test('react starter kit can be picked', function () {
+        $response = $this->get('/application/build?name=my-app&frontend=react');
+
+        $response->assertSuccessful();
+        $response->assertSee('--react');
+    });
+
+    test('vue starter kit can be picked', function () {
+        $response = $this->get('/application/build?name=my-app&frontend=vue');
+
+        $response->assertSuccessful();
+        $response->assertSee('--vue');
+    });
+
+    test('svelte starter kit can be picked', function () {
+        $response = $this->get('/application/build?name=my-app&frontend=svelte');
+
+        $response->assertSuccessful();
+        $response->assertSee('--svelte');
+    });
+
+    test('api starter kit can be picked', function () {
+        $response = $this->get('/application/build?name=my-app&frontend=api');
+
+        $response->assertSuccessful();
+        $response->assertSee('--api');
+    });
+
+    test('api starter kit does not pass an auth provider flag', function () {
+        $response = $this->get('/application/build?name=my-app&frontend=api&auth=no-authentication');
+
+        $response->assertSuccessful();
+        $response->assertSee('--api');
+        $response->assertDontSee('--no-authentication');
+        $response->assertDontSee('--workos');
+    });
+
+    test('api starter kit works with teams', function () {
+        $response = $this->get('/application/build?name=my-app&frontend=api&teams');
+
+        $response->assertSuccessful();
+        $response->assertSee('--api');
+        $response->assertSee('--teams');
+    });
+
+    test('api starter kit works with other options', function () {
+        $response = $this->get('/application/build?name=my-app&services=pgsql,redis&frontend=api&javascript=bun&testing=pest&boost&php=8.4');
+
+        $response->assertSuccessful();
+        $response->assertSee('--api');
+        $response->assertSee('--bun');
+        $response->assertSee('--pest');
+        $response->assertSee('--boost');
+        $response->assertSee('--php=8.4');
+        $response->assertSee('sail:install --with=pgsql,redis --php=8.4');
+    });
+
+    test('custom starter kit does not add a frontend flag', function () {
+        $response = $this->get('/application/build?name=my-app&frontend=custom&using=https://example.com/starter-kit');
+
+        $response->assertSuccessful();
+        $response->assertDontSee('--custom');
+        $response->assertSee('--using="https://example.com/starter-kit"', false);
+    });
+
+    test('custom starter kit installs node binaries for npx', function () {
+        $response = $this->get('/application/build?name=my-app&frontend=custom&using=https://example.com/starter-kit');
+
+        $response->assertSuccessful();
+        $response->assertSee('docker volume create node-binaries', false);
+        $response->assertSee('node:24-slim', false);
+        $response->assertSee('-v node-binaries:/usr/local/node:ro', false);
+        $response->assertSee('export PATH=/usr/local/node/bin', false);
+        $response->assertSee('docker volume rm node-binaries', false);
+    });
+
+    test('standard starter kits do not install node binaries', function () {
+        $response = $this->get('/application/build?name=my-app&frontend=vue');
+
+        $response->assertSuccessful();
+        $response->assertDontSee('node-binaries', false);
+        $response->assertDontSee('node:24-slim', false);
+        $response->assertDontSee('/usr/local/node', false);
+    });
+
+    test('default build does not install node binaries', function () {
+        $response = $this->get('/application/build?name=my-app&services=pgsql,redis');
+
+        $response->assertSuccessful();
+        $response->assertDontSee('node-binaries', false);
+        $response->assertDontSee('node:24-slim', false);
+        $response->assertDontSee('/usr/local/node', false);
+    });
+
+    test('different javascript runtimes can be picked', function (string $runtime) {
+        $response = $this->get("/application/build?name=my-app&javascript={$runtime}");
+
+        $response->assertSuccessful();
+        $response->assertSee("--{$runtime}");
+    })->with(['npm', 'pnpm', 'bun', 'yarn']);
+
     test('does not accept invalid javascript runtimes', function () {
         $response = $this->get('/application/build?name=my-app&javascript=invalid-runtime');
 
