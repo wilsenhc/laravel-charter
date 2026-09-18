@@ -126,7 +126,7 @@
         "a2_url": "github.com/tnylea/laravel-new",
         "a2_suffix": ". Ten en cuenta que, al ser mantenidos por la comunidad, algunos podrían no tener soporte completo y la instalación podría fallar eventualmente.",
         "q3": "¿Qué servicios soporta Charter?",
-        "a3": "Charter soporta todos los servicios de Sail: MySQL, PostgreSQL, MariaDB, Redis, Typesense, Meilisearch, MinIO, Mailpit y Selenium. Puedes activar o desactivar cada uno y el comando generado incluirá solo lo que necesites.",
+        "a3": "Charter soporta todos los servicios de Sail: MySQL, PostgreSQL, MariaDB, Redis, Typesense, Meilisearch, RustFS, Mailpit y Selenium. Puedes activar o desactivar cada uno y el comando generado incluirá solo lo que necesites.",
         "q4": "¿Qué opciones adicionales soporta Charter?",
         "a4": "Además de los servicios, Charter te permite activar Laravel Boost (asistentes MCP impulsados por IA), Teams (membresía de equipos y alcance de datos) y Devcontainer (configuración para VS Code / Codespaces). También puedes omitir la instalación de Node.js para proyectos que no necesitan build frontend.",
         "q5": "¿Puedo modificar el comando generado?",
