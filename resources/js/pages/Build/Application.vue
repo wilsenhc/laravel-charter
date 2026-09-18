@@ -581,7 +581,10 @@ const faqItems = computed(() => {
                         </label>
                     </div>
 
-                    <div class="space-y-3">
+                    <div
+                        v-if="selectedStarterKit === 'custom'"
+                        class="space-y-3"
+                    >
                         <div class="flex items-center gap-2">
                             <Label for="no-node">{{
                                 t('form.skip_node')
