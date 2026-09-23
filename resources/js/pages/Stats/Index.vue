@@ -4,6 +4,7 @@ import { useColorMode } from '@vueuse/core';
 import { onMounted, ref, computed, shallowRef, watch } from 'vue';
 import type { Component } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { serviceLabel } from '@/build';
 
 interface StatsIndexPageProps {
     locale: string;
@@ -123,7 +124,7 @@ function makeBarData(
 }
 
 const servicesData = computed<ChartDataType>(() => ({
-    labels: Object.keys(props.services),
+    labels: Object.keys(props.services).map(serviceLabel),
     datasets: [
         {
             label: t('stats.label_services'),

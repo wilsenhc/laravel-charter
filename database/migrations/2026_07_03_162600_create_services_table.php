@@ -28,6 +28,7 @@ return new class extends Migration
             ['name' => 'minio'],
             ['name' => 'rustfs'],
             ['name' => 'mailpit'],
+            ['name' => 'mailtrap-local'],
             ['name' => 'rabbitmq'],
             ['name' => 'selenium'],
             ['name' => 'soketi'],

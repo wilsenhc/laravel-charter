@@ -35,6 +35,7 @@ export const availableTestingFrameworks = {$this->arrayToTs($options['availableT
 export const availablePhpVersions = {$this->arrayToTs($options['availablePhpVersions'])} as const;
 export const availableDatabaseDrivers = {$this->arrayToTs($options['availableDatabaseDrivers'])} as const;
 export const availablePackageFeatures = {$this->arrayToTs($options['availablePackageFeatures'])} as const;
+export const serviceLabels = {$this->mapToTs($options['serviceLabels'])} as const;
 
 export type AvailableService = typeof availableServices[number];
 export type AvailableStarterKit = typeof availableStarterKits[number];
@@ -44,6 +45,12 @@ export type AvailableTestingFramework = typeof availableTestingFrameworks[number
 export type AvailablePhpVersion = typeof availablePhpVersions[number];
 export type AvailableDatabaseDriver = typeof availableDatabaseDrivers[number];
 export type AvailablePackageFeature = typeof availablePackageFeatures[number];
+
+export type ServiceLabels = typeof serviceLabels;
+
+export function serviceLabel(service: string): string {
+    return serviceLabels[service as keyof ServiceLabels] ?? service;
+}
 TYPESCRIPT;
 
         File::put($filePath, $content);
@@ -61,5 +68,19 @@ TYPESCRIPT;
         $items = array_map(fn (string $item) => "'{$item}'", $array);
 
         return '['.\implode(', ', $items).']';
+    }
+
+    /**
+     * @param  array<string, string>  $map
+     */
+    private function mapToTs(array $map): string
+    {
+        $items = array_map(
+            fn (string $key, string $value) => "'{$key}': '{$value}'",
+            array_keys($map),
+            $map,
+        );
+
+        return '{'.\implode(', ', $items).'}';
     }
 }

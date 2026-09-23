@@ -10,6 +10,7 @@ import {
     availableServices,
     availableStarterKits,
     availableTestingFrameworks,
+    serviceLabel,
 } from '@/build';
 import CodeBlock from '@/components/CodeBlock.vue';
 import InfoTooltip from '@/components/InfoTooltip.vue';
@@ -316,7 +317,7 @@ const faqItems = computed(() => {
                                         ? '+'
                                         : '-'
                                 }}]</span
-                            >{{ service }}
+                            >{{ serviceLabel(service) }}
                         </Badge>
                     </div>
                 </Field>

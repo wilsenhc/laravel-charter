@@ -31,6 +31,7 @@ enum BuildOptions
                 'typesense',
                 'rustfs',
                 'mailpit',
+                'mailtrap-local',
                 'rabbitmq',
                 'selenium',
                 'soketi',
@@ -62,6 +63,19 @@ enum BuildOptions
         };
     }
 
+    /**
+     * @return array<string, string> Display labels keyed by value for values that need one.
+     */
+    public function labels(): array
+    {
+        return match ($this) {
+            self::AVAILABLE_SERVICES => [
+                'mailtrap-local' => 'mailtrap',
+            ],
+            default => [],
+        };
+    }
+
     public function name(): string
     {
         return match ($this) {
@@ -77,12 +91,13 @@ enum BuildOptions
     }
 
     /**
-     * @return array<string, array<string>>
+     * @return array<string, array<string>|array<string, string>>
      */
     public static function all(): array
     {
         return [
             'availableServices' => self::AVAILABLE_SERVICES->values(),
+            'serviceLabels' => self::AVAILABLE_SERVICES->labels(),
             'availableStarterKits' => self::AVAILABLE_STARTER_KITS->values(),
             'availableJavascriptRuntimes' => self::AVAILABLE_JAVASCRIPT_RUNTIMES->values(),
             'availableAuthProviders' => self::AVAILABLE_AUTH_PROVIDERS->values(),

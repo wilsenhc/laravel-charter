@@ -33,6 +33,13 @@ describe('show', function () {
         $response->assertSee('--with=none');
     });
 
+    test('accepts the mailtrap-local service', function () {
+        $response = $this->get('/application/build?name=my-app&services=mailtrap-local');
+
+        $response->assertSuccessful();
+        $response->assertSee('--with=mailtrap-local');
+    });
+
     test('does not accept none with other services', function () {
         $response = $this->get('/application/build?name=my-app&services=none,redis');
 
