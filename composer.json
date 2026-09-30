@@ -14,7 +14,7 @@
         "inertiajs/inertia-laravel": "^3.3.4",
         "laravel/framework": "^13.33.0",
         "laravel/head": "^0.2.2",
-        "laravel/mcp": "^1.0.0",
+        "laravel/mcp": "^1.0.1",
         "laravel/octane": "^2.20.0",
         "laravel/tinker": "^3.0.2",
         "laravel/wayfinder": "^0.1.21",
