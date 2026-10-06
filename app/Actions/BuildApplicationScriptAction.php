@@ -54,7 +54,7 @@ class BuildApplicationScriptAction
 
         $boostFlag = $boost ? '--boost' : '--no-boost';
 
-        $noNodeFlag = $noNode ? '--no-node' : null;
+        $noNodeFlag = ($noNode || $frontend !== 'custom') ? '--no-node' : null;
 
         $databaseFlag = $database !== 'none' ? "--database={$database}" : null;
 

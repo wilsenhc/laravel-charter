@@ -115,16 +115,35 @@ test('livewire without class components does not add modifier', function () {
         ->not->toContain('--livewire-class-components');
 });
 
-test('no-node flag only appears when specified', function () {
+test('no-node flag is always passed when the build container has no node', function (array $extra) {
+    $script = app(BuildApplicationScriptAction::class)([
+        'name' => 'my-app',
+        'services' => ['redis'],
+        ...$extra,
+    ]);
+
+    expect($script)->toContain('--no-node');
+})->with([
+    'default' => [[]],
+    'frontend none' => [['frontend' => 'none']],
+    'starter kit' => [['frontend' => 'vue', 'javascript' => 'bun']],
+    'no-node requested' => [['no-node' => true]],
+]);
+
+test('custom starter kit only passes no-node when specified', function () {
     $with = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
+        'frontend' => 'custom',
+        'using' => 'https://example.com/kit',
         'no-node' => true,
     ]);
 
     $without = app(BuildApplicationScriptAction::class)([
         'name' => 'my-app',
         'services' => ['redis'],
+        'frontend' => 'custom',
+        'using' => 'https://example.com/kit',
     ]);
 
     expect($with)->toContain('--no-node');

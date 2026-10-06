@@ -114,7 +114,7 @@ class ApplicationStatsSeeder extends Seeder
                 'redis', 'mailpit' => 80,
                 'mysql', 'pgsql' => 55,
                 'mariadb', 'typesense', 'meilisearch' => 25,
-                'minio', 'valkey', 'mongodb' => 20,
+                'valkey', 'mongodb' => 20,
                 default => 10,
             };
 

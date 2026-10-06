@@ -126,7 +126,7 @@
         "a2_url": "github.com/tnylea/laravel-new",
         "a2_suffix": ". Heads-up: since community kits are community-maintained, some may not be fully supported and installation can occasionally hit a snag.",
         "q3": "What services does Charter support?",
-        "a3": "Charter supports all Sail services: MySQL, PostgreSQL, MariaDB, Redis, Typesense, Meilisearch, MinIO, Mailpit, and Selenium. You can toggle each one on or off and the generated command will include only what you need.",
+        "a3": "Charter supports all Sail services: MySQL, PostgreSQL, MariaDB, Redis, Typesense, Meilisearch, RustFS, Mailpit, and Selenium. You can toggle each one on or off and the generated command will include only what you need.",
         "q4": "What additional options does Charter support?",
         "a4": "Besides services, Charter lets you toggle Laravel Boost (AI-powered MCP helpers), Teams (team membership and scoping), and Devcontainer (VS Code / Codespaces container config). You can also skip Node.js installation for projects that don't need a frontend build.",
         "q5": "Can I modify the generated command?",

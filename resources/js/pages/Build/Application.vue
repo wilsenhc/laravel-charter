@@ -10,6 +10,7 @@ import {
     availableServices,
     availableStarterKits,
     availableTestingFrameworks,
+    serviceLabel,
 } from '@/build';
 import CodeBlock from '@/components/CodeBlock.vue';
 import InfoTooltip from '@/components/InfoTooltip.vue';
@@ -322,7 +323,7 @@ const faqItems = computed(() => {
                                         ? '+'
                                         : '-'
                                 }}]</span
-                            >{{ service }}
+                            >{{ serviceLabel(service) }}
                         </Badge>
                     </div>
                 </Field>
@@ -587,7 +588,10 @@ const faqItems = computed(() => {
                         </label>
                     </div>
 
-                    <div class="space-y-3">
+                    <div
+                        v-if="selectedStarterKit === 'custom'"
+                        class="space-y-3"
+                    >
                         <div class="flex items-center gap-2">
                             <Label for="no-node">{{
                                 t('form.skip_node')

@@ -20,7 +20,7 @@ Each track has its own options, controller method, form request, frontend page, 
 ### 1. Upgrade packages
 
 ```bash
-vendor/bin/sail composer upgrade laravel/installer laravel/sail
+composer upgrade laravel/installer laravel/sail
 ```
 
 ### 2. Check if versions changed
