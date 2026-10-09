@@ -26,7 +26,7 @@ If you are unsure where to start, comment on an issue before you begin. A short 
 - **PHP 8.5** — pinned in `.php-version`, and what CI runs
 - [Composer 2](https://getcomposer.org)
 - [Bun](https://bun.sh) — this project uses Bun, not npm
-- A database. SQLite works out of the box; PostgreSQL is what CI runs against.
+- A database. Tests run against the `laravel_charter_testing` database configured in `.env.testing`.
 
 ### Install
 
@@ -47,7 +47,26 @@ bun run build
 
 `composer setup` performs the same steps in one command, except the `touch`.
 
-### Prefer PostgreSQL?
+### Tests need their own database
+
+`.env.testing` is git-ignored and holds the database connection the suite runs against. It is loaded automatically when `APP_ENV=testing`. Point it at a database you are happy for the suite to reset:
+
+```dotenv
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=laravel_charter_testing
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
+```
+
+Run the suite against SQLite instead by setting `DB_CONNECTION=sqlite` and creating the file:
+
+```bash
+touch database/testing.sqlite
+```
+
+### Prefer PostgreSQL for the app itself?
 
 Point `.env` at a PostgreSQL instance to match CI:
 
@@ -55,7 +74,7 @@ Point `.env` at a PostgreSQL instance to match CI:
 DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
 DB_PORT=5432
-DB_DATABASE=testing
+DB_DATABASE=charter
 DB_USERNAME=postgres
 DB_PASSWORD=postgres
 ```

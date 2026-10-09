@@ -109,12 +109,20 @@ Setup instructions for Claude Code, Claude Desktop, and other MCP clients are on
 
 ## Self-hosting
 
-Charter is MIT licensed and you can run it yourself. **A canonical, tested Docker deployment guide is in progress** and is tracked in [`docs/task-02-self-hosting-path.md`](docs/task-02-self-hosting-path.md); it will be linked here once it has been verified on a clean host.
+Charter is MIT licensed and you can run it yourself. **[deployment.md](docs/deployment.md) is the canonical, tested deployment guide** — it covers Laravel Cloud, which is what `laravelcharter.com` runs on: database, runtime, the queue worker, environment variables, domains, backups, upgrades and rollback.
 
-Until then, two honest caveats:
+The short version:
+
+1. Provision a **PostgreSQL** database. SQLite does not work in production — its filesystem is ephemeral and resets on every deploy.
+2. Set the **PHP version to 8.5** and turn **Use Octane as runtime** on.
+3. **Replace the build command** so it uses Bun instead of npm — Cloud defaults to npm for Laravel apps, and a `bun.lock` alone will not change that.
+4. Add a deploy command that runs `php artisan migrate --force` and the two content seeders.
+5. Add a **queue worker** background process for the anonymous build-statistics jobs.
+
+Two things worth knowing before you start:
 
 - [`compose.yaml`](compose.yaml) is the **local development** environment (Sail image, source bind mount, file watching). It is not a production recipe, and should not be deployed as one.
-- To self-host today, read the [Development setup](#development-setup) below, then treat a hardened image, reverse proxy, and migrations as your responsibility until the guide lands.
+- If you deploy somewhere other than Laravel Cloud, the [runtime requirements](docs/deployment.md#runtime-requirements) still apply — Charter needs a web process, one queue worker, and no task scheduler at all.
 
 If you deploy Charter yourself, please [open an issue](https://github.com/wilsenhc/laravel-charter/issues) describing what you had to work around — it directly shapes the guide.
 
@@ -127,7 +135,7 @@ If you deploy Charter yourself, please [open an issue](https://github.com/wilsen
 - **PHP 8.5** — pinned in `.php-version`, and what CI runs
 - [Laravel 13](https://laravel.com) and [Composer 2](https://getcomposer.org)
 - [Bun](https://bun.sh) — this project uses Bun, not npm
-- A database. The defaults below use SQLite; PostgreSQL is what CI runs against.
+- A database for the app, and one for the test suite (see `.env.testing`).
 
 ### Setup
 
@@ -153,7 +161,7 @@ Match CI by pointing `.env` at a PostgreSQL instance:
 DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
 DB_PORT=5432
-DB_DATABASE=testing
+DB_DATABASE=charter
 DB_USERNAME=postgres
 DB_PASSWORD=postgres
 ```
@@ -177,6 +185,8 @@ php artisan test --filter=BuildApplicationControllerTest   # one test
 ```
 
 `composer run test` runs Pint and PHPStan **before** the suite, so it fails on style and static-analysis problems as well as test failures.
+
+The suite runs against the database named in `.env.testing`, which is git-ignored. Point it at a database you are happy for the suite to reset.
 
 ### Frontend
 
@@ -206,7 +216,7 @@ Contributions are welcome — translations, new services and starter kits, docum
 
 ## Project status
 
-Charter is actively maintained and in use in production at [laravelcharter.com](https://laravelcharter.com). The application builder, package builder, and MCP server are stable and covered by tests. Self-hosting documentation is the current gap; see [Self-hosting](#self-hosting). For anything not covered here, [open an issue](https://github.com/wilsenhc/laravel-charter/issues).
+Charter is actively maintained and in use in production at [laravelcharter.com](https://laravelcharter.com). The application builder, package builder, and MCP server are stable and covered by tests. Self-hosting is documented in [deployment.md](docs/deployment.md). For anything not covered here, [open an issue](https://github.com/wilsenhc/laravel-charter/issues).
 
 ## Support
 
