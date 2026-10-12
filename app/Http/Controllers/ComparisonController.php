@@ -20,13 +20,11 @@ class ComparisonController extends Controller
 
         $comparison = Comparison::where('slug', $slug)->first();
 
-        if ($comparison === null) {
+        if ($comparison === null || ! $comparison->hasFullTranslation($locale)) {
             abort(404);
         }
 
-        $translations = $comparison->translations[$locale]
-            ?? $comparison->translations['en']
-            ?? [];
+        $translations = $comparison->translations[$locale];
 
         $firstTerm = GlossaryTerm::where('slug', $comparison->first_term_slug)->first();
         $secondTerm = GlossaryTerm::where('slug', $comparison->second_term_slug)->first();
@@ -46,10 +44,11 @@ class ComparisonController extends Controller
 
         $relatedComparisons = Comparison::whereIn('slug', $comparison->related)
             ->get()
+            ->filter(fn (Comparison $c): bool => $c->hasFullTranslation($locale))
             ->map(fn (Comparison $c) => [
                 'slug' => $c->slug,
-                'page_title' => $c->translations[$locale]['page_title'] ?? $c->translations['en']['page_title'] ?? $c->slug,
-                'meta_description' => $c->translations[$locale]['meta_description'] ?? $c->translations['en']['meta_description'] ?? '',
+                'page_title' => $c->translations[$locale]['page_title'],
+                'meta_description' => $c->translations[$locale]['meta_description'],
             ])
             ->all();
 

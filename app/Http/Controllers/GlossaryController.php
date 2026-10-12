@@ -24,12 +24,14 @@ class GlossaryController extends Controller
             __('glossary.page_title') => url($locale.'/glossary'),
         ]));
 
-        $terms = GlossaryTerm::all()->map(fn (GlossaryTerm $term) => [
-            'slug' => $term->slug,
-            'category' => $term->category,
-            'title' => $term->translations[$locale]['title'] ?? $term->translations['en']['title'] ?? $term->slug,
-            'summary' => $term->translations[$locale]['summary'] ?? $term->translations['en']['summary'] ?? '',
-        ])->values()->all();
+        $terms = GlossaryTerm::all()
+            ->filter(fn (GlossaryTerm $term): bool => $term->hasFullTranslation($locale))
+            ->map(fn (GlossaryTerm $term) => [
+                'slug' => $term->slug,
+                'category' => $term->category,
+                'title' => $term->translations[$locale]['title'],
+                'summary' => $term->translations[$locale]['summary'],
+            ])->values()->all();
 
         return Inertia::render('Glossary/Index', [
             'terms' => $terms,
@@ -44,13 +46,11 @@ class GlossaryController extends Controller
 
         $glossaryTerm = GlossaryTerm::where('slug', $slug)->first();
 
-        if ($glossaryTerm === null) {
+        if ($glossaryTerm === null || ! $glossaryTerm->hasFullTranslation($locale)) {
             abort(404);
         }
 
-        $translations = $glossaryTerm->translations[$locale]
-            ?? $glossaryTerm->translations['en']
-            ?? [];
+        $translations = $glossaryTerm->translations[$locale];
 
         $page_title = $translations['question'] ?? $translations['title'] ?? $slug;
         $summary = $translations['summary'] ?? '';
@@ -67,10 +67,11 @@ class GlossaryController extends Controller
 
         $relatedTerms = GlossaryTerm::whereIn('slug', $glossaryTerm->related)
             ->get()
+            ->filter(fn (GlossaryTerm $t): bool => $t->hasFullTranslation($locale))
             ->map(fn (GlossaryTerm $t) => [
                 'slug' => $t->slug,
-                'title' => $t->translations[$locale]['title'] ?? $t->translations['en']['title'] ?? $t->slug,
-                'summary' => $t->translations[$locale]['summary'] ?? $t->translations['en']['summary'] ?? '',
+                'title' => $t->translations[$locale]['title'],
+                'summary' => $t->translations[$locale]['summary'],
             ])
             ->all();
 

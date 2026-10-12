@@ -50,6 +50,17 @@ const grouped = computed(() => {
             {{ t('glossary.meta_description') }}
         </p>
 
+        <p class="mb-8 text-sm">
+            {{ t('guides.page_title') }}:
+            <Link
+                :href="`/${locale}/guides`"
+                prefetch
+                class="underline underline-offset-4 hover:text-foreground"
+            >
+                {{ t('guides.back_to_guides') }}
+            </Link>
+        </p>
+
         <div v-for="group in grouped" :key="group.category" class="mb-10">
             <h2 class="mb-4 text-lg font-semibold">
                 {{ group.category }}

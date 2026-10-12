@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Guide;
+
 use function Pest\Laravel\get;
 
 it('renders the privacy page', function () {
@@ -29,6 +31,77 @@ it('generates a valid sitemap', function () {
         ->assertHeader('X-Content-Type-Options', 'nosniff')
         ->assertSee('hreflang="en"', false)
         ->assertSee('hreflang="es"', false);
+});
+
+it('includes the guides and the mcp page in the sitemap', function () {
+    Guide::create([
+        'slug' => 'sitemap-guide',
+        'category' => 'Application',
+        'app_name' => 'my-app',
+        'builder_params' => ['services' => ['pgsql']],
+        'related' => [],
+        'translations' => [
+            'en' => [
+                'title' => 'Sitemap guide',
+                'meta_description' => 'Sitemap guide description.',
+                'heading' => 'Sitemap guide heading',
+                'problem' => 'Sitemap guide problem.',
+                'notes' => ['Note.'],
+                'steps' => ['Step.'],
+            ],
+            'es' => [
+                'title' => 'Guía del sitemap',
+                'meta_description' => 'Descripción de la guía.',
+                'heading' => 'Título de la guía',
+                'problem' => 'Problema de la guía.',
+                'notes' => ['Nota.'],
+                'steps' => ['Paso.'],
+            ],
+        ],
+    ]);
+
+    $content = get(route('sitemap'))->getContent();
+
+    expect($content)
+        ->toContain('/en/guides')
+        ->toContain('/en/guides/sitemap-guide')
+        ->toContain('/es/guides/sitemap-guide')
+        ->toContain('/en/mcp')
+        ->toContain('/es/mcp');
+});
+
+it('excludes locales without a full translation from guide sitemap entries', function () {
+    Guide::create([
+        'slug' => 'partial-sitemap-guide',
+        'category' => 'Application',
+        'app_name' => 'my-app',
+        'builder_params' => [],
+        'related' => [],
+        'translations' => [
+            'en' => [
+                'title' => 'Partial guide',
+                'meta_description' => 'Partial guide description.',
+                'heading' => 'Partial guide heading',
+                'problem' => 'Partial guide problem.',
+                'notes' => ['Note.'],
+                'steps' => ['Step.'],
+            ],
+            'es' => [
+                'title' => '',
+                'meta_description' => '',
+                'heading' => '',
+                'problem' => '',
+                'notes' => [],
+                'steps' => [],
+            ],
+        ],
+    ]);
+
+    $content = get(route('sitemap'))->getContent();
+
+    expect($content)
+        ->toContain('/en/guides/partial-sitemap-guide')
+        ->not->toContain('/es/guides/partial-sitemap-guide');
 });
 
 it('renders the application page', function () {

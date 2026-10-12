@@ -36,7 +36,7 @@ These are the parts that are specific to Charter and easy to miss. Each is cover
 
 1. **Use Bun.** Cloud runs `npm` by default for Laravel applications. Your lockfile does not change that.
 2. **Run migrations.** Nothing migrates until you write a deploy command.
-3. **Seed the glossary and comparison content.** Without it, `/glossary`, `/compare/*` and `/llms.txt` are empty or 404.
+3. **Seed the content.** Glossary, comparison, and guide seeders read `database/data/*.json`. Without them, `/glossary`, `/compare/*`, `/guides` and `/llms.txt` are empty or 404.
 4. **Set `APP_KEY`.** Cloud does not generate one for you.
 5. **Run a queue worker.** Charter has two queued jobs and no worker until you add one.
 
@@ -191,11 +191,12 @@ php artisan migrate --force
 php artisan llms:clear
 php artisan db:seed --class=GlossaryTermSeeder --force
 php artisan db:seed --class=ComparisonSeeder --force
+php artisan db:seed --class=GuideSeeder --force
 ```
 
-The first two lines match the canonical deployment. `llms:clear` drops the cached `/llms.txt` output, which is regenerated per request from the glossary and comparison tables — it is the app-specific example of a deploy-time cache clear.
+The first two lines match the canonical deployment. `llms:clear` drops the cached `/llms.txt` output, which is regenerated per request from the glossary, comparison, and guide tables — it is the app-specific example of a deploy-time cache clear.
 
-**Why the seeders.** `GlossaryTermSeeder` and `ComparisonSeeder` use `updateOrCreate`, so they are idempotent and safe on every deploy. They read `database/data/glossary-terms.json` and `database/data/comparisons.json`. Without them `/glossary` renders an empty list, every `/glossary/{term}` and `/compare/{slug}` returns 404, the sitemap loses those URLs, and `/llms.txt` returns nothing useful. The seeder reads those files with a `?: '[]'` fallback, so a missing file fails silently rather than loudly.
+**Why the seeders.** `GlossaryTermSeeder`, `ComparisonSeeder` and `GuideSeeder` use `updateOrCreate`, so they are idempotent and safe on every deploy. They read `database/data/glossary-terms.json`, `database/data/comparisons.json` and `database/data/guides.json`. Without them `/glossary` renders an empty list, `/guides` renders an empty list, every `/glossary/{term}`, `/compare/{slug}` and `/guides/{guide}` returns 404, the sitemap loses those URLs, and `/llms.txt` returns nothing useful. Each seeder reads its file with a `?: '[]'` fallback, so a missing file fails silently rather than loudly.
 
 The live site currently carries this content because it was seeded once by hand, not on every deploy. That means it survives code deploys but **not a database being recreated**. Adding these two lines makes that self-healing.
 
@@ -208,7 +209,9 @@ Do not try to pass `--class` twice in one command:
 php artisan db:seed --class=GlossaryTermSeeder --class=ComparisonSeeder --force
 ```
 
-Run them as two separate commands, as above.
+Run them as separate commands, as above.
+
+The `guides` table is created by the `create_guides_table` migration in the `migrate` step, and `GuideSeeder` runs alongside the other two seeders.
 
 ## Step 6 — Environment variables
 
@@ -404,7 +407,7 @@ If the migration is not backward compatible, restore the database snapshot first
 | Build fails on `npm` or a missing `bun` | The default build command is still in place. Replace it wholesale with the commands in [Step 4](#step-4--build-command). |
 | `Your lock file does not contain a compatible set of packages` | `composer.json` requires `^8.5`; the environment is on an older PHP. Set the environment to 8.5 and redeploy. |
 | Assets 404, or "Unable to locate file in Vite manifest" | The build did not run or `public/manifest.webmanifest` was not produced. Confirm the build command completed and that no `npm` lines remain. |
-| `/glossary` is empty, `/compare/*` 404s | The seeders did not run. Add both to the deploy command and redeploy. |
+| `/glossary` is empty, `/compare/*` 404s | The seeders did not run. Add all three to the deploy command and redeploy. |
 | `/llms.txt` is empty | Same cause — it reads the seeded glossary and comparison tables. |
 | Statistics never appear on `/stats` | No queue worker, or `QUEUE_CONNECTION` does not match it. Allow for up to the worker's `--sleep` interval before expecting them. Check the **Logs** tab for worker output. |
 | Duplicate statistics rows | `CACHE_STORE` is not `database`. A per-process cache store breaks the dedup lock. |

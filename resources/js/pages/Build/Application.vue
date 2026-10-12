@@ -2,6 +2,15 @@
 import { Link } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import type {
+    AvailableAuthProvider,
+    AvailableDatabaseDriver,
+    AvailableJavascriptRuntime,
+    AvailablePhpVersion,
+    AvailableService,
+    AvailableStarterKit,
+    AvailableTestingFramework,
+} from '@/build';
 import {
     availableAuthProviders,
     availableDatabaseDrivers,
@@ -38,6 +47,22 @@ import { Switch } from '@/components/ui/switch';
 interface BuildApplicationPageProps {
     locale: string;
     url: string;
+    presets?: {
+        name?: string;
+        services?: AvailableService[];
+        frontend?: AvailableStarterKit;
+        auth?: AvailableAuthProvider;
+        testing?: AvailableTestingFramework;
+        javascript?: AvailableJavascriptRuntime;
+        php?: AvailablePhpVersion;
+        database?: AvailableDatabaseDriver | 'none';
+        teams?: boolean;
+        boost?: boolean;
+        devcontainer?: boolean;
+        'no-node'?: boolean;
+        'livewire-class-components'?: boolean;
+        using?: string;
+    };
 }
 
 const { t } = useI18n();
@@ -45,23 +70,31 @@ const props = defineProps<BuildApplicationPageProps>();
 
 const isLocal = import.meta.env.DEV;
 
-const appName = ref('new-laravel');
+const preset = props.presets ?? {};
+
+const appName = ref(preset.name ?? 'new-laravel');
 const appNameError = ref('');
-const selectedServices = ref<string[]>([]);
-const selectedStarterKit = ref('react');
+const selectedServices = ref<string[]>([...(preset.services ?? [])]);
+const selectedStarterKit = ref(preset.frontend ?? 'react');
 const customStarterKitUrl = ref('');
 const customStarterKitUrlError = ref('');
-const selectedJavascriptRuntime = ref('bun');
-const selectedAuth = ref('laravel');
-const selectedTesting = ref('pest');
-const withTeams = ref(false);
-const withBoost = ref(true);
-const withDevcontainer = ref(false);
-const withNoNode = ref(false);
-const withLivewireClassComponents = ref(false);
-const selectedPhpVersion = ref('8.5');
-const selectedDatabase = ref('none');
-const hasManuallyChangedDatabase = ref(false);
+const selectedJavascriptRuntime = ref(preset.javascript ?? 'bun');
+const selectedAuth = ref(preset.auth ?? 'laravel');
+const selectedTesting = ref(preset.testing ?? 'pest');
+const withTeams = ref(preset.teams ?? false);
+const withBoost = ref(preset.boost ?? true);
+const withDevcontainer = ref(preset.devcontainer ?? false);
+const withNoNode = ref(preset['no-node'] ?? false);
+const withLivewireClassComponents = ref(
+    preset['livewire-class-components'] ?? false,
+);
+const selectedPhpVersion = ref<AvailablePhpVersion>(preset.php ?? '8.5');
+const selectedDatabase = ref<AvailableDatabaseDriver | 'none'>(
+    preset.database ?? 'none',
+);
+const hasManuallyChangedDatabase = ref(
+    preset.database !== undefined && preset.database !== 'none',
+);
 
 const toggleService = (service: string) => {
     if (selectedServices.value.includes(service)) {
@@ -118,7 +151,7 @@ const validateCustomUrl = () => {
     }
 };
 
-const databaseServiceNames = ['mysql', 'mariadb', 'pgsql'];
+const databaseServiceNames = ['mysql', 'mariadb', 'pgsql'] as const;
 
 watch(selectedServices, (newServices) => {
     if (hasManuallyChangedDatabase.value) {
@@ -126,7 +159,9 @@ watch(selectedServices, (newServices) => {
     }
 
     const lastDbService = newServices
-        .filter((s) => databaseServiceNames.includes(s))
+        .filter((service): service is AvailableDatabaseDriver =>
+            (databaseServiceNames as readonly string[]).includes(service),
+        )
         .at(-1);
 
     selectedDatabase.value = lastDbService ?? 'none';
@@ -134,7 +169,8 @@ watch(selectedServices, (newServices) => {
 
 const onDatabaseChange = (value: unknown) => {
     hasManuallyChangedDatabase.value = true;
-    selectedDatabase.value = value?.toString() ?? 'none';
+    selectedDatabase.value = (value ?? 'none') as
+        AvailableDatabaseDriver | 'none';
 };
 
 const laravelStarterKits = ['livewire', 'vue', 'react', 'svelte'];

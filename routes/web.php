@@ -5,6 +5,7 @@ use App\Http\Controllers\BuildApplicationController;
 use App\Http\Controllers\BuildPackageController;
 use App\Http\Controllers\ComparisonController;
 use App\Http\Controllers\GlossaryController;
+use App\Http\Controllers\GuideController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\McpController;
@@ -24,9 +25,12 @@ Route::prefix('{locale}')
         Route::get('/glossary/{term}', [GlossaryController::class, 'show'])->name('glossary.show');
         Route::get('/compare/{comparison}', [ComparisonController::class, 'show'])->name('comparison.show');
         Route::get('/mcp', [McpController::class, 'index'])->name('mcp.index');
+        Route::get('/guides', [GuideController::class, 'index'])->name('guides.index');
+        Route::get('/guides/{guide}', [GuideController::class, 'show'])->name('guides.show');
     });
 
 Route::get('/', [HomepageController::class, 'index']);
+Route::get('/{locale}', [HomepageController::class, 'index'])->where('locale', implode('|', Locale::codes()));
 Route::get('/application', [BuildApplicationController::class, 'index']);
 Route::get('/application/build', [BuildApplicationController::class, 'show'])->name('build.application.show');
 Route::get('/package', [BuildPackageController::class, 'index']);
@@ -38,6 +42,8 @@ Route::get('/glossary', [GlossaryController::class, 'index']);
 Route::get('/glossary/{term}', [GlossaryController::class, 'show']);
 Route::get('/compare/{comparison}', [ComparisonController::class, 'show']);
 Route::get('/mcp', [McpController::class, 'index']);
+Route::get('/guides', [GuideController::class, 'index']);
+Route::get('/guides/{guide}', [GuideController::class, 'show']);
 
 Route::get('/sitemap.xml', [StaticPageController::class, 'sitemap'])->name('sitemap');
 Route::post('/locale', [LocaleController::class, 'update'])->name('locale.update');

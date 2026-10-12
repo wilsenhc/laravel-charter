@@ -107,4 +107,100 @@ enum BuildOptions
             'availablePackageFeatures' => self::AVAILABLE_PACKAGE_FEATURES->values(),
         ];
     }
+
+    /**
+     * Extract a valid application-builder preset from arbitrary input (query
+     * parameters, curated guide data), dropping unknown or unsupported values.
+     *
+     * @param  array<string, mixed>  $input
+     * @return array<string, mixed>
+     */
+    public static function applicationPreset(array $input): array
+    {
+        $preset = [];
+
+        if (is_string($input['name'] ?? null) && preg_match('/^[a-zA-Z0-9_-]+$/', $input['name'])) {
+            $preset['name'] = $input['name'];
+        }
+
+        $services = self::listValues($input['services'] ?? null, [...self::AVAILABLE_SERVICES->values(), 'none']);
+
+        if ($services !== [] && ! (in_array('none', $services, true) && count($services) > 1)) {
+            $preset['services'] = $services;
+        }
+
+        foreach ([
+            'frontend' => self::AVAILABLE_STARTER_KITS,
+            'auth' => self::AVAILABLE_AUTH_PROVIDERS,
+            'testing' => self::AVAILABLE_TESTING_FRAMEWORKS,
+            'javascript' => self::AVAILABLE_JAVASCRIPT_RUNTIMES,
+            'php' => self::AVAILABLE_PHP_VERSIONS,
+        ] as $key => $case) {
+            if (is_string($input[$key] ?? null) && in_array($input[$key], $case->values(), true)) {
+                $preset[$key] = $input[$key];
+            }
+        }
+
+        if (is_string($input['database'] ?? null)
+            && in_array($input['database'], [...self::AVAILABLE_DATABASE_DRIVERS->values(), 'none'], true)) {
+            $preset['database'] = $input['database'];
+        }
+
+        if (is_string($input['using'] ?? null)
+            && filter_var($input['using'], FILTER_VALIDATE_URL) !== false
+            && ($input['frontend'] ?? null) === 'custom') {
+            $preset['using'] = $input['using'];
+        }
+
+        foreach (['teams', 'boost', 'devcontainer', 'no-node', 'livewire-class-components'] as $flag) {
+            if (isset($input[$flag])) {
+                $preset[$flag] = true;
+            }
+        }
+
+        return $preset;
+    }
+
+    /**
+     * Extract a valid package-builder preset from arbitrary input.
+     *
+     * @param  array<string, mixed>  $input
+     * @return array<string, mixed>
+     */
+    public static function packagePreset(array $input): array
+    {
+        $preset = [];
+
+        if (is_string($input['name'] ?? null) && preg_match('/^[a-zA-Z0-9_-]+$/', $input['name'])) {
+            $preset['name'] = $input['name'];
+        }
+
+        if (is_string($input['php'] ?? null) && in_array($input['php'], self::AVAILABLE_PHP_VERSIONS->values(), true)) {
+            $preset['php'] = $input['php'];
+        }
+
+        $features = self::listValues($input['features'] ?? null, self::AVAILABLE_PACKAGE_FEATURES->values());
+
+        if ($features !== []) {
+            $preset['features'] = $features;
+        }
+
+        return $preset;
+    }
+
+    /**
+     * @param  array<string>  $allowed
+     * @return array<string>
+     */
+    private static function listValues(mixed $value, array $allowed): array
+    {
+        $items = is_array($value)
+            ? $value
+            : (is_string($value) ? explode(',', $value) : []);
+
+        return array_values(array_intersect(
+            array_filter($items, is_string(...)),
+            $allowed,
+        ));
+    }
 }

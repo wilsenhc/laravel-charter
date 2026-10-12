@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\BuildPackageScriptAction;
+use App\Enums\BuildOptions;
 use App\Http\Requests\BuildPackageRequest;
 use App\Jobs\RecordPackageBuildStatJob;
 use Illuminate\Http\Request;
@@ -30,6 +31,7 @@ class BuildPackageController extends Controller
 
         return Inertia::render('Build/Package', [
             'url' => config('app.url'),
+            'presets' => (object) BuildOptions::packagePreset($request->query()),
         ]);
     }
 

@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             PackageStatsSeeder::class,
             GlossaryTermSeeder::class,
             ComparisonSeeder::class,
+            GuideSeeder::class,
         ]);
     }
 }

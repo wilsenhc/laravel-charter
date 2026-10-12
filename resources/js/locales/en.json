@@ -301,6 +301,22 @@
         "cta_button": "Build your app",
         "related_title": "Related terms"
     },
+    "guides": {
+        "page_title": "Laravel Sail Setup Guides",
+        "page_description": "Short, practical guides for common Laravel Sail configurations. Each one explains when the configuration is worth it, links the supported builder options, and ends with the commands to run.",
+        "back_to_guides": "Back to Guides",
+        "categories": {
+            "Application": "Application guides",
+            "Package": "Package guides"
+        },
+        "notes_title": "Options and compatibility",
+        "cta_title": "Open the builder with these options",
+        "cta_description": "The builder opens preselected with the configuration from this guide, so you can adjust it and copy the ready-to-run command.",
+        "cta_button_application": "Open the application builder",
+        "cta_button_package": "Open the package builder",
+        "steps_title": "After you run the command",
+        "related_title": "Related guides"
+    },
     "mcp": {
         "title": "Model Context Protocol (MCP)",
         "meta_description": "Use Charter for Laravel via the Model Context Protocol (MCP). Connect your AI coding assistant to scaffold Laravel applications and packages directly.",

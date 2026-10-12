@@ -2,6 +2,7 @@
 import { Link } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import type { AvailablePackageFeature, AvailablePhpVersion } from '@/build';
 import { availablePackageFeatures, availablePhpVersions } from '@/build';
 import CodeBlock from '@/components/CodeBlock.vue';
 import { Badge } from '@/components/ui/badge';
@@ -19,6 +20,11 @@ import {
 interface BuildPackagePageProps {
     locale: string;
     url: string;
+    presets?: {
+        name?: string;
+        features?: AvailablePackageFeature[];
+        php?: AvailablePhpVersion;
+    };
 }
 
 const { t } = useI18n();
@@ -26,11 +32,13 @@ const props = defineProps<BuildPackagePageProps>();
 
 const isLocal = import.meta.env.DEV;
 
-const packageName = ref('my-package');
+const preset = props.presets ?? {};
+
+const packageName = ref(preset.name ?? 'my-package');
 const packageNameError = ref('');
 const composerPackageNameError = ref('');
-const selectedPhpVersion = ref('8.5');
-const selectedFeatures = ref<string[]>([]);
+const selectedPhpVersion = ref(preset.php ?? '8.5');
+const selectedFeatures = ref<string[]>([...(preset.features ?? [])]);
 const authorName = ref('');
 const authorEmail = ref('');
 const composerPackageName = ref('');

@@ -1,0 +1,435 @@
+[
+  {
+    "slug": "laravel-sail-with-postgresql",
+    "category": "Application",
+    "app_name": "my-pg-app",
+    "builder_params": {
+      "services": ["pgsql"],
+      "database": "pgsql",
+      "frontend": "none",
+      "testing": "pest",
+      "javascript": "bun",
+      "php": "8.5"
+    },
+    "related": ["laravel-sail-with-mysql", "laravel-sail-with-redis"],
+    "translations": {
+      "en": {
+        "title": "Laravel Sail with PostgreSQL — Setup Guide",
+        "meta_description": "Run Laravel Sail with PostgreSQL: what the --pgsql flag does to docker-compose.yml and .env, the auto-created database, and the first commands after scaffolding.",
+        "heading": "Run Laravel Sail with PostgreSQL",
+        "problem": "PostgreSQL is the right default when your application leans on advanced SQL: JSONB columns, window functions, geographic data with PostGIS, or strict transactional integrity. This guide scaffolds a fresh Laravel app with PostgreSQL running in Sail — one Docker container, nothing installed on your host.",
+        "notes": [
+          "Charter passes --pgsql to laravel new, which adds a postgres service to docker-compose.yml and writes the .env defaults: DB_CONNECTION=pgsql, DB_HOST=pgsql, port 5432. The database driver option is set to pgsql so the driver and the container always match.",
+          "Sail creates a database named after your project on first boot, so migrations run immediately without manual setup. Other services like Redis or Meilisearch can be added to the same command — each one is an independent container.",
+          "Before reaching for a dedicated search container, try PostgreSQL's built-in full-text search. If it is not enough, the Meilisearch guide adds one more service on top of this exact configuration."
+        ],
+        "steps": [
+          "Start the containers: ./vendor/bin/sail up -d",
+          "Run the migrations: ./vendor/bin/sail artisan migrate",
+          "Inspect the database from the app container: ./vendor/bin/sail psql",
+          "Stop with ./vendor/bin/sail down — data persists in the Sail volume."
+        ]
+      },
+      "es": {
+        "title": "Laravel Sail con PostgreSQL — Guía de configuración",
+        "meta_description": "Ejecuta Laravel Sail con PostgreSQL: qué hace la bandera --pgsql en docker-compose.yml y .env, la base de datos creada automáticamente y los primeros comandos tras generar el proyecto.",
+        "heading": "Ejecuta Laravel Sail con PostgreSQL",
+        "problem": "PostgreSQL es la opción correcta cuando tu aplicación depende de SQL avanzado: columnas JSONB, window functions, datos geográficos con PostGIS o integridad transaccional estricta. Esta guía genera una app Laravel nueva con PostgreSQL corriendo en Sail — un contenedor Docker, nada instalado en tu máquina.",
+        "notes": [
+          "Charter pasa --pgsql a laravel new, que añade un servicio postgres a docker-compose.yml y escribe los valores por defecto en .env: DB_CONNECTION=pgsql, DB_HOST=pgsql, puerto 5432. La opción de driver de base de datos se fija en pgsql para que driver y contenedor coincidan siempre.",
+          "Sail crea una base de datos con el nombre de tu proyecto en el primer arranque, así que las migraciones funcionan sin configuración extra. Otros servicios como Redis o Meilisearch pueden añadirse en el mismo comando; cada uno es un contenedor independiente.",
+          "Antes de añadir un contenedor de búsqueda dedicado, prueba la búsqueda de texto completo de PostgreSQL. Si no basta, la guía de Meilisearch añade un servicio más sobre esta misma configuración."
+        ],
+        "steps": [
+          "Arranca los contenedores: ./vendor/bin/sail up -d",
+          "Ejecuta las migraciones: ./vendor/bin/sail artisan migrate",
+          "Inspecciona la base de datos desde el contenedor: ./vendor/bin/sail psql",
+          "Para con ./vendor/bin/sail down — los datos persisten en el volumen de Sail."
+        ]
+      }
+    }
+  },
+  {
+    "slug": "laravel-sail-with-mysql",
+    "category": "Application",
+    "app_name": "my-mysql-app",
+    "builder_params": {
+      "services": ["mysql"],
+      "database": "mysql",
+      "frontend": "none",
+      "testing": "pest",
+      "javascript": "bun",
+      "php": "8.5"
+    },
+    "related": ["laravel-sail-with-postgresql", "laravel-sail-with-redis"],
+    "translations": {
+      "en": {
+        "title": "Laravel Sail with MySQL — Setup Guide",
+        "meta_description": "Run Laravel Sail with MySQL: what the --mysql flag configures in docker-compose.yml and .env, the auto-created database, and the first commands after scaffolding.",
+        "heading": "Run Laravel Sail with MySQL",
+        "problem": "MySQL is the most widely supported Laravel database: it is the default driver across the ecosystem, every hosting platform offers it, and the tooling is mature. This guide scaffolds a fresh Laravel app with MySQL running in Sail.",
+        "notes": [
+          "Charter passes --mysql to laravel new, which adds a mysql service to docker-compose.yml (port 3306) and sets DB_CONNECTION=mysql. The database driver option is set to mysql so the driver and the container always match.",
+          "Sail creates a database named after your project and wires the credentials it defines in docker-compose.yml into .env, so migrations run on first boot with no manual setup.",
+          "If you prefer a community-maintained fork, MariaDB works with the same mysql driver — pick services=mariadb with database=mariadb. The tradeoffs are laid out in the MySQL vs MariaDB comparison."
+        ],
+        "steps": [
+          "Start the containers: ./vendor/bin/sail up -d",
+          "Run the migrations: ./vendor/bin/sail artisan migrate",
+          "Open a MySQL client: ./vendor/bin/sail mysql",
+          "Stop with ./vendor/bin/sail down — data persists in the Sail volume."
+        ]
+      },
+      "es": {
+        "title": "Laravel Sail con MySQL — Guía de configuración",
+        "meta_description": "Ejecuta Laravel Sail con MySQL: qué configura la bandera --mysql en docker-compose.yml y .env, la base de datos creada automáticamente y los primeros comandos tras generar el proyecto.",
+        "heading": "Ejecuta Laravel Sail con MySQL",
+        "problem": "MySQL es la base de datos con mayor soporte en el ecosistema Laravel: es el driver por defecto, todas las plataformas de hosting la ofrecen y el tooling es maduro. Esta guía genera una app Laravel nueva con MySQL corriendo en Sail.",
+        "notes": [
+          "Charter pasa --mysql a laravel new, que añade un servicio mysql a docker-compose.yml (puerto 3306) y fija DB_CONNECTION=mysql. La opción de driver de base de datos se fija en mysql para que driver y contenedor coincidan siempre.",
+          "Sail crea una base de datos con el nombre de tu proyecto y escribe en .env las credenciales definidas en docker-compose.yml, así que las migraciones funcionan en el primer arranque sin configuración manual.",
+          "Si prefieres un fork mantenido por la comunidad, MariaDB funciona con el mismo driver mysql — elige services=mariadb con database=mariadb. Las diferencias están en la comparación MySQL vs MariaDB."
+        ],
+        "steps": [
+          "Arranca los contenedores: ./vendor/bin/sail up -d",
+          "Ejecuta las migraciones: ./vendor/bin/sail artisan migrate",
+          "Abre un cliente MySQL: ./vendor/bin/sail mysql",
+          "Para con ./vendor/bin/sail down — los datos persisten en el volumen de Sail."
+        ]
+      }
+    }
+  },
+  {
+    "slug": "laravel-sail-with-redis",
+    "category": "Application",
+    "app_name": "my-redis-app",
+    "builder_params": {
+      "services": ["redis"],
+      "frontend": "none",
+      "testing": "pest",
+      "javascript": "bun",
+      "php": "8.5"
+    },
+    "related": ["laravel-sail-with-mysql", "laravel-sail-with-meilisearch"],
+    "translations": {
+      "en": {
+        "title": "Laravel Sail with Redis — Setup Guide",
+        "meta_description": "Add Redis to a fresh Laravel Sail app. What the --redis flag changes, how to switch cache, session and queue drivers to Redis, and how to verify it works.",
+        "heading": "Run Laravel Sail with Redis",
+        "problem": "Anything with queues, rate limiting, or cache-heavy reads benefits from Redis. This guide adds it to a fresh Laravel app without touching the database choice — Redis is a separate container that Laravel talks to over port 6379.",
+        "notes": [
+          "Charter passes --redis to laravel new, which adds a redis service to docker-compose.yml and the REDIS_HOST/REDIS_PORT values to .env. Your database driver stays whatever you choose separately.",
+          "Laravel does not switch drivers automatically. To actually use Redis, set CACHE_STORE=redis (and optionally SESSION_DRIVER=redis and QUEUE_CONNECTION=redis) in .env after scaffolding.",
+          "If licensing matters to you, Valkey is the drop-in alternative — it is a separate toggle in the builder and Laravel works with it identically."
+        ],
+        "steps": [
+          "Start the containers: ./vendor/bin/sail up -d",
+          "Switch the cache to Redis: set CACHE_STORE=redis in .env, then run ./vendor/bin/sail artisan config:clear",
+          "Verify it: ./vendor/bin/sail artisan tinker, then Cache::store('redis')->put('ping', 1) and Cache::store('redis')->get('ping')",
+          "Once QUEUE_CONNECTION=redis is set, run workers with ./vendor/bin/sail artisan queue:work"
+        ]
+      },
+      "es": {
+        "title": "Laravel Sail con Redis — Guía de configuración",
+        "meta_description": "Añade Redis a una app Laravel Sail nueva. Qué cambia la bandera --redis, cómo mover caché, sesiones y colas a Redis, y cómo verificar que funciona.",
+        "heading": "Ejecuta Laravel Sail con Redis",
+        "problem": "Cualquier cosa con colas, rate limiting o lecturas intensivas de caché se beneficia de Redis. Esta guía lo añade a una app Laravel nueva sin tocar la elección de base de datos — Redis es un contenedor independiente al que Laravel accede por el puerto 6379.",
+        "notes": [
+          "Charter pasa --redis a laravel new, que añade un servicio redis a docker-compose.yml y los valores REDIS_HOST/REDIS_PORT a .env. Tu driver de base de datos sigue siendo el que elijas aparte.",
+          "Laravel no cambia los drivers automáticamente. Para usar Redis de verdad, define CACHE_STORE=redis (y opcionalmente SESSION_DRIVER=redis y QUEUE_CONNECTION=redis) en .env tras generar el proyecto.",
+          "Si la licencia te importa, Valkey es el reemplazo directo — es otra opción del builder y Laravel funciona con él de forma idéntica."
+        ],
+        "steps": [
+          "Arranca los contenedores: ./vendor/bin/sail up -d",
+          "Mueve la caché a Redis: define CACHE_STORE=redis en .env y ejecuta ./vendor/bin/sail artisan config:clear",
+          "Verifícalo: ./vendor/bin/sail artisan tinker, luego Cache::store('redis')->put('ping', 1) y Cache::store('redis')->get('ping')",
+          "Cuando definas QUEUE_CONNECTION=redis, lanza los workers con ./vendor/bin/sail artisan queue:work"
+        ]
+      }
+    }
+  },
+  {
+    "slug": "laravel-sail-with-mailpit",
+    "category": "Application",
+    "app_name": "my-mail-app",
+    "builder_params": {
+      "services": ["mailpit"],
+      "frontend": "none",
+      "testing": "pest",
+      "javascript": "bun",
+      "php": "8.5"
+    },
+    "related": ["laravel-sail-with-redis"],
+    "translations": {
+      "en": {
+        "title": "Laravel Sail with Mailpit — Setup Guide",
+        "meta_description": "Capture outgoing email locally with Mailpit in Laravel Sail: SMTP on port 1025, the preview UI on 8025, and how to send a test message in one command.",
+        "heading": "Run Laravel Sail with Mailpit",
+        "problem": "Testing real email locally is the friction point: senders to configure, credentials to avoid leaking, and customers you must never mail by accident. Mailpit catches every outgoing message in a local web UI instead.",
+        "notes": [
+          "Charter passes --mailpit to laravel new, which adds a Mailpit container to docker-compose.yml: an SMTP server on port 1025 and a web UI on http://localhost:8025. The generated .env already points MAIL_HOST at the container.",
+          "Mailtrap's local variant (mailtrap-local) is the alternative if you prefer a Mailtrap-compatible local container — both are toggles in the builder.",
+          "Mailpit is a development-only tool. In production you should use a transactional mail provider; nothing in the scaffold assumes Mailpit beyond the local .env."
+        ],
+        "steps": [
+          "Start the containers: ./vendor/bin/sail up -d",
+          "Send a test message: ./vendor/bin/sail artisan tinker, then Mail::raw('It works', fn ($m) => $m->to('you@example.test')->subject('Sail mail'))",
+          "Open http://localhost:8025 and read the message from the UI."
+        ]
+      },
+      "es": {
+        "title": "Laravel Sail con Mailpit — Guía de configuración",
+        "meta_description": "Captura el email saliente en local con Mailpit en Laravel Sail: SMTP en el puerto 1025, la interfaz de previsualización en 8025 y cómo enviar un mensaje de prueba en un comando.",
+        "heading": "Ejecuta Laravel Sail con Mailpit",
+        "problem": "Probar email real en local es el punto de fricción: remitentes que configurar, credenciales que no filtrar y clientes a los que nunca debes escribir por accidente. Mailpit captura cada mensaje saliente en una interfaz web local.",
+        "notes": [
+          "Charter pasa --mailpit a laravel new, que añade un contenedor Mailpit a docker-compose.yml: un servidor SMTP en el puerto 1025 y una interfaz web en http://localhost:8025. El .env generado ya apunta MAIL_HOST al contenedor.",
+          "La variante local de Mailtrap (mailtrap-local) es la alternativa si prefieres un contenedor local compatible con Mailtrap — ambas son opciones del builder.",
+          "Mailpit es solo para desarrollo. En producción deberías usar un proveedor de email transaccional; el scaffold no asume Mailpit fuera del .env local."
+        ],
+        "steps": [
+          "Arranca los contenedores: ./vendor/bin/sail up -d",
+          "Envía un mensaje de prueba: ./vendor/bin/sail artisan tinker, luego Mail::raw('Funciona', fn ($m) => $m->to('tu@example.test')->subject('Correo Sail'))",
+          "Abre http://localhost:8025 y lee el mensaje desde la interfaz."
+        ]
+      }
+    }
+  },
+  {
+    "slug": "laravel-sail-with-meilisearch",
+    "category": "Application",
+    "app_name": "my-search-app",
+    "builder_params": {
+      "services": ["meilisearch"],
+      "frontend": "none",
+      "testing": "pest",
+      "javascript": "bun",
+      "php": "8.5"
+    },
+    "related": ["laravel-sail-with-redis", "laravel-sail-with-postgresql"],
+    "translations": {
+      "en": {
+        "title": "Laravel Sail with Meilisearch — Setup Guide",
+        "meta_description": "Run Laravel Sail with Meilisearch for typo-tolerant full-text search: what the flag adds, the Laravel Scout wiring, and the import commands that follow.",
+        "heading": "Run Laravel Sail with Meilisearch",
+        "problem": "When search grows beyond WHERE LIKE — typo tolerance, instant results, faceted filters — you need a dedicated search engine. Meilisearch is an open-source engine that Laravel Scout supports out of the box.",
+        "notes": [
+          "Charter passes --meilisearch to laravel new, which adds the service on port 7700. Scout is not installed by the scaffold: run composer require laravel/scout and set SCOUT_DRIVER=meilisearch — MEILISEARCH_HOST already points at the container.",
+          "Add the Searchable trait to the models you want indexed and import them once with scout:import. Indexing stays in sync afterwards through Scout's observers.",
+          "Typesense is the built-in alternative with an equivalent Scout driver — both are toggles in the builder, and the Meilisearch vs Typesense comparison covers the differences."
+        ],
+        "steps": [
+          "Start the containers: ./vendor/bin/sail up -d",
+          "Install Scout: ./vendor/bin/sail composer require laravel/scout",
+          "Set SCOUT_DRIVER=meilisearch in .env and confirm MEILISEARCH_HOST matches the container",
+          "Import your models: ./vendor/bin/sail artisan scout:import \"App\\Models\\YourModel\""
+        ]
+      },
+      "es": {
+        "title": "Laravel Sail con Meilisearch — Guía de configuración",
+        "meta_description": "Ejecuta Laravel Sail con Meilisearch para búsqueda de texto completo con tolerancia a errores: qué añade la bandera, la conexión con Laravel Scout y los comandos de importación.",
+        "heading": "Ejecuta Laravel Sail con Meilisearch",
+        "problem": "Cuando la búsqueda crece más allá de WHERE LIKE — tolerancia a errores, resultados instantáneos, filtros por facetas — necesitas un motor de búsqueda dedicado. Meilisearch es un motor open source que Laravel Scout soporta de serie.",
+        "notes": [
+          "Charter pasa --meilisearch a laravel new, que añade el servicio en el puerto 7700. Scout no lo instala el scaffold: ejecuta composer require laravel/scout y define SCOUT_DRIVER=meilisearch — MEILISEARCH_HOST ya apunta al contenedor.",
+          "Añade el trait Searchable a los modelos que quieras indexar e impórtalos una vez con scout:import. La indexación se mantiene sincronizada después mediante los observers de Scout.",
+          "Typesense es la alternativa integrada con un driver Scout equivalente — ambas son opciones del builder, y la comparación Meilisearch vs Typesense cubre las diferencias."
+        ],
+        "steps": [
+          "Arranca los contenedores: ./vendor/bin/sail up -d",
+          "Instala Scout: ./vendor/bin/sail composer require laravel/scout",
+          "Define SCOUT_DRIVER=meilisearch en .env y confirma que MEILISEARCH_HOST coincide con el contenedor",
+          "Importa tus modelos: ./vendor/bin/sail artisan scout:import \"App\\Models\\YourModel\""
+        ]
+      }
+    }
+  },
+  {
+    "slug": "laravel-sail-with-vue",
+    "category": "Application",
+    "app_name": "my-vue-app",
+    "builder_params": {
+      "services": ["none"],
+      "frontend": "vue",
+      "auth": "laravel",
+      "testing": "pest",
+      "javascript": "bun",
+      "php": "8.5"
+    },
+    "related": ["laravel-sail-with-react", "laravel-sail-with-livewire"],
+    "translations": {
+      "en": {
+        "title": "Laravel Sail with Vue — Setup Guide",
+        "meta_description": "Scaffold a Laravel app with Vue, Inertia and authentication in one Sail command: what laravel new --vue installs, and the dev-server commands that follow.",
+        "heading": "Run Laravel Sail with Vue",
+        "problem": "Vue with Inertia is the most popular frontend pairing in the Laravel ecosystem: SPA-style routing without a separate API. The Vue starter kit scaffolds authentication, routing and build tooling in the same command as the project.",
+        "notes": [
+          "Charter passes --vue to laravel new, which installs the Vue + Inertia starter kit with authentication (auth=laravel) and Pest (testing=pest) in one go. The services field is left at none — the starter kit works without extra containers.",
+          "The Teams toggle appears for authenticated starter kits if you need team-based data scoping later.",
+          "Tailwind CSS comes preconfigured with the starter kit; Vite handles the build and hot reload."
+        ],
+        "steps": [
+          "Start the containers: ./vendor/bin/sail up -d",
+          "Start Vite: ./vendor/bin/sail npm run dev",
+          "Open the app at http://localhost and register your first user through the scaffolded auth screens."
+        ]
+      },
+      "es": {
+        "title": "Laravel Sail con Vue — Guía de configuración",
+        "meta_description": "Genera una app Laravel con Vue, Inertia y autenticación en un solo comando de Sail: qué instala laravel new --vue y los comandos del servidor de desarrollo.",
+        "heading": "Ejecuta Laravel Sail con Vue",
+        "problem": "Vue con Inertia es la combinación frontend más popular del ecosistema Laravel: routing estilo SPA sin una API separada. El starter kit de Vue genera autenticación, routing y tooling de build en el mismo comando que el proyecto.",
+        "notes": [
+          "Charter pasa --vue a laravel new, que instala el starter kit Vue + Inertia con autenticación (auth=laravel) y Pest (testing=pest) de una vez. El campo de servicios queda en none — el starter kit funciona sin contenedores extra.",
+          "El toggle de Teams aparece en los starter kits con autenticación si necesitas scoping de datos por equipos más adelante.",
+          "Tailwind CSS viene preconfigurado con el starter kit; Vite se encarga del build y el hot reload."
+        ],
+        "steps": [
+          "Arranca los contenedores: ./vendor/bin/sail up -d",
+          "Arranca Vite: ./vendor/bin/sail npm run dev",
+          "Abre la app en http://localhost y registra tu primer usuario por las pantallas de autenticación generadas."
+        ]
+      }
+    }
+  },
+  {
+    "slug": "laravel-sail-with-react",
+    "category": "Application",
+    "app_name": "my-react-app",
+    "builder_params": {
+      "services": ["none"],
+      "frontend": "react",
+      "auth": "laravel",
+      "testing": "pest",
+      "javascript": "bun",
+      "php": "8.5"
+    },
+    "related": ["laravel-sail-with-vue", "laravel-sail-with-livewire"],
+    "translations": {
+      "en": {
+        "title": "Laravel Sail with React — Setup Guide",
+        "meta_description": "Scaffold a Laravel app with React, Inertia and authentication in one Sail command: what laravel new --react installs, and the dev-server commands that follow.",
+        "heading": "Run Laravel Sail with React",
+        "problem": "React has the largest frontend ecosystem, and the React starter kit pairs it with Inertia so Laravel stays the backend. You get authentication, routing and build tooling in the same command as the project.",
+        "notes": [
+          "Charter passes --react to laravel new, which installs the React + Inertia starter kit with authentication (auth=laravel) and Pest (testing=pest) in one go. No extra containers are needed.",
+          "The Teams toggle appears for authenticated starter kits if you need team-based data scoping later.",
+          "If your team already knows React Native or Next.js, the skills carry over directly through Inertia."
+        ],
+        "steps": [
+          "Start the containers: ./vendor/bin/sail up -d",
+          "Start Vite: ./vendor/bin/sail npm run dev",
+          "Open the app at http://localhost and register your first user through the scaffolded auth screens."
+        ]
+      },
+      "es": {
+        "title": "Laravel Sail con React — Guía de configuración",
+        "meta_description": "Genera una app Laravel con React, Inertia y autenticación en un solo comando de Sail: qué instala laravel new --react y los comandos del servidor de desarrollo.",
+        "heading": "Ejecuta Laravel Sail con React",
+        "problem": "React tiene el ecosistema frontend más grande, y el starter kit de React lo empareja con Inertia para que Laravel siga siendo el backend. Obtienes autenticación, routing y tooling de build en el mismo comando que el proyecto.",
+        "notes": [
+          "Charter pasa --react a laravel new, que instala el starter kit React + Inertia con autenticación (auth=laravel) y Pest (testing=pest) de una vez. No se necesitan contenedores extra.",
+          "El toggle de Teams aparece en los starter kits con autenticación si necesitas scoping de datos por equipos más adelante.",
+          "Si tu equipo ya conoce React Native o Next.js, ese conocimiento se transfiere directamente a través de Inertia."
+        ],
+        "steps": [
+          "Arranca los contenedores: ./vendor/bin/sail up -d",
+          "Arranca Vite: ./vendor/bin/sail npm run dev",
+          "Abre la app en http://localhost y registra tu primer usuario por las pantallas de autenticación generadas."
+        ]
+      }
+    }
+  },
+  {
+    "slug": "laravel-sail-with-livewire",
+    "category": "Application",
+    "app_name": "my-livewire-app",
+    "builder_params": {
+      "services": ["none"],
+      "frontend": "livewire",
+      "auth": "laravel",
+      "testing": "pest",
+      "javascript": "bun",
+      "php": "8.5"
+    },
+    "related": ["laravel-sail-with-vue", "laravel-sail-with-react"],
+    "translations": {
+      "en": {
+        "title": "Laravel Sail with Livewire — Setup Guide",
+        "meta_description": "Scaffold a Laravel Sail app with Livewire and keep the UI in PHP: what laravel new --livewire installs, the class components toggle, and the commands that follow.",
+        "heading": "Run Laravel Sail with Livewire",
+        "problem": "Livewire keeps the frontend in PHP: server-rendered components update over the wire without writing JavaScript. It is the default choice when a Laravel team has no dedicated frontend developers.",
+        "notes": [
+          "Charter passes --livewire to laravel new, which installs the Livewire starter kit with authentication (auth=laravel) and Pest (testing=pest) in one go. No extra containers are needed.",
+          "Prefer class components over single-file Volt components? Enable livewire-class-components in the builder — the flag only applies when the starter kit is livewire.",
+          "Tailwind CSS comes preconfigured with the starter kit."
+        ],
+        "steps": [
+          "Start the containers: ./vendor/bin/sail up -d",
+          "Create your first component: ./vendor/bin/sail artisan make:livewire dashboard",
+          "Start Vite: ./vendor/bin/sail npm run dev, then open the app at http://localhost"
+        ]
+      },
+      "es": {
+        "title": "Laravel Sail con Livewire — Guía de configuración",
+        "meta_description": "Genera una app Laravel Sail con Livewire y mantén la UI en PHP: qué instala laravel new --livewire, el toggle de class components y los comandos que siguen.",
+        "heading": "Ejecuta Laravel Sail con Livewire",
+        "problem": "Livewire mantiene el frontend en PHP: componentes renderizados en el servidor que se actualizan por wire sin escribir JavaScript. Es la elección por defecto cuando un equipo Laravel no tiene desarrolladores frontend dedicados.",
+        "notes": [
+          "Charter pasa --livewire a laravel new, que instala el starter kit Livewire con autenticación (auth=laravel) y Pest (testing=pest) de una vez. No se necesitan contenedores extra.",
+          "¿Prefieres class components en lugar de Volt en un solo archivo? Activa livewire-class-components en el builder — la bandera solo aplica cuando el starter kit es livewire.",
+          "Tailwind CSS viene preconfigurado con el starter kit."
+        ],
+        "steps": [
+          "Arranca los contenedores: ./vendor/bin/sail up -d",
+          "Crea tu primer componente: ./vendor/bin/sail artisan make:livewire dashboard",
+          "Arranca Vite: ./vendor/bin/sail npm run dev y abre la app en http://localhost"
+        ]
+      }
+    }
+  },
+  {
+    "slug": "laravel-package-with-commands-and-migrations",
+    "category": "Package",
+    "app_name": "my-package",
+    "builder_params": {
+      "features": ["config", "routes", "migrations", "commands"],
+      "php": "8.5"
+    },
+    "related": [],
+    "translations": {
+      "en": {
+        "title": "Laravel Package with Commands & Migrations — Guide",
+        "meta_description": "Bootstrap a Laravel package with config, routes, migrations and Artisan commands using the Charter package builder: what each feature generates and what runs next.",
+        "heading": "Build a Laravel package with commands and migrations",
+        "problem": "Artisan commands and database migrations are what separate a utility script from a real Laravel package. Charter scaffolds the whole package skeleton with those features already wired into the service provider.",
+        "notes": [
+          "Each selected feature adds a folder and its registration to the package skeleton: config publishes a config file, routes registers a route file, migrations adds a database/migrations folder, and commands generates an Artisan command with its registration.",
+          "Package metadata — composer name (vendor/package), author, vendor namespace, class name — is filled in on the builder form and applied to composer.json and the generated service provider.",
+          "The boost-skill feature is optional: it adds agent guidance files so Laravel Boost knows how to work with your package."
+        ],
+        "steps": [
+          "Open the package builder with the preset below and copy the generated command",
+          "Run it — the script creates the package skeleton with the features you selected",
+          "Inside the new package, run the test suite with vendor/bin/pest to confirm the skeleton works"
+        ]
+      },
+      "es": {
+        "title": "Paquete Laravel con comandos y migraciones — Guía",
+        "meta_description": "Arranca un paquete Laravel con config, routes, migraciones y comandos Artisan usando el package builder de Charter: qué genera cada feature y qué va después.",
+        "heading": "Crea un paquete Laravel con comandos y migraciones",
+        "problem": "Los comandos Artisan y las migraciones son lo que separa un script de utilidad de un paquete Laravel real. Charter genera el esqueleto completo del paquete con esas features ya conectadas al service provider.",
+        "notes": [
+          "Cada feature seleccionada añade una carpeta y su registro al esqueleto: config publica un archivo de configuración, routes registra un archivo de rutas, migrations añade la carpeta database/migrations y commands genera un comando Artisan con su registro.",
+          "Los metadatos del paquete — nombre composer (vendor/package), autor, vendor namespace, nombre de clase — se rellenan en el formulario del builder y se aplican a composer.json y al service provider generado.",
+          "La feature boost-skill es opcional: añade archivos de guías para agentes para que Laravel Boost sepa trabajar con tu paquete."
+        ],
+        "steps": [
+          "Abre el package builder con el preset de abajo y copia el comando generado",
+          "Ejecútalo — el script crea el esqueleto del paquete con las features que seleccionaste",
+          "Dentro del paquete nuevo, ejecuta la suite de tests con vendor/bin/pest para confirmar que el esqueleto funciona"
+        ]
+      }
+    }
+  }
+]
