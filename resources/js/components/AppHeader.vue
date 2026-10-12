@@ -16,6 +16,12 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import UpdateToast from '@/components/UpdateToast.vue';
 
 const { t } = useI18n();
@@ -60,6 +66,7 @@ onUnmounted(() => {
                 href="https://github.com/wilsenhc/laravel-charter"
                 target="_blank"
                 rel="noopener noreferrer"
+                :aria-label="t('nav.github')"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -79,16 +86,23 @@ onUnmounted(() => {
                 <AppearanceSwitcher />
             </div>
             <Sheet>
-                <SheetTrigger as-child>
-                    <Button
-                        variant="ghost"
-                        size="icon-sm"
-                        class="sm:hidden"
-                        :aria-label="t('nav.menu')"
-                    >
-                        <MenuIcon class="size-4" />
-                    </Button>
-                </SheetTrigger>
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger as-child>
+                            <SheetTrigger as-child>
+                                <Button
+                                    variant="ghost"
+                                    size="icon-sm"
+                                    class="sm:hidden"
+                                    :aria-label="t('nav.menu')"
+                                >
+                                    <MenuIcon class="size-4" />
+                                </Button>
+                            </SheetTrigger>
+                        </TooltipTrigger>
+                        <TooltipContent>{{ t('nav.menu') }}</TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
                 <SheetContent side="right" class="w-72 sm:hidden">
                     <SheetHeader>
                         <SheetTitle>{{ t('nav.menu') }}</SheetTitle>

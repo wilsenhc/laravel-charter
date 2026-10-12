@@ -10,6 +10,7 @@
         "format:check": "prettier --check resources/",
         "lint": "eslint . --fix",
         "lint:check": "eslint .",
+        "lint:ui": "bunx lintapple https://laravel-charter.test/en/application",
         "types:check": "vue-tsc --noEmit"
     },
     "devDependencies": {

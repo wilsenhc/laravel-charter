@@ -101,7 +101,10 @@ const opencodeConfig = computed(() =>
                     <p class="mb-2 text-sm text-muted-foreground">
                         {{ t('mcp.tool_application_desc') }}
                     </p>
-                    <pre class="mb-3 font-mono text-xs text-foreground">
+                    <pre
+                        data-slot="tool-command"
+                        class="code-scroll mb-3 overflow-x-auto font-mono text-xs text-foreground"
+                    >
 build-application --name my-app --services '["pgsql","redis"]' --frontend vue --php 8.5</pre>
                     <Link
                         :href="`/${locale}/application`"
@@ -115,7 +118,10 @@ build-application --name my-app --services '["pgsql","redis"]' --frontend vue --
                     <p class="mb-2 text-sm text-muted-foreground">
                         {{ t('mcp.tool_package_desc') }}
                     </p>
-                    <pre class="mb-3 font-mono text-xs text-foreground">
+                    <pre
+                        data-slot="tool-command"
+                        class="code-scroll mb-3 overflow-x-auto font-mono text-xs text-foreground"
+                    >
 build-package --name my-package --features '["config","routes"]' --author_name "Your Name"</pre>
                     <Link
                         :href="`/${locale}/package`"

@@ -61,7 +61,7 @@
     --card-foreground: #171717;
     --popover: #fdfcfc;
     --popover-foreground: #171717;
-    --primary: #f15a30;
+    --primary: #b54424;
     --primary-foreground: #ffffff;
     --secondary: #f1eeee;
     --secondary-foreground: #171717;
@@ -97,7 +97,7 @@
     --card-foreground: #ffffff;
     --popover: #222222;
     --popover-foreground: #ffffff;
-    --primary: #f15a30;
+    --primary: #b54424;
     --primary-foreground: #ffffff;
     --secondary: #222222;
     --secondary-foreground: #ffffff;
@@ -129,8 +129,13 @@
     * {
         @apply border-border outline-ring/50;
     }
+    html {
+        @apply bg-background;
+    }
     body {
-        @apply bg-background text-foreground;
+        /* The page background lives on html so body stays transparent and the
+           ambient gradient (body::before, z-index -10) is not painted over. */
+        @apply text-foreground;
         @apply font-sans;
     }
 }
@@ -139,6 +144,12 @@
     .code-scroll {
         scrollbar-color: var(--border) transparent;
         scrollbar-width: thin;
+    }
+
+    [data-slot='tool-command'] {
+        /* Geist Mono's contextual ligatures collapse spaces before `--` at
+           12px. Commands must remain readable and copyable verbatim. */
+        font-variant-ligatures: none;
     }
 
     .code-scroll::-webkit-scrollbar {
@@ -173,7 +184,11 @@
         }
     }
 
-    .animated-gradient {
+    /* Ambient page wash. It lives on a fixed pseudo-element rather than a real
+       node: fixed boxes never contribute scrollable overflow and this one is
+       pointer-events:none with a negative z-index, so it can only ever paint. */
+    body::before {
+        content: '';
         position: fixed;
         inset: -50%;
         z-index: -10;
@@ -198,7 +213,7 @@
         animation: gradientDrift 48s ease-in-out infinite alternate;
     }
 
-    .dark .animated-gradient {
+    .dark body::before {
         background:
             radial-gradient(
                 42% 40% at 22% 28%,
@@ -228,7 +243,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-        .animated-gradient {
+        body::before {
             animation: none;
         }
     }
