@@ -56,13 +56,16 @@ it('renders a guide with metadata, canonical, hreflang, and breadcrumbs', functi
         ->assertSuccessful()
         ->getContent();
 
+    $appUrl = rtrim(config('app.url'), '/');
+    $canonicalOrigin = preg_replace('/^http:\/\//', 'https://', $appUrl);
+
     expect($content)
         ->toContain('component":"Guides\/Show"')
         ->toContain('<title data-inertia="title">Laravel Sail with PostgreSQL — Setup Guide — Charter for Laravel</title>')
         ->toContain('<meta data-inertia="description" name="description" content="Run Laravel Sail with PostgreSQL.">')
-        ->toContain('<link data-inertia="canonical" rel="canonical" href="https://laravel-charter.test/en/guides/laravel-sail-with-postgresql">')
-        ->toContain('<link data-inertia="alternate:en" rel="alternate" hreflang="en" href="https://laravel-charter.test/en/guides/laravel-sail-with-postgresql">')
-        ->toContain('<link data-inertia="alternate:es" rel="alternate" hreflang="es" href="https://laravel-charter.test/es/guides/laravel-sail-with-postgresql">')
+        ->toContain('<link data-inertia="canonical" rel="canonical" href="'.$canonicalOrigin.'/en/guides/laravel-sail-with-postgresql">')
+        ->toContain('<link data-inertia="alternate:en" rel="alternate" hreflang="en" href="'.$appUrl.'/en/guides/laravel-sail-with-postgresql">')
+        ->toContain('<link data-inertia="alternate:es" rel="alternate" hreflang="es" href="'.$appUrl.'/es/guides/laravel-sail-with-postgresql">')
         ->toContain('"BreadcrumbList"');
 });
 
