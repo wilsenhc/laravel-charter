@@ -15,6 +15,30 @@ describe('index', function () {
                     ->where('url', fn (string $url) => str_starts_with($url, 'http')),
             );
     });
+
+    test('preselects supported options from query parameters', function () {
+        $this->get(route('build.package.index', ['locale' => 'en', 'name' => 'my-package', 'features' => 'config,migrations,commands', 'php' => '8.4']))
+            ->assertSuccessful()
+            ->assertInertia(
+                fn (Assert $page) => $page
+                    ->component('Build/Package')
+                    ->has('presets')
+                    ->where('presets.name', 'my-package')
+                    ->where('presets.features', ['config', 'migrations', 'commands'])
+                    ->where('presets.php', '8.4'),
+            );
+    });
+
+    test('ignores unsupported preset values', function () {
+        $this->get(route('build.package.index', ['locale' => 'en', 'features' => 'widgets', 'php' => '7.9', 'name' => 'bad name!']))
+            ->assertSuccessful()
+            ->assertInertia(
+                fn (Assert $page) => $page
+                    ->component('Build/Package')
+                    ->has('presets')
+                    ->where('presets', []),
+            );
+    });
 });
 
 describe('show', function () {

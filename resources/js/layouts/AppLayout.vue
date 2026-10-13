@@ -5,7 +5,6 @@ import AppHeader from '@/components/AppHeader.vue';
 
 <template>
     <div>
-        <div class="animated-gradient" aria-hidden="true"></div>
         <AppHeader />
         <slot />
         <AppFooter />

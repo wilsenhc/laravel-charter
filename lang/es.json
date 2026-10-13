@@ -16,6 +16,8 @@
     "stats.meta_description": "Datos agregados anónimos de comandos de compilación generados. No se recopila información personal o identificable.",
     "mcp.title": "Protocolo de Contexto de Modelo (MCP)",
     "mcp.meta_description": "Usa Charter para Laravel a través del Protocolo de Contexto de Modelo (MCP). Conecta tu asistente de codificación con IA para generar aplicaciones y paquetes de Laravel directamente.",
+    "guides.page_title": "Guías de configuración de Laravel Sail",
+    "guides.meta_description": "Guías paso a paso para configurar servicios, starter kits y paquetes de Laravel Sail — con un comando listo para ejecutar y un builder preconfigurado.",
     "build.application.title": "App de Laravel Sail en un solo comando",
     "build.application.meta_description": "Charter simplifica la creación de nuevas apps de Laravel: elige tus servicios y opciones visualmente, luego copia un único comando de terminal que genera tu proyecto con Laravel Sail desde el inicio.",
     "build.package.title": "Paquete de Laravel en un solo comando",

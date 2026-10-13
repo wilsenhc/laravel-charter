@@ -1,0 +1,77 @@
+{
+  "fonts": [
+    "Geist Mono",
+    "ui-monospace",
+    "SFMono-Regular",
+    "Menlo",
+    "Monaco",
+    "Consolas",
+    "Liberation Mono",
+    "Courier New",
+    "monospace"
+  ],
+  "fontSizes": [12, 14, 16, 18, 20, 24, 30],
+  "typeRules": [
+    {
+      "selector": "h1",
+      "sizes": [24, 30]
+    },
+    {
+      "selector": "h2",
+      "sizes": [14, 16, 18, 20]
+    },
+    {
+      "selector": "h3",
+      "sizes": [14, 16]
+    },
+    {
+      "selector": "button, [role=button]",
+      "sizes": [12, 14, 16]
+    }
+  ],
+  "minControlSize": 15,
+  "controlSizeRules": [],
+  "minControlGap": 8,
+  "minControlInset": 8,
+  "controlContainers": ["[data-ui-container]"],
+  "minLayoutGap": 8,
+  "bannedCopy": [],
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844
+    },
+    {
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "colorSchemes": ["light", "dark"],
+  "exceptions": [
+    {
+      "selector": ".sr-only",
+      "rules": ["content-clipping"],
+      "reason": "Tailwind's sr-only utility clips to a 1px box on purpose so assistive technology reads the text while sighted users never see it. The clipping is the accessibility mechanism, not truncation."
+    },
+    {
+      "selector": "[data-slot=tabs-list] [role=tab]",
+      "rules": ["control-gap"],
+      "reason": "The tab strip is a segmented control: triggers sit flush inside one shared surface so the group reads as a single unit. An 8px gap would break the control."
+    },
+    {
+      "selector": "button[class*=size-4]",
+      "rules": ["icon-button-tooltip"],
+      "reason": "InfoTooltip buttons already render a real hover/focus tooltip through Reka UI; the tooltip element only exists in the DOM while open, so a static check cannot see it."
+    },
+    {
+      "selector": "[role=switch]",
+      "rules": ["icon-button-tooltip"],
+      "reason": "Switches sit inside a label with their visible text next to them, so an extra tooltip would duplicate the label that is already on screen."
+    },
+    {
+      "selector": "[data-slot=tool-command]",
+      "rules": ["text-contrast"],
+      "reason": "These are single-line tool invocations that must render verbatim, so the block scrolls horizontally instead of wrapping. The text is --foreground #171717 on the cream canvas, 17.5:1, far above AA; the check cannot resolve the background only because the scroll container clips part of the run."
+    }
+  ]
+}

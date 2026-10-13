@@ -10,7 +10,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.3",
+        "php": "^8.5",
         "inertiajs/inertia-laravel": "^3.5.1",
         "laravel/framework": "^13.35.0",
         "laravel/head": "^0.2.2",

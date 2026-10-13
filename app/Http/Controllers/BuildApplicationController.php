@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\BuildApplicationScriptAction;
+use App\Enums\BuildOptions;
 use App\Http\Requests\BuildShowRequest;
 use App\Jobs\RecordApplicationBuildStatJob;
 use Illuminate\Http\Request;
@@ -30,6 +31,7 @@ class BuildApplicationController extends Controller
 
         return Inertia::render('Build/Application', [
             'url' => config('app.url'),
+            'presets' => (object) BuildOptions::applicationPreset($request->query()),
         ]);
     }
 

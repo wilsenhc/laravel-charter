@@ -6,6 +6,7 @@ use App\Enums\BuildOptions;
 use App\Enums\Locale;
 use App\Models\Comparison;
 use App\Models\GlossaryTerm;
+use App\Models\Guide;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -78,6 +79,17 @@ class AppServiceProvider extends ServiceProvider
                         ->entry('Application builder', route('build.application.index', ['locale' => $locale]), 'Visually configure a new Laravel Sail application and get a one-line install command.')
                         ->entry('Package builder', route('build.package.index', ['locale' => $locale]), 'Visually configure a new Laravel package and get a one-line install command.')
                         ->entry('Build statistics', route('stats.index', ['locale' => $locale]), 'Aggregate statistics of the apps and packages scaffolded through Charter.');
+                })
+                ->section('Guides', function (Section $section) use ($locale): void {
+                    $section
+                        ->entry('Guides index', route('guides.index', ['locale' => $locale]), 'Step-by-step configuration guides for Laravel Sail services, starter kits, and packages.')
+                        ->entries(
+                            Guide::all()->filter(fn (Guide $guide): bool => $guide->hasFullTranslation($locale)),
+                            fn (Guide $guide): Entry => Entry::create(
+                                $guide->translations[$locale]['heading'],
+                                route('guides.show', ['locale' => $locale, 'guide' => $guide->slug]),
+                                $guide->translations[$locale]['meta_description'],
+                            ));
                 })
                 ->section('Glossary', function (Section $section) use ($locale): void {
                     $section

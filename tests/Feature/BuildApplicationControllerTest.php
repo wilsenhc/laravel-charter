@@ -15,6 +15,43 @@ describe('index', function () {
                     ->where('url', fn (string $url) => str_starts_with($url, 'http')),
             );
     });
+
+    test('preselects supported options from query parameters', function () {
+        $this->get(route('build.application.index', ['locale' => 'en', 'services' => 'pgsql,redis', 'database' => 'pgsql', 'frontend' => 'none', 'php' => '8.4', 'boost' => '1']))
+            ->assertSuccessful()
+            ->assertInertia(
+                fn (Assert $page) => $page
+                    ->component('Build/Application')
+                    ->has('presets')
+                    ->where('presets.services', ['pgsql', 'redis'])
+                    ->where('presets.database', 'pgsql')
+                    ->where('presets.frontend', 'none')
+                    ->where('presets.php', '8.4')
+                    ->where('presets.boost', true),
+            );
+    });
+
+    test('ignores unsupported preset values', function () {
+        $this->get(route('build.application.index', ['locale' => 'en', 'services' => 'oracle', 'database' => 'bogus', 'frontend' => 'ember', 'php' => '7.9']))
+            ->assertSuccessful()
+            ->assertInertia(
+                fn (Assert $page) => $page
+                    ->component('Build/Application')
+                    ->has('presets')
+                    ->where('presets', []),
+            );
+    });
+
+    test('keeps a preset database when services are preselected', function () {
+        $this->get(route('build.application.index', ['locale' => 'en', 'services' => 'pgsql,redis', 'database' => 'pgsql']))
+            ->assertSuccessful()
+            ->assertInertia(
+                fn (Assert $page) => $page
+                    ->component('Build/Application')
+                    ->has('presets')
+                    ->where('presets.database', 'pgsql'),
+            );
+    });
 });
 
 describe('show', function () {

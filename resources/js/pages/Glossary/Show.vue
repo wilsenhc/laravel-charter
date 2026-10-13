@@ -36,7 +36,7 @@ defineProps<GlossaryShowPageProps>();
             </Link>
 
             <span
-                class="mb-2 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary"
+                class="mb-2 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary dark:text-foreground"
             >
                 {{ entry.category }}
             </span>

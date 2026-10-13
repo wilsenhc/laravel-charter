@@ -301,6 +301,22 @@
         "cta_button": "Crear tu app",
         "related_title": "Términos relacionados"
     },
+    "guides": {
+        "page_title": "Guías de configuración de Laravel Sail",
+        "page_description": "Guías cortas y prácticas para configuraciones comunes de Laravel Sail. Cada una explica cuándo vale la pena la configuración, enlaza las opciones compatibles del builder y termina con los comandos a ejecutar.",
+        "back_to_guides": "Volver a las guías",
+        "categories": {
+            "Application": "Guías de aplicaciones",
+            "Package": "Guías de paquetes"
+        },
+        "notes_title": "Opciones y compatibilidad",
+        "cta_title": "Abre el builder con estas opciones",
+        "cta_description": "El builder se abre preconfigurado con la configuración de esta guía, para que puedas ajustarla y copiar el comando listo para ejecutar.",
+        "cta_button_application": "Abrir el application builder",
+        "cta_button_package": "Abrir el package builder",
+        "steps_title": "Después de ejecutar el comando",
+        "related_title": "Guías relacionadas"
+    },
     "mcp": {
         "title": "Model Context Protocol (MCP)",
         "meta_description": "Usa Charter para Laravel a través del Model Context Protocol (MCP). Conecta tu asistente de codificación AI para crear aplicaciones y paquetes de Laravel directamente.",
