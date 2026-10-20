@@ -15,13 +15,13 @@
     },
     "devDependencies": {
         "@eslint/js": "^10.0.1",
-        "@intlify/unplugin-vue-i18n": "^11.2.6",
+        "@intlify/unplugin-vue-i18n": "^11.2.7",
         "@laravel/vite-plugin-wayfinder": "^0.1.11",
         "@stylistic/eslint-plugin": "^5.10.0",
         "@types/node": "^26.6.5",
         "@vite-pwa/assets-generator": "^2.0.0",
         "@vue/eslint-config-typescript": "^14.9.0",
-        "chokidar": "^5.0.0",
+        "chokidar": "^6.0.0",
         "eslint": "^10.13.0",
         "eslint-config-prettier": "^10.1.8",
         "eslint-import-resolver-typescript": "^4.4.5",
@@ -30,14 +30,14 @@
         "fontaine": "^1.0.1",
         "prettier": "^3.9.10",
         "prettier-plugin-tailwindcss": "^0.8.1",
-        "typescript-eslint": "^8.71.2",
+        "typescript-eslint": "^8.72.0",
         "vite-plugin-pwa": "^2.0.0",
         "vue-tsc": "^3.3.13"
     },
     "dependencies": {
         "@inertiajs/vite": "^3.9.1",
         "@inertiajs/vue3": "^3.9.1",
-        "@lucide/vue": "^1.58.0",
+        "@lucide/vue": "^1.60.0",
         "@tailwindcss/vite": "^4.3.3",
         "@vitejs/plugin-vue": "^6.0.10",
         "@vueuse/core": "^15.0.0",
@@ -55,10 +55,10 @@
         "vite": "^8.3.4",
         "vue": "^3.5.44",
         "vue-chartjs": "^5.3.4",
-        "vue-i18n": "^11.4.14"
+        "vue-i18n": "^11.4.16"
     },
     "optionalDependencies": {
-        "@rollup/rollup-linux-x64-gnu": "4.64.7",
+        "@rollup/rollup-linux-x64-gnu": "4.64.12",
         "@tailwindcss/oxide-linux-x64-gnu": "^4.3.3",
         "lightningcss-linux-x64-gnu": "^1.33.0"
     }

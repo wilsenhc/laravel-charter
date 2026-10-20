@@ -12,9 +12,9 @@
     "require": {
         "php": "^8.5",
         "inertiajs/inertia-laravel": "^3.5.1",
-        "laravel/framework": "^13.37.0",
+        "laravel/framework": "^13.38.0",
         "laravel/head": "^0.2.2",
-        "laravel/mcp": "^1.0.2",
+        "laravel/mcp": "^1.1.0",
         "laravel/octane": "^2.22.0",
         "laravel/tinker": "^3.0.2",
         "laravel/wayfinder": "^0.1.23",
@@ -33,7 +33,7 @@
         "laravel/sail": "^1.69",
         "mockery/mockery": "^1.6.15",
         "nunomaduro/collision": "^8.9.5",
-        "pestphp/pest": "^5.3.2",
+        "pestphp/pest": "^5.3.3",
         "pestphp/pest-plugin-laravel": "^5.0.1"
     },
     "autoload": {
