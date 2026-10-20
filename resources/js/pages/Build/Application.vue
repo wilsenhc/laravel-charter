@@ -173,7 +173,13 @@ const onDatabaseChange = (value: unknown) => {
         AvailableDatabaseDriver | 'none';
 };
 
-const laravelStarterKits = ['livewire', 'vue', 'react', 'svelte'];
+const laravelStarterKits = ['livewire', 'vue', 'react', 'svelte', 'api'];
+
+watch(selectedStarterKit, (newKit) => {
+    if (newKit === 'api') {
+        withNoNode.value = true;
+    }
+});
 
 const showTeams = computed(
     () =>
@@ -192,7 +198,7 @@ const generatedUrl = computed(() => {
     let auth = '';
     let using = '';
 
-    if (selectedStarterKit.value !== 'custom') {
+    if (selectedStarterKit.value !== 'custom' && selectedStarterKit.value !== 'api') {
         auth = `&auth=${selectedAuth.value}`;
     }
 
@@ -511,7 +517,7 @@ const faqItems = computed(() => {
                         </Select>
                     </Field>
 
-                    <Field v-if="selectedStarterKit !== 'custom'">
+                    <Field v-if="selectedStarterKit !== 'custom' && selectedStarterKit !== 'api'">
                         <FieldLabel for="auth">{{
                             t('form.auth_provider')
                         }}</FieldLabel>
