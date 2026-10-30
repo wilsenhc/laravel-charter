@@ -14,7 +14,7 @@ class GenerateBuildOptionsCommand extends Command
 
     public function handle(): int
     {
-        $outputPath = base_path($this->option('output'));
+        $outputPath = base_path($this->input()->string('output')->toString());
         $filePath = $outputPath.'/index.ts';
 
         if (! File::isDirectory($outputPath)) {
