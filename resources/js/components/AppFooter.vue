@@ -12,7 +12,7 @@ const locale = computed(() => page.props.locale as string);
 
 <template>
     <footer
-        class="mt-12 flex flex-col items-center gap-3 border-t border-border pt-8 text-center text-sm text-muted-foreground"
+        class="mt-12 flex flex-col items-center gap-3 border-t border-border py-8 text-center text-sm text-muted-foreground"
     >
         <div class="flex items-center justify-center gap-4">
             <a
