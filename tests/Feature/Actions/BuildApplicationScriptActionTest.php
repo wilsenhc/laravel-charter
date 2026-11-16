@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Actions\BuildApplicationScriptAction;
 
 test('generates a build script for minimal input', function () {

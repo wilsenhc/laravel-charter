@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\ApplicationService;
 use App\Models\ApplicationStat;
 use Inertia\Testing\AssertableInertia as Assert;

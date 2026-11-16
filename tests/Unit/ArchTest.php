@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Symfony\Component\Finder\SplFileInfo;
 use Tests\TestCase;
 
 pest()->extend(TestCase::class);
@@ -61,6 +64,18 @@ arch('Carbon\Carbon is not used, only Carbon\CarbonImmutable')
     ->expect('App')
     ->not->toUse(Carbon::class)
     ->not->toUse(Illuminate\Support\Carbon::class);
+
+test('first-party PHP files declare strict types', function (): void {
+    $missing = collect(['app', 'bootstrap', 'config', 'database', 'public', 'routes', 'tests', 'tools'])
+        ->flatMap(fn (string $directory): array => File::allFiles(base_path($directory)))
+        ->filter(fn (SplFileInfo $file): bool => $file->getExtension() === 'php')
+        ->reject(fn (SplFileInfo $file): bool => str_contains($file->getPathname(), 'bootstrap/cache'))
+        ->reject(fn (SplFileInfo $file): bool => $file->getFilename() === 'frankenphp-worker.php')
+        ->reject(fn (SplFileInfo $file): bool => str_contains($file->getContents(), 'declare(strict_types=1);'))
+        ->map(fn (SplFileInfo $file): string => $file->getRelativePathname());
+
+    expect($missing->values()->all())->toBeEmpty();
+});
 
 test('Enum cases are all uppercase', function () {
     $files = File::allFiles(app_path());

@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use App\Enums\BuildOptions;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\In;
 use Illuminate\Validation\ValidationException;
 
 class BuildPackageRequest extends FormRequest
@@ -21,7 +24,7 @@ class BuildPackageRequest extends FormRequest
     }
 
     /**
-     * @return array<string, list<string|Rule>|string>
+     * @return array<string, list<string|In>|string>
      */
     public function rules(): array
     {
