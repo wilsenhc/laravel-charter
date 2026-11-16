@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -10,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TrustProxies extends Middleware
 {
+    #[\Override]
     protected $headers = Request::HEADER_X_FORWARDED_FOR
         | Request::HEADER_X_FORWARDED_HOST
         | Request::HEADER_X_FORWARDED_PORT

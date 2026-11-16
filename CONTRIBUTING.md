@@ -23,7 +23,7 @@ If you are unsure where to start, comment on an issue before you begin. A short 
 
 ### Requirements
 
-- **PHP 8.5** — pinned in `.php-version`, and what CI runs
+- **PHP 8.5** — pinned in `.php-version`; CI runs the suite on both 8.5 and 8.6 to validate the upcoming 8.6 upgrade
 - [Composer 2](https://getcomposer.org)
 - [Bun](https://bun.sh) — this project uses Bun, not npm
 - A database. Tests run against the `laravel_charter_testing` database configured in `.env.testing`.
@@ -127,6 +127,7 @@ bun run format:check  # Prettier, check only
 bun run types:check   # vue-tsc
 
 vendor/bin/pint       # PHP code style, with --fix
+composer refactor:check # Rector, check only
 ```
 
 ### If PHPStan complains about model properties

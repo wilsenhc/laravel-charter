@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Actions\BuildApplicationScriptAction;
 
 test('generates a build script for minimal input', function () {
@@ -146,8 +148,8 @@ test('custom starter kit only passes no-node when specified', function () {
         'using' => 'https://example.com/kit',
     ]);
 
-    expect($with)->toContain('--no-node');
-    expect($without)->not->toContain('--no-node');
+    expect($with)->toContain('--no-node')
+        ->and($without)->not->toContain('--no-node');
 });
 
 test('database flag is omitted when none', function () {

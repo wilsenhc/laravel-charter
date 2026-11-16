@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Comparison;
 use App\Models\GlossaryTerm;
 use Illuminate\Http\Response;

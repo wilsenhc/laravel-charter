@@ -1,24 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Enums\Locale;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * @mixin IdeHelperComparison
  */
+#[Fillable([
+    'slug',
+    'first_term_slug',
+    'second_term_slug',
+    'category',
+    'related',
+    'translations',
+])]
 class Comparison extends Model
 {
-    protected $fillable = [
-        'slug',
-        'first_term_slug',
-        'second_term_slug',
-        'category',
-        'related',
-        'translations',
-    ];
-
     protected function casts(): array
     {
         return [
