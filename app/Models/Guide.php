@@ -3,22 +3,22 @@
 namespace App\Models;
 
 use App\Enums\Locale;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * @mixin IdeHelperGuide
  */
+#[Fillable([
+    'slug',
+    'category',
+    'builder_params',
+    'related',
+    'app_name',
+    'translations',
+])]
 class Guide extends Model
 {
-    protected $fillable = [
-        'slug',
-        'category',
-        'builder_params',
-        'related',
-        'app_name',
-        'translations',
-    ];
-
     protected function casts(): array
     {
         return [
@@ -44,23 +44,17 @@ class Guide extends Model
             && trim((string) ($translations['meta_description'] ?? '')) !== ''
             && trim((string) ($translations['heading'] ?? '')) !== ''
             && trim((string) ($translations['problem'] ?? '')) !== ''
-            && self::paragraphsAreComplete($translations['notes'] ?? null)
-            && self::paragraphsAreComplete($translations['steps'] ?? null);
+            && $this->paragraphsAreComplete($translations['notes'] ?? null)
+            && $this->paragraphsAreComplete($translations['steps'] ?? null);
     }
 
-    private static function paragraphsAreComplete(mixed $paragraphs): bool
+    private function paragraphsAreComplete(mixed $paragraphs): bool
     {
         if (! is_array($paragraphs) || $paragraphs === []) {
             return false;
         }
 
-        foreach ($paragraphs as $paragraph) {
-            if (! is_string($paragraph) || trim($paragraph) === '') {
-                return false;
-            }
-        }
-
-        return true;
+        return array_all($paragraphs, fn ($paragraph) => is_string($paragraph) && trim($paragraph) !== '');
     }
 
     /**

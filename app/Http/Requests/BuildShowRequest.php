@@ -12,11 +12,6 @@ use Illuminate\Validation\ValidationException;
 
 class BuildShowRequest extends FormRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     protected function prepareForValidation(): void
     {
         $services = $this->query('services', 'none');

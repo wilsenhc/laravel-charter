@@ -1,10 +1,11 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-uses(TestCase::class);
+pest()->extend(TestCase::class);
 
 arch('controllers have no protected or private methods')
     ->expect('App\Http\Controllers')
@@ -58,8 +59,8 @@ arch('Services should have Service suffix')
 
 arch('Carbon\Carbon is not used, only Carbon\CarbonImmutable')
     ->expect('App')
-    ->not->toUse('Carbon\Carbon')
-    ->not->toUse('Illuminate\Support\Carbon');
+    ->not->toUse(Carbon::class)
+    ->not->toUse(Illuminate\Support\Carbon::class);
 
 test('Enum cases are all uppercase', function () {
     $files = File::allFiles(app_path());
@@ -71,7 +72,7 @@ test('Enum cases are all uppercase', function () {
             continue;
         }
 
-        foreach ((new ReflectionEnum($class))->getCases() as $case) {
+        foreach (new ReflectionEnum($class)->getCases() as $case) {
             expect($case->getName())
                 ->toMatch('/^[A-Z][A-Z0-9_]*$/', "{$class}::{$case->getName()} must be uppercase");
         }

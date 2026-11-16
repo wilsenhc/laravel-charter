@@ -10,11 +10,6 @@ use Illuminate\Validation\ValidationException;
 
 class BuildPackageRequest extends FormRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     protected function prepareForValidation(): void
     {
         $features = $this->query('features', '');

@@ -146,8 +146,8 @@ test('custom starter kit only passes no-node when specified', function () {
         'using' => 'https://example.com/kit',
     ]);
 
-    expect($with)->toContain('--no-node');
-    expect($without)->not->toContain('--no-node');
+    expect($with)->toContain('--no-node')
+        ->and($without)->not->toContain('--no-node');
 });
 
 test('database flag is omitted when none', function () {

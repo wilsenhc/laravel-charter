@@ -34,7 +34,7 @@ class ApplicationStatsSeeder extends Seeder
             $boost = $this->randomBool(60);
             $devcontainer = $this->randomBool(30);
             $noNode = $this->randomBool(20);
-            $livewireClassComponents = $starterKit === 'livewire' ? $this->randomBool(40) : false;
+            $livewireClassComponents = $starterKit === 'livewire' && $this->randomBool(40);
             $customStarterKit = $starterKit === 'custom';
 
             $mcpSource = $this->randomBool(30) ? $this->weighted(
@@ -70,7 +70,7 @@ class ApplicationStatsSeeder extends Seeder
         foreach ($stats as $stat) {
             $selectedServices = $this->pickServices($services);
 
-            if (! empty($selectedServices)) {
+            if ($selectedServices !== []) {
                 $stat->services()->sync($selectedServices);
             }
         }
@@ -123,6 +123,6 @@ class ApplicationStatsSeeder extends Seeder
             }
         }
 
-        return $services->only($selected)->values()->toArray();
+        return $services->only($selected)->values()->all();
     }
 }

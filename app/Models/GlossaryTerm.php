@@ -3,21 +3,21 @@
 namespace App\Models;
 
 use App\Enums\Locale;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * @mixin IdeHelperGlossaryTerm
  */
+#[Fillable([
+    'slug',
+    'category',
+    'builder_params',
+    'related',
+    'translations',
+])]
 class GlossaryTerm extends Model
 {
-    protected $fillable = [
-        'slug',
-        'category',
-        'builder_params',
-        'related',
-        'translations',
-    ];
-
     protected function casts(): array
     {
         return [

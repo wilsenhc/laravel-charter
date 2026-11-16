@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\ApplicationStat;
@@ -10,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ApplicationStatFactory extends Factory
 {
+    #[\Override]
     protected $model = ApplicationStat::class;
 
     public function definition(): array

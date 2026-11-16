@@ -5,9 +5,7 @@ use App\Models\Guide;
 use function Pest\Laravel\get;
 
 it('renders the privacy page', function () {
-    get(route('privacy', ['locale' => 'en']))
-        ->assertSuccessful()
-        ->assertSee('component":"Privacy"', false);
+    get(route('privacy', ['locale' => 'en']))->assertSuccessful()->assertSeeHtml('component":"Privacy"');
 });
 
 it('shares the site origin with the frontend for structured data', function () {
@@ -19,18 +17,13 @@ it('shares the site origin with the frontend for structured data', function () {
 });
 
 it('renders the terms page', function () {
-    get(route('terms', ['locale' => 'en']))
-        ->assertSuccessful()
-        ->assertSee('component":"Terms"', false);
+    get(route('terms', ['locale' => 'en']))->assertSuccessful()->assertSeeHtml('component":"Terms"');
 });
 
 it('generates a valid sitemap', function () {
     get(route('sitemap'))
         ->assertSuccessful()
-        ->assertHeader('Content-Type', 'application/xml')
-        ->assertHeader('X-Content-Type-Options', 'nosniff')
-        ->assertSee('hreflang="en"', false)
-        ->assertSee('hreflang="es"', false);
+        ->assertHeader('Content-Type', 'application/xml')->assertHeader('X-Content-Type-Options', 'nosniff')->assertSeeHtml('hreflang="en"')->assertSeeHtml('hreflang="es"');
 });
 
 it('includes the guides and the mcp page in the sitemap', function () {
@@ -105,9 +98,7 @@ it('excludes locales without a full translation from guide sitemap entries', fun
 });
 
 it('renders the application page', function () {
-    get(route('build.application.index', ['locale' => 'en']))
-        ->assertSuccessful()
-        ->assertSee('component":"Build', false);
+    get(route('build.application.index', ['locale' => 'en']))->assertSuccessful()->assertSeeHtml('component":"Build');
 });
 
 it('emits PWA meta tags and manifest link', function () {

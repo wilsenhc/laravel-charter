@@ -166,10 +166,10 @@ class AppServiceProvider extends ServiceProvider
             ->canonical()
             ->og(
                 type: OgType::Website,
-                siteName: __('meta.app_name'),
                 title: __('meta.og_title'),
                 description: __('meta.og_description'),
                 image: url('/social-preview.png'),
+                siteName: __('meta.app_name'),
             )
             ->twitter(
                 card: TwitterCard::SummaryWithLargeImage,

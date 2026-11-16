@@ -44,9 +44,7 @@ function createGuide(array $overrides = []): Guide
 it('renders the guides index', function () {
     createGuide();
 
-    get(route('guides.index', ['locale' => 'en']))
-        ->assertSuccessful()
-        ->assertSee('component":"Guides\/Index"', false);
+    get(route('guides.index', ['locale' => 'en']))->assertSuccessful()->assertSeeHtml('component":"Guides\/Index"');
 });
 
 it('renders a guide with metadata, canonical, hreflang, and breadcrumbs', function () {
@@ -72,9 +70,7 @@ it('renders a guide with metadata, canonical, hreflang, and breadcrumbs', functi
 it('preselects the builder with the curated options', function () {
     createGuide();
 
-    get(route('guides.show', ['locale' => 'en', 'guide' => 'laravel-sail-with-postgresql']))
-        ->assertSuccessful()
-        ->assertSee('"cta":{"type":"application","href":"\/en\/application?name=my-pg-app', false);
+    get(route('guides.show', ['locale' => 'en', 'guide' => 'laravel-sail-with-postgresql']))->assertSuccessful()->assertSeeHtml('"cta":{"type":"application","href":"\/en\/application?name=my-pg-app');
 });
 
 it('builds a package builder link for package guides', function () {
@@ -88,9 +84,7 @@ it('builds a package builder link for package guides', function () {
         ],
     ]);
 
-    get(route('guides.show', ['locale' => 'en', 'guide' => 'laravel-package-with-commands-and-migrations']))
-        ->assertSuccessful()
-        ->assertSee('"cta":{"type":"package","href":"\/en\/package?name=my-package', false);
+    get(route('guides.show', ['locale' => 'en', 'guide' => 'laravel-package-with-commands-and-migrations']))->assertSuccessful()->assertSeeHtml('"cta":{"type":"package","href":"\/en\/package?name=my-package');
 });
 
 it('drops unsupported builder params from the CTA link', function () {
@@ -149,11 +143,7 @@ it('returns 404 for locales without a full translation', function () {
 it('localizes the guide content', function () {
     createGuide();
 
-    get(route('guides.show', ['locale' => 'es', 'guide' => 'laravel-sail-with-postgresql']))
-        ->assertSuccessful()
-        ->assertSee('component":"Guides\/Show"', false)
-        ->assertSee('Ejecuta Laravel Sail con PostgreSQL', false)
-        ->assertSee('"\/es\/application?name=my-pg-app', false);
+    get(route('guides.show', ['locale' => 'es', 'guide' => 'laravel-sail-with-postgresql']))->assertSuccessful()->assertSeeHtml('component":"Guides\/Show"')->assertSeeHtml('Ejecuta Laravel Sail con PostgreSQL')->assertSeeHtml('"\/es\/application?name=my-pg-app');
 });
 
 it('lists the guide in llms.txt', function () {

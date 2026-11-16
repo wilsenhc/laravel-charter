@@ -14,7 +14,7 @@ class LocaleController extends Controller
             'locale' => ['required', 'string', 'in:'.implode(',', Locale::codes())],
         ]);
 
-        $redirect = redirect()->back()->withCookie(
+        $redirect = back()->withCookie(
             cookie('locale', $validated['locale'], 43200)
         );
 
