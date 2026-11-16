@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @mixin IdeHelperApplicationService
  */
+#[Table(name: 'application_services')]
 class ApplicationService extends Model
 {
-    protected $table = 'application_services';
-
     /**
      * @return BelongsToMany<ApplicationStat, $this>
      */

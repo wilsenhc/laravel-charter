@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Jobs\RecordApplicationBuildStatJob;
 use Illuminate\Support\Facades\Queue;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -283,21 +285,19 @@ describe('show', function () {
         $this->withHeader('User-Agent', 'curl/8.5')
             ->get('/application/build?name=my-app&services=redis,pgsql&frontend=react&javascript=bun&auth=laravel&testing=pest&php=8.5&boost&database=pgsql');
 
-        Queue::assertPushed(RecordApplicationBuildStatJob::class, function (RecordApplicationBuildStatJob $job) {
-            return $job->data['php_version'] === '8.5'
-                && $job->data['starter_kit'] === 'react'
-                && $job->data['custom_starter_kit'] === false
-                && $job->data['javascript_runtime'] === 'bun'
-                && $job->data['auth_provider'] === 'laravel'
-                && $job->data['testing_framework'] === 'pest'
-                && $job->data['teams'] === false
-                && $job->data['boost'] === true
-                && $job->data['devcontainer'] === false
-                && $job->data['no_node'] === false
-                && $job->data['livewire_class_components'] === false
-                && $job->data['database_driver'] === 'pgsql'
-                && $job->data['mcp_source'] === 'web';
-        });
+        Queue::assertPushed(RecordApplicationBuildStatJob::class, fn (RecordApplicationBuildStatJob $job) => $job->data['php_version'] === '8.5'
+            && $job->data['starter_kit'] === 'react'
+            && $job->data['custom_starter_kit'] === false
+            && $job->data['javascript_runtime'] === 'bun'
+            && $job->data['auth_provider'] === 'laravel'
+            && $job->data['testing_framework'] === 'pest'
+            && $job->data['teams'] === false
+            && $job->data['boost'] === true
+            && $job->data['devcontainer'] === false
+            && $job->data['no_node'] === false
+            && $job->data['livewire_class_components'] === false
+            && $job->data['database_driver'] === 'pgsql'
+            && $job->data['mcp_source'] === 'web');
     });
 
     test('stores services in pivot table', function () {
@@ -306,9 +306,7 @@ describe('show', function () {
         $this->withHeader('User-Agent', 'curl/8.5')
             ->get('/application/build?name=my-app&services=redis,pgsql');
 
-        Queue::assertPushed(RecordApplicationBuildStatJob::class, function (RecordApplicationBuildStatJob $job) {
-            return $job->services === ['redis', 'pgsql'];
-        });
+        Queue::assertPushed(RecordApplicationBuildStatJob::class, fn (RecordApplicationBuildStatJob $job) => $job->services === ['redis', 'pgsql']);
     });
 
     test('does not store name or custom url or ip', function () {
@@ -317,11 +315,9 @@ describe('show', function () {
         $this->withHeader('User-Agent', 'curl/8.5')
             ->get('/application/build?name=my-secret-app&services=redis&frontend=custom&using=https://example.com/kit');
 
-        Queue::assertPushed(RecordApplicationBuildStatJob::class, function (RecordApplicationBuildStatJob $job) {
-            return $job->data['custom_starter_kit'] === true
-                && $job->data['starter_kit'] === 'custom'
-                && $job->data['mcp_source'] === 'web';
-        });
+        Queue::assertPushed(RecordApplicationBuildStatJob::class, fn (RecordApplicationBuildStatJob $job) => $job->data['custom_starter_kit'] === true
+            && $job->data['starter_kit'] === 'custom'
+            && $job->data['mcp_source'] === 'web');
     });
 
     test('stores none services without pivot entries', function () {
@@ -330,9 +326,7 @@ describe('show', function () {
         $this->withHeader('User-Agent', 'curl/8.5')
             ->get('/application/build?name=my-app&services=none');
 
-        Queue::assertPushed(RecordApplicationBuildStatJob::class, function (RecordApplicationBuildStatJob $job) {
-            return $job->services === ['none'];
-        });
+        Queue::assertPushed(RecordApplicationBuildStatJob::class, fn (RecordApplicationBuildStatJob $job) => $job->services === ['none']);
     });
 
     describe('user agent filtering', function () {

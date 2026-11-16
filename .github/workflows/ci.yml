@@ -1,0 +1,365 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  APP_ENV: testing
+  APP_DEBUG: true
+  APP_URL: http://localhost
+  APP_KEY: base64:Rxnmg+TvcbT9vdwh8K8CFCeEx+Ds81N1z2Hp2Icld2o=
+  DB_CONNECTION: pgsql
+  DB_HOST: 127.0.0.1
+  DB_PORT: 5432
+  DB_DATABASE: testing
+  DB_USERNAME: postgres
+  DB_PASSWORD: postgres
+  QUEUE_CONNECTION: sync
+  CACHE_STORE: array
+  SESSION_DRIVER: array
+  BROADCAST_CONNECTION: 'null'
+  MAIL_MAILER: array
+
+jobs:
+  changes:
+    name: Detect changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      code: ${{ steps.filter.outputs.code }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        id: filter
+        with:
+          filters: |
+            code:
+              - 'app/**'
+              - 'bootstrap/**'
+              - 'config/**'
+              - 'database/**'
+              - 'lang/**'
+              - 'public/**'
+              - 'resources/**'
+              - 'routes/**'
+              - 'tests/**'
+              - 'composer.json'
+              - 'composer.lock'
+              - 'package.json'
+              - 'bun.lock'
+              - '.bun-version'
+              - '.php-version'
+              - 'vite.config.ts'
+              - 'tsconfig.json'
+              - 'phpunit.xml'
+              - 'phpstan.neon'
+              - 'pint.json'
+              - 'rector.php'
+              - 'tools/rector/**'
+              - 'eslint.config.js'
+              - '.prettierignore'
+              - '.prettierrc'
+              - '.github/workflows/ci.yml'
+
+  build:
+    name: Build frontend
+    needs: changes
+    if: (github.event_name != 'pull_request' || github.event.pull_request.draft == false) && needs.changes.outputs.code == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
+        with:
+          php-version: '8.5'
+          tools: composer:v2
+          coverage: none
+          extensions: mbstring, intl, pdo_pgsql, bcmath, zip
+
+      - name: Cache Composer downloads
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/composer
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version-file: .bun-version
+
+      - name: Cache Bun downloads
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
+          restore-keys: ${{ runner.os }}-bun-
+
+      - name: Install Bun dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build frontend
+        run: bun run build
+
+      - name: Upload frontend build
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: frontend-build
+          path: |
+            public/build
+            resources/js/actions
+            resources/js/build
+            resources/js/routes
+            resources/js/wayfinder
+          if-no-files-found: error
+          retention-days: 1
+
+  php-tests:
+    name: PHP tests (${{ matrix.php }})
+    needs: [changes, build]
+    if: (github.event_name != 'pull_request' || github.event.pull_request.draft == false) && needs.changes.outputs.code == 'true'
+    runs-on: ubuntu-latest
+    # 8.6 compiles its extensions from source on every run, so it needs headroom.
+    timeout-minutes: 30
+
+    # Both legs are required; only the coverage gate stays on the current version.
+    # `fail-fast: false` so an 8.5 failure doesn't hide the 8.6 result.
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php: '8.5'
+            coverage: pcov
+            test-flags: '--coverage --min=92'
+          - php: '8.6'
+            coverage: none
+            test-flags: ''
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: testing
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Download frontend build
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: frontend-build
+          path: .
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          coverage: ${{ matrix.coverage }}
+          extensions: mbstring, intl, pdo_pgsql, bcmath, zip
+
+      - name: Cache Composer downloads
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/composer
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Run migrations
+        run: php artisan migrate --force
+
+      - name: Run tests
+        run: php artisan test ${{ matrix.test-flags }} --compact
+
+      - name: Upload logs
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: logs-php-tests-${{ matrix.php }}
+          path: storage/logs/*.log
+          if-no-files-found: ignore
+          retention-days: 7
+
+  php-quality:
+    name: PHP quality
+    needs: changes
+    if: (github.event_name != 'pull_request' || github.event.pull_request.draft == false) && needs.changes.outputs.code == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: testing
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
+        with:
+          php-version: '8.5'
+          tools: composer:v2
+          coverage: none
+          extensions: mbstring, intl, pdo_pgsql, bcmath, zip
+
+      - name: Cache Composer downloads
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/composer
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Run migrations
+        run: php artisan migrate --force
+
+      - name: Check formatting
+        run: composer lint:check
+
+      - name: Cache Rector
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: storage/rector
+          key: ${{ runner.os }}-rector-php85-${{ hashFiles('composer.lock', 'rector.php', 'tools/rector/**/*.php') }}
+          restore-keys: ${{ runner.os }}-rector-php85-
+
+      - name: Check Rector refactors
+        run: vendor/bin/rector process --dry-run --no-progress-bar
+
+      - name: Generate IDE helper files
+        run: composer helpers
+
+      - name: Run static analysis
+        run: composer types:check
+
+      - name: Check production caches
+        run: |
+          php artisan optimize
+          php artisan optimize:clear
+
+      - name: Upload logs
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: logs-php-quality
+          path: storage/logs/*.log
+          if-no-files-found: ignore
+          retention-days: 7
+
+  frontend-checks:
+    name: Frontend checks
+    needs: [changes, build]
+    if: (github.event_name != 'pull_request' || github.event.pull_request.draft == false) && needs.changes.outputs.code == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Download frontend build
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: frontend-build
+          path: .
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version-file: .bun-version
+
+      - name: Cache Bun downloads
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
+          restore-keys: ${{ runner.os }}-bun-
+
+      - name: Install Bun dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Check frontend formatting and lint
+        run: |
+          bun run format:check
+          bun run lint:check
+
+      - name: Check TypeScript types
+        run: bun run types:check
+
+  ci-passed:
+    name: CI passed
+    needs: [changes, build, php-tests, php-quality, frontend-checks]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - name: Verify required jobs
+        run: |
+          [[ "${{ needs.changes.result }}" =~ ^(success|skipped)$ ]] || exit 1
+          [[ "${{ needs.build.result }}" =~ ^(success|skipped)$ ]] || exit 1
+          [[ "${{ needs.php-tests.result }}" =~ ^(success|skipped)$ ]] || exit 1
+          [[ "${{ needs.php-quality.result }}" =~ ^(success|skipped)$ ]] || exit 1
+          [[ "${{ needs.frontend-checks.result }}" =~ ^(success|skipped)$ ]] || exit 1

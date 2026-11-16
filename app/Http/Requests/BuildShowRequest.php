@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use App\Enums\BuildOptions;
@@ -12,11 +14,6 @@ use Illuminate\Validation\ValidationException;
 
 class BuildShowRequest extends FormRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     protected function prepareForValidation(): void
     {
         $services = $this->query('services', 'none');

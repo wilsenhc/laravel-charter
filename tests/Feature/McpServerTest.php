@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Jobs\RecordApplicationBuildStatJob;
 use App\Jobs\RecordPackageBuildStatJob;
 use App\Mcp\Servers\CharterServer;
@@ -197,22 +199,20 @@ describe('build-application tool', function () {
                 'no-node' => true,
             ]);
 
-            Queue::assertPushed(RecordApplicationBuildStatJob::class, function (RecordApplicationBuildStatJob $job) {
-                return $job->data['php_version'] === '8.5'
-                    && $job->data['starter_kit'] === 'react'
-                    && $job->data['custom_starter_kit'] === false
-                    && $job->data['javascript_runtime'] === 'bun'
-                    && $job->data['auth_provider'] === 'laravel'
-                    && $job->data['testing_framework'] === 'pest'
-                    && $job->data['teams'] === true
-                    && $job->data['boost'] === true
-                    && $job->data['devcontainer'] === true
-                    && $job->data['no_node'] === true
-                    && $job->data['livewire_class_components'] === false
-                    && $job->data['database_driver'] === 'pgsql'
-                    && $job->data['mcp_source'] === 'mcp'
-                    && $job->services === ['pgsql', 'redis'];
-            });
+            Queue::assertPushed(RecordApplicationBuildStatJob::class, fn (RecordApplicationBuildStatJob $job) => $job->data['php_version'] === '8.5'
+                && $job->data['starter_kit'] === 'react'
+                && $job->data['custom_starter_kit'] === false
+                && $job->data['javascript_runtime'] === 'bun'
+                && $job->data['auth_provider'] === 'laravel'
+                && $job->data['testing_framework'] === 'pest'
+                && $job->data['teams'] === true
+                && $job->data['boost'] === true
+                && $job->data['devcontainer'] === true
+                && $job->data['no_node'] === true
+                && $job->data['livewire_class_components'] === false
+                && $job->data['database_driver'] === 'pgsql'
+                && $job->data['mcp_source'] === 'mcp'
+                && $job->services === ['pgsql', 'redis']);
         });
 
         test('records defaults when no options provided', function () {
@@ -223,22 +223,20 @@ describe('build-application tool', function () {
                 'services' => ['none'],
             ]);
 
-            Queue::assertPushed(RecordApplicationBuildStatJob::class, function (RecordApplicationBuildStatJob $job) {
-                return $job->data['php_version'] === '8.5'
-                    && $job->data['starter_kit'] === 'none'
-                    && $job->data['custom_starter_kit'] === false
-                    && $job->data['javascript_runtime'] === null
-                    && $job->data['auth_provider'] === 'laravel'
-                    && $job->data['testing_framework'] === 'pest'
-                    && $job->data['teams'] === false
-                    && $job->data['boost'] === false
-                    && $job->data['devcontainer'] === false
-                    && $job->data['no_node'] === false
-                    && $job->data['livewire_class_components'] === false
-                    && $job->data['database_driver'] === null
-                    && $job->data['mcp_source'] === 'mcp'
-                    && $job->services === ['none'];
-            });
+            Queue::assertPushed(RecordApplicationBuildStatJob::class, fn (RecordApplicationBuildStatJob $job) => $job->data['php_version'] === '8.5'
+                && $job->data['starter_kit'] === 'none'
+                && $job->data['custom_starter_kit'] === false
+                && $job->data['javascript_runtime'] === null
+                && $job->data['auth_provider'] === 'laravel'
+                && $job->data['testing_framework'] === 'pest'
+                && $job->data['teams'] === false
+                && $job->data['boost'] === false
+                && $job->data['devcontainer'] === false
+                && $job->data['no_node'] === false
+                && $job->data['livewire_class_components'] === false
+                && $job->data['database_driver'] === null
+                && $job->data['mcp_source'] === 'mcp'
+                && $job->services === ['none']);
         });
 
         test('records custom starter kit flag', function () {
@@ -251,11 +249,9 @@ describe('build-application tool', function () {
                 'using' => 'https://example.com/kit',
             ]);
 
-            Queue::assertPushed(RecordApplicationBuildStatJob::class, function (RecordApplicationBuildStatJob $job) {
-                return $job->data['custom_starter_kit'] === true
-                    && $job->data['starter_kit'] === 'custom'
-                    && $job->data['mcp_source'] === 'mcp';
-            });
+            Queue::assertPushed(RecordApplicationBuildStatJob::class, fn (RecordApplicationBuildStatJob $job) => $job->data['custom_starter_kit'] === true
+                && $job->data['starter_kit'] === 'custom'
+                && $job->data['mcp_source'] === 'mcp');
         });
     });
 });
@@ -363,19 +359,17 @@ describe('build-package tool', function () {
                 'php' => '8.5',
             ]);
 
-            Queue::assertPushed(RecordPackageBuildStatJob::class, function (RecordPackageBuildStatJob $job) {
-                return $job->data['php_version'] === '8.5'
-                    && $job->data['config'] === true
-                    && $job->data['routes'] === true
-                    && $job->data['views'] === true
-                    && $job->data['translations'] === true
-                    && $job->data['migrations'] === true
-                    && $job->data['assets'] === true
-                    && $job->data['commands'] === true
-                    && $job->data['facade'] === true
-                    && $job->data['boost_skill'] === true
-                    && $job->data['mcp_source'] === 'mcp';
-            });
+            Queue::assertPushed(RecordPackageBuildStatJob::class, fn (RecordPackageBuildStatJob $job) => $job->data['php_version'] === '8.5'
+                && $job->data['config'] === true
+                && $job->data['routes'] === true
+                && $job->data['views'] === true
+                && $job->data['translations'] === true
+                && $job->data['migrations'] === true
+                && $job->data['assets'] === true
+                && $job->data['commands'] === true
+                && $job->data['facade'] === true
+                && $job->data['boost_skill'] === true
+                && $job->data['mcp_source'] === 'mcp');
         });
 
         test('records no features when none selected', function () {
@@ -385,19 +379,17 @@ describe('build-package tool', function () {
                 'name' => 'my-package',
             ]);
 
-            Queue::assertPushed(RecordPackageBuildStatJob::class, function (RecordPackageBuildStatJob $job) {
-                return $job->data['php_version'] === '8.5'
-                    && $job->data['config'] === false
-                    && $job->data['routes'] === false
-                    && $job->data['views'] === false
-                    && $job->data['translations'] === false
-                    && $job->data['migrations'] === false
-                    && $job->data['assets'] === false
-                    && $job->data['commands'] === false
-                    && $job->data['facade'] === false
-                    && $job->data['boost_skill'] === false
-                    && $job->data['mcp_source'] === 'mcp';
-            });
+            Queue::assertPushed(RecordPackageBuildStatJob::class, fn (RecordPackageBuildStatJob $job) => $job->data['php_version'] === '8.5'
+                && $job->data['config'] === false
+                && $job->data['routes'] === false
+                && $job->data['views'] === false
+                && $job->data['translations'] === false
+                && $job->data['migrations'] === false
+                && $job->data['assets'] === false
+                && $job->data['commands'] === false
+                && $job->data['facade'] === false
+                && $job->data['boost_skill'] === false
+                && $job->data['mcp_source'] === 'mcp');
         });
     });
 });

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Enums\Locale;
 use App\Http\Controllers\BuildApplicationController;
 use App\Http\Controllers\BuildPackageController;

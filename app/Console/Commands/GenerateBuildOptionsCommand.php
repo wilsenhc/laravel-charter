@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use App\Enums\BuildOptions;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
+#[Description('Generate TypeScript file with build options from backend enum')]
+#[Signature('generate:build-options {--output=resources/js/build}')]
 class GenerateBuildOptionsCommand extends Command
 {
-    protected $signature = 'generate:build-options {--output=resources/js/build}';
-
-    protected $description = 'Generate TypeScript file with build options from backend enum';
-
     public function handle(): int
     {
         $outputPath = base_path($this->input()->string('output')->toString());

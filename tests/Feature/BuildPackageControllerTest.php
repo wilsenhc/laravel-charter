@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Jobs\RecordPackageBuildStatJob;
 use Illuminate\Support\Facades\Queue;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -98,14 +100,12 @@ describe('show', function () {
         $this->withHeader('User-Agent', 'curl/8.5')
             ->get('/package/build?name=my-package&features=config,routes&php=8.5');
 
-        Queue::assertPushed(RecordPackageBuildStatJob::class, function (RecordPackageBuildStatJob $job) {
-            return $job->data['php_version'] === '8.5'
-                && $job->data['config'] === true
-                && $job->data['routes'] === true
-                && $job->data['views'] === false
-                && $job->data['boost_skill'] === false
-                    && $job->data['mcp_source'] === 'web';
-        });
+        Queue::assertPushed(RecordPackageBuildStatJob::class, fn (RecordPackageBuildStatJob $job) => $job->data['php_version'] === '8.5'
+            && $job->data['config'] === true
+            && $job->data['routes'] === true
+            && $job->data['views'] === false
+            && $job->data['boost_skill'] === false
+                && $job->data['mcp_source'] === 'web');
     });
 
     test('stores no features when none are selected', function () {
@@ -114,13 +114,11 @@ describe('show', function () {
         $this->withHeader('User-Agent', 'curl/8.5')
             ->get('/package/build?name=my-package&php=8.4');
 
-        Queue::assertPushed(RecordPackageBuildStatJob::class, function (RecordPackageBuildStatJob $job) {
-            return $job->data['php_version'] === '8.4'
-                && $job->data['config'] === false
-                && $job->data['routes'] === false
-                && $job->data['boost_skill'] === false
-                    && $job->data['mcp_source'] === 'web';
-        });
+        Queue::assertPushed(RecordPackageBuildStatJob::class, fn (RecordPackageBuildStatJob $job) => $job->data['php_version'] === '8.4'
+            && $job->data['config'] === false
+            && $job->data['routes'] === false
+            && $job->data['boost_skill'] === false
+                && $job->data['mcp_source'] === 'web');
     });
 
     describe('user agent filtering', function () {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Enums\Locale;
@@ -14,7 +16,7 @@ class LocaleController extends Controller
             'locale' => ['required', 'string', 'in:'.implode(',', Locale::codes())],
         ]);
 
-        $redirect = redirect()->back()->withCookie(
+        $redirect = back()->withCookie(
             cookie('locale', $validated['locale'], 43200)
         );
 

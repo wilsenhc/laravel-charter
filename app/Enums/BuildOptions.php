@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums;
 
 enum BuildOptions
@@ -126,7 +128,7 @@ enum BuildOptions
 
         $services = self::listValues($input['services'] ?? null, [...self::AVAILABLE_SERVICES->values(), 'none']);
 
-        if ($services !== [] && ! (in_array('none', $services, true) && count($services) > 1)) {
+        if ($services !== [] && (! in_array('none', $services, true) || count($services) <= 1)) {
             $preset['services'] = $services;
         }
 

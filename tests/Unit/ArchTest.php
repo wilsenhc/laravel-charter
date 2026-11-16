@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Symfony\Component\Finder\SplFileInfo;
 use Tests\TestCase;
 
-uses(TestCase::class);
+pest()->extend(TestCase::class);
 
 arch('controllers have no protected or private methods')
     ->expect('App\Http\Controllers')
@@ -58,8 +62,20 @@ arch('Services should have Service suffix')
 
 arch('Carbon\Carbon is not used, only Carbon\CarbonImmutable')
     ->expect('App')
-    ->not->toUse('Carbon\Carbon')
-    ->not->toUse('Illuminate\Support\Carbon');
+    ->not->toUse(Carbon::class)
+    ->not->toUse(Illuminate\Support\Carbon::class);
+
+test('first-party PHP files declare strict types', function (): void {
+    $missing = collect(['app', 'bootstrap', 'config', 'database', 'public', 'routes', 'tests', 'tools'])
+        ->flatMap(fn (string $directory): array => File::allFiles(base_path($directory)))
+        ->filter(fn (SplFileInfo $file): bool => $file->getExtension() === 'php')
+        ->reject(fn (SplFileInfo $file): bool => str_contains($file->getPathname(), 'bootstrap/cache'))
+        ->reject(fn (SplFileInfo $file): bool => $file->getFilename() === 'frankenphp-worker.php')
+        ->reject(fn (SplFileInfo $file): bool => str_contains($file->getContents(), 'declare(strict_types=1);'))
+        ->map(fn (SplFileInfo $file): string => $file->getRelativePathname());
+
+    expect($missing->values()->all())->toBeEmpty();
+});
 
 test('Enum cases are all uppercase', function () {
     $files = File::allFiles(app_path());
@@ -71,7 +87,7 @@ test('Enum cases are all uppercase', function () {
             continue;
         }
 
-        foreach ((new ReflectionEnum($class))->getCases() as $case) {
+        foreach (new ReflectionEnum($class)->getCases() as $case) {
             expect($case->getName())
                 ->toMatch('/^[A-Z][A-Z0-9_]*$/', "{$class}::{$case->getName()} must be uppercase");
         }
