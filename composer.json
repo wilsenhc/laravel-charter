@@ -86,7 +86,10 @@
             "@test"
         ],
         "types:check": [
-            "phpstan analyse"
+            "phpstan analyse --no-progress --memory-limit=2G"
+        ],
+        "test:coverage": [
+            "@php artisan test --coverage --min=92 --compact"
         ],
         "test": [
             "@php artisan config:clear --ansi",

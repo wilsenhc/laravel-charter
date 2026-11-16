@@ -12,8 +12,7 @@
 
 **Visually configure a Laravel Sail application or package, then generate a ready-to-run command.**
 
-[![Tests](https://github.com/wilsenhc/laravel-charter/actions/workflows/tests.yml/badge.svg)](https://github.com/wilsenhc/laravel-charter/actions/workflows/tests.yml)
-[![Linter](https://github.com/wilsenhc/laravel-charter/actions/workflows/lint.yml/badge.svg)](https://github.com/wilsenhc/laravel-charter/actions/workflows/lint.yml)
+[![CI](https://github.com/wilsenhc/laravel-charter/actions/workflows/ci.yml/badge.svg)](https://github.com/wilsenhc/laravel-charter/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 [![Hosted at](https://img.shields.io/badge/hosted%20at-laravelcharter.com-ff4154)](https://laravelcharter.com)
 
@@ -132,7 +131,7 @@ If you deploy Charter yourself, please [open an issue](https://github.com/wilsen
 
 ### Requirements
 
-- **PHP 8.5** — pinned in `.php-version`, and what CI runs
+- **PHP 8.5** — pinned in `.php-version`; CI runs the suite on both 8.5 and 8.6 to validate the upcoming 8.6 upgrade
 - [Laravel 13](https://laravel.com) and [Composer 2](https://getcomposer.org)
 - [Bun](https://bun.sh) — this project uses Bun, not npm
 - A database for the app, and one for the test suite (see `.env.testing`).
