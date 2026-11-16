@@ -198,7 +198,10 @@ const generatedUrl = computed(() => {
     let auth = '';
     let using = '';
 
-    if (selectedStarterKit.value !== 'custom' && selectedStarterKit.value !== 'api') {
+    if (
+        selectedStarterKit.value !== 'custom' &&
+        selectedStarterKit.value !== 'api'
+    ) {
         auth = `&auth=${selectedAuth.value}`;
     }
 
@@ -517,7 +520,12 @@ const faqItems = computed(() => {
                         </Select>
                     </Field>
 
-                    <Field v-if="selectedStarterKit !== 'custom' && selectedStarterKit !== 'api'">
+                    <Field
+                        v-if="
+                            selectedStarterKit !== 'custom' &&
+                            selectedStarterKit !== 'api'
+                        "
+                    >
                         <FieldLabel for="auth">{{
                             t('form.auth_provider')
                         }}</FieldLabel>
