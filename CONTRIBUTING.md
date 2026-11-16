@@ -127,6 +127,7 @@ bun run format:check  # Prettier, check only
 bun run types:check   # vue-tsc
 
 vendor/bin/pint       # PHP code style, with --fix
+composer refactor:check # Rector, check only
 ```
 
 ### If PHPStan complains about model properties
