@@ -12,7 +12,7 @@ const locale = computed(() => page.props.locale as string);
 
 <template>
     <footer
-        class="mt-12 flex flex-col items-center gap-3 border-t border-border py-8 text-center text-sm text-muted-foreground"
+        class="mt-12 flex flex-col items-center gap-3 border-t border-border bg-background px-5 py-8 text-center text-sm text-muted-foreground"
     >
         <div class="flex items-center justify-center gap-4">
             <a
@@ -44,7 +44,23 @@ const locale = computed(() => page.props.locale as string);
                 {{ t('nav.sponsor') }}
             </a>
         </div>
-        <div class="flex items-center justify-center gap-4">
+        <div class="flex flex-wrap items-center justify-center gap-4">
+            <Link
+                :href="`/${locale}/guides`"
+                prefetch
+                class="transition-colors hover:text-foreground"
+            >
+                {{ t('nav.guides') }}
+            </Link>
+            <span class="text-border">|</span>
+            <Link
+                :href="`/${locale}/glossary`"
+                prefetch
+                class="transition-colors hover:text-foreground"
+            >
+                {{ t('nav.glossary') }}
+            </Link>
+            <span class="text-border">|</span>
             <Link
                 :href="`/${locale}/stats`"
                 prefetch

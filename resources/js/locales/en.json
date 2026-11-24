@@ -14,7 +14,11 @@
         "build_package": "Package Builder",
         "menu": "Menu",
         "menu_description": "Open the site navigation menu",
-        "install": "Install app"
+        "install": "Install app",
+        "application": "Application",
+        "package": "Package",
+        "guides": "Guides",
+        "glossary": "Glossary"
     },
     "header": {
         "app_name": "Charter for Laravel"
@@ -29,7 +33,7 @@
             "how_it_works": {
                 "title": "How it works",
                 "step1_title": "1. Configure",
-                "step1_desc": "Pick your Laravel version, database, cache, mail driver, and starter kit. All the options from laravel new in a visual UI.",
+                "step1_desc": "Pick your Laravel version, database, services, starter kit, and tooling. All the options from laravel new in a visual UI.",
                 "step2_title": "2. Generate",
                 "step2_desc": "Charter builds a ready-to-run bash command that combines the Laravel installer with Sail setup — no more digging through docs for the right flags.",
                 "step3_title": "3. Run",
@@ -78,14 +82,23 @@
         "skip_node_install": "Skip Node.js install",
         "database_driver": "Database Driver",
         "select_database": "Select a database driver",
-        "database_none": "None"
+        "database_none": "None",
+        "services_legend": "[+] included   [−] not included",
+        "service_groups": {
+            "databases": "Databases",
+            "cache": "Cache",
+            "search": "Search",
+            "mail": "Mail",
+            "other": "Other"
+        }
     },
     "form_errors": {
         "name_required": "Application name is required",
         "name_invalid": "Application name may only contain letters, numbers, dashes, and underscores",
         "url_required": "URL is required for custom starter kit",
         "url_invalid": "Please enter a valid URL",
-        "package_name_invalid": "Package name must be in the format vendor/package"
+        "package_name_invalid": "Package name must be in the format vendor/package",
+        "fix_highlighted": "Fix the highlighted fields before copying"
     },
     "tooltips": {
         "livewire_class_components_label": "What are Livewire class components?",
@@ -137,11 +150,12 @@
         "a7": "Not at all. Everything you configure here is generated in your browser — there's no server-side storage. When you're ready, the command is built entirely client-side and runs locally on your machine."
     },
     "code_block": {
-        "heading": "Start shipping now",
+        "heading": "Command",
         "copy": "Copy",
         "copied": "Copied",
         "aria_label": "Copy command",
-        "hint": "Run this in your terminal to scaffold your project with Laravel Sail."
+        "hint": "Run this in your terminal to scaffold your project with Laravel Sail.",
+        "package_hint": "Run this in your terminal to bootstrap your package."
     },
     "debug": {
         "label": "Debug:",
@@ -213,7 +227,9 @@
         "option_lw_class_components": "LW Class Components",
         "option_custom_kit": "Custom Kit",
         "mcp": "MCP",
-        "web": "Web"
+        "web": "Web",
+        "empty": "No builds in this period yet.",
+        "empty_cta": "Build the first one"
     },
     "privacy": {
         "title": "Privacy Policy",

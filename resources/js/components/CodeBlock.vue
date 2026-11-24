@@ -7,12 +7,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const { t } = useI18n();
 
-const props = defineProps<{
-    commands: {
-        curl: string;
-        wget: string;
-    };
-}>();
+const props = withDefaults(
+    defineProps<{
+        commands: {
+            curl: string;
+            wget: string;
+        };
+        disabled?: boolean;
+        hint?: string;
+    }>(),
+    { disabled: false, hint: undefined },
+);
 
 const activeTool = ref<string>('curl');
 
@@ -33,24 +38,6 @@ const copy = (text: string) => {
     navigator.clipboard.writeText(text);
     showCopiedFeedback();
 };
-
-function selectAndCopy(event: MouseEvent) {
-    const el = event.currentTarget as HTMLElement | null;
-
-    if (el) {
-        const range = document.createRange();
-        range.selectNodeContents(el);
-        const selection = window.getSelection();
-
-        if (selection) {
-            selection.removeAllRanges();
-            selection.addRange(range);
-        }
-
-        document.execCommand('copy');
-        showCopiedFeedback();
-    }
-}
 </script>
 
 <template>
@@ -66,9 +53,10 @@ function selectAndCopy(event: MouseEvent) {
                         <TabsTrigger value="wget">wget</TabsTrigger>
                     </TabsList>
                     <Button
-                        variant="outline"
+                        variant="default"
                         size="sm"
                         class="gap-1.5"
+                        :disabled="disabled"
                         :aria-label="
                             copied
                                 ? t('code_block.copied')
@@ -92,13 +80,15 @@ function selectAndCopy(event: MouseEvent) {
                 :value="tool"
             >
                 <pre
-                    class="code-scroll cursor-pointer overflow-x-auto rounded-md border border-border bg-secondary p-3 text-sm leading-relaxed"
-                    @click="selectAndCopy"
+                    class="code-scroll overflow-x-auto rounded-md border border-border bg-secondary p-3 text-sm leading-relaxed select-all"
                 ><code>{{ command }}</code></pre>
             </TabsContent>
         </Tabs>
-        <p class="text-xs text-muted-foreground">
-            {{ t('code_block.hint') }}
+        <p v-if="disabled" class="text-xs text-destructive" role="status">
+            {{ t('form_errors.fix_highlighted') }}
+        </p>
+        <p v-else class="text-xs text-muted-foreground">
+            {{ hint ?? t('code_block.hint') }}
         </p>
     </div>
 </template>

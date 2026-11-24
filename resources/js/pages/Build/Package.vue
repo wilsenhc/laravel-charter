@@ -5,7 +5,6 @@ import { useI18n } from 'vue-i18n';
 import type { AvailablePackageFeature, AvailablePhpVersion } from '@/build';
 import { availablePackageFeatures, availablePhpVersions } from '@/build';
 import CodeBlock from '@/components/CodeBlock.vue';
-import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
@@ -95,6 +94,18 @@ const validateComposerPackageName = () => {
     return true;
 };
 
+const packageNameIsValid = (value: string): boolean =>
+    value.length > 0 && /^[a-zA-Z0-9_-]+$/.test(value);
+
+const composerPackageNameIsValid = (value: string): boolean =>
+    value === '' || /^[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+$/.test(value);
+
+const canCopy = computed(
+    () =>
+        packageNameIsValid(packageName.value) &&
+        composerPackageNameIsValid(composerPackageName.value),
+);
+
 const generatedUrl = computed(() => {
     const baseUrl = `${props.url}/package/build`;
     const nameParam = `?name=${encodeURIComponent(packageName.value)}`;
@@ -154,19 +165,19 @@ const commands = computed(() => ({
 </script>
 
 <template>
-    <main class="mx-auto w-full max-w-4xl px-5 py-7">
+    <main class="mx-auto w-full max-w-5xl px-5 py-7">
         <section class="mb-8 space-y-3">
-            <h1 class="text-2xl font-bold tracking-tight">
+            <h1 class="text-3xl font-bold tracking-tight">
                 {{ t('hero.package.title') }}
             </h1>
-            <p class="text-sm text-muted-foreground">
+            <p class="max-w-prose text-sm text-muted-foreground">
                 {{ t('hero.package.description') }}
             </p>
             <div class="flex flex-wrap items-center gap-4">
                 <Link
                     :href="`/${locale}/application`"
                     prefetch
-                    class="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                    class="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
                 >
                     {{ t('hero.package.application_link') }}
                 </Link>
@@ -214,11 +225,18 @@ const commands = computed(() => ({
                             id="package-name"
                             v-model="packageName"
                             :aria-invalid="!!packageNameError"
+                            :aria-describedby="
+                                packageNameError
+                                    ? 'package-name-error'
+                                    : undefined
+                            "
                             @blur="validatePackageName"
                         />
-                        <FieldError v-if="packageNameError">{{
-                            packageNameError
-                        }}</FieldError>
+                        <FieldError
+                            v-if="packageNameError"
+                            id="package-name-error"
+                            >{{ packageNameError }}</FieldError
+                        >
                     </Field>
                     <Field>
                         <FieldLabel for="php-version">{{
@@ -244,38 +262,51 @@ const commands = computed(() => ({
                 </div>
 
                 <Field>
-                    <FieldLabel>{{ t('package_form.description') }}</FieldLabel>
-                    <div class="flex flex-wrap gap-2">
-                        <Badge
+                    <div
+                        class="flex flex-wrap items-baseline justify-between gap-2"
+                    >
+                        <FieldLabel id="features-label">{{
+                            t('package_form.description')
+                        }}</FieldLabel>
+                        <span class="text-xs text-muted-foreground">{{
+                            t('form.services_legend')
+                        }}</span>
+                    </div>
+                    <div
+                        role="group"
+                        aria-labelledby="features-label"
+                        class="flex flex-wrap gap-2"
+                    >
+                        <button
                             v-for="feature in availablePackageFeatures"
                             :key="feature"
-                            :variant="
+                            type="button"
+                            :aria-pressed="selectedFeatures.includes(feature)"
+                            class="inline-flex min-h-11 items-center gap-1.5 rounded-md border px-3 text-sm font-medium transition-colors outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/50 sm:min-h-8"
+                            :class="
                                 selectedFeatures.includes(feature)
-                                    ? 'default'
-                                    : 'outline'
+                                    ? 'border-primary bg-primary text-primary-foreground hover:bg-primary/90'
+                                    : 'border-border bg-background text-foreground hover:bg-muted'
                             "
-                            class="cursor-pointer gap-1.5 text-sm font-medium select-none"
                             @click="toggleFeature(feature)"
                         >
-                            <span
-                                class="tabular-nums"
-                                :class="
-                                    selectedFeatures.includes(feature)
-                                        ? 'text-primary-foreground'
-                                        : 'text-muted-foreground'
-                                "
+                            <span class="text-xs tabular-nums opacity-70"
                                 >[{{
                                     selectedFeatures.includes(feature)
                                         ? '+'
-                                        : '-'
+                                        : '−'
                                 }}]</span
                             >{{ feature }}
-                        </Badge>
+                        </button>
                     </div>
                 </Field>
 
                 <div>
-                    <CodeBlock :commands="commands" />
+                    <CodeBlock
+                        :commands="commands"
+                        :disabled="!canCopy"
+                        :hint="t('code_block.package_hint')"
+                    />
                     <p class="mt-2 text-xs text-muted-foreground">
                         {{ t('hero.package.docker_notice') }}
                     </p>
@@ -301,9 +332,7 @@ const commands = computed(() => ({
                 <CardTitle>{{ t('package_form.metadata_title') }}</CardTitle>
             </CardHeader>
             <CardContent>
-                <div
-                    class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3"
-                >
+                <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <Field>
                         <FieldLabel for="author-name">{{
                             t('package_form.author_name')
@@ -330,11 +359,18 @@ const commands = computed(() => ({
                             id="composer-package-name"
                             v-model="composerPackageName"
                             :aria-invalid="!!composerPackageNameError"
+                            :aria-describedby="
+                                composerPackageNameError
+                                    ? 'composer-package-name-error'
+                                    : undefined
+                            "
                             @blur="validateComposerPackageName"
                         />
-                        <FieldError v-if="composerPackageNameError">{{
-                            composerPackageNameError
-                        }}</FieldError>
+                        <FieldError
+                            v-if="composerPackageNameError"
+                            id="composer-package-name-error"
+                            >{{ composerPackageNameError }}</FieldError
+                        >
                     </Field>
 
                     <Field>
@@ -347,7 +383,7 @@ const commands = computed(() => ({
                         />
                     </Field>
 
-                    <Field class="sm:col-span-2 md:col-span-3">
+                    <Field class="sm:col-span-2">
                         <FieldLabel for="package-description">{{
                             t('package_form.package_description')
                         }}</FieldLabel>
@@ -377,12 +413,17 @@ const commands = computed(() => ({
             </CardContent>
         </Card>
 
-        <section id="how-it-works" class="mb-8 scroll-mt-20 space-y-4">
-            <h2 class="text-base font-semibold tracking-tight">
+        <section
+            id="how-it-works"
+            class="band mt-12 scroll-mt-20 space-y-4 py-10"
+        >
+            <h2 class="text-lg font-semibold tracking-tight">
                 {{ t('hero.package.how_it_works.title') }}
             </h2>
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <div class="space-y-2 rounded-sm border border-border p-4">
+                <div
+                    class="space-y-2 rounded-sm border border-border bg-card p-4"
+                >
                     <span class="text-lg font-bold text-foreground">{{
                         t('hero.package.how_it_works.step1_title')
                     }}</span>
@@ -390,7 +431,9 @@ const commands = computed(() => ({
                         {{ t('hero.package.how_it_works.step1_desc') }}
                     </p>
                 </div>
-                <div class="space-y-2 rounded-sm border border-border p-4">
+                <div
+                    class="space-y-2 rounded-sm border border-border bg-card p-4"
+                >
                     <span class="text-lg font-bold text-foreground">{{
                         t('hero.package.how_it_works.step2_title')
                     }}</span>
@@ -398,7 +441,9 @@ const commands = computed(() => ({
                         {{ t('hero.package.how_it_works.step2_desc') }}
                     </p>
                 </div>
-                <div class="space-y-2 rounded-sm border border-border p-4">
+                <div
+                    class="space-y-2 rounded-sm border border-border bg-card p-4"
+                >
                     <span class="text-lg font-bold text-foreground">{{
                         t('hero.package.how_it_works.step3_title')
                     }}</span>

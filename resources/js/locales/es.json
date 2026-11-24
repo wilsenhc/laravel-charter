@@ -14,7 +14,11 @@
         "build_package": "Creador de Paquetes",
         "menu": "Menu",
         "menu_description": "Abrir el menú de navegación del sitio",
-        "install": "Instalar app"
+        "install": "Instalar app",
+        "application": "Aplicación",
+        "package": "Paquete",
+        "guides": "Guías",
+        "glossary": "Glosario"
     },
     "header": {
         "app_name": "Charter para Laravel"
@@ -29,7 +33,7 @@
             "how_it_works": {
                 "title": "Cómo funciona",
                 "step1_title": "1. Configurar",
-                "step1_desc": "Elige tu versión de Laravel, base de datos, caché, driver de correo y starter kit. Todas las opciones de laravel new en una interfaz visual.",
+                "step1_desc": "Elige tu versión de Laravel, base de datos, servicios, starter kit y herramientas. Todas las opciones de laravel new en una interfaz visual.",
                 "step2_title": "2. Generar",
                 "step2_desc": "Charter construye un comando bash listo para ejecutar que combina el instalador de Laravel con la configuración de Sail — sin necesidad de buscar las banderas correctas en la documentación.",
                 "step3_title": "3. Ejecutar",
@@ -78,14 +82,23 @@
         "skip_node_install": "Omitir instalación de Node.js",
         "database_driver": "Controlador de Base de datos",
         "select_database": "Selecciona un controlador de base de datos",
-        "database_none": "Ninguno"
+        "database_none": "Ninguno",
+        "services_legend": "[+] incluido   [−] sin incluir",
+        "service_groups": {
+            "databases": "Bases de datos",
+            "cache": "Caché",
+            "search": "Búsqueda",
+            "mail": "Correo",
+            "other": "Otros"
+        }
     },
     "form_errors": {
         "name_required": "El nombre de la aplicación es obligatorio",
         "name_invalid": "El nombre solo puede contener letras, números, guiones y guiones bajos",
         "url_required": "La URL es obligatoria para un starter kit personalizado",
         "url_invalid": "Por favor ingresa una URL válida",
-        "package_name_invalid": "El nombre del paquete debe tener el formato vendor/package"
+        "package_name_invalid": "El nombre del paquete debe tener el formato vendor/package",
+        "fix_highlighted": "Corrige los campos marcados antes de copiar"
     },
     "tooltips": {
         "livewire_class_components_label": "¿Qué son los Livewire class components?",
@@ -137,11 +150,12 @@
         "a7": "Para nada. Todo lo que configuras aquí se genera en tu navegador — no hay almacenamiento del lado del servidor. Cuando estés listo, el comando se construye completamente del lado del cliente y se ejecuta localmente en tu máquina."
     },
     "code_block": {
-        "heading": "Empieza ahora",
+        "heading": "Comando",
         "copy": "Copiar",
         "copied": "Copiado",
         "aria_label": "Copiar comando",
-        "hint": "Ejecuta esto en tu terminal para crear tu proyecto con Laravel Sail."
+        "hint": "Ejecuta esto en tu terminal para crear tu proyecto con Laravel Sail.",
+        "package_hint": "Ejecuta esto en tu terminal para crear tu paquete."
     },
     "debug": {
         "label": "Depuración:",
@@ -213,7 +227,9 @@
         "option_lw_class_components": "LW Class Components",
         "option_custom_kit": "Kit Personalizado",
         "mcp": "MCP",
-        "web": "Web"
+        "web": "Web",
+        "empty": "Todavía no hay compilaciones en este periodo.",
+        "empty_cta": "Crea la primera"
     },
     "privacy": {
         "title": "Política de privacidad",

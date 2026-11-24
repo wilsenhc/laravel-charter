@@ -2,6 +2,7 @@
 import { Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import CopyButton from '@/components/CopyButton.vue';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface McpPageProps {
@@ -75,7 +76,7 @@ const opencodeConfig = computed(() =>
 </script>
 
 <template>
-    <main class="mx-auto w-full max-w-4xl px-5 py-7">
+    <main class="mx-auto w-full max-w-5xl px-5 py-7">
         <Link
             :href="`/${locale}/application`"
             prefetch
@@ -87,7 +88,7 @@ const opencodeConfig = computed(() =>
         <h1 class="mb-2 text-3xl font-bold tracking-tight">
             {{ t('mcp.title') }}
         </h1>
-        <p class="mb-8 text-muted-foreground">
+        <p class="mb-8 max-w-prose text-muted-foreground">
             {{ t('mcp.description') }}
         </p>
 
@@ -96,9 +97,9 @@ const opencodeConfig = computed(() =>
                 {{ t('mcp.available_tools') }}
             </h2>
             <div class="space-y-4">
-                <div class="rounded-lg border border-border p-4">
+                <div class="rounded-lg border border-border bg-card p-4">
                     <h3 class="mb-1 font-semibold">build-application</h3>
-                    <p class="mb-2 text-sm text-muted-foreground">
+                    <p class="mb-2 max-w-prose text-sm text-muted-foreground">
                         {{ t('mcp.tool_application_desc') }}
                     </p>
                     <pre
@@ -113,9 +114,9 @@ build-application --name my-app --services '["pgsql","redis"]' --frontend vue --
                         {{ t('nav.build_application') }}
                     </Link>
                 </div>
-                <div class="rounded-lg border border-border p-4">
+                <div class="rounded-lg border border-border bg-card p-4">
                     <h3 class="mb-1 font-semibold">build-package</h3>
-                    <p class="mb-2 text-sm text-muted-foreground">
+                    <p class="mb-2 max-w-prose text-sm text-muted-foreground">
                         {{ t('mcp.tool_package_desc') }}
                     </p>
                     <pre
@@ -137,7 +138,7 @@ build-package --name my-package --features '["config","routes"]' --author_name "
             <h2 class="mb-3 text-xl font-semibold tracking-tight">
                 {{ t('mcp.configuration') }}
             </h2>
-            <p class="mb-4 text-sm text-muted-foreground">
+            <p class="mb-4 max-w-prose text-sm text-muted-foreground">
                 {{ t('mcp.configuration_description') }}
             </p>
 
@@ -158,46 +159,66 @@ build-package --name my-package --features '["config","routes"]' --author_name "
                 </TabsList>
 
                 <TabsContent value="claude">
-                    <p class="mb-2 text-xs text-muted-foreground">
-                        {{ t('mcp.client_claude') }}
-                        <code
-                            class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
-                            >claude.json</code
-                        >:
-                    </p>
+                    <div
+                        class="mb-2 flex flex-wrap items-center justify-between gap-2"
+                    >
+                        <p class="text-xs text-muted-foreground">
+                            {{ t('mcp.client_claude') }}
+                            <code
+                                class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+                                >claude.json</code
+                            >:
+                        </p>
+                        <CopyButton :value="claudeConfig" />
+                    </div>
                     <pre
-                        class="overflow-x-auto rounded-lg border border-border bg-muted p-4 font-mono text-xs"
+                        class="overflow-x-auto rounded-lg border border-border bg-muted p-4 font-mono text-xs [overflow-wrap:anywhere] whitespace-pre-wrap"
                     ><code>{{ claudeConfig }}</code></pre>
                 </TabsContent>
 
                 <TabsContent value="cursor">
-                    <p class="mb-2 text-xs text-muted-foreground">
-                        {{ t('mcp.client_cursor') }}
-                    </p>
+                    <div
+                        class="mb-2 flex flex-wrap items-center justify-between gap-2"
+                    >
+                        <p class="text-xs text-muted-foreground">
+                            {{ t('mcp.client_cursor') }}
+                        </p>
+                        <CopyButton :value="cursorConfig" />
+                    </div>
                     <pre
-                        class="overflow-x-auto rounded-lg border border-border bg-muted p-4 font-mono text-xs"
+                        class="overflow-x-auto rounded-lg border border-border bg-muted p-4 font-mono text-xs [overflow-wrap:anywhere] whitespace-pre-wrap"
                     ><code>{{ cursorConfig }}</code></pre>
                 </TabsContent>
 
                 <TabsContent value="codex">
-                    <p class="mb-2 text-xs text-muted-foreground">
-                        {{ t('mcp.client_codex') }}
-                    </p>
+                    <div
+                        class="mb-2 flex flex-wrap items-center justify-between gap-2"
+                    >
+                        <p class="text-xs text-muted-foreground">
+                            {{ t('mcp.client_codex') }}
+                        </p>
+                        <CopyButton :value="codexConfig" />
+                    </div>
                     <pre
-                        class="overflow-x-auto rounded-lg border border-border bg-muted p-4 font-mono text-xs"
+                        class="overflow-x-auto rounded-lg border border-border bg-muted p-4 font-mono text-xs [overflow-wrap:anywhere] whitespace-pre-wrap"
                     ><code>{{ codexConfig }}</code></pre>
                 </TabsContent>
 
                 <TabsContent value="opencode">
-                    <p class="mb-2 text-xs text-muted-foreground">
-                        {{ t('mcp.client_opencode') }}
-                        <code
-                            class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
-                            >opencode.json</code
-                        >:
-                    </p>
+                    <div
+                        class="mb-2 flex flex-wrap items-center justify-between gap-2"
+                    >
+                        <p class="text-xs text-muted-foreground">
+                            {{ t('mcp.client_opencode') }}
+                            <code
+                                class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+                                >opencode.json</code
+                            >:
+                        </p>
+                        <CopyButton :value="opencodeConfig" />
+                    </div>
                     <pre
-                        class="overflow-x-auto rounded-lg border border-border bg-muted p-4 font-mono text-xs"
+                        class="overflow-x-auto rounded-lg border border-border bg-muted p-4 font-mono text-xs [overflow-wrap:anywhere] whitespace-pre-wrap"
                     ><code>{{ opencodeConfig }}</code></pre>
                 </TabsContent>
             </Tabs>
@@ -207,20 +228,20 @@ build-package --name my-package --features '["config","routes"]' --author_name "
             <h2 class="mb-3 text-xl font-semibold tracking-tight">
                 {{ t('mcp.webmcp_heading') }}
             </h2>
-            <p class="mb-4 text-sm text-muted-foreground">
+            <p class="mb-4 max-w-prose text-sm text-muted-foreground">
                 {{ t('mcp.webmcp_description') }}
             </p>
-            <div class="rounded-lg border border-border p-4">
+            <div class="rounded-lg border border-border bg-card p-4">
                 <h3 class="mb-1 font-semibold">
                     {{ t('mcp.webmcp_tools_heading') }}
                 </h3>
-                <p class="mb-2 text-sm text-muted-foreground">
+                <p class="mb-2 max-w-prose text-sm text-muted-foreground">
                     {{ t('mcp.webmcp_tools_body') }}
                 </p>
                 <h3 class="mt-4 mb-1 font-semibold">
                     {{ t('mcp.webmcp_support_heading') }}
                 </h3>
-                <p class="mb-2 text-sm text-muted-foreground">
+                <p class="mb-2 max-w-prose text-sm text-muted-foreground">
                     {{ t('mcp.webmcp_support_body') }}
                     <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
                         >chrome://flags/#enable-webmcp-testing</code
@@ -233,7 +254,7 @@ build-package --name my-package --features '["config","routes"]' --author_name "
             <h2 class="mb-3 text-xl font-semibold tracking-tight">
                 {{ t('mcp.how_to_use') }}
             </h2>
-            <p class="mb-4 text-sm text-muted-foreground">
+            <p class="mb-4 max-w-prose text-sm text-muted-foreground">
                 {{ t('mcp.how_to_use_prefix') }}
                 <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
                     >build-application</code

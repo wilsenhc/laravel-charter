@@ -59,7 +59,7 @@
       "reason": "The tab strip is a segmented control: triggers sit flush inside one shared surface so the group reads as a single unit. An 8px gap would break the control."
     },
     {
-      "selector": "button[class*=size-4]",
+      "selector": "button[class*=size-8]",
       "rules": ["icon-button-tooltip"],
       "reason": "InfoTooltip buttons already render a real hover/focus tooltip through Reka UI; the tooltip element only exists in the DOM while open, so a static check cannot see it."
     },

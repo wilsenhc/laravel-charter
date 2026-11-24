@@ -16,7 +16,6 @@ import {
     availableDatabaseDrivers,
     availableJavascriptRuntimes,
     availablePhpVersions,
-    availableServices,
     availableStarterKits,
     availableTestingFrameworks,
     serviceLabel,
@@ -30,7 +29,6 @@ import {
     AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
@@ -92,9 +90,6 @@ const selectedPhpVersion = ref<AvailablePhpVersion>(preset.php ?? '8.5');
 const selectedDatabase = ref<AvailableDatabaseDriver | 'none'>(
     preset.database ?? 'none',
 );
-const hasManuallyChangedDatabase = ref(
-    preset.database !== undefined && preset.database !== 'none',
-);
 
 const toggleService = (service: string) => {
     if (selectedServices.value.includes(service)) {
@@ -153,25 +148,76 @@ const validateCustomUrl = () => {
 
 const databaseServiceNames = ['mysql', 'mariadb', 'pgsql'] as const;
 
+const isDatabaseService = (
+    service: string,
+): service is AvailableDatabaseDriver =>
+    (databaseServiceNames as readonly string[]).includes(service);
+
+// Keep the database driver and the database service chips in agreement:
+// selecting a driver selects its service and clears the others, and selecting
+// a database service makes it the driver.
 watch(selectedServices, (newServices) => {
-    if (hasManuallyChangedDatabase.value) {
-        return;
+    const databaseService = [...newServices].reverse().find(isDatabaseService);
+
+    if (databaseService) {
+        selectedDatabase.value = databaseService;
     }
-
-    const lastDbService = newServices
-        .filter((service): service is AvailableDatabaseDriver =>
-            (databaseServiceNames as readonly string[]).includes(service),
-        )
-        .at(-1);
-
-    selectedDatabase.value = lastDbService ?? 'none';
 });
 
 const onDatabaseChange = (value: unknown) => {
-    hasManuallyChangedDatabase.value = true;
     selectedDatabase.value = (value ?? 'none') as
         AvailableDatabaseDriver | 'none';
+
+    if (isDatabaseService(selectedDatabase.value)) {
+        selectedServices.value = [
+            ...selectedServices.value.filter(
+                (service) => !isDatabaseService(service),
+            ),
+            selectedDatabase.value,
+        ];
+    }
 };
+
+const serviceGroups: {
+    key: string;
+    services: AvailableService[];
+}[] = [
+    { key: 'databases', services: ['mysql', 'mariadb', 'pgsql'] },
+    { key: 'cache', services: ['redis', 'valkey', 'memcached'] },
+    { key: 'search', services: ['meilisearch', 'typesense'] },
+    { key: 'mail', services: ['mailpit', 'mailtrap-local'] },
+    {
+        key: 'other',
+        services: ['mongodb', 'rustfs', 'rabbitmq', 'selenium', 'soketi'],
+    },
+];
+
+const appNameIsValid = (value: string): boolean =>
+    value.length > 0 && /^[a-zA-Z0-9_-]+$/.test(value);
+
+const customUrlIsValid = (value: string): boolean => {
+    if (selectedStarterKit.value !== 'custom') {
+        return true;
+    }
+
+    if (!value) {
+        return false;
+    }
+
+    try {
+        new URL(value);
+
+        return true;
+    } catch {
+        return false;
+    }
+};
+
+const canCopy = computed(
+    () =>
+        appNameIsValid(appName.value) &&
+        customUrlIsValid(customStarterKitUrl.value),
+);
 
 const laravelStarterKits = ['livewire', 'vue', 'react', 'svelte'];
 
@@ -239,19 +285,19 @@ const faqItems = computed(() => {
 </script>
 
 <template>
-    <main class="mx-auto w-full max-w-4xl px-5 py-7">
+    <main class="mx-auto w-full max-w-5xl px-5 py-7">
         <section class="mb-8 space-y-3">
-            <h1 class="text-2xl font-bold tracking-tight">
+            <h1 class="text-3xl font-bold tracking-tight">
                 {{ t('hero.application.title') }}
             </h1>
-            <p class="text-sm text-muted-foreground">
+            <p class="max-w-prose text-sm text-muted-foreground">
                 {{ t('hero.application.description') }}
             </p>
             <div class="flex flex-wrap items-center gap-4">
                 <Link
                     :href="`/${locale}/package`"
                     prefetch
-                    class="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                    class="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
                 >
                     {{ t('hero.application.package_link') }}
                 </Link>
@@ -299,9 +345,12 @@ const faqItems = computed(() => {
                             id="app-name"
                             v-model="appName"
                             :aria-invalid="!!appNameError"
+                            :aria-describedby="
+                                appNameError ? 'app-name-error' : undefined
+                            "
                             @blur="validateAppName"
                         />
-                        <FieldError v-if="appNameError">{{
+                        <FieldError v-if="appNameError" id="app-name-error">{{
                             appNameError
                         }}</FieldError>
                     </Field>
@@ -327,34 +376,56 @@ const faqItems = computed(() => {
                         </Select>
                     </Field>
                 </div>
+
                 <Field>
-                    <FieldLabel>{{ t('form.services') }}</FieldLabel>
-                    <div class="flex flex-wrap gap-2">
-                        <Badge
-                            v-for="service in availableServices"
-                            :key="service"
-                            :variant="
-                                selectedServices.includes(service)
-                                    ? 'default'
-                                    : 'outline'
-                            "
-                            class="cursor-pointer gap-1.5 text-sm font-medium select-none"
-                            @click="toggleService(service)"
-                        >
-                            <span
-                                class="tabular-nums"
-                                :class="
-                                    selectedServices.includes(service)
-                                        ? 'text-primary-foreground'
-                                        : 'text-muted-foreground'
-                                "
-                                >[{{
-                                    selectedServices.includes(service)
-                                        ? '+'
-                                        : '-'
-                                }}]</span
-                            >{{ serviceLabel(service) }}
-                        </Badge>
+                    <div
+                        class="flex flex-wrap items-baseline justify-between gap-2"
+                    >
+                        <FieldLabel id="services-label">{{
+                            t('form.services')
+                        }}</FieldLabel>
+                        <span class="text-xs text-muted-foreground">{{
+                            t('form.services_legend')
+                        }}</span>
+                    </div>
+                    <div
+                        role="group"
+                        aria-labelledby="services-label"
+                        class="space-y-3 sm:space-y-2"
+                    >
+                        <div v-for="group in serviceGroups" :key="group.key">
+                            <p
+                                class="mb-1.5 text-xs font-medium text-muted-foreground sm:mb-1"
+                            >
+                                {{ t(`form.service_groups.${group.key}`) }}
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <button
+                                    v-for="service in group.services"
+                                    :key="service"
+                                    type="button"
+                                    :aria-pressed="
+                                        selectedServices.includes(service)
+                                    "
+                                    class="inline-flex min-h-11 items-center gap-1.5 rounded-md border px-3 text-sm font-medium transition-colors outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/50 sm:min-h-8"
+                                    :class="
+                                        selectedServices.includes(service)
+                                            ? 'border-primary bg-primary text-primary-foreground hover:bg-primary/90'
+                                            : 'border-border bg-background text-foreground hover:bg-muted'
+                                    "
+                                    @click="toggleService(service)"
+                                >
+                                    <span
+                                        class="text-xs tabular-nums opacity-70"
+                                        >[{{
+                                            selectedServices.includes(service)
+                                                ? '+'
+                                                : '−'
+                                        }}]</span
+                                    >{{ serviceLabel(service) }}
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </Field>
 
@@ -395,7 +466,7 @@ const faqItems = computed(() => {
                 </Field>
 
                 <div>
-                    <CodeBlock :commands="commands" />
+                    <CodeBlock :commands="commands" :disabled="!canCopy" />
                     <p
                         v-if="isLocal"
                         class="mt-2 text-xs text-muted-foreground"
@@ -418,9 +489,7 @@ const faqItems = computed(() => {
                 <CardTitle>{{ t('form.additional_fields') }}</CardTitle>
             </CardHeader>
             <CardContent>
-                <div
-                    class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3"
-                >
+                <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <Field>
                         <FieldLabel for="starter-kit">{{
                             t('form.starter_kit')
@@ -456,11 +525,18 @@ const faqItems = computed(() => {
                             id="custom-url"
                             v-model="customStarterKitUrl"
                             :aria-invalid="!!customStarterKitUrlError"
+                            :aria-describedby="
+                                customStarterKitUrlError
+                                    ? 'custom-url-error'
+                                    : undefined
+                            "
                             @blur="validateCustomUrl"
                         />
-                        <FieldError v-if="customStarterKitUrlError">{{
-                            customStarterKitUrlError
-                        }}</FieldError>
+                        <FieldError
+                            v-if="customStarterKitUrlError"
+                            id="custom-url-error"
+                            >{{ customStarterKitUrlError }}</FieldError
+                        >
                     </Field>
 
                     <Field>
@@ -539,11 +615,11 @@ const faqItems = computed(() => {
 
                     <div
                         v-if="selectedStarterKit === 'livewire'"
-                        class="space-y-3"
+                        class="flex min-h-11 items-center justify-between gap-2"
                     >
-                        <div class="flex items-center gap-2">
+                        <span class="flex items-center gap-1.5">
                             <Label for="livewire-class-components">{{
-                                t('form.livewire_class_components')
+                                t('form.use_class_components')
                             }}</Label>
                             <InfoTooltip
                                 :label="
@@ -555,49 +631,38 @@ const faqItems = computed(() => {
                                     t('tooltips.livewire_class_components')
                                 "
                             />
-                        </div>
-                        <label
-                            for="livewire-class-components"
-                            class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
-                        >
-                            {{ t('form.use_class_components') }}
-                            <Switch
-                                id="livewire-class-components"
-                                v-model="withLivewireClassComponents"
-                            />
-                        </label>
+                        </span>
+                        <Switch
+                            id="livewire-class-components"
+                            v-model="withLivewireClassComponents"
+                        />
                     </div>
 
-                    <div class="space-y-3">
+                    <div
+                        class="flex min-h-11 items-center justify-between gap-2"
+                    >
                         <Label for="boost">{{ t('form.laravel_boost') }}</Label>
-                        <label
-                            for="boost"
-                            class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
-                        >
-                            {{ t('form.install_boost') }}
-                            <Switch id="boost" v-model="withBoost" />
-                        </label>
+                        <Switch id="boost" v-model="withBoost" />
                     </div>
 
-                    <div v-if="showTeams" class="space-y-3">
-                        <div class="flex items-center gap-2">
+                    <div
+                        v-if="showTeams"
+                        class="flex min-h-11 items-center justify-between gap-2"
+                    >
+                        <span class="flex items-center gap-1.5">
                             <Label for="teams">{{ t('form.teams') }}</Label>
                             <InfoTooltip
                                 :label="t('tooltips.teams_label')"
                                 :tooltip="t('tooltips.teams')"
                             />
-                        </div>
-                        <label
-                            for="teams"
-                            class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
-                        >
-                            {{ t('form.include_teams') }}
-                            <Switch id="teams" v-model="withTeams" />
-                        </label>
+                        </span>
+                        <Switch id="teams" v-model="withTeams" />
                     </div>
 
-                    <div class="space-y-3">
-                        <div class="flex items-center gap-2">
+                    <div
+                        class="flex min-h-11 items-center justify-between gap-2"
+                    >
+                        <span class="flex items-center gap-1.5">
                             <Label for="devcontainer">{{
                                 t('form.devcontainer')
                             }}</Label>
@@ -605,24 +670,15 @@ const faqItems = computed(() => {
                                 :label="t('tooltips.devcontainer_label')"
                                 :tooltip="t('tooltips.devcontainer')"
                             />
-                        </div>
-                        <label
-                            for="devcontainer"
-                            class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
-                        >
-                            {{ t('form.include_devcontainer') }}
-                            <Switch
-                                id="devcontainer"
-                                v-model="withDevcontainer"
-                            />
-                        </label>
+                        </span>
+                        <Switch id="devcontainer" v-model="withDevcontainer" />
                     </div>
 
                     <div
                         v-if="selectedStarterKit === 'custom'"
-                        class="space-y-3"
+                        class="flex min-h-11 items-center justify-between gap-2"
                     >
-                        <div class="flex items-center gap-2">
+                        <span class="flex items-center gap-1.5">
                             <Label for="no-node">{{
                                 t('form.skip_node')
                             }}</Label>
@@ -630,14 +686,8 @@ const faqItems = computed(() => {
                                 :label="t('tooltips.skip_node_label')"
                                 :tooltip="t('tooltips.skip_node')"
                             />
-                        </div>
-                        <label
-                            for="no-node"
-                            class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
-                        >
-                            {{ t('form.skip_node_install') }}
-                            <Switch id="no-node" v-model="withNoNode" />
-                        </label>
+                        </span>
+                        <Switch id="no-node" v-model="withNoNode" />
                     </div>
                 </div>
             </CardContent>
@@ -665,12 +715,17 @@ const faqItems = computed(() => {
             </AlertDescription>
         </Alert>
 
-        <section id="how-it-works" class="mb-8 scroll-mt-20 space-y-4">
-            <h2 class="text-base font-semibold tracking-tight">
+        <section
+            id="how-it-works"
+            class="band mt-12 scroll-mt-20 space-y-4 py-10"
+        >
+            <h2 class="text-lg font-semibold tracking-tight">
                 {{ t('hero.application.how_it_works.title') }}
             </h2>
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <div class="space-y-2 rounded-sm border border-border p-4">
+                <div
+                    class="space-y-2 rounded-sm border border-border bg-card p-4"
+                >
                     <span class="text-lg font-bold text-foreground">{{
                         t('hero.application.how_it_works.step1_title')
                     }}</span>
@@ -678,7 +733,9 @@ const faqItems = computed(() => {
                         {{ t('hero.application.how_it_works.step1_desc') }}
                     </p>
                 </div>
-                <div class="space-y-2 rounded-sm border border-border p-4">
+                <div
+                    class="space-y-2 rounded-sm border border-border bg-card p-4"
+                >
                     <span class="text-lg font-bold text-foreground">{{
                         t('hero.application.how_it_works.step2_title')
                     }}</span>
@@ -686,7 +743,9 @@ const faqItems = computed(() => {
                         {{ t('hero.application.how_it_works.step2_desc') }}
                     </p>
                 </div>
-                <div class="space-y-2 rounded-sm border border-border p-4">
+                <div
+                    class="space-y-2 rounded-sm border border-border bg-card p-4"
+                >
                     <span class="text-lg font-bold text-foreground">{{
                         t('hero.application.how_it_works.step3_title')
                     }}</span>
@@ -697,35 +756,37 @@ const faqItems = computed(() => {
             </div>
         </section>
 
-        <section class="mt-12">
-            <h2 class="mb-4 text-base font-semibold tracking-tight">
-                {{ t('faq.title') }}
-            </h2>
-            <Accordion type="single" collapsible>
-                <AccordionItem
-                    v-for="item in faqItems"
-                    :key="item.value"
-                    :value="item.value"
-                >
-                    <AccordionTrigger>{{ item.question }}</AccordionTrigger>
-                    <AccordionContent>
-                        <template v-if="item.value === 'faq-2'">
-                            {{ t('faq.a2') }}
-                            <a
-                                href="https://github.com/tnylea/laravel-new"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="font-medium text-foreground underline underline-offset-4"
-                                >{{ t('faq.a2_url') }}</a
-                            >
-                            {{ t('faq.a2_suffix') }}
-                        </template>
-                        <template v-else>
-                            {{ item.answer }}
-                        </template>
-                    </AccordionContent>
-                </AccordionItem>
-            </Accordion>
-        </section>
+        <Card class="mt-12">
+            <CardContent>
+                <h2 class="mb-4 text-lg font-semibold tracking-tight">
+                    {{ t('faq.title') }}
+                </h2>
+                <Accordion type="single" collapsible>
+                    <AccordionItem
+                        v-for="item in faqItems"
+                        :key="item.value"
+                        :value="item.value"
+                    >
+                        <AccordionTrigger>{{ item.question }}</AccordionTrigger>
+                        <AccordionContent>
+                            <template v-if="item.value === 'faq-2'">
+                                {{ t('faq.a2') }}
+                                <a
+                                    href="https://github.com/tnylea/laravel-new"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="font-medium text-foreground underline underline-offset-4"
+                                    >{{ t('faq.a2_url') }}</a
+                                >
+                                {{ t('faq.a2_suffix') }}
+                            </template>
+                            <template v-else>
+                                {{ item.answer }}
+                            </template>
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
+            </CardContent>
+        </Card>
     </main>
 </template>

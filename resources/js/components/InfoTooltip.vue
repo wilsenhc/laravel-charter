@@ -45,10 +45,10 @@ function onClick() {
             <TooltipTrigger as-child>
                 <button
                     type="button"
-                    class="inline-flex size-4 cursor-pointer items-center justify-center text-muted-foreground hover:text-foreground"
+                    class="inline-flex size-8 cursor-pointer items-center justify-center text-muted-foreground hover:text-foreground"
                     @click.prevent="onClick"
                 >
-                    <InfoIcon class="size-3.5" />
+                    <InfoIcon class="size-4" />
                     <span class="sr-only">{{ label }}</span>
                 </button>
             </TooltipTrigger>

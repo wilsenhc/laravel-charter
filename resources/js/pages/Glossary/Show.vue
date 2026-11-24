@@ -25,7 +25,7 @@ defineProps<GlossaryShowPageProps>();
 </script>
 
 <template>
-    <main class="mx-auto w-full max-w-4xl px-5 py-7">
+    <main class="mx-auto w-full max-w-5xl px-5 py-7">
         <div class="flex flex-col items-start">
             <Link
                 :href="`/${locale}/glossary`"
@@ -42,14 +42,18 @@ defineProps<GlossaryShowPageProps>();
             </span>
         </div>
 
-        <h1 class="mb-2 text-2xl font-bold tracking-tight">
+        <h1 class="mb-2 text-3xl font-bold tracking-tight">
             {{ entry.translations.question }}
         </h1>
-        <p class="mb-6 text-sm leading-relaxed text-muted-foreground">
+        <p
+            class="mb-6 max-w-prose text-sm leading-relaxed text-muted-foreground"
+        >
             {{ entry.translations.summary }}
         </p>
 
-        <div class="mb-8 space-y-4 text-sm leading-relaxed text-foreground/80">
+        <div
+            class="mb-8 max-w-prose space-y-4 text-sm leading-relaxed text-foreground/80"
+        >
             <p>{{ entry.translations.definition }}</p>
             <p>{{ entry.translations.sail_integration }}</p>
         </div>

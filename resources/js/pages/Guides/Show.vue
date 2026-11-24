@@ -26,7 +26,7 @@ defineProps<GuidesShowPageProps>();
 </script>
 
 <template>
-    <main class="mx-auto w-full max-w-4xl px-5 py-7">
+    <main class="mx-auto w-full max-w-5xl px-5 py-7">
         <Link
             :href="`/${locale}/guides`"
             prefetch
@@ -35,14 +35,18 @@ defineProps<GuidesShowPageProps>();
             &larr; {{ t('guides.back_to_guides') }}
         </Link>
 
-        <h1 class="mb-2 text-2xl font-bold tracking-tight">
+        <h1 class="mb-2 text-3xl font-bold tracking-tight">
             {{ entry.translations.heading }}
         </h1>
-        <p class="mb-6 text-sm leading-relaxed text-muted-foreground">
+        <p
+            class="mb-6 max-w-prose text-sm leading-relaxed text-muted-foreground"
+        >
             {{ entry.translations.problem }}
         </p>
 
-        <div class="mb-8 space-y-3 text-sm leading-relaxed text-foreground/80">
+        <div
+            class="mb-8 max-w-prose space-y-3 text-sm leading-relaxed text-foreground/80"
+        >
             <h2 class="text-base font-semibold">
                 {{ t('guides.notes_title') }}
             </h2>
@@ -67,7 +71,9 @@ defineProps<GuidesShowPageProps>();
             </Link>
         </div>
 
-        <div class="mb-8 text-sm leading-relaxed text-foreground/80">
+        <div
+            class="mb-8 max-w-prose text-sm leading-relaxed text-foreground/80"
+        >
             <h2 class="mb-2 text-base font-semibold">
                 {{ t('guides.steps_title') }}
             </h2>
