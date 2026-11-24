@@ -53,8 +53,7 @@ const sectionCount = computed(() => tm('privacy.sections').length);
                             target="_blank"
                             rel="noopener noreferrer"
                             class="font-medium text-foreground underline underline-offset-4"
-                            >{{ t('privacy.sections.6.link_text') }}</a
-                        >.
+                            >{{ t('privacy.sections.6.link_text') }}</a>.
                     </p>
                 </template>
 

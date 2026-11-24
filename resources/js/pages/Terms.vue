@@ -47,8 +47,7 @@ const sectionCount = computed(() => tm('terms.sections').length);
                             :href="`/${locale}/privacy`"
                             prefetch
                             class="font-medium text-foreground underline underline-offset-4"
-                            >{{ t('terms.sections.2.link_text') }}</Link
-                        >.
+                            >{{ t('terms.sections.2.link_text') }}</Link>.
                     </p>
                 </template>
 
