@@ -337,3 +337,4 @@ Changes made on 2026-11-25, recorded so later work does not undo them.
 - **Distillation.** Removed the duplicated "How it works" sections, the three competing hero pills, and the duplicate Database Driver + database chips; the Database select now adds its Sail service automatically. Services and features use `[x]` / `[ ]` instead of the ambiguous `[−]`.
 - **Package metadata** is a collapsed `[+]` disclosure, no longer a block below the command.
 - **Menu MCP.** MCP joined Application and Package in the header navigation; menu pages no longer show "Back to Charter", while footer-only pages keep their back links.
+- **Copy correction.** The builders create a Laravel app or package; Sail is the dev environment the app command sets up, so copy never calls the product a "Laravel Sail app".
