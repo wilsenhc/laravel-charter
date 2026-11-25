@@ -24,43 +24,22 @@
         "app_name": "Charter for Laravel"
     },
     "hero": {
-        "learn_link": "Learn how it works",
-        "mcp_link": "Looking for MCP?",
         "application": {
             "title": "Laravel Sail app in one command",
-            "description": "Charter simplifies creating new Laravel apps: pick your services and options visually, then copy a single CLI command that scaffolds your project with Laravel Sail from the start.",
-            "package_link": "Building a new package?",
-            "how_it_works": {
-                "title": "How it works",
-                "step1_title": "1. Configure",
-                "step1_desc": "Pick your Laravel version, database, services, starter kit, and tooling. All the options from laravel new in a visual UI.",
-                "step2_title": "2. Generate",
-                "step2_desc": "Charter builds a ready-to-run bash command that combines the Laravel installer with Sail setup — no more digging through docs for the right flags.",
-                "step3_title": "3. Run",
-                "step3_desc": "Copy the command, paste it into your terminal, and hit enter. Minutes later you have a fresh Laravel project with Sail, services, and your chosen stack running."
-            }
+            "description": "Charter simplifies creating new Laravel apps: pick your services and options visually, then copy a single CLI command that scaffolds your project with Laravel Sail from the start."
         },
         "package": {
             "title": "Laravel package in one command",
             "description": "Charter simplifies creating new Laravel packages: pick your features and metadata, then copy a single CLI command that bootstraps your package with Docker.",
-            "docker_notice": "Docker is only used for one-time scaffolding. Sail is not supported for package development.",
-            "application_link": "Building an application?",
-            "how_it_works": {
-                "title": "How it works",
-                "step1_title": "1. Configure",
-                "step1_desc": "Pick your package name, PHP version, features, and metadata — all the options from laravel new-package in a visual UI.",
-                "step2_title": "2. Generate",
-                "step2_desc": "Charter builds a ready-to-run bash command that bootstraps your package scaffolding with Docker.",
-                "step3_title": "3. Run",
-                "step3_desc": "Copy the command, paste it into your terminal, and hit enter. Your package scaffolding is generated in seconds."
-            }
+            "docker_notice": "Docker is only used for one-time scaffolding. Sail is not supported for package development."
         }
     },
     "form": {
+        "application_section": "Application",
+        "options_section": "Options",
         "application_name": "Application name",
         "php_version": "PHP Version",
         "services": "Services",
-        "additional_fields": "Additional Fields",
         "starter_kit": "Starter Kit",
         "select_starter_kit": "Select a starter kit",
         "custom_starter_kit_url": "Custom Starter Kit URL",
@@ -80,12 +59,12 @@
         "include_devcontainer": "Include devcontainer",
         "skip_node": "Skip Node",
         "skip_node_install": "Skip Node.js install",
-        "database_driver": "Database Driver",
-        "select_database": "Select a database driver",
+        "database_driver": "Database",
+        "select_database": "Select a database",
         "database_none": "None",
-        "services_legend": "[+] included   [−] not included",
+        "database_hint": "Adds the matching Sail service automatically.",
+        "services_legend": "[x] included   [ ] not included",
         "service_groups": {
-            "databases": "Databases",
             "cache": "Cache",
             "search": "Search",
             "mail": "Mail",
@@ -110,9 +89,10 @@
         "skip_node_label": "What does skip node do?",
         "skip_node": "Skips installing Node.js and running NPM build when the application is scaffolded. Useful for projects that do not require frontend build tooling.",
         "database_driver_label": "What does the database driver do?",
-        "database_driver": "Sets the default database connection in your .env file. SQLite works without any Docker services; other drivers require the matching service to be enabled above."
+        "database_driver": "Sets the default database connection in your .env file. Picking a database also enables its Sail service; SQLite needs none."
     },
     "package_form": {
+        "section": "Package",
         "title": "Package name",
         "description": "Features",
         "metadata_title": "Package Metadata (optional)",
@@ -155,7 +135,10 @@
         "copied": "Copied",
         "aria_label": "Copy command",
         "hint": "Run this in your terminal to scaffold your project with Laravel Sail.",
-        "package_hint": "Run this in your terminal to bootstrap your package."
+        "package_hint": "Run this in your terminal to bootstrap your package.",
+        "updates_hint": "Updates as you change the options below.",
+        "status_ready": "ready",
+        "status_blocked": "fix fields"
     },
     "debug": {
         "label": "Debug:",

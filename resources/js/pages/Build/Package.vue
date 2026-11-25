@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { AvailablePackageFeature, AvailablePhpVersion } from '@/build';
@@ -162,6 +161,11 @@ const commands = computed(() => ({
     curl: `curl -fsSL '${generatedUrl.value}' | bash`,
     wget: `wget -qO- '${generatedUrl.value}' | bash`,
 }));
+
+const commandSummary = computed(() => [
+    `php ${selectedPhpVersion.value}`,
+    ...selectedFeatures.value,
+]);
 </script>
 
 <template>
@@ -173,285 +177,224 @@ const commands = computed(() => ({
             <p class="max-w-prose text-sm text-muted-foreground">
                 {{ t('hero.package.description') }}
             </p>
-            <div class="flex flex-wrap items-center gap-4">
-                <Link
-                    :href="`/${locale}/application`"
-                    prefetch
-                    class="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-                >
-                    {{ t('hero.package.application_link') }}
-                </Link>
-                <a
-                    href="#how-it-works"
-                    class="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-                >
-                    {{ t('hero.learn_link') }}
-                </a>
-                <a
-                    :href="`/${locale}/mcp`"
-                    class="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="mr-1.5 size-3.5 shrink-0"
-                        aria-hidden="true"
-                    >
-                        <path
-                            d="M12 3l1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5z"
-                        />
-                        <path
-                            d="M18 14l.8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8z"
-                        />
-                    </svg>
-                    {{ t('hero.mcp_link') }}
-                </a>
-            </div>
         </section>
 
-        <Card class="mb-6">
-            <CardContent class="space-y-5">
-                <div class="grid grid-cols-1 gap-5 sm:grid-cols-[1fr_auto]">
-                    <Field :data-invalid="!!packageNameError">
-                        <FieldLabel for="package-name">{{
-                            t('package_form.title')
-                        }}</FieldLabel>
-                        <Input
-                            id="package-name"
-                            v-model="packageName"
-                            :aria-invalid="!!packageNameError"
-                            :aria-describedby="
-                                packageNameError
-                                    ? 'package-name-error'
-                                    : undefined
-                            "
-                            @blur="validatePackageName"
-                        />
-                        <FieldError
-                            v-if="packageNameError"
-                            id="package-name-error"
-                            >{{ packageNameError }}</FieldError
-                        >
-                    </Field>
-                    <Field>
-                        <FieldLabel for="php-version">{{
-                            t('form.php_version')
-                        }}</FieldLabel>
-                        <Select v-model="selectedPhpVersion">
-                            <SelectTrigger id="php-version" class="w-28">
-                                <SelectValue placeholder="PHP">
-                                    {{ selectedPhpVersion }}
-                                </SelectValue>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem
-                                    v-for="version in availablePhpVersions"
-                                    :key="version"
-                                    :value="version"
-                                >
-                                    {{ version }}
-                                </SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </Field>
-                </div>
+        <div class="space-y-6">
+            <div>
+                <CodeBlock
+                    :commands="commands"
+                    :disabled="!canCopy"
+                    :hint="t('code_block.package_hint')"
+                    :summary="commandSummary"
+                />
+                <p class="mt-2 text-xs text-muted-foreground">
+                    {{ t('code_block.updates_hint') }}
+                </p>
+                <p class="mt-1 text-xs text-muted-foreground">
+                    {{ t('hero.package.docker_notice') }}
+                </p>
+                <p v-if="isLocal" class="mt-1 text-xs text-muted-foreground">
+                    <span>{{ t('debug.label') }}</span>
+                    <a
+                        :href="generatedUrl"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="ml-1 break-all text-foreground underline underline-offset-4"
+                        >{{ t('debug.open_url') }}</a
+                    >
+                </p>
+            </div>
 
-                <Field>
-                    <div
-                        class="flex flex-wrap items-baseline justify-between gap-2"
-                    >
-                        <FieldLabel id="features-label">{{
-                            t('package_form.description')
-                        }}</FieldLabel>
-                        <span class="text-xs text-muted-foreground">{{
-                            t('form.services_legend')
-                        }}</span>
+            <Card>
+                <CardHeader class="border-b">
+                    <CardTitle>{{ t('package_form.section') }}</CardTitle>
+                </CardHeader>
+                <CardContent class="space-y-5">
+                    <div class="grid grid-cols-1 gap-5 sm:grid-cols-[1fr_auto]">
+                        <Field :data-invalid="!!packageNameError">
+                            <FieldLabel for="package-name">{{
+                                t('package_form.title')
+                            }}</FieldLabel>
+                            <Input
+                                id="package-name"
+                                v-model="packageName"
+                                :aria-invalid="!!packageNameError"
+                                :aria-describedby="
+                                    packageNameError
+                                        ? 'package-name-error'
+                                        : undefined
+                                "
+                                @blur="validatePackageName"
+                            />
+                            <FieldError
+                                v-if="packageNameError"
+                                id="package-name-error"
+                                >{{ packageNameError }}</FieldError
+                            >
+                        </Field>
+                        <Field>
+                            <FieldLabel for="php-version">{{
+                                t('form.php_version')
+                            }}</FieldLabel>
+                            <Select v-model="selectedPhpVersion">
+                                <SelectTrigger id="php-version" class="w-28">
+                                    <SelectValue placeholder="PHP">
+                                        {{ selectedPhpVersion }}
+                                    </SelectValue>
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem
+                                        v-for="version in availablePhpVersions"
+                                        :key="version"
+                                        :value="version"
+                                    >
+                                        {{ version }}
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </Field>
                     </div>
-                    <div
-                        role="group"
-                        aria-labelledby="features-label"
-                        class="flex flex-wrap gap-2"
-                    >
-                        <button
-                            v-for="feature in availablePackageFeatures"
-                            :key="feature"
-                            type="button"
-                            :aria-pressed="selectedFeatures.includes(feature)"
-                            class="inline-flex min-h-11 items-center gap-1.5 rounded-md border px-3 text-sm font-medium transition-colors outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/50 sm:min-h-8"
-                            :class="
-                                selectedFeatures.includes(feature)
-                                    ? 'border-primary bg-primary text-primary-foreground hover:bg-primary/90'
-                                    : 'border-border bg-background text-foreground hover:bg-muted'
-                            "
-                            @click="toggleFeature(feature)"
+
+                    <Field>
+                        <div
+                            class="flex flex-wrap items-baseline justify-between gap-2"
                         >
-                            <span class="text-xs tabular-nums opacity-70"
-                                >[{{
+                            <FieldLabel id="features-label">{{
+                                t('package_form.description')
+                            }}</FieldLabel>
+                            <span class="text-xs text-muted-foreground">{{
+                                t('form.services_legend')
+                            }}</span>
+                        </div>
+                        <div
+                            role="group"
+                            aria-labelledby="features-label"
+                            class="flex flex-wrap gap-2"
+                        >
+                            <button
+                                v-for="feature in availablePackageFeatures"
+                                :key="feature"
+                                type="button"
+                                :aria-pressed="
                                     selectedFeatures.includes(feature)
-                                        ? '+'
-                                        : '−'
-                                }}]</span
-                            >{{ feature }}
-                        </button>
-                    </div>
-                </Field>
+                                "
+                                class="inline-flex min-h-11 items-center gap-1.5 rounded-md border px-3 text-sm font-medium transition-colors outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/50 sm:min-h-8"
+                                :class="
+                                    selectedFeatures.includes(feature)
+                                        ? 'border-primary bg-primary text-primary-foreground hover:bg-primary/90'
+                                        : 'border-border bg-background text-foreground hover:bg-muted'
+                                "
+                                @click="toggleFeature(feature)"
+                            >
+                                <span class="text-xs tabular-nums opacity-70"
+                                    >[{{
+                                        selectedFeatures.includes(feature)
+                                            ? 'x'
+                                            : ' '
+                                    }}]</span
+                                >{{ feature }}
+                            </button>
+                        </div>
+                    </Field>
+                </CardContent>
+            </Card>
 
-                <div>
-                    <CodeBlock
-                        :commands="commands"
-                        :disabled="!canCopy"
-                        :hint="t('code_block.package_hint')"
-                    />
-                    <p class="mt-2 text-xs text-muted-foreground">
-                        {{ t('hero.package.docker_notice') }}
-                    </p>
-                    <p
-                        v-if="isLocal"
-                        class="mt-2 text-xs text-muted-foreground"
+            <Card>
+                <details class="group">
+                    <summary
+                        class="flex min-h-11 cursor-pointer list-none items-center gap-2 px-4 py-1 text-base font-medium select-none focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none [&::-webkit-details-marker]:hidden"
                     >
-                        <span>{{ t('debug.label') }}</span>
-                        <a
-                            :href="generatedUrl"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="ml-1 break-all text-foreground underline underline-offset-4"
-                            >{{ t('debug.open_url') }}</a
+                        <span
+                            class="text-xs text-muted-foreground tabular-nums"
+                            aria-hidden="true"
+                            >[<span class="group-open:hidden">+</span
+                            ><span class="hidden group-open:inline">−</span
+                            >]</span
                         >
-                    </p>
-                </div>
-            </CardContent>
-        </Card>
+                        {{ t('package_form.metadata_title') }}
+                    </summary>
+                    <div
+                        class="mt-4 grid grid-cols-1 gap-5 border-t border-border px-4 pt-4 sm:grid-cols-2"
+                    >
+                        <Field>
+                            <FieldLabel for="author-name">{{
+                                t('package_form.author_name')
+                            }}</FieldLabel>
+                            <Input id="author-name" v-model="authorName" />
+                        </Field>
 
-        <Card class="mb-6">
-            <CardHeader>
-                <CardTitle>{{ t('package_form.metadata_title') }}</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                    <Field>
-                        <FieldLabel for="author-name">{{
-                            t('package_form.author_name')
-                        }}</FieldLabel>
-                        <Input id="author-name" v-model="authorName" />
-                    </Field>
+                        <Field>
+                            <FieldLabel for="author-email">{{
+                                t('package_form.author_email')
+                            }}</FieldLabel>
+                            <Input
+                                id="author-email"
+                                v-model="authorEmail"
+                                type="email"
+                            />
+                        </Field>
 
-                    <Field>
-                        <FieldLabel for="author-email">{{
-                            t('package_form.author_email')
-                        }}</FieldLabel>
-                        <Input
-                            id="author-email"
-                            v-model="authorEmail"
-                            type="email"
-                        />
-                    </Field>
+                        <Field :data-invalid="!!composerPackageNameError">
+                            <FieldLabel for="composer-package-name">{{
+                                t('package_form.package_name')
+                            }}</FieldLabel>
+                            <Input
+                                id="composer-package-name"
+                                v-model="composerPackageName"
+                                :aria-invalid="!!composerPackageNameError"
+                                :aria-describedby="
+                                    composerPackageNameError
+                                        ? 'composer-package-name-error'
+                                        : undefined
+                                "
+                                @blur="validateComposerPackageName"
+                            />
+                            <FieldError
+                                v-if="composerPackageNameError"
+                                id="composer-package-name-error"
+                                >{{ composerPackageNameError }}</FieldError
+                            >
+                        </Field>
 
-                    <Field :data-invalid="!!composerPackageNameError">
-                        <FieldLabel for="composer-package-name">{{
-                            t('package_form.package_name')
-                        }}</FieldLabel>
-                        <Input
-                            id="composer-package-name"
-                            v-model="composerPackageName"
-                            :aria-invalid="!!composerPackageNameError"
-                            :aria-describedby="
-                                composerPackageNameError
-                                    ? 'composer-package-name-error'
-                                    : undefined
-                            "
-                            @blur="validateComposerPackageName"
-                        />
-                        <FieldError
-                            v-if="composerPackageNameError"
-                            id="composer-package-name-error"
-                            >{{ composerPackageNameError }}</FieldError
-                        >
-                    </Field>
+                        <Field>
+                            <FieldLabel for="package-name-human">{{
+                                t('package_form.package_name_human')
+                            }}</FieldLabel>
+                            <Input
+                                id="package-name-human"
+                                v-model="packageNameHuman"
+                            />
+                        </Field>
 
-                    <Field>
-                        <FieldLabel for="package-name-human">{{
-                            t('package_form.package_name_human')
-                        }}</FieldLabel>
-                        <Input
-                            id="package-name-human"
-                            v-model="packageNameHuman"
-                        />
-                    </Field>
+                        <Field class="sm:col-span-2">
+                            <FieldLabel for="package-description">{{
+                                t('package_form.package_description')
+                            }}</FieldLabel>
+                            <Input
+                                id="package-description"
+                                v-model="packageDescription"
+                            />
+                        </Field>
 
-                    <Field class="sm:col-span-2">
-                        <FieldLabel for="package-description">{{
-                            t('package_form.package_description')
-                        }}</FieldLabel>
-                        <Input
-                            id="package-description"
-                            v-model="packageDescription"
-                        />
-                    </Field>
+                        <Field>
+                            <FieldLabel for="vendor-namespace">{{
+                                t('package_form.vendor_namespace')
+                            }}</FieldLabel>
+                            <Input
+                                id="vendor-namespace"
+                                v-model="vendorNamespace"
+                            />
+                        </Field>
 
-                    <Field>
-                        <FieldLabel for="vendor-namespace">{{
-                            t('package_form.vendor_namespace')
-                        }}</FieldLabel>
-                        <Input
-                            id="vendor-namespace"
-                            v-model="vendorNamespace"
-                        />
-                    </Field>
-
-                    <Field>
-                        <FieldLabel for="class-name">{{
-                            t('package_form.class_name')
-                        }}</FieldLabel>
-                        <Input id="class-name" v-model="className" />
-                    </Field>
-                </div>
-            </CardContent>
-        </Card>
-
-        <section
-            id="how-it-works"
-            class="band mt-12 scroll-mt-20 space-y-4 py-10"
-        >
-            <h2 class="text-lg font-semibold tracking-tight">
-                {{ t('hero.package.how_it_works.title') }}
-            </h2>
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <div
-                    class="space-y-2 rounded-sm border border-border bg-card p-4"
-                >
-                    <span class="text-lg font-bold text-foreground">{{
-                        t('hero.package.how_it_works.step1_title')
-                    }}</span>
-                    <p class="text-sm text-muted-foreground">
-                        {{ t('hero.package.how_it_works.step1_desc') }}
-                    </p>
-                </div>
-                <div
-                    class="space-y-2 rounded-sm border border-border bg-card p-4"
-                >
-                    <span class="text-lg font-bold text-foreground">{{
-                        t('hero.package.how_it_works.step2_title')
-                    }}</span>
-                    <p class="text-sm text-muted-foreground">
-                        {{ t('hero.package.how_it_works.step2_desc') }}
-                    </p>
-                </div>
-                <div
-                    class="space-y-2 rounded-sm border border-border bg-card p-4"
-                >
-                    <span class="text-lg font-bold text-foreground">{{
-                        t('hero.package.how_it_works.step3_title')
-                    }}</span>
-                    <p class="text-sm text-muted-foreground">
-                        {{ t('hero.package.how_it_works.step3_desc') }}
-                    </p>
-                </div>
-            </div>
-        </section>
+                        <Field>
+                            <FieldLabel for="class-name">{{
+                                t('package_form.class_name')
+                            }}</FieldLabel>
+                            <Input id="class-name" v-model="className" />
+                        </Field>
+                    </div>
+                </details>
+            </Card>
+        </div>
     </main>
 </template>
