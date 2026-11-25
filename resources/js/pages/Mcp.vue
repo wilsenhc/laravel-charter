@@ -77,14 +77,6 @@ const opencodeConfig = computed(() =>
 
 <template>
     <main class="mx-auto w-full max-w-5xl px-5 py-7">
-        <Link
-            :href="`/${locale}/application`"
-            prefetch
-            class="mb-8 inline-flex text-sm text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
-        >
-            &larr; {{ t('nav.back_to_charter') }}
-        </Link>
-
         <h1 class="mb-2 text-3xl font-bold tracking-tight">
             {{ t('mcp.title') }}
         </h1>

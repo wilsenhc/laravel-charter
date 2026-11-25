@@ -32,6 +32,7 @@ const locale = computed(() => page.props.locale as string);
 const navItems = computed(() => [
     { href: `/${locale.value}/application`, label: t('nav.application') },
     { href: `/${locale.value}/package`, label: t('nav.package') },
+    { href: `/${locale.value}/mcp`, label: t('nav.mcp') },
 ]);
 
 const path = computed(() => new URL(page.url, 'http://localhost').pathname);
