@@ -25,12 +25,12 @@
     },
     "hero": {
         "application": {
-            "title": "App de Laravel con Sail en un comando",
-            "description": "Charter simplifica la creación de nuevas apps de Laravel: elige tus servicios y opciones visualmente, luego copia un único comando que configura tu proyecto con Laravel Sail desde el inicio."
+            "title": "App de Laravel, un comando.",
+            "description": "Elige tu stack, servicios y herramientas. Copia un comando; Charter crea la app y configura su entorno de desarrollo."
         },
         "package": {
-            "title": "Paquete de Laravel en un comando",
-            "description": "Charter simplifica la creación de nuevos paquetes de Laravel: elige las características y metadatos, luego copia un único comando que configura tu paquete con Docker.",
+            "title": "Paquete de Laravel, un comando.",
+            "description": "Elige características, añade metadatos y copia un comando; Docker se encarga del scaffold inicial.",
             "docker_notice": "Docker solo se usa para la creación inicial. El desarrollo de paquetes no está soportado en Sail."
         }
     },

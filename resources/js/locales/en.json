@@ -25,12 +25,12 @@
     },
     "hero": {
         "application": {
-            "title": "Laravel Sail app in one command",
-            "description": "Charter simplifies creating new Laravel apps: pick your services and options visually, then copy a single CLI command that scaffolds your project with Laravel Sail from the start."
+            "title": "Laravel app, one command.",
+            "description": "Pick your stack, services, and tooling. Copy one command; Charter creates the app and sets up its dev environment."
         },
         "package": {
-            "title": "Laravel package in one command",
-            "description": "Charter simplifies creating new Laravel packages: pick your features and metadata, then copy a single CLI command that bootstraps your package with Docker.",
+            "title": "Laravel package, one command.",
+            "description": "Pick features, add metadata, copy one command; Docker handles the one-time scaffold.",
             "docker_notice": "Docker is only used for one-time scaffolding. Sail is not supported for package development."
         }
     },

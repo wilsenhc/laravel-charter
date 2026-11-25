@@ -170,11 +170,15 @@ const commandSummary = computed(() => [
 
 <template>
     <main class="mx-auto w-full max-w-5xl px-5 py-7">
-        <section class="mb-8 space-y-3">
-            <h1 class="text-3xl font-bold tracking-tight">
+        <section class="mb-6">
+            <h1
+                class="max-w-[32ch] text-[1.75rem] leading-[1.1] font-bold tracking-[-0.03em]"
+            >
                 {{ t('hero.package.title') }}
             </h1>
-            <p class="max-w-prose text-sm text-muted-foreground">
+            <p
+                class="mt-2.5 max-w-prose text-sm leading-normal text-muted-foreground"
+            >
                 {{ t('hero.package.description') }}
             </p>
         </section>
