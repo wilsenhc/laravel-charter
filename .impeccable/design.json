@@ -1,0 +1,376 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-25T16:39:03Z",
+  "title": "Design System: Charter for Laravel",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Solder Terracotta",
+        "canonical": "oklch(0.53 0.14 38)",
+        "tonalRamp": [
+          "oklch(0.18 0.05 38)",
+          "oklch(0.28 0.09 38)",
+          "oklch(0.38 0.12 38)",
+          "oklch(0.48 0.14 38)",
+          "oklch(0.56 0.14 38)",
+          "oklch(0.70 0.11 38)",
+          "oklch(0.84 0.07 38)",
+          "oklch(0.94 0.04 38)"
+        ]
+      },
+      "logo-orange": {
+        "role": "primary",
+        "displayName": "Logo Orange",
+        "canonical": "oklch(0.69 0.19 32)",
+        "tonalRamp": [
+          "oklch(0.20 0.07 32)",
+          "oklch(0.32 0.12 32)",
+          "oklch(0.44 0.16 32)",
+          "oklch(0.56 0.18 32)",
+          "oklch(0.69 0.19 32)",
+          "oklch(0.80 0.14 32)",
+          "oklch(0.90 0.08 32)",
+          "oklch(0.96 0.04 32)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(0.22 0 0)",
+        "tonalRamp": [
+          "oklch(0.15 0 0)",
+          "oklch(0.22 0 0)",
+          "oklch(0.32 0 0)",
+          "oklch(0.45 0 0)",
+          "oklch(0.58 0 0)",
+          "oklch(0.72 0 0)",
+          "oklch(0.86 0 0)",
+          "oklch(0.96 0 0)"
+        ]
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "oklch(0.99 0.002 20)",
+        "tonalRamp": [
+          "oklch(0.20 0.002 20)",
+          "oklch(0.35 0.002 20)",
+          "oklch(0.50 0.002 20)",
+          "oklch(0.65 0.002 20)",
+          "oklch(0.80 0.002 20)",
+          "oklch(0.90 0.002 20)",
+          "oklch(0.96 0.002 20)",
+          "oklch(0.99 0.002 20)"
+        ]
+      },
+      "surface-soft": {
+        "role": "neutral",
+        "displayName": "Soft Surface",
+        "canonical": "oklch(0.97 0.001 20)",
+        "tonalRamp": [
+          "oklch(0.20 0.001 20)",
+          "oklch(0.35 0.001 20)",
+          "oklch(0.50 0.001 20)",
+          "oklch(0.65 0.001 20)",
+          "oklch(0.80 0.001 20)",
+          "oklch(0.90 0.001 20)",
+          "oklch(0.97 0.001 20)",
+          "oklch(0.99 0.001 20)"
+        ]
+      },
+      "surface-card": {
+        "role": "neutral",
+        "displayName": "Card Surface",
+        "canonical": "oklch(0.95 0.004 20)",
+        "tonalRamp": [
+          "oklch(0.20 0.004 20)",
+          "oklch(0.35 0.004 20)",
+          "oklch(0.50 0.004 20)",
+          "oklch(0.65 0.004 20)",
+          "oklch(0.80 0.004 20)",
+          "oklch(0.90 0.004 20)",
+          "oklch(0.95 0.004 20)",
+          "oklch(0.99 0.004 20)"
+        ]
+      },
+      "surface-dark": {
+        "role": "neutral",
+        "displayName": "Terminal",
+        "canonical": "oklch(0.22 0 0)",
+        "tonalRamp": [
+          "oklch(0.15 0 0)",
+          "oklch(0.22 0 0)",
+          "oklch(0.32 0 0)",
+          "oklch(0.45 0 0)",
+          "oklch(0.58 0 0)",
+          "oklch(0.72 0 0)",
+          "oklch(0.86 0 0)",
+          "oklch(0.96 0 0)"
+        ]
+      },
+      "muted-foreground": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "oklch(0.47 0.004 20)",
+        "tonalRamp": [
+          "oklch(0.20 0.004 20)",
+          "oklch(0.32 0.004 20)",
+          "oklch(0.47 0.004 20)",
+          "oklch(0.58 0.004 20)",
+          "oklch(0.70 0.004 20)",
+          "oklch(0.82 0.004 20)",
+          "oklch(0.92 0.004 20)",
+          "oklch(0.98 0.004 20)"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "rgba(15, 0, 0, 0.12)",
+        "tonalRamp": [
+          "rgba(15, 0, 0, 0.72)",
+          "rgba(15, 0, 0, 0.60)",
+          "rgba(15, 0, 0, 0.48)",
+          "rgba(15, 0, 0, 0.36)",
+          "rgba(15, 0, 0, 0.24)",
+          "rgba(15, 0, 0, 0.12)",
+          "rgba(15, 0, 0, 0.06)",
+          "rgba(15, 0, 0, 0.03)"
+        ]
+      },
+      "success": {
+        "role": "tertiary",
+        "displayName": "Terminal Ready",
+        "canonical": "oklch(0.78 0.19 145)",
+        "tonalRamp": [
+          "oklch(0.22 0.06 145)",
+          "oklch(0.36 0.10 145)",
+          "oklch(0.50 0.14 145)",
+          "oklch(0.64 0.17 145)",
+          "oklch(0.78 0.19 145)",
+          "oklch(0.86 0.14 145)",
+          "oklch(0.93 0.08 145)",
+          "oklch(0.97 0.04 145)"
+        ]
+      },
+      "warning": {
+        "role": "tertiary",
+        "displayName": "Terminal Warning",
+        "canonical": "oklch(0.79 0.17 70)",
+        "tonalRamp": [
+          "oklch(0.22 0.05 70)",
+          "oklch(0.36 0.09 70)",
+          "oklch(0.50 0.13 70)",
+          "oklch(0.66 0.16 70)",
+          "oklch(0.79 0.17 70)",
+          "oklch(0.87 0.13 70)",
+          "oklch(0.94 0.08 70)",
+          "oklch(0.98 0.04 70)"
+        ]
+      },
+      "danger": {
+        "role": "tertiary",
+        "displayName": "Error Red",
+        "canonical": "oklch(0.65 0.23 27)",
+        "tonalRamp": [
+          "oklch(0.20 0.07 27)",
+          "oklch(0.32 0.12 27)",
+          "oklch(0.45 0.17 27)",
+          "oklch(0.56 0.21 27)",
+          "oklch(0.65 0.23 27)",
+          "oklch(0.77 0.17 27)",
+          "oklch(0.89 0.10 27)",
+          "oklch(0.96 0.05 27)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Page title only." },
+      "headline": { "displayName": "Headline", "purpose": "Section headings and major subsections." },
+      "title": { "displayName": "Title", "purpose": "Card titles, wordmark, and block headings." },
+      "body": { "displayName": "Body", "purpose": "Descriptions, hints, terminal output; prose capped at 65–75ch." },
+      "label": { "displayName": "Label", "purpose": "Field labels, buttons, chips, nav links." },
+      "micro": { "displayName": "Micro", "purpose": "Legends, debug lines, notices, terminal summary." },
+      "status": { "displayName": "Status", "purpose": "Uppercase terminal state: READY / FIX FIELDS." }
+    },
+    "shadows": [
+      {
+        "name": "bleed",
+        "value": "0 0 0 100vmax var(--surface-soft)",
+        "purpose": "Paints a full-bleed band section; clipped horizontally so it never adds scroll width. Never elevation."
+      },
+      {
+        "name": "focus-ring",
+        "value": "0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent)",
+        "purpose": "Focus-visible treatment on controls. The only visible ring in the system."
+      }
+    ],
+    "motion": [
+      { "name": "fast", "value": "150ms ease-out", "purpose": "Color and background transitions on buttons, chips, links." },
+      { "name": "base", "value": "200ms ease-out", "purpose": "Control state changes and the install button reveal." },
+      { "name": "toast", "value": "300ms ease-out", "purpose": "The PWA update toast entering from the bottom." },
+      { "name": "spin", "value": "1000ms linear infinite", "purpose": "Refresh icon while an update is installing." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" },
+      { "name": "2xl", "value": "1536px" }
+    ],
+    "effects": [
+      {
+        "name": "paper-grid",
+        "value": "linear-gradient(to right, var(--grid-line) 1px, transparent 1px), linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px); background-size: 32px 32px;",
+        "purpose": "The 32px paper grid painted on html, never inside cards or the terminal."
+      },
+      {
+        "name": "scrolled-header",
+        "value": "background: color-mix(in oklab, var(--background) 80%, transparent); backdrop-filter: blur(24px);",
+        "purpose": "The header's only translucent state, applied after scroll."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The terracotta action: Copy on the terminal, or the primary action of a page.",
+      "html": "<button class=\"ds-btn-primary\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"12\" height=\"12\" rx=\"2\"></rect><path d=\"M5 15V5a2 2 0 0 1 2-2h10\"></path></svg>Copy</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:32px;padding:4px 10px;border:1px solid transparent;border-radius:4px;background:var(--primary,#b54424);color:var(--primary-foreground,#fff);font:500 14px/1.4 'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;cursor:pointer;transition:background-color 150ms ease-out}.ds-btn-primary:hover{background:color-mix(in oklab,var(--primary,#b54424) 80%,var(--background,#fdfcfc))}.ds-btn-primary:active{transform:translateY(1px)}.ds-btn-primary:focus-visible{outline:3px solid color-mix(in oklab,var(--ring,#171717) 50%,transparent);outline-offset:1px}.ds-btn-primary:disabled{opacity:.5;cursor:not-allowed}"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "A lower-emphasis action: Install, GitHub, and secondary navigation actions.",
+      "html": "<button class=\"ds-btn-outline\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path><polyline points=\"7 10 12 15 17 10\"></polyline><line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"></line></svg>Install app</button>",
+      "css": ".ds-btn-outline{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:32px;padding:4px 10px;border:1px solid var(--border,rgba(15,0,0,.12));border-radius:4px;background:var(--background,#fdfcfc);color:var(--foreground,#171717);font:500 14px/1.4 'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;cursor:pointer;transition:background-color 150ms ease-out}.ds-btn-outline:hover{background:var(--accent,#eae8e8)}.ds-btn-outline:focus-visible{outline:3px solid color-mix(in oklab,var(--ring,#171717) 50%,transparent);outline-offset:1px}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "A labeled text input on a soft well; the configuration sheet's basic unit.",
+      "html": "<label class=\"ds-field\"><span>Application name</span><input class=\"ds-input\" value=\"new-laravel\"></label>",
+      "css": ".ds-field{display:grid;gap:6px;font:500 14px/1.4 'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--foreground,#171717)}.ds-input{box-sizing:border-box;width:100%;height:32px;padding:4px 10px;border:1px solid var(--border,rgba(15,0,0,.12));border-radius:4px;background:var(--surface-soft,#f8f7f7);color:var(--foreground,#171717);font:400 14px/1.5 'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;transition:border-color 150ms ease-out;outline:none}.ds-input:focus-visible{border-color:var(--ring,#171717);box-shadow:0 0 0 3px color-mix(in oklab,var(--ring,#171717) 50%,transparent)}.ds-input::placeholder{color:var(--muted-foreground,#646262)}"
+    },
+    {
+      "name": "Chip (Selected)",
+      "kind": "chip",
+      "refersTo": "chip-selected",
+      "description": "A selected Sail service or package feature. ASCII [x] marks the state; the whole chip is the target.",
+      "html": "<button class=\"ds-chip is-selected\" aria-pressed=\"true\"><span class=\"ds-mark\">[x]</span>redis</button>",
+      "css": ".ds-chip{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 12px;border:1px solid var(--primary,#b54424);border-radius:4px;background:var(--primary,#b54424);color:#fff;font:500 14px/1.4 'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;cursor:pointer;transition:background-color 150ms ease-out}.ds-chip .ds-mark{font-size:12px;opacity:.7}.ds-chip:hover{background:color-mix(in oklab,var(--primary,#b54424) 90%,#000)}.ds-chip:focus-visible{outline:3px solid color-mix(in oklab,var(--ring,#171717) 50%,transparent);outline-offset:1px}"
+    },
+    {
+      "name": "Chip (Unselected)",
+      "kind": "chip",
+      "refersTo": "chip-unselected",
+      "description": "An available service or feature. [ ] is the unchecked box; it never uses a chevron or icon.",
+      "html": "<button class=\"ds-chip\" aria-pressed=\"false\"><span class=\"ds-mark\">[ ]</span>valkey</button>",
+      "css": ".ds-chip{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 12px;border:1px solid var(--border,rgba(15,0,0,.12));border-radius:4px;background:var(--background,#fdfcfc);color:var(--foreground,#171717);font:500 14px/1.4 'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;cursor:pointer;transition:background-color 150ms ease-out}.ds-chip .ds-mark{font-size:12px;opacity:.7}.ds-chip:hover{background:var(--surface-soft,#f8f7f7)}.ds-chip:focus-visible{outline:3px solid color-mix(in oklab,var(--ring,#171717) 50%,transparent);outline-offset:1px}"
+    },
+    {
+      "name": "Configuration Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "A sharp hairline block with a titled header and a 16px body. The build-sheet section.",
+      "html": "<section class=\"ds-card\"><header class=\"ds-card-head\">Application</header><div class=\"ds-card-body\"><p>Application name</p><p style=\"color:inherit\">new-laravel</p></div></section>",
+      "css": ".ds-card{border:1px solid var(--border,rgba(15,0,0,.12));border-radius:0;background:var(--card,#fdfcfc);color:var(--foreground,#171717);font:400 14px/1.5 'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace}.ds-card-head{padding:16px;border-bottom:1px solid var(--border,rgba(15,0,0,.12));font-weight:500;font-size:16px;line-height:1.375}.ds-card-body{display:grid;gap:12px;padding:16px}.ds-card-body p{margin:0;color:var(--muted-foreground,#646262)}"
+    },
+    {
+      "name": "Primary Navigation",
+      "kind": "nav",
+      "refersTo": "primary-nav",
+      "description": "The 56px sticky header: wordmark, three links, install and utility actions.",
+      "html": "<header class=\"ds-nav\"><a class=\"ds-brand\" href=\"#\"><svg viewBox=\"115 108 282 290\" aria-hidden=\"true\"><path fill=\"#f15a30\" d=\"M142.57,322.09H226.2a1.43,1.43,0,0,0,1.43-1.44V169.32a1.43,1.43,0,0,0-2.69-.7L141.31,320A1.43,1.43,0,0,0,142.57,322.09Z\"></path><path fill=\"#f15a30\" d=\"M250.2,316.43H383.72a2.14,2.14,0,0,0,1.76-3.35L251.85,119.9a2.13,2.13,0,0,0-3.88,1.21l.1,193.19A2.14,2.14,0,0,0,250.2,316.43Z\"></path><path fill=\"#f15a30\" d=\"M126.69,349.91l23.87,37.5A12.09,12.09,0,0,0,160.78,393H329.14a9.94,9.94,0,0,0,8.68-5.1l28.06-50.34a3.24,3.24,0,0,0-3-4.81L129.46,344.55A3.49,3.49,0,0,0,126.69,349.91Z\"></path></svg>Charter for Laravel</a><nav class=\"ds-links\"><a class=\"ds-link is-active\" href=\"#\">Application</a><a class=\"ds-link\" href=\"#\">Package</a><a class=\"ds-link\" href=\"#\">MCP</a></nav><button class=\"ds-nav-install\">Install app</button></header>",
+      "css": ".ds-nav{display:flex;align-items:center;justify-content:space-between;gap:24px;height:56px;padding:0 20px;border-bottom:1px solid var(--border,rgba(15,0,0,.12));background:var(--background,#fdfcfc);color:var(--foreground,#171717);font:400 14px/1.4 'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace}.ds-brand{display:inline-flex;align-items:center;gap:8px;color:inherit;font-weight:700;text-decoration:none}.ds-brand svg{height:1em;width:auto}.ds-links{display:flex;align-items:center;gap:4px}.ds-link{padding:4px 8px;border-radius:4px;color:var(--muted-foreground,#646262);text-decoration:none;transition:background-color 150ms ease-out,color 150ms ease-out}.ds-link:hover{background:var(--accent,#eae8e8);color:var(--foreground,#171717)}.ds-link.is-active{color:var(--foreground,#171717);font-weight:600}.ds-nav-install{height:32px;padding:4px 10px;border:1px solid var(--border,rgba(15,0,0,.12));border-radius:4px;background:var(--background,#fdfcfc);color:var(--foreground,#171717);font:500 14px/1.4 'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;cursor:pointer}.ds-nav-install:hover{background:var(--accent,#eae8e8)}.ds-nav-install:focus-visible{outline:3px solid color-mix(in oklab,var(--ring,#171717) 50%,transparent);outline-offset:1px}"
+    },
+    {
+      "name": "Terminal Command Panel",
+      "kind": "custom",
+      "refersTo": "terminal-panel",
+      "description": "The page's one dark moment: live command, ready/fix status, configuration summary, Copy. One per page.",
+      "html": "<div class=\"ds-terminal\"><div class=\"ds-terminal-bar\"><div class=\"ds-tools\"><button class=\"ds-tool is-active\">curl</button><button class=\"ds-tool\">wget</button></div><div class=\"ds-actions\"><span class=\"ds-status\">[ready]</span><button class=\"ds-copy\">Copy</button></div></div><pre class=\"ds-command\"><span class=\"ds-prompt\">$ </span>curl -fsSL 'https://laravel-charter.test/application/build?name=new-laravel&amp;services=none' | bash</pre><p class=\"ds-summary\"><span class=\"ds-dim\"># </span>php 8.5 · react · pest · bun · boost</p><p class=\"ds-hint\">Run this in your terminal to scaffold your project with Laravel Sail.</p></div>",
+      "css": ".ds-terminal{padding:16px;border:1px solid rgba(255,255,255,.1);border-radius:0;background:#171717;color:#fff;font:400 14px/1.5 'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace}.ds-terminal-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}.ds-tools{display:flex;gap:4px}.ds-tool{height:32px;padding:0 10px;border:0;border-radius:4px;background:transparent;color:rgba(255,255,255,.6);font:500 12px/1 'Geist Mono',ui-monospace,monospace;cursor:pointer;transition:background-color 150ms ease-out,color 150ms ease-out}.ds-tool:hover{color:#fff}.ds-tool.is-active{background:rgba(255,255,255,.1);color:#fff}.ds-actions{display:flex;align-items:center;gap:12px}.ds-status{color:#30d158;font:500 11px/1 'Geist Mono',ui-monospace,monospace;letter-spacing:.05em;text-transform:uppercase}.ds-copy{height:28px;padding:0 10px;border:0;border-radius:4px;background:var(--primary,#b54424);color:#fff;font:500 12px/1 'Geist Mono',ui-monospace,monospace;cursor:pointer}.ds-copy:hover{background:color-mix(in oklab,var(--primary,#b54424) 90%,#000)}.ds-command{margin:16px 0 0;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);white-space:pre-wrap;overflow-wrap:anywhere;font:400 14px/1.6 'Geist Mono',ui-monospace,monospace}.ds-prompt,.ds-dim{color:rgba(255,255,255,.35)}.ds-summary,.ds-hint{margin:12px 0 0;color:rgba(255,255,255,.6);font-size:12px}.ds-hint{margin-top:8px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Build Sheet",
+    "overview": "Charter is a page from a build worksheet: warm paper with a faint 32px grid, every word in Geist Mono, configuration presented as a checklist of bracketed choices, and the finished command pasted at the top like the result of the calculation. The visitor is not reading a marketing page; they are filling in a sheet. The sheet should feel measured, legible, and already half-finished before they touch it.\n\nThe system's visual DNA is inherited from the captured opencode.ai terminal-native system that seeded this project: one monospaced face, cream canvas, hairline rules instead of shadows, [x] / [ ] markers instead of icons, and 4px corners on the few things you can click. Charter renames the accent to Solder Terracotta (#b54424), a fired-tool red rather than a brand blue, and turns the surface into a working build sheet rather than a marketing page. The command panel is the one inherited dark TUI moment, now doing real work as a live result rather than a mockup.\n\nThe result is a tool that looks like it was assembled by someone who builds things: flat, exact, and quietly opinionated. It carries no photography, no gradients, no decorative illustration, and no dark mode of its own beyond a straightforward inversion.",
+    "keyCharacteristics": [
+      "One typeface for every role: Geist Mono, from the 30px page title to the 11px terminal status.",
+      "One accent: Solder Terracotta, used for the primary action and the selected state, almost nothing else.",
+      "One dark moment per page: the live command terminal. No other dark surface.",
+      "One column: configuration stacks; the finished command sits at the top, never in a sidebar.",
+      "One icon vocabulary: ASCII brackets ([x], [ ], [+], [−], $, #) before any SVG.",
+      "Flat on paper: 1px hairlines, square containers, 4px interactive corners, zero drop shadows."
+    ],
+    "rules": [
+      {
+        "name": "The Solder Rule",
+        "body": "Terracotta is the action and the selected state, and nothing else. If it is not clickable or currently chosen, it does not get the accent; its scarcity is what makes the Copy button read as the next step.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Dark Moment Rule",
+        "body": "A page may have exactly one near-black terminal surface. The command panel earns it; do not add a second dark card, a dark footer, or a dark hero.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Face Rule",
+        "body": "Geist Mono carries every role. Do not introduce a display face, a serif, or a sans body; a second family would read as a different product.",
+        "section": "typography"
+      },
+      {
+        "name": "The Build Sheet Rule",
+        "body": "Configuration is the checklist; the command is the computed result. Put the command at the top of the sheet, then the choices, never the other way round.",
+        "section": "layout"
+      },
+      {
+        "name": "The One Column Rule",
+        "body": "Pages use one content column. No sidebar, side panel, or sticky secondary column; a live result belongs inline at the top of the same column.",
+        "section": "layout"
+      },
+      {
+        "name": "The Menu Page Rule",
+        "body": "A page reachable from the header menu carries no \"Back to…\" link. Footer-only pages (Privacy, Terms, Stats, Glossary, Comparison) keep theirs.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat Paper Rule",
+        "body": "Surfaces are flat at rest. If you reach for a shadow, reach for a hairline or a tone change instead.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Bracket Rule",
+        "body": "State is spelled in ASCII before it is drawn. Chips use [x] / [ ]; the package metadata disclosure uses [+] / [−]. Do not replace those markers with checkbox components, chevrons, or icon fonts. The FAQ is the one toggle that uses the accordion primitive's chevron rather than a bracket.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do keep every page to one column, with the live command at the top on both builders.",
+      "Do render all type in Geist Mono; build hierarchy from 30/18/16/14/12/11px sizes and 700/600/500/400 weights.",
+      "Do use Solder Terracotta only for the primary action and the selected state.",
+      "Do keep the logo mark in its own Logo Orange (#f15a30); it is not the UI accent.",
+      "Do use [x] / [ ] for chip state and [+] / [−] for disclosure; keep them as text.",
+      "Do separate with 1px hairlines and tone changes; containers stay square, controls 4px.",
+      "Do allow exactly one terminal panel per page, and let the command wrap in full.",
+      "Do keep a page that lives in the header menu free of back links.",
+      "Do show labels in human terms (Database, PostgreSQL) while the command keeps CLI values (--database=pgsql)."
+    ],
+    "donts": [
+      "Don't add a sidebar, second column, side panel, or sticky secondary column.",
+      "Don't put the command below the fields that change it, or reintroduce a \"Command\" heading; the panel and page title already say what it is.",
+      "Don't add drop shadows, gradients, glass, glow, or dark cards beyond the single terminal panel.",
+      "Don't use semantic colors (success/warning/danger) as page decoration or marketing accents.",
+      "Don't introduce a second typeface, italics, or a display serif.",
+      "Don't replace bracket markers with checkboxes, chevrons, or icon fonts.",
+      "Don't round containers; only interactive elements get 4px, and only the switch track is fully round.",
+      "Don't put a second dark surface on a page, or reuse the terminal panel for non-command content."
+    ]
+  }
+}
