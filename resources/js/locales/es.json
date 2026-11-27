@@ -14,49 +14,32 @@
         "build_package": "Creador de Paquetes",
         "menu": "Menu",
         "menu_description": "Abrir el menú de navegación del sitio",
-        "install": "Instalar app"
+        "install": "Instalar app",
+        "application": "Aplicación",
+        "package": "Paquete",
+        "guides": "Guías",
+        "glossary": "Glosario"
     },
     "header": {
         "app_name": "Charter para Laravel"
     },
     "hero": {
-        "learn_link": "Aprende cómo funciona",
-        "mcp_link": "¿Buscas MCP?",
         "application": {
-            "title": "App de Laravel con Sail en un comando",
-            "description": "Charter simplifica la creación de nuevas apps de Laravel: elige tus servicios y opciones visualmente, luego copia un único comando que configura tu proyecto con Laravel Sail desde el inicio.",
-            "package_link": "¿Creando un paquete?",
-            "how_it_works": {
-                "title": "Cómo funciona",
-                "step1_title": "1. Configurar",
-                "step1_desc": "Elige tu versión de Laravel, base de datos, caché, driver de correo y starter kit. Todas las opciones de laravel new en una interfaz visual.",
-                "step2_title": "2. Generar",
-                "step2_desc": "Charter construye un comando bash listo para ejecutar que combina el instalador de Laravel con la configuración de Sail — sin necesidad de buscar las banderas correctas en la documentación.",
-                "step3_title": "3. Ejecutar",
-                "step3_desc": "Copia el comando, pégalo en tu terminal y presiona enter. En minutos tendrás un proyecto fresco de Laravel con Sail, servicios y tu stack elegido funcionando."
-            }
+            "title": "App de Laravel, un comando.",
+            "description": "Elige tu stack, servicios y herramientas. Copia un comando; Charter crea la app y configura su entorno de desarrollo."
         },
         "package": {
-            "title": "Paquete de Laravel en un comando",
-            "description": "Charter simplifica la creación de nuevos paquetes de Laravel: elige las características y metadatos, luego copia un único comando que configura tu paquete con Docker.",
-            "docker_notice": "Docker solo se usa para la creación inicial. El desarrollo de paquetes no está soportado en Sail.",
-            "application_link": "¿Creando una aplicación?",
-            "how_it_works": {
-                "title": "Cómo funciona",
-                "step1_title": "1. Configurar",
-                "step1_desc": "Elige el nombre del paquete, versión de PHP, características y metadatos — todas las opciones de laravel new-package en una UI visual.",
-                "step2_title": "2. Generar",
-                "step2_desc": "Charter crea un comando bash listo para ejecutar que prepara el scaffolding de tu paquete con Docker.",
-                "step3_title": "3. Ejecutar",
-                "step3_desc": "Copia el comando, pégalo en tu terminal y ejecútalo. El scaffolding de tu paquete se genera en segundos."
-            }
+            "title": "Paquete de Laravel, un comando.",
+            "description": "Elige características, añade metadatos y copia un comando; Docker se encarga del scaffold inicial.",
+            "docker_notice": "Docker solo se usa para la creación inicial. El desarrollo de paquetes no está soportado en Sail."
         }
     },
     "form": {
+        "application_section": "Aplicación",
+        "options_section": "Opciones",
         "application_name": "Nombre de la aplicación",
         "php_version": "Versión de PHP",
         "services": "Servicios",
-        "additional_fields": "Campos adicionales",
         "starter_kit": "Starter Kit",
         "select_starter_kit": "Selecciona un starter kit",
         "custom_starter_kit_url": "URL del Starter Kit personalizado",
@@ -76,16 +59,25 @@
         "include_devcontainer": "Incluir devcontainer",
         "skip_node": "Omitir Node",
         "skip_node_install": "Omitir instalación de Node.js",
-        "database_driver": "Controlador de Base de datos",
-        "select_database": "Selecciona un controlador de base de datos",
-        "database_none": "Ninguno"
+        "database_driver": "Base de datos",
+        "select_database": "Selecciona una base de datos",
+        "database_none": "Ninguno",
+        "database_hint": "Añade el servicio de Sail correspondiente automáticamente.",
+        "services_legend": "[x] incluido   [ ] sin incluir",
+        "service_groups": {
+            "cache": "Caché",
+            "search": "Búsqueda",
+            "mail": "Correo",
+            "other": "Otros"
+        }
     },
     "form_errors": {
         "name_required": "El nombre de la aplicación es obligatorio",
         "name_invalid": "El nombre solo puede contener letras, números, guiones y guiones bajos",
         "url_required": "La URL es obligatoria para un starter kit personalizado",
         "url_invalid": "Por favor ingresa una URL válida",
-        "package_name_invalid": "El nombre del paquete debe tener el formato vendor/package"
+        "package_name_invalid": "El nombre del paquete debe tener el formato vendor/package",
+        "fix_highlighted": "Corrige los campos marcados antes de copiar"
     },
     "tooltips": {
         "livewire_class_components_label": "¿Qué son los Livewire class components?",
@@ -97,9 +89,10 @@
         "skip_node_label": "¿Qué hace omitir Node?",
         "skip_node": "Omite la instalación de Node.js y la ejecución de NPM build al generar la aplicación. Útil para proyectos que no requieren herramientas de build frontend.",
         "database_driver_label": "¿Qué hace el controlador de base de datos?",
-        "database_driver": "Define la conexión de base de datos en tu archivo .env. SQLite funciona sin servicios Docker; otros controladores requieren el servicio correspondiente activado arriba."
+        "database_driver": "Define la conexión de base de datos predeterminada en tu archivo .env. Elegir una base de datos también activa su servicio de Sail; SQLite no necesita ninguno."
     },
     "package_form": {
+        "section": "Paquete",
         "title": "Nombre del paquete",
         "description": "Características",
         "metadata_title": "Metadatos del Paquete (opcional)",
@@ -137,11 +130,15 @@
         "a7": "Para nada. Todo lo que configuras aquí se genera en tu navegador — no hay almacenamiento del lado del servidor. Cuando estés listo, el comando se construye completamente del lado del cliente y se ejecuta localmente en tu máquina."
     },
     "code_block": {
-        "heading": "Empieza ahora",
+        "heading": "Comando",
         "copy": "Copiar",
         "copied": "Copiado",
         "aria_label": "Copiar comando",
-        "hint": "Ejecuta esto en tu terminal para crear tu proyecto con Laravel Sail."
+        "hint": "Ejecuta esto en tu terminal para crear tu proyecto con Laravel Sail.",
+        "package_hint": "Ejecuta esto en tu terminal para crear tu paquete.",
+        "updates_hint": "Se actualiza a medida que cambias las opciones de abajo.",
+        "status_ready": "listo",
+        "status_blocked": "revisa campos"
     },
     "debug": {
         "label": "Depuración:",
@@ -213,7 +210,9 @@
         "option_lw_class_components": "LW Class Components",
         "option_custom_kit": "Kit Personalizado",
         "mcp": "MCP",
-        "web": "Web"
+        "web": "Web",
+        "empty": "Todavía no hay compilaciones en este periodo.",
+        "empty_cta": "Crea la primera"
     },
     "privacy": {
         "title": "Política de privacidad",

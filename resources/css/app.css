@@ -80,6 +80,7 @@
     --chart-4: #f1eeee;
     --chart-5: #f8f7f7;
     --radius: 4px;
+    --grid-line: rgba(15, 0, 0, 0.05);
     --sidebar: #fdfcfc;
     --sidebar-foreground: #171717;
     --sidebar-primary: #171717;
@@ -115,6 +116,7 @@
     --chart-3: #646262;
     --chart-4: #222222;
     --chart-5: #171717;
+    --grid-line: rgba(253, 252, 252, 0.04);
     --sidebar: #171717;
     --sidebar-foreground: #ffffff;
     --sidebar-primary: #ffffff;
@@ -131,12 +133,25 @@
     }
     html {
         @apply bg-background;
+        background-image:
+            linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+        background-size: 32px 32px;
     }
     body {
-        /* The page background lives on html so body stays transparent and the
-           ambient gradient (body::before, z-index -10) is not painted over. */
+        /* The paper grid lives on html; body stays transparent so the grid
+           reads across the whole document without an extra layer. */
         @apply text-foreground;
         @apply font-sans;
+    }
+    h1,
+    h2,
+    h3,
+    h4 {
+        text-wrap: balance;
+    }
+    p {
+        text-wrap: pretty;
     }
 }
 
@@ -144,6 +159,14 @@
     .code-scroll {
         scrollbar-color: var(--border) transparent;
         scrollbar-width: thin;
+    }
+
+    /* Full-bleed tinted section band. The shadow paints the bleed and the
+       clip keeps it horizontal; fixed boxes never contribute scroll width. */
+    .band {
+        background-color: var(--surface-soft);
+        box-shadow: 0 0 0 100vmax var(--surface-soft);
+        clip-path: inset(0 -100vmax);
     }
 
     [data-slot='tool-command'] {
@@ -181,70 +204,6 @@
         to {
             opacity: 1;
             transform: translateY(0);
-        }
-    }
-
-    /* Ambient page wash. It lives on a fixed pseudo-element rather than a real
-       node: fixed boxes never contribute scrollable overflow and this one is
-       pointer-events:none with a negative z-index, so it can only ever paint. */
-    body::before {
-        content: '';
-        position: fixed;
-        inset: -50%;
-        z-index: -10;
-        pointer-events: none;
-        background:
-            radial-gradient(
-                42% 40% at 22% 28%,
-                rgba(243, 224, 220, 0.55),
-                rgba(253, 252, 252, 0) 70%
-            ),
-            radial-gradient(
-                40% 42% at 78% 20%,
-                rgba(240, 236, 222, 0.5),
-                rgba(253, 252, 252, 0) 70%
-            ),
-            radial-gradient(
-                50% 45% at 50% 85%,
-                rgba(238, 228, 234, 0.45),
-                rgba(253, 252, 252, 0) 75%
-            ),
-            var(--background);
-        animation: gradientDrift 48s ease-in-out infinite alternate;
-    }
-
-    .dark body::before {
-        background:
-            radial-gradient(
-                42% 40% at 22% 28%,
-                rgba(82, 52, 46, 0.6),
-                rgba(23, 23, 23, 0) 70%
-            ),
-            radial-gradient(
-                40% 42% at 78% 20%,
-                rgba(70, 62, 42, 0.55),
-                rgba(23, 23, 23, 0) 70%
-            ),
-            radial-gradient(
-                50% 45% at 50% 85%,
-                rgba(64, 46, 60, 0.5),
-                rgba(23, 23, 23, 0) 75%
-            ),
-            var(--background);
-    }
-
-    @keyframes gradientDrift {
-        from {
-            transform: translate3d(-6%, -4%, 0);
-        }
-        to {
-            transform: translate3d(6%, 5%, 0);
-        }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        body::before {
-            animation: none;
         }
     }
 }

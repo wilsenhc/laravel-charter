@@ -41,14 +41,14 @@ type Aspect = (typeof aspects)[number];
 </script>
 
 <template>
-    <main class="mx-auto w-full max-w-4xl px-5 py-7">
+    <main class="mx-auto w-full max-w-5xl px-5 py-7">
         <div class="flex flex-col items-start">
             <Link
                 :href="`/${locale}/glossary`"
                 prefetch
                 class="mb-6 inline-flex text-sm text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
             >
-                &larr; {{ t('comparison.back_to_comparisons') }}
+                &larr; {{ t('nav.back_to_glossary') }}
             </Link>
 
             <span
@@ -58,10 +58,10 @@ type Aspect = (typeof aspects)[number];
             </span>
         </div>
 
-        <h1 class="mb-2 text-2xl font-bold tracking-tight">
+        <h1 class="mb-2 text-3xl font-bold tracking-tight">
             {{ entry.translations.page_title }}
         </h1>
-        <p class="mb-8 text-sm text-muted-foreground">
+        <p class="mb-8 max-w-prose text-sm text-muted-foreground">
             {{ entry.translations.meta_description }}
         </p>
 
@@ -73,7 +73,7 @@ type Aspect = (typeof aspects)[number];
             <h2 class="mb-3 text-base font-semibold">
                 {{ t(`comparison.aspects.${aspect}`) }}
             </h2>
-            <div class="grid grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <div>
                     <h3 class="mb-1 text-sm font-medium text-foreground/80">
                         {{ entry.first_title }}

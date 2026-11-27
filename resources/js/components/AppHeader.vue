@@ -29,7 +29,19 @@ const page = usePage();
 
 const locale = computed(() => page.props.locale as string);
 
+const navItems = computed(() => [
+    { href: `/${locale.value}/application`, label: t('nav.application') },
+    { href: `/${locale.value}/package`, label: t('nav.package') },
+    { href: `/${locale.value}/mcp`, label: t('nav.mcp') },
+]);
+
+const path = computed(() => new URL(page.url, 'http://localhost').pathname);
+
+const isActive = (href: string): boolean =>
+    path.value === href || path.value.startsWith(`${href}/`);
+
 const isScrolled = ref(false);
+const mobileOpen = ref(false);
 
 function onScroll() {
     isScrolled.value = window.scrollY > 0;
@@ -49,16 +61,37 @@ onUnmounted(() => {
         class="sticky top-0 z-50 flex h-14 items-center justify-between border-b border-border bg-background px-5 transition-[background-color,backdrop-filter] duration-300"
         :class="{ 'bg-background/80 backdrop-blur-xl': isScrolled }"
     >
-        <Link
-            :href="`/${locale}/application`"
-            prefetch
-            class="flex items-center gap-2 text-base font-bold tracking-tight hover:underline"
-        >
-            <LogoIcon class="h-[1em] w-auto" />
-            {{ t('header.app_name') }}
-        </Link>
+        <div class="flex items-center gap-6">
+            <Link
+                :href="`/${locale}/application`"
+                prefetch
+                class="flex items-center gap-2 text-base font-bold tracking-tight hover:underline"
+            >
+                <LogoIcon class="h-[1em] w-auto" />
+                {{ t('header.app_name') }}
+            </Link>
+            <nav class="hidden items-center gap-1 lg:flex">
+                <Link
+                    v-for="item in navItems"
+                    :key="item.href"
+                    :href="item.href"
+                    prefetch
+                    :aria-current="isActive(item.href) ? 'page' : undefined"
+                    class="rounded-md px-2 py-1 text-sm transition-colors hover:bg-accent hover:text-foreground"
+                    :class="
+                        isActive(item.href)
+                            ? 'font-semibold text-foreground'
+                            : 'text-muted-foreground'
+                    "
+                >
+                    {{ item.label }}
+                </Link>
+            </nav>
+        </div>
         <div class="flex items-center gap-3">
-            <InstallButton class="hidden sm:inline-flex" />
+            <div class="hidden sm:block">
+                <InstallButton />
+            </div>
             <Button
                 variant="outline"
                 size="sm"
@@ -66,6 +99,7 @@ onUnmounted(() => {
                 href="https://github.com/wilsenhc/laravel-charter"
                 target="_blank"
                 rel="noopener noreferrer"
+                class="h-8"
                 :aria-label="t('nav.github')"
             >
                 <svg
@@ -85,14 +119,14 @@ onUnmounted(() => {
                 <LanguageSwitcher />
                 <AppearanceSwitcher />
             </div>
-            <Sheet>
+            <Sheet v-model:open="mobileOpen">
                 <TooltipProvider>
                     <Tooltip>
                         <TooltipTrigger as-child>
                             <SheetTrigger as-child>
                                 <Button
                                     variant="ghost"
-                                    size="icon-sm"
+                                    size="icon"
                                     class="sm:hidden"
                                     :aria-label="t('nav.menu')"
                                 >
@@ -111,6 +145,24 @@ onUnmounted(() => {
                         </SheetDescription>
                     </SheetHeader>
                     <nav class="flex flex-col gap-2 px-4">
+                        <Link
+                            v-for="item in navItems"
+                            :key="item.href"
+                            :href="item.href"
+                            prefetch
+                            :aria-current="
+                                isActive(item.href) ? 'page' : undefined
+                            "
+                            class="rounded-md px-2 py-2 text-sm transition-colors hover:bg-accent hover:text-foreground"
+                            :class="
+                                isActive(item.href)
+                                    ? 'font-semibold text-foreground'
+                                    : 'text-muted-foreground'
+                            "
+                            @click="mobileOpen = false"
+                        >
+                            {{ item.label }}
+                        </Link>
                         <InstallButton
                             variant="ghost"
                             size="lg"

@@ -14,7 +14,7 @@ const sectionCount = computed(() => tm('terms.sections').length);
 </script>
 
 <template>
-    <main class="mx-auto w-full max-w-4xl px-5 py-7">
+    <main class="mx-auto w-full max-w-5xl px-5 py-7">
         <Link
             :href="`/${locale}/application`"
             prefetch
@@ -23,14 +23,16 @@ const sectionCount = computed(() => tm('terms.sections').length);
             &larr; {{ t('nav.back_to_charter') }}
         </Link>
 
-        <h1 class="mb-2 text-2xl font-bold tracking-tight">
+        <h1 class="mb-2 text-3xl font-bold tracking-tight">
             {{ t('terms.title') }}
         </h1>
-        <p class="mb-8 text-sm text-muted-foreground">
+        <p class="mb-8 max-w-prose text-sm text-muted-foreground">
             {{ t('terms.last_updated') }}
         </p>
 
-        <section class="space-y-6 text-sm leading-relaxed text-foreground/80">
+        <section
+            class="max-w-prose space-y-6 text-sm leading-relaxed text-foreground/80"
+        >
             <div v-for="i in sectionCount" :key="i">
                 <h2 class="mb-2 font-semibold text-foreground">
                     {{ t(`terms.sections.${i - 1}.heading`) }}
@@ -47,8 +49,7 @@ const sectionCount = computed(() => tm('terms.sections').length);
                             :href="`/${locale}/privacy`"
                             prefetch
                             class="font-medium text-foreground underline underline-offset-4"
-                            >{{ t('terms.sections.2.link_text') }}</Link
-                        >.
+                            >{{ t('terms.sections.2.link_text') }}</Link>.
                     </p>
                 </template>
 

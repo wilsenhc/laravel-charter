@@ -337,7 +337,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <main class="mx-auto w-full max-w-4xl px-5 py-7">
+    <main class="mx-auto w-full max-w-5xl px-5 py-7">
         <Link
             :href="`/${locale}/application`"
             prefetch
@@ -346,14 +346,16 @@ onMounted(async () => {
             &larr; {{ t('nav.back_to_charter') }}
         </Link>
 
-        <h1 class="mb-2 text-2xl font-bold tracking-tight">
+        <h1 class="mb-2 text-3xl font-bold tracking-tight">
             {{ t('stats.title') }}
         </h1>
         <p class="mb-8 text-sm text-muted-foreground">
             {{ t('stats.description') }}
         </p>
 
-        <section class="mb-8 space-y-3 rounded-sm border border-border p-4">
+        <section
+            class="mb-8 space-y-3 rounded-sm border border-border bg-card p-4"
+        >
             <h2 class="text-sm font-semibold tracking-tight">
                 {{ t('stats.filter_title') }}
             </h2>
@@ -428,8 +430,10 @@ onMounted(async () => {
             </div>
         </section>
 
-        <div class="mb-8 grid grid-cols-3 gap-4">
-            <div class="rounded-sm border border-border p-4 text-center">
+        <div class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div
+                class="rounded-sm border border-border bg-card p-4 text-center"
+            >
                 <p class="text-xs text-muted-foreground">
                     {{ t('stats.total_builds') }}
                 </p>
@@ -437,7 +441,9 @@ onMounted(async () => {
                     {{ total }}
                 </p>
             </div>
-            <div class="rounded-sm border border-border p-4 text-center">
+            <div
+                class="rounded-sm border border-border bg-card p-4 text-center"
+            >
                 <p class="text-xs text-muted-foreground">
                     {{ t('stats.total_apps') }}
                 </p>
@@ -454,7 +460,9 @@ onMounted(async () => {
                     {{ t('stats.mcp') }}
                 </p>
             </div>
-            <div class="rounded-sm border border-border p-4 text-center">
+            <div
+                class="rounded-sm border border-border bg-card p-4 text-center"
+            >
                 <p class="text-xs text-muted-foreground">
                     {{ t('stats.total_packages') }}
                 </p>
@@ -473,7 +481,23 @@ onMounted(async () => {
             </div>
         </div>
 
-        <div v-if="mounted">
+        <div
+            v-if="mounted && total === 0"
+            class="rounded-sm border border-border bg-card p-8 text-center"
+        >
+            <p class="text-sm text-muted-foreground">
+                {{ t('stats.empty') }}
+            </p>
+            <Link
+                :href="`/${locale}/application`"
+                prefetch
+                class="mt-3 inline-flex text-sm text-foreground underline underline-offset-4"
+            >
+                {{ t('stats.empty_cta') }}
+            </Link>
+        </div>
+
+        <div v-if="mounted && total > 0">
             <h2 class="mb-4 text-lg font-semibold tracking-tight">
                 {{ t('stats.applications_section') }}
             </h2>
@@ -481,7 +505,7 @@ onMounted(async () => {
             <div class="mb-10 grid grid-cols-1 gap-6 md:grid-cols-3">
                 <section
                     v-if="Object.keys(services).length"
-                    class="rounded-sm border border-border p-4 md:col-span-3"
+                    class="rounded-sm border border-border bg-card p-4 md:col-span-3"
                 >
                     <h3 class="mb-4 text-sm font-semibold tracking-tight">
                         {{ t('stats.chart_services') }}
@@ -497,7 +521,7 @@ onMounted(async () => {
 
                 <section
                     v-if="Object.keys(phpVersions).length"
-                    class="rounded-sm border border-border p-4"
+                    class="rounded-sm border border-border bg-card p-4"
                 >
                     <h3 class="mb-4 text-sm font-semibold tracking-tight">
                         {{ t('stats.chart_php_versions') }}
@@ -519,7 +543,7 @@ onMounted(async () => {
 
                 <section
                     v-if="Object.keys(starterKits).length"
-                    class="rounded-sm border border-border p-4"
+                    class="rounded-sm border border-border bg-card p-4"
                 >
                     <h3 class="mb-4 text-sm font-semibold tracking-tight">
                         {{ t('stats.chart_starter_kits') }}
@@ -541,7 +565,7 @@ onMounted(async () => {
 
                 <section
                     v-if="Object.keys(javascriptRuntimes).length"
-                    class="rounded-sm border border-border p-4"
+                    class="rounded-sm border border-border bg-card p-4"
                 >
                     <h3 class="mb-4 text-sm font-semibold tracking-tight">
                         {{ t('stats.chart_javascript_runtimes') }}
@@ -563,7 +587,7 @@ onMounted(async () => {
 
                 <section
                     v-if="Object.keys(authProviders).length"
-                    class="rounded-sm border border-border p-4"
+                    class="rounded-sm border border-border bg-card p-4"
                 >
                     <h3 class="mb-4 text-sm font-semibold tracking-tight">
                         {{ t('stats.chart_auth_providers') }}
@@ -585,7 +609,7 @@ onMounted(async () => {
 
                 <section
                     v-if="Object.keys(testingFrameworks).length"
-                    class="rounded-sm border border-border p-4"
+                    class="rounded-sm border border-border bg-card p-4"
                 >
                     <h3 class="mb-4 text-sm font-semibold tracking-tight">
                         {{ t('stats.chart_testing_frameworks') }}
@@ -607,7 +631,7 @@ onMounted(async () => {
 
                 <section
                     v-if="Object.keys(databaseDrivers).length"
-                    class="rounded-sm border border-border p-4"
+                    class="rounded-sm border border-border bg-card p-4"
                 >
                     <h3 class="mb-4 text-sm font-semibold tracking-tight">
                         {{ t('stats.chart_database_drivers') }}
@@ -628,7 +652,7 @@ onMounted(async () => {
                 </section>
 
                 <section
-                    class="rounded-sm border border-border p-4 md:col-span-3"
+                    class="rounded-sm border border-border bg-card p-4 md:col-span-3"
                 >
                     <h3 class="mb-4 text-sm font-semibold tracking-tight">
                         {{ t('stats.chart_options') }}
@@ -656,7 +680,7 @@ onMounted(async () => {
             <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
                 <section
                     v-if="Object.keys(packagePhpVersions).length"
-                    class="rounded-sm border border-border p-4"
+                    class="rounded-sm border border-border bg-card p-4"
                 >
                     <h3 class="mb-4 text-sm font-semibold tracking-tight">
                         {{ t('stats.chart_php_versions') }}
@@ -677,7 +701,7 @@ onMounted(async () => {
                 </section>
 
                 <section
-                    class="rounded-sm border border-border p-4 md:col-span-3"
+                    class="rounded-sm border border-border bg-card p-4 md:col-span-3"
                 >
                     <h3 class="mb-4 text-sm font-semibold tracking-tight">
                         {{ t('stats.chart_package_features') }}

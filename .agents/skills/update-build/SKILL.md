@@ -83,7 +83,7 @@ After the report, for each missing option, recommend how it *should* be implemen
 
 Update the `## Current Options Status` tables below to reflect any changes. Do not update options marked as strictly ignored — those are intentionally excluded and should remain unchanged.
 
-## Current Options Status (as of last update)
+## Current Options Status (as of laravel/installer v5.33.0 and laravel/sail v1.71.0)
 
 ### `laravel new` (Laravel Installer)
 
@@ -130,6 +130,8 @@ Update the `## Current Options Status` tables below to reflect any changes. Do n
 | `--package-description` | VALUE_REQUIRED | Yes — metadata input |
 | `--vendor-namespace` | VALUE_REQUIRED | Yes — metadata input |
 | `--class-name` | VALUE_REQUIRED | Yes — metadata input |
+
+> Note: the cloned `laravel/package-skeleton` `configure.php` also defines tool options (`--dependabot`, `--issue-template`, `--changelog`, `--funding`, `--security-policy`). `laravel package` does not pass these, and a non-interactive run selects all tools. The Charter cannot toggle them until the installer exposes them as `laravel package` options.
 
 ### `sail:install` (Laravel Sail)
 

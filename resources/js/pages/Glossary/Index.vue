@@ -42,11 +42,11 @@ const grouped = computed(() => {
 </script>
 
 <template>
-    <main class="mx-auto w-full max-w-4xl px-5 py-7">
-        <h1 class="mb-2 text-2xl font-bold tracking-tight">
+    <main class="mx-auto w-full max-w-5xl px-5 py-7">
+        <h1 class="mb-2 text-3xl font-bold tracking-tight">
             {{ t('glossary.page_title') }}
         </h1>
-        <p class="mb-8 text-sm text-muted-foreground">
+        <p class="mb-8 max-w-prose text-sm text-muted-foreground">
             {{ t('glossary.meta_description') }}
         </p>
 

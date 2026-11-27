@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type {
@@ -16,7 +15,6 @@ import {
     availableDatabaseDrivers,
     availableJavascriptRuntimes,
     availablePhpVersions,
-    availableServices,
     availableStarterKits,
     availableTestingFrameworks,
     serviceLabel,
@@ -30,7 +28,6 @@ import {
     AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
@@ -74,7 +71,6 @@ const preset = props.presets ?? {};
 
 const appName = ref(preset.name ?? 'new-laravel');
 const appNameError = ref('');
-const selectedServices = ref<string[]>([...(preset.services ?? [])]);
 const selectedStarterKit = ref(preset.frontend ?? 'react');
 const customStarterKitUrl = ref('');
 const customStarterKitUrlError = ref('');
@@ -89,12 +85,50 @@ const withLivewireClassComponents = ref(
     preset['livewire-class-components'] ?? false,
 );
 const selectedPhpVersion = ref<AvailablePhpVersion>(preset.php ?? '8.5');
+
+const databaseServiceNames = ['mysql', 'mariadb', 'pgsql'] as const;
+
+const isDatabaseService = (
+    service: string,
+): service is AvailableDatabaseDriver =>
+    (databaseServiceNames as readonly string[]).includes(service);
+
+const databaseLabels: Record<AvailableDatabaseDriver, string> = {
+    mysql: 'MySQL',
+    mariadb: 'MariaDB',
+    pgsql: 'PostgreSQL',
+    sqlite: 'SQLite',
+    sqlsrv: 'SQL Server',
+};
+
+const databaseLabel = (driver: AvailableDatabaseDriver | 'none'): string =>
+    driver === 'none' ? t('form.database_none') : databaseLabels[driver];
+
+const presetServices = preset.services ?? [];
+const presetDatabaseService = [...presetServices]
+    .reverse()
+    .find(isDatabaseService) as AvailableDatabaseDriver | undefined;
+
+// The database is the single control for the primary driver; its Sail service
+// follows it. Service chips hold everything else.
 const selectedDatabase = ref<AvailableDatabaseDriver | 'none'>(
     preset.database ?? 'none',
 );
-const hasManuallyChangedDatabase = ref(
-    preset.database !== undefined && preset.database !== 'none',
+
+if (selectedDatabase.value === 'none' && presetDatabaseService) {
+    selectedDatabase.value = presetDatabaseService;
+}
+
+const selectedServices = ref<string[]>(
+    presetServices.filter((service) => !isDatabaseService(service)),
 );
+
+if (isDatabaseService(selectedDatabase.value)) {
+    selectedServices.value = [
+        ...selectedServices.value,
+        selectedDatabase.value,
+    ];
+}
 
 const toggleService = (service: string) => {
     if (selectedServices.value.includes(service)) {
@@ -106,6 +140,19 @@ const toggleService = (service: string) => {
     }
 
     selectedServices.value = [...selectedServices.value, service];
+};
+
+const onDatabaseChange = (value: unknown) => {
+    selectedDatabase.value = (value ?? 'none') as
+        AvailableDatabaseDriver | 'none';
+
+    const servicesWithoutDatabase = selectedServices.value.filter(
+        (service) => !isDatabaseService(service),
+    );
+
+    selectedServices.value = isDatabaseService(selectedDatabase.value)
+        ? [...servicesWithoutDatabase, selectedDatabase.value]
+        : servicesWithoutDatabase;
 };
 
 const validateAppName = () => {
@@ -151,27 +198,45 @@ const validateCustomUrl = () => {
     }
 };
 
-const databaseServiceNames = ['mysql', 'mariadb', 'pgsql'] as const;
+const serviceGroups: {
+    key: string;
+    services: AvailableService[];
+}[] = [
+    { key: 'cache', services: ['redis', 'valkey', 'memcached'] },
+    { key: 'search', services: ['meilisearch', 'typesense'] },
+    { key: 'mail', services: ['mailpit', 'mailtrap-local'] },
+    {
+        key: 'other',
+        services: ['mongodb', 'rustfs', 'rabbitmq', 'selenium', 'soketi'],
+    },
+];
 
-watch(selectedServices, (newServices) => {
-    if (hasManuallyChangedDatabase.value) {
-        return;
+const appNameIsValid = (value: string): boolean =>
+    value.length > 0 && /^[a-zA-Z0-9_-]+$/.test(value);
+
+const customUrlIsValid = (value: string): boolean => {
+    if (selectedStarterKit.value !== 'custom') {
+        return true;
     }
 
-    const lastDbService = newServices
-        .filter((service): service is AvailableDatabaseDriver =>
-            (databaseServiceNames as readonly string[]).includes(service),
-        )
-        .at(-1);
+    if (!value) {
+        return false;
+    }
 
-    selectedDatabase.value = lastDbService ?? 'none';
-});
+    try {
+        new URL(value);
 
-const onDatabaseChange = (value: unknown) => {
-    hasManuallyChangedDatabase.value = true;
-    selectedDatabase.value = (value ?? 'none') as
-        AvailableDatabaseDriver | 'none';
+        return true;
+    } catch {
+        return false;
+    }
 };
+
+const canCopy = computed(
+    () =>
+        appNameIsValid(appName.value) &&
+        customUrlIsValid(customStarterKitUrl.value),
+);
 
 const laravelStarterKits = ['livewire', 'vue', 'react', 'svelte', 'api'];
 
@@ -190,7 +255,7 @@ const showTeams = computed(
 const generatedUrl = computed(() => {
     const baseUrl = `${props.url}/application/build`;
     const nameParam = `?name=${encodeURIComponent(appName.value)}`;
-    const serviceParams = `&services=${selectedServices.value.join(',')}`;
+    const serviceParams = `&services=${selectedServices.value.join(',') || 'none'}`;
     const frontend = `&frontend=${selectedStarterKit.value}`;
     const javascript = `&javascript=${selectedJavascriptRuntime.value}`;
     const testing = `&testing=${selectedTesting.value}`;
@@ -232,6 +297,28 @@ const commands = computed(() => ({
     wget: `wget -qO- '${generatedUrl.value}' | bash`,
 }));
 
+const commandSummary = computed(() => [
+    `php ${selectedPhpVersion.value}`,
+    selectedStarterKit.value,
+    ...(selectedStarterKit.value !== 'custom' &&
+    selectedStarterKit.value !== 'api' &&
+    selectedAuth.value !== 'laravel'
+        ? [selectedAuth.value]
+        : []),
+    selectedTesting.value,
+    selectedJavascriptRuntime.value,
+    ...(selectedDatabase.value !== 'none' ? [selectedDatabase.value] : []),
+    ...selectedServices.value
+        .filter((service) => !isDatabaseService(service))
+        .map(serviceLabel),
+    ...(withBoost.value ? ['boost'] : []),
+    ...(withTeams.value && showTeams.value ? ['teams'] : []),
+    ...(withDevcontainer.value ? ['devcontainer'] : []),
+    ...(withNoNode.value && selectedStarterKit.value === 'custom'
+        ? ['no-node']
+        : []),
+]);
+
 const faqItems = computed(() => {
     const items = [];
 
@@ -248,316 +335,357 @@ const faqItems = computed(() => {
 </script>
 
 <template>
-    <main class="mx-auto w-full max-w-4xl px-5 py-7">
-        <section class="mb-8 space-y-3">
-            <h1 class="text-2xl font-bold tracking-tight">
+    <main class="mx-auto w-full max-w-5xl px-5 py-7">
+        <section class="mb-6">
+            <h1
+                class="max-w-[32ch] text-[1.75rem] leading-[1.1] font-bold tracking-[-0.03em]"
+            >
                 {{ t('hero.application.title') }}
             </h1>
-            <p class="text-sm text-muted-foreground">
+            <p
+                class="mt-2.5 max-w-prose text-sm leading-normal text-muted-foreground"
+            >
                 {{ t('hero.application.description') }}
             </p>
-            <div class="flex flex-wrap items-center gap-4">
-                <Link
-                    :href="`/${locale}/package`"
-                    prefetch
-                    class="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-                >
-                    {{ t('hero.application.package_link') }}
-                </Link>
-                <a
-                    href="#how-it-works"
-                    class="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-                >
-                    {{ t('hero.learn_link') }}
-                </a>
-                <a
-                    :href="`/${locale}/mcp`"
-                    class="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="mr-1.5 size-3.5 shrink-0"
-                        aria-hidden="true"
-                    >
-                        <path
-                            d="M12 3l1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5z"
-                        />
-                        <path
-                            d="M18 14l.8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8z"
-                        />
-                    </svg>
-                    {{ t('hero.mcp_link') }}
-                </a>
-            </div>
         </section>
 
-        <Card class="mb-6">
-            <CardContent class="space-y-5">
-                <div class="grid grid-cols-1 gap-5 sm:grid-cols-[1fr_auto]">
-                    <Field :data-invalid="!!appNameError">
-                        <FieldLabel for="app-name">{{
-                            t('form.application_name')
-                        }}</FieldLabel>
-                        <Input
-                            id="app-name"
-                            v-model="appName"
-                            :aria-invalid="!!appNameError"
-                            @blur="validateAppName"
-                        />
-                        <FieldError v-if="appNameError">{{
-                            appNameError
-                        }}</FieldError>
-                    </Field>
-                    <Field>
-                        <FieldLabel for="php-version">{{
-                            t('form.php_version')
-                        }}</FieldLabel>
-                        <Select v-model="selectedPhpVersion">
-                            <SelectTrigger id="php-version" class="w-28">
-                                <SelectValue placeholder="PHP">
-                                    {{ selectedPhpVersion }}
-                                </SelectValue>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem
-                                    v-for="version in availablePhpVersions"
-                                    :key="version"
-                                    :value="version"
-                                >
-                                    {{ version }}
-                                </SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </Field>
-                </div>
-                <Field>
-                    <FieldLabel>{{ t('form.services') }}</FieldLabel>
-                    <div class="flex flex-wrap gap-2">
-                        <Badge
-                            v-for="service in availableServices"
-                            :key="service"
-                            :variant="
-                                selectedServices.includes(service)
-                                    ? 'default'
-                                    : 'outline'
-                            "
-                            class="cursor-pointer gap-1.5 text-sm font-medium select-none"
-                            @click="toggleService(service)"
-                        >
-                            <span
-                                class="tabular-nums"
-                                :class="
-                                    selectedServices.includes(service)
-                                        ? 'text-primary-foreground'
-                                        : 'text-muted-foreground'
+        <div class="space-y-6">
+            <div>
+                <CodeBlock
+                    :commands="commands"
+                    :disabled="!canCopy"
+                    :summary="commandSummary"
+                />
+                <p class="mt-2 text-xs text-muted-foreground">
+                    {{ t('code_block.updates_hint') }}
+                </p>
+                <p v-if="isLocal" class="mt-1 text-xs text-muted-foreground">
+                    <span>{{ t('debug.label') }}</span>
+                    <a
+                        :href="generatedUrl"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="ml-1 break-all text-foreground underline underline-offset-4"
+                        >{{ t('debug.open_url') }}</a
+                    >
+                </p>
+            </div>
+
+            <Card>
+                <CardHeader class="border-b">
+                    <CardTitle>{{ t('form.application_section') }}</CardTitle>
+                </CardHeader>
+                <CardContent class="space-y-5">
+                    <div class="grid grid-cols-1 gap-5 sm:grid-cols-[1fr_auto]">
+                        <Field :data-invalid="!!appNameError">
+                            <FieldLabel for="app-name">{{
+                                t('form.application_name')
+                            }}</FieldLabel>
+                            <Input
+                                id="app-name"
+                                v-model="appName"
+                                :aria-invalid="!!appNameError"
+                                :aria-describedby="
+                                    appNameError ? 'app-name-error' : undefined
                                 "
-                                >[{{
-                                    selectedServices.includes(service)
-                                        ? '+'
-                                        : '-'
-                                }}]</span
-                            >{{ serviceLabel(service) }}
-                        </Badge>
-                    </div>
-                </Field>
-
-                <Field>
-                    <div class="flex items-center gap-2">
-                        <Label for="database-driver">{{
-                            t('form.database_driver')
-                        }}</Label>
-                        <InfoTooltip
-                            :label="t('tooltips.database_driver_label')"
-                            :tooltip="t('tooltips.database_driver')"
-                        />
-                    </div>
-                    <Select
-                        :model-value="selectedDatabase"
-                        @update:model-value="onDatabaseChange"
-                    >
-                        <SelectTrigger id="database-driver" class="w-full">
-                            <SelectValue
-                                :placeholder="t('form.select_database')"
+                                @blur="validateAppName"
+                            />
+                            <FieldError
+                                v-if="appNameError"
+                                id="app-name-error"
+                                >{{ appNameError }}</FieldError
                             >
-                                {{ selectedDatabase }}
-                            </SelectValue>
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="none">
-                                {{ t('form.database_none') }}
-                            </SelectItem>
-                            <SelectItem
-                                v-for="driver in availableDatabaseDrivers"
-                                :key="driver"
-                                :value="driver"
-                            >
-                                {{ driver }}
-                            </SelectItem>
-                        </SelectContent>
-                    </Select>
-                </Field>
+                        </Field>
+                        <Field>
+                            <FieldLabel for="php-version">{{
+                                t('form.php_version')
+                            }}</FieldLabel>
+                            <Select v-model="selectedPhpVersion">
+                                <SelectTrigger id="php-version" class="w-28">
+                                    <SelectValue placeholder="PHP">
+                                        {{ selectedPhpVersion }}
+                                    </SelectValue>
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem
+                                        v-for="version in availablePhpVersions"
+                                        :key="version"
+                                        :value="version"
+                                    >
+                                        {{ version }}
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </Field>
+                    </div>
 
-                <div>
-                    <CodeBlock :commands="commands" />
-                    <p
-                        v-if="isLocal"
-                        class="mt-2 text-xs text-muted-foreground"
-                    >
-                        <span>{{ t('debug.label') }}</span>
-                        <a
-                            :href="generatedUrl"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="ml-1 break-all text-foreground underline underline-offset-4"
-                            >{{ t('debug.open_url') }}</a
+                    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                        <Field>
+                            <FieldLabel for="starter-kit">{{
+                                t('form.starter_kit')
+                            }}</FieldLabel>
+                            <Select v-model="selectedStarterKit">
+                                <SelectTrigger id="starter-kit" class="w-full">
+                                    <SelectValue
+                                        :placeholder="
+                                            t('form.select_starter_kit')
+                                        "
+                                    >
+                                        {{ selectedStarterKit }}
+                                    </SelectValue>
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem
+                                        v-for="kit in availableStarterKits"
+                                        :key="kit"
+                                        :value="kit"
+                                    >
+                                        {{ kit }}
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </Field>
+
+                        <Field
+                            v-if="
+                                selectedStarterKit !== 'custom' &&
+                                selectedStarterKit !== 'api'
+                            "
                         >
-                    </p>
-                </div>
-            </CardContent>
-        </Card>
+                            <FieldLabel for="auth">{{
+                                t('form.auth_provider')
+                            }}</FieldLabel>
+                            <Select v-model="selectedAuth">
+                                <SelectTrigger id="auth" class="w-full">
+                                    <SelectValue
+                                        :placeholder="
+                                            t('form.select_auth_provider')
+                                        "
+                                    >
+                                        {{ selectedAuth }}
+                                    </SelectValue>
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem
+                                        v-for="provider in availableAuthProviders"
+                                        :key="provider"
+                                        :value="provider"
+                                    >
+                                        {{ provider }}
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </Field>
 
-        <Card class="mb-6">
-            <CardHeader>
-                <CardTitle>{{ t('form.additional_fields') }}</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <div
-                    class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3"
+                        <Field
+                            v-if="selectedStarterKit === 'custom'"
+                            class="sm:col-span-2"
+                            :data-invalid="!!customStarterKitUrlError"
+                        >
+                            <FieldLabel for="custom-url">{{
+                                t('form.custom_starter_kit_url')
+                            }}</FieldLabel>
+                            <Input
+                                id="custom-url"
+                                v-model="customStarterKitUrl"
+                                :aria-invalid="!!customStarterKitUrlError"
+                                :aria-describedby="
+                                    customStarterKitUrlError
+                                        ? 'custom-url-error'
+                                        : undefined
+                                "
+                                @blur="validateCustomUrl"
+                            />
+                            <FieldError
+                                v-if="customStarterKitUrlError"
+                                id="custom-url-error"
+                                >{{ customStarterKitUrlError }}</FieldError
+                            >
+                        </Field>
+
+                        <Field>
+                            <FieldLabel for="js-runtime">{{
+                                t('form.javascript_runtime')
+                            }}</FieldLabel>
+                            <Select v-model="selectedJavascriptRuntime">
+                                <SelectTrigger id="js-runtime" class="w-full">
+                                    <SelectValue
+                                        :placeholder="t('form.select_runtime')"
+                                    >
+                                        {{ selectedJavascriptRuntime }}
+                                    </SelectValue>
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem
+                                        v-for="runtime in availableJavascriptRuntimes"
+                                        :key="runtime"
+                                        :value="runtime"
+                                    >
+                                        {{ runtime }}
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </Field>
+
+                        <Field>
+                            <FieldLabel for="testing">{{
+                                t('form.testing_framework')
+                            }}</FieldLabel>
+                            <Select v-model="selectedTesting">
+                                <SelectTrigger id="testing" class="w-full">
+                                    <SelectValue
+                                        :placeholder="
+                                            t('form.select_framework')
+                                        "
+                                    >
+                                        {{ selectedTesting }}
+                                    </SelectValue>
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem
+                                        v-for="framework in availableTestingFrameworks"
+                                        :key="framework"
+                                        :value="framework"
+                                    >
+                                        {{ framework }}
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </Field>
+                    </div>
+
+                    <Alert v-if="selectedStarterKit === 'custom'">
+                        <AlertTitle>{{
+                            t('custom_kit_alert.title')
+                        }}</AlertTitle>
+                        <AlertDescription>
+                            {{
+                                t('custom_kit_alert.description', {
+                                    link: '\x00',
+                                }).split('\x00')[0]
+                            }}
+                            <a
+                                href="https://github.com/tnylea/laravel-new"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="font-medium text-foreground underline underline-offset-4"
+                                >github.com/tnylea/laravel-new</a
+                            >{{
+                                t('custom_kit_alert.description', {
+                                    link: '\x00',
+                                }).split('\x00')[1]
+                            }}
+                        </AlertDescription>
+                    </Alert>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader
+                    class="flex flex-row flex-wrap items-baseline justify-between gap-2 border-b"
                 >
+                    <CardTitle>{{ t('form.services') }}</CardTitle>
+                    <span class="text-xs text-muted-foreground">{{
+                        t('form.services_legend')
+                    }}</span>
+                </CardHeader>
+                <CardContent class="space-y-5">
                     <Field>
-                        <FieldLabel for="starter-kit">{{
-                            t('form.starter_kit')
-                        }}</FieldLabel>
-                        <Select v-model="selectedStarterKit">
-                            <SelectTrigger id="starter-kit" class="w-full">
+                        <div class="flex items-center gap-2">
+                            <Label for="database-driver">{{
+                                t('form.database_driver')
+                            }}</Label>
+                            <InfoTooltip
+                                :label="t('tooltips.database_driver_label')"
+                                :tooltip="t('tooltips.database_driver')"
+                            />
+                        </div>
+                        <Select
+                            :model-value="selectedDatabase"
+                            @update:model-value="onDatabaseChange"
+                        >
+                            <SelectTrigger id="database-driver" class="w-full">
                                 <SelectValue
-                                    :placeholder="t('form.select_starter_kit')"
+                                    :placeholder="t('form.select_database')"
                                 >
-                                    {{ selectedStarterKit }}
+                                    {{ databaseLabel(selectedDatabase) }}
                                 </SelectValue>
                             </SelectTrigger>
                             <SelectContent>
+                                <SelectItem value="none">
+                                    {{ t('form.database_none') }}
+                                </SelectItem>
                                 <SelectItem
-                                    v-for="kit in availableStarterKits"
-                                    :key="kit"
-                                    :value="kit"
+                                    v-for="driver in availableDatabaseDrivers"
+                                    :key="driver"
+                                    :value="driver"
                                 >
-                                    {{ kit }}
+                                    {{ databaseLabel(driver) }}
                                 </SelectItem>
                             </SelectContent>
                         </Select>
-                    </Field>
-
-                    <Field
-                        v-if="selectedStarterKit === 'custom'"
-                        :data-invalid="!!customStarterKitUrlError"
-                    >
-                        <FieldLabel for="custom-url">{{
-                            t('form.custom_starter_kit_url')
-                        }}</FieldLabel>
-                        <Input
-                            id="custom-url"
-                            v-model="customStarterKitUrl"
-                            :aria-invalid="!!customStarterKitUrlError"
-                            @blur="validateCustomUrl"
-                        />
-                        <FieldError v-if="customStarterKitUrlError">{{
-                            customStarterKitUrlError
-                        }}</FieldError>
-                    </Field>
-
-                    <Field>
-                        <FieldLabel for="js-runtime">{{
-                            t('form.javascript_runtime')
-                        }}</FieldLabel>
-                        <Select v-model="selectedJavascriptRuntime">
-                            <SelectTrigger id="js-runtime" class="w-full">
-                                <SelectValue
-                                    :placeholder="t('form.select_runtime')"
-                                >
-                                    {{ selectedJavascriptRuntime }}
-                                </SelectValue>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem
-                                    v-for="runtime in availableJavascriptRuntimes"
-                                    :key="runtime"
-                                    :value="runtime"
-                                >
-                                    {{ runtime }}
-                                </SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </Field>
-
-                    <Field>
-                        <FieldLabel for="testing">{{
-                            t('form.testing_framework')
-                        }}</FieldLabel>
-                        <Select v-model="selectedTesting">
-                            <SelectTrigger id="testing" class="w-full">
-                                <SelectValue
-                                    :placeholder="t('form.select_framework')"
-                                >
-                                    {{ selectedTesting }}
-                                </SelectValue>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem
-                                    v-for="framework in availableTestingFrameworks"
-                                    :key="framework"
-                                    :value="framework"
-                                >
-                                    {{ framework }}
-                                </SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </Field>
-
-                    <Field
-                        v-if="
-                            selectedStarterKit !== 'custom' &&
-                            selectedStarterKit !== 'api'
-                        "
-                    >
-                        <FieldLabel for="auth">{{
-                            t('form.auth_provider')
-                        }}</FieldLabel>
-                        <Select v-model="selectedAuth">
-                            <SelectTrigger id="auth" class="w-full">
-                                <SelectValue
-                                    :placeholder="
-                                        t('form.select_auth_provider')
-                                    "
-                                >
-                                    {{ selectedAuth }}
-                                </SelectValue>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem
-                                    v-for="provider in availableAuthProviders"
-                                    :key="provider"
-                                    :value="provider"
-                                >
-                                    {{ provider }}
-                                </SelectItem>
-                            </SelectContent>
-                        </Select>
+                        <p class="text-xs text-muted-foreground">
+                            {{ t('form.database_hint') }}
+                        </p>
                     </Field>
 
                     <div
-                        v-if="selectedStarterKit === 'livewire'"
-                        class="space-y-3"
+                        role="group"
+                        aria-labelledby="services-label"
+                        class="space-y-3 sm:space-y-2"
                     >
-                        <div class="flex items-center gap-2">
+                        <span id="services-label" class="sr-only">{{
+                            t('form.services')
+                        }}</span>
+                        <div v-for="group in serviceGroups" :key="group.key">
+                            <p
+                                class="mb-1.5 text-xs font-medium text-muted-foreground sm:mb-1"
+                            >
+                                {{ t(`form.service_groups.${group.key}`) }}
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <button
+                                    v-for="service in group.services"
+                                    :key="service"
+                                    type="button"
+                                    :aria-pressed="
+                                        selectedServices.includes(service)
+                                    "
+                                    class="inline-flex min-h-11 items-center gap-1.5 rounded-md border px-3 text-sm font-medium transition-colors outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/50 sm:min-h-8"
+                                    :class="
+                                        selectedServices.includes(service)
+                                            ? 'border-primary bg-primary text-primary-foreground hover:bg-primary/90'
+                                            : 'border-border bg-background text-foreground hover:bg-muted'
+                                    "
+                                    @click="toggleService(service)"
+                                >
+                                    <span
+                                        class="text-xs tabular-nums opacity-70"
+                                        >[{{
+                                            selectedServices.includes(service)
+                                                ? 'x'
+                                                : ' '
+                                        }}]</span
+                                    >{{ serviceLabel(service) }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader class="border-b">
+                    <CardTitle>{{ t('form.options_section') }}</CardTitle>
+                </CardHeader>
+                <CardContent class="divide-y">
+                    <div
+                        v-if="selectedStarterKit === 'livewire'"
+                        class="flex min-h-11 items-center justify-between gap-4 py-1"
+                    >
+                        <span class="flex items-center gap-1.5">
                             <Label for="livewire-class-components">{{
-                                t('form.livewire_class_components')
+                                t('form.use_class_components')
                             }}</Label>
                             <InfoTooltip
                                 :label="
@@ -569,49 +697,38 @@ const faqItems = computed(() => {
                                     t('tooltips.livewire_class_components')
                                 "
                             />
-                        </div>
-                        <label
-                            for="livewire-class-components"
-                            class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
-                        >
-                            {{ t('form.use_class_components') }}
-                            <Switch
-                                id="livewire-class-components"
-                                v-model="withLivewireClassComponents"
-                            />
-                        </label>
+                        </span>
+                        <Switch
+                            id="livewire-class-components"
+                            v-model="withLivewireClassComponents"
+                        />
                     </div>
 
-                    <div class="space-y-3">
+                    <div
+                        class="flex min-h-11 items-center justify-between gap-2"
+                    >
                         <Label for="boost">{{ t('form.laravel_boost') }}</Label>
-                        <label
-                            for="boost"
-                            class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
-                        >
-                            {{ t('form.install_boost') }}
-                            <Switch id="boost" v-model="withBoost" />
-                        </label>
+                        <Switch id="boost" v-model="withBoost" />
                     </div>
 
-                    <div v-if="showTeams" class="space-y-3">
-                        <div class="flex items-center gap-2">
+                    <div
+                        v-if="showTeams"
+                        class="flex min-h-11 items-center justify-between gap-2"
+                    >
+                        <span class="flex items-center gap-1.5">
                             <Label for="teams">{{ t('form.teams') }}</Label>
                             <InfoTooltip
                                 :label="t('tooltips.teams_label')"
                                 :tooltip="t('tooltips.teams')"
                             />
-                        </div>
-                        <label
-                            for="teams"
-                            class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
-                        >
-                            {{ t('form.include_teams') }}
-                            <Switch id="teams" v-model="withTeams" />
-                        </label>
+                        </span>
+                        <Switch id="teams" v-model="withTeams" />
                     </div>
 
-                    <div class="space-y-3">
-                        <div class="flex items-center gap-2">
+                    <div
+                        class="flex min-h-11 items-center justify-between gap-2"
+                    >
+                        <span class="flex items-center gap-1.5">
                             <Label for="devcontainer">{{
                                 t('form.devcontainer')
                             }}</Label>
@@ -619,24 +736,15 @@ const faqItems = computed(() => {
                                 :label="t('tooltips.devcontainer_label')"
                                 :tooltip="t('tooltips.devcontainer')"
                             />
-                        </div>
-                        <label
-                            for="devcontainer"
-                            class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
-                        >
-                            {{ t('form.include_devcontainer') }}
-                            <Switch
-                                id="devcontainer"
-                                v-model="withDevcontainer"
-                            />
-                        </label>
+                        </span>
+                        <Switch id="devcontainer" v-model="withDevcontainer" />
                     </div>
 
                     <div
                         v-if="selectedStarterKit === 'custom'"
-                        class="space-y-3"
+                        class="flex min-h-11 items-center justify-between gap-2"
                     >
-                        <div class="flex items-center gap-2">
+                        <span class="flex items-center gap-1.5">
                             <Label for="no-node">{{
                                 t('form.skip_node')
                             }}</Label>
@@ -644,102 +752,44 @@ const faqItems = computed(() => {
                                 :label="t('tooltips.skip_node_label')"
                                 :tooltip="t('tooltips.skip_node')"
                             />
-                        </div>
-                        <label
-                            for="no-node"
-                            class="flex h-8 w-full cursor-pointer items-center justify-between rounded-sm bg-transparent pr-2.5 text-base transition-colors hover:bg-muted/50"
-                        >
-                            {{ t('form.skip_node_install') }}
-                            <Switch id="no-node" v-model="withNoNode" />
-                        </label>
+                        </span>
+                        <Switch id="no-node" v-model="withNoNode" />
                     </div>
-                </div>
+                </CardContent>
+            </Card>
+        </div>
+
+        <Card class="mt-6">
+            <CardContent class="space-y-4">
+                <h2 class="text-lg font-semibold tracking-tight">
+                    {{ t('faq.title') }}
+                </h2>
+                <Accordion type="single" collapsible>
+                    <AccordionItem
+                        v-for="item in faqItems"
+                        :key="item.value"
+                        :value="item.value"
+                    >
+                        <AccordionTrigger>{{ item.question }}</AccordionTrigger>
+                        <AccordionContent>
+                            <template v-if="item.value === 'faq-2'">
+                                {{ t('faq.a2') }}
+                                <a
+                                    href="https://github.com/tnylea/laravel-new"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="font-medium text-foreground underline underline-offset-4"
+                                    >{{ t('faq.a2_url') }}</a
+                                >
+                                {{ t('faq.a2_suffix') }}
+                            </template>
+                            <template v-else>
+                                {{ item.answer }}
+                            </template>
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
             </CardContent>
         </Card>
-
-        <Alert v-if="selectedStarterKit === 'custom'" class="mb-6">
-            <AlertTitle>{{ t('custom_kit_alert.title') }}</AlertTitle>
-            <AlertDescription>
-                {{
-                    t('custom_kit_alert.description', {
-                        link: '\x00',
-                    }).split('\x00')[0]
-                }}
-                <a
-                    href="https://github.com/tnylea/laravel-new"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="font-medium text-foreground underline underline-offset-4"
-                    >github.com/tnylea/laravel-new</a
-                >{{
-                    t('custom_kit_alert.description', {
-                        link: '\x00',
-                    }).split('\x00')[1]
-                }}
-            </AlertDescription>
-        </Alert>
-
-        <section id="how-it-works" class="mb-8 scroll-mt-20 space-y-4">
-            <h2 class="text-base font-semibold tracking-tight">
-                {{ t('hero.application.how_it_works.title') }}
-            </h2>
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <div class="space-y-2 rounded-sm border border-border p-4">
-                    <span class="text-lg font-bold text-foreground">{{
-                        t('hero.application.how_it_works.step1_title')
-                    }}</span>
-                    <p class="text-sm text-muted-foreground">
-                        {{ t('hero.application.how_it_works.step1_desc') }}
-                    </p>
-                </div>
-                <div class="space-y-2 rounded-sm border border-border p-4">
-                    <span class="text-lg font-bold text-foreground">{{
-                        t('hero.application.how_it_works.step2_title')
-                    }}</span>
-                    <p class="text-sm text-muted-foreground">
-                        {{ t('hero.application.how_it_works.step2_desc') }}
-                    </p>
-                </div>
-                <div class="space-y-2 rounded-sm border border-border p-4">
-                    <span class="text-lg font-bold text-foreground">{{
-                        t('hero.application.how_it_works.step3_title')
-                    }}</span>
-                    <p class="text-sm text-muted-foreground">
-                        {{ t('hero.application.how_it_works.step3_desc') }}
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <section class="mt-12">
-            <h2 class="mb-4 text-base font-semibold tracking-tight">
-                {{ t('faq.title') }}
-            </h2>
-            <Accordion type="single" collapsible>
-                <AccordionItem
-                    v-for="item in faqItems"
-                    :key="item.value"
-                    :value="item.value"
-                >
-                    <AccordionTrigger>{{ item.question }}</AccordionTrigger>
-                    <AccordionContent>
-                        <template v-if="item.value === 'faq-2'">
-                            {{ t('faq.a2') }}
-                            <a
-                                href="https://github.com/tnylea/laravel-new"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="font-medium text-foreground underline underline-offset-4"
-                                >{{ t('faq.a2_url') }}</a
-                            >
-                            {{ t('faq.a2_suffix') }}
-                        </template>
-                        <template v-else>
-                            {{ item.answer }}
-                        </template>
-                    </AccordionContent>
-                </AccordionItem>
-            </Accordion>
-        </section>
     </main>
 </template>
