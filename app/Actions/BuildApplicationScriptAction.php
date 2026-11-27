@@ -44,7 +44,7 @@ class BuildApplicationScriptAction
             $frontendFlag = '--livewire --livewire-class-components';
         }
 
-        $authFlag = $auth && $auth !== 'laravel' ? "--{$auth}" : null;
+        $authFlag = $frontend !== 'api' && $auth && $auth !== 'laravel' ? "--{$auth}" : null;
 
         $testFramework = $testing ? "--{$testing}" : null;
 
